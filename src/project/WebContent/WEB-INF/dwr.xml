@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 2.0//EN" "http://www.getahead.ltd.uk/dwr/dwr20.dtd">
+<dwr>
+	<allow>
+		<convert converter="bean" match="com.cma.intervideo.pojo.Role"/>
+		<convert converter="bean" match="com.cma.intervideo.pojo.User"/>
+		<convert converter="bean" match="com.cma.intervideo.pojo.Privilege"/>
+		<create javascript="roleService" creator="spring">
+			<param name="beanName" value="roleService"></param>
+			<include method="deleteRole"></include>
+			<include method="deleteRoles"></include>
+			<include method="updateStatus"></include>
+			<include method="updateRole"></include>
+		</create>
+		<create javascript="userService" creator="spring">
+			<param name="beanName" value="userService"></param>
+			<include method="deleteUser"></include>
+			<include method="deleteUsers"></include>
+			<include method="updateStatus"></include>
+		</create>
+		<create javascript="bulletinService" creator="spring">
+			<param name="beanName" value="bulletinService"></param>
+			<include method="deleteBulletins"></include>
+		</create>
+		<create javascript="roomService" creator="spring">
+			<param name="beanName" value="roomService"></param>
+			<include method="deleteRooms"></include>
+		</create>
+		<create javascript="serviceService" creator="spring">
+			<param name="beanName" value="serviceService"></param>
+			<include method="deleteServices"></include>
+		</create>
+	</allow>
+</dwr>

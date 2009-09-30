@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2009-8-20 4:02:54 by Hibernate Tools 3.2.4.GA -->
+<hibernate-mapping>
+    <class name="com.cma.intervideo.pojo.Role" table="role">
+        <id name="roleId" type="java.lang.Integer">
+            <column name="role_id" />
+            <generator class="identity" />
+        </id>
+        <property name="roleName" type="string">
+            <column name="role_name" length="30" not-null="true" />
+        </property>
+        <property name="description" type="string">
+            <column name="description" length="100" />
+        </property>
+        <property name="status" type="java.lang.Short">
+            <column name="status" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

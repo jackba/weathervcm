@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC 
+	"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+	"http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="bulletin" namespace="/"	extends="struts-base">
+		<action name="bulletin_*" method="{1}" class="bulletinAction">
+			<result name="list">/bulletin/list.jsp</result>
+			<result name="add">/bulletin/addBulletin.jsp</result>
+			<result name="manage">/bulletin/manage.jsp</result>
+			<result name="detail">/bulletin/detail.jsp</result>
+			<result name="modify">/bulletin/modify.jsp</result>
+		</action>
+	</package>
+</struts>

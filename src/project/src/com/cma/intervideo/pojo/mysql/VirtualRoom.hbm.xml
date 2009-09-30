@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2009-8-20 4:02:54 by Hibernate Tools 3.2.4.GA -->
+<hibernate-mapping>
+    <class name="com.cma.intervideo.pojo.VirtualRoom" table="virtual_room">
+        <id name="roomId" type="string">
+            <column name="room_id" length="20" />
+            <generator class="assigned" />
+        </id>
+        <property name="userId" type="string">
+            <column name="user_id" length="128" />
+        </property>
+        <property name="startTime" type="java.lang.Long">
+            <column name="start_time" precision="15" scale="0" />
+        </property>
+        <property name="endTime" type="java.lang.Long">
+            <column name="end_time" precision="15" scale="0" />
+        </property>
+        <property name="subject" type="string">
+            <column name="subject" length="80" not-null="true" />
+        </property>
+        <property name="serviceTemplate" type="string">
+            <column name="service_template" length="32" not-null="true" />
+        </property>
+        <property name="memberId" type="string">
+            <column name="member_id" length="32" not-null="true" />
+        </property>
+        <property name="templateName" type="string">
+            <column name="template_name" length="80" not-null="true" />
+        </property>
+        <property name="vitualConfId" type="string">
+            <column name="vitual_conf_id" length="32" not-null="true" />
+        </property>
+        <property name="description" type="string">
+            <column name="description" length="65535" />
+        </property>
+        <property name="password" type="string">
+            <column name="password" />
+        </property>
+        <property name="controlPin" type="string">
+            <column name="control_pin" />
+        </property>
+        <property name="status" type="java.lang.Short">
+            <column name="status" not-null="true" />
+        </property>
+        <property name="createTime" type="timestamp">
+            <column name="create_time" length="0" not-null="true" />
+        </property>
+        <property name="updateTime" type="timestamp">
+            <column name="update_time" length="0" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

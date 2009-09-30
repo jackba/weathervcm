@@ -1,0 +1,73 @@
+/*
+ * Ext JS Library 3.0 RC2
+ * Copyright(c) 2006-2009, Ext JS, LLC.
+ * licensing@extjs.com
+ * 
+ * http://extjs.com/license
+ */
+
+.edit16 {
+    background-image: url(../img/edit.gif) !important;
+}
+.add16 {
+    background-image: url(../img/add.gif) !important;
+}
+.delete16 {
+    background-image: url(../img/delete.gif) !important;
+}
+.detail16 {
+    background-image: url(../img/detail16.gif) !important;
+}
+.online16 {
+    background-image: url(../img/online16.gif) !important;
+}
+.offline16 {
+    background-image: url(../img/offline16.gif) !important;
+}
+.resetPassword16{
+    background-image: url(../img/resetPassword16.gif) !important;
+}
+.stop16{
+    background-image: url(../img/stop16.gif) !important;
+}
+.resume16{
+    background-image: url(../img/resume16.gif) !important;
+}
+.pause16 {
+    background-image: url(../img/pause16.gif) !important;
+}
+.approve16 {
+    background-image: url(../img/approve16.gif) !important;
+}
+.select16 {
+    background-image: url(../img/select16.gif) !important;
+}
+.btn-panel td {
+    padding-left:5px;
+}
+.uploadAd16 {
+    background-image: url(../img/uploadAd16.gif) !important;
+}
+.createAd16 {
+    background-image: url(../img/createAd16.gif) !important;
+}
+.blackList16 {
+    background-image: url(../img/blackList16.gif) !important;
+}
+.blackListRemove16 {
+    background-image: url(../img/blackListRemove16.gif) !important;
+}
+.resetWidth16 {
+    background-image: url(../img/resetWidth16.gif) !important;
+}
+h2 {
+    color:#083772 !important;
+    margin: 20px 0 0 !important;
+    padding: 5px;
+    background:#eee;
+    width:400px;
+}
+
+h3 {
+    font-weight:normal !important;
+}
