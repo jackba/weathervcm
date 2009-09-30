@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	<bean id="userService" parent="baseTransactionProxy">
+		<property name="target">
+			<bean class="com.cma.intervideo.service.impl.UserServiceImpl">
+				<property name="userDao" ref="userDao" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="roleService" parent="baseTransactionProxy">
+		<property name="target">
+			<bean class="com.cma.intervideo.service.impl.RoleServiceImpl">
+				<property name="roleDao" ref="roleDao"/>
+			</bean>
+		</property>
+	</bean>
+	<bean id="bbsService" parent="baseTransactionProxy">
+		<property name="target">
+			<bean class="com.cma.intervideo.service.impl.BBSServiceImpl">
+				<property name="bbsDao" ref="bbsDao"/>
+			</bean>
+		</property>
+	</bean>
+	<bean id="bulletinService" parent="baseTransactionProxy">
+		<property name="target">
+			<bean class="com.cma.intervideo.service.impl.BulletinServiceImpl">
+				<property name="bulletinDao" ref="bulletinDao"/>
+			</bean>
+		</property>
+	</bean>
+	<bean id="roomService" parent="baseTransactionProxy">
+		<property name="target">
+			<bean class="com.cma.intervideo.service.impl.RoomServiceImpl">
+				<property name="roomDao" ref="roomDao"/>
+			</bean>
+		</property>
+	</bean>
+	<bean id="serviceService" parent="baseTransactionProxy">
+		<property name="target">
+			<bean class="com.cma.intervideo.service.impl.ServiceServiceImpl">
+				<property name="serviceDao" ref="serviceDao"/>
+			</bean>
+		</property>
+	</bean>
+</beans>

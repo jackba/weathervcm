@@ -1,0 +1,136 @@
+var viewport;
+var contentPanel=new Ext.TabPanel({
+	region:'center',
+	id:'tabPanel',
+	enableTabScroll:true,
+	resizeTabs:true,
+	deferredRender:false,
+	minTabWidth:115,
+	activeTab:0,
+	items:[{
+		contentEl:"center",
+		title:'主页',
+		autoScroll:true
+	}]
+});
+Ext.onReady(function(){
+	Ext.BLANK_IMAGE_URL="resources/images/default/s.gif";
+	var menu = new Ext.menu.Menu({
+		id:'basicMenu',
+		items:[{
+			text:'系统管理'
+		},{
+			text:'测试菜单2'
+		}]
+	});
+	var northToolbar = new Ext.Toolbar({
+		id:'tb',
+		items:[{
+			text:"欢迎"+loginId+"进入全国天气预报电视会商系统"
+		},{
+			xtype:'tbfill'
+		},{
+			text:"导航菜单",
+			menu:menu
+		},{
+			xtype:'tbseparator'
+		},{
+			text:"帮助",
+			handler:function(){
+				Ext.Msg.alert('帮助','help!');
+			}
+		},{
+			xtype:'tbseparator'
+		},{
+			text:"安全退出",
+			handler:function(){
+				Ext.MessageBox.confirm('提示','您确定要退出登录么？',function(button){
+						if(button=="yes"){
+							window.location="user_logout.do";
+						}
+					}
+				)
+			}
+		}]
+	});
+	viewport = new Ext.Viewport({
+		layout:'border',
+		items:[{
+			region:'north',
+			id:'north',
+			html:Ext.getDom("north").innerHTML,
+			split:true,
+			autoHeight:true,
+			margin:'0 0 0 0',
+			bbar:northToolbar
+		},{
+			region:'west',
+			id:'west',
+			title:'菜单栏',
+			split:true,
+			width:200,
+			minSize:175,
+			maxSize:400,
+			collapsible:true,
+			margins:'0 0 5 5',
+			cmargins:'0 5 5 5',
+			layout:'accordion',
+			layoutConfig:{
+				animate:true
+			},
+			items:[{
+				title:'系统管理',
+				html:Ext.getDom('systemMenus').innerHTML,
+				autoScroll:true,
+				border:false
+			},{
+				title:'会议预约',
+				html:Ext.getDom('reserveMenus').innerHTML,
+				autoScroll:true,
+				border:false
+			},{
+				title:'会议与资源',
+				html:Ext.getDom('resourceMenus').innerHTML,
+				autoScroll:true,
+				border:false
+			},{
+				title:'个人信息管理',
+				html:Ext.getDom('personalMenus').innerHTML,
+				autoScroll:true,
+				border:false
+			},{
+				title:'统计分析',
+				html:Ext.getDom('statisticsMenus').innerHTML,
+				autoScroll:true,
+				border:false
+			},{
+				title:'公告栏',
+				html:Ext.getDom('bulletinMenus').innerHTML,
+				autoScroll:true,
+				border:false
+			},{
+				title:'留言板',
+				html:Ext.getDom('bbsMenus').innerHTML,
+				autoScroll:true,
+				border:false
+			}]
+		},contentPanel]
+	});
+});
+function onClickMenuItem(node){
+	//var n = contentPanel.getComponent(node.id);
+	//if(!n){
+		n = contentPanel.add({
+			//'id':node.id,
+			'title':node.innerHTML,
+			closable:true,
+			autoLoad:{
+				url:'tabFrame.jsp?url='+node.attributes.href.value,
+				callback:this.initSearch,
+				scope:this,
+				scripts:true
+			}
+		});
+	//}
+	contentPanel.setActiveTab(n);
+}

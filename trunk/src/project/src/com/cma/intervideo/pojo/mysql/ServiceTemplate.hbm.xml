@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Sep 29, 2009 11:53:52 PM by Hibernate Tools 3.2.4.GA -->
+<hibernate-mapping>
+    <class name="com.cma.intervideo.pojo.ServiceTemplate" table="service_template">
+        <id name="serviceTemplateId" type="string">
+            <column name="service_template_id" length="32" />
+            <generator class="assigned" />
+        </id>
+        <property name="servicePrefix" type="string">
+            <column name="service_prefix" length="32" />
+        </property>
+        <property name="serviceTemplateName" type="string">
+            <column name="service_template_name" length="64" />
+        </property>
+        <property name="activeFlag" type="java.lang.Boolean">
+            <column name="active_flag" precision="1" scale="0" />
+        </property>
+        <property name="audioOnly" type="java.lang.Boolean">
+            <column name="audio_only" precision="1" scale="0" />
+        </property>
+        <property name="slave" type="java.lang.Boolean">
+            <column name="slave" precision="1" scale="0" />
+        </property>
+        <property name="matchingRate" type="java.lang.Integer">
+            <column name="matching_rate" precision="9" scale="0" />
+        </property>
+        <property name="hasSymmetric" type="java.lang.Boolean">
+            <column name="has_symmetric" precision="1" scale="0" />
+        </property>
+        <property name="isUploaded" type="java.lang.Boolean">
+            <column name="is_uploaded" precision="1" scale="0" />
+        </property>
+        <property name="isFromDevice" type="java.lang.Boolean">
+            <column name="is_from_device" precision="1" scale="0" />
+        </property>
+        <property name="isUploadable" type="java.lang.Boolean">
+            <column name="is_uploadable" precision="1" scale="0" />
+        </property>
+        <property name="serviceTemplateDesc" type="string">
+            <column name="service_template_desc" />
+        </property>
+        <property name="deviceString" type="string">
+            <column name="device_string" length="32" />
+        </property>
+        <property name="backup1" type="string">
+            <column name="backup_1" length="32" />
+        </property>
+        <property name="backup2" type="string">
+            <column name="backup_2" length="64" />
+        </property>
+        <property name="lectureModeSign" type="java.lang.Character">
+            <column name="lecture_mode_sign" length="1" />
+        </property>
+        <property name="builtInToken" type="string">
+            <column name="built_in_token" length="32" />
+        </property>
+        <property name="serviceType" type="java.lang.Integer">
+            <column name="service_type" precision="8" scale="0" />
+        </property>
+        <property name="switchingMode" type="java.lang.Integer">
+            <column name="switching_mode" precision="8" scale="0" />
+        </property>
+        <property name="isHdGuaranteed" type="java.lang.Integer">
+            <column name="is_hd_guaranteed" precision="8" scale="0" />
+        </property>
+        <property name="isHdCapable" type="java.lang.Integer">
+            <column name="is_hd_capable" precision="8" scale="0" />
+        </property>
+        <property name="ivrPrefix" type="string">
+            <column name="ivr_prefix" length="20" />
+        </property>
+    </class>
+</hibernate-mapping>

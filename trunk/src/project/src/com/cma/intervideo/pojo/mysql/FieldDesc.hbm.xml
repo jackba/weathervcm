@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2009-8-20 4:02:54 by Hibernate Tools 3.2.4.GA -->
+<hibernate-mapping>
+    <class name="com.cma.intervideo.pojo.FieldDesc" table="field_desc">
+        <composite-id name="id" class="com.cma.intervideo.pojo.FieldDescId">
+            <key-property name="tableName" type="string">
+                <column name="table_name" length="20" />
+            </key-property>
+            <key-property name="fieldName" type="string">
+                <column name="field_name" length="20" />
+            </key-property>
+            <key-property name="fieldValue" type="int">
+                <column name="field_value" />
+            </key-property>
+            <key-property name="fieldDesc" type="string">
+                <column name="field_desc" length="40" />
+            </key-property>
+        </composite-id>
+    </class>
+</hibernate-mapping>

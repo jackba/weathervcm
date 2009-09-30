@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC 
+	"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+	"http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="bbs" namespace="/"	extends="struts-base">
+		<action name="bbs_*" method="{1}" class="bbsAction">
+			<result name="list">/bbs/listMessage.jsp</result>
+			<result name="add">/bbs/addMessage.jsp</result>
+		</action>
+	</package>
+</struts>

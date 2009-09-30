@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC 
+	"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+	"http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="privilege" namespace="/"	extends="struts-base">
+		<action name="user_*" method="{1}" class="userAction">
+			<result name="index">/index.jsp</result>
+			<result name="login">/login.jsp</result>
+			<result name="userList">/sysmgr/userList.jsp</result>
+			<result name="userAdd">/sysmgr/userAdd.jsp</result>
+			<result name="modifyEdit">/sysmgr/userModify.jsp</result>
+			<result name="detail">/sysmgr/userDetail.jsp</result>
+			<result name="resetPassword">/sysmgr/userResetPassword.jsp</result>
+			<result name="changePassword">/sysmgr/userChangePassword.jsp</result>
+		</action>
+		<action name="role_*" method="{1}" class="roleAction">
+			<result name="index">/index.jsp</result>
+			<result name="login">/login.jsp</result>
+			<result name="roleList">/sysmgr/roleList.jsp</result>
+			<result name="roleAdd">/sysmgr/roleAdd.jsp</result>
+			<result name="roleModify">/sysmgr/roleModify.jsp</result>
+			<result name="detail">/sysmgr/roleDetail.jsp</result>
+		</action>
+	</package>
+</struts>

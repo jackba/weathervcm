@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2009-8-20 4:02:54 by Hibernate Tools 3.2.4.GA -->
+<hibernate-mapping>
+    <class name="com.cma.intervideo.pojo.RolePrivilege" table="role_privilege">
+        <composite-id name="id" class="com.cma.intervideo.pojo.RolePrivilegeId">
+            <key-property name="roleId" type="int">
+                <column name="role_id" />
+            </key-property>
+            <key-property name="privilegeId" type="int">
+                <column name="privilege_id" />
+            </key-property>
+        </composite-id>
+    </class>
+</hibernate-mapping>
