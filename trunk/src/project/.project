@@ -37,7 +37,7 @@
 		<link>
 			<name>WebContent/WEB-INF/lib</name>
 			<type>2</type>
-			<location>D:/Private/PartWork/weather/weathervcm/lib</location>
+			<location>D:/Private/PartWork/vcmgoogle/lib</location>
 		</link>
 	</linkedResources>
 </projectDescription>
