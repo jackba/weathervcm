@@ -84,17 +84,17 @@ Ext.onReady(function(){
 				autoScroll:true,
 				border:false
 			},{
-				title:'会议预约',
-				html:Ext.getDom('reserveMenus').innerHTML,
-				autoScroll:true,
-				border:false
-			},{
-				title:'会议与资源',
+				title:'系统资源',
 				html:Ext.getDom('resourceMenus').innerHTML,
 				autoScroll:true,
 				border:false
 			},{
-				title:'个人信息管理',
+				title:'会议管理',
+				html:Ext.getDom('confMenus').innerHTML,
+				autoScroll:true,
+				border:false
+			},{
+				title:'基本信息',
 				html:Ext.getDom('personalMenus').innerHTML,
 				autoScroll:true,
 				border:false
