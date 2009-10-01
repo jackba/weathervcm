@@ -12,7 +12,6 @@ import org.apache.commons.logging.LogFactory;
 import com.cma.intervideo.pojo.ServiceTemplate;
 import com.cma.intervideo.service.IServiceService;
 import com.cma.intervideo.util.AbstractBaseAction;
-import com.cma.intervideo.util.PageHolder;
 import com.radvision.icm.service.MeetingType;
 import com.radvision.icm.service.vcm.ICMService;
 
@@ -34,19 +33,9 @@ public class ServiceAction extends AbstractBaseAction{
 		return "list";
 	}
 	public String search(){
-		String start = request.getParameter("start");
-		String limit = request.getParameter("limit");
-		String totalProperty = request.getParameter("totalProperty");
-		PageHolder ph = new PageHolder();
-		ph.setFirstIndex(Integer.parseInt(start));
-		ph.setPageSize(Integer.parseInt(limit));
-		if(totalProperty!=null && !totalProperty.equals("")){
-			ph.setResultSize(Integer.parseInt(totalProperty));
-		}
-		List<ServiceTemplate> serviceList = serviceService.findServices(null, ph);
+		List<ServiceTemplate> serviceList = serviceService.findServices();
 		try{
 			JSONObject json = new JSONObject();
-			json.put("totalProperty", ph.getResultSize());
 			JSONArray arr = JSONArray.fromObject(serviceList);
 			json.put("root", arr);
 			System.out.println(json);
