@@ -90,4 +90,11 @@ public class VcmProperties {
 		}
 		return properties.getProperty("vcm.icm.ipport", "localhost:8080");
 	}
+	
+	public synchronized static String getICMDefaultMemberId() {
+		if (properties == null) {
+			new VcmProperties();
+		}
+		return properties.getProperty("vcm.icm.defaultMemberId", "999");
+	}
 }

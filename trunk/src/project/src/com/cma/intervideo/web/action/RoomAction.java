@@ -23,6 +23,7 @@ import com.cma.intervideo.util.AbstractBaseAction;
 import com.cma.intervideo.util.PageHolder;
 import com.cma.intervideo.util.ParamVo;
 import com.cma.intervideo.util.UserPrivilege;
+import com.cma.intervideo.util.VcmProperties;
 
 public class RoomAction extends AbstractBaseAction{
 	private static Log logger = LogFactory.getLog(RoomAction.class);
@@ -48,20 +49,17 @@ public class RoomAction extends AbstractBaseAction{
 		UserPrivilege up = (UserPrivilege)session.get("userPrivilege");
 		room.setStatus(DataDictStatus.normalStatus);
 		room.setUserId(up.getUserId());
-		room.setMemberId("999");
-		room.setVitualConfId("111");
-		
+		room.setMemberId(VcmProperties.getICMDefaultMemberId());
 		Date d = Calendar.getInstance().getTime();
 		room.setCreateTime(d);
 		room.setUpdateTime(d);
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		
-		room.setRoomId(new SimpleDateFormat("yyyyMMddHHmmssSSS").format(d));
+//		room.setRoomId(new SimpleDateFormat("yyyyMMddHHmmssSSS").format(d));
 		String startTime = request.getParameter("startTime");
-		String endTime = request.getParameter("endTime");
 		if(startTime!=null && !startTime.equals("")){
 			room.setStartTime(df.parse(startTime).getTime());
 		}
+		String endTime = request.getParameter("endTime");
 		if(endTime!=null && !endTime.equals("")){
 			room.setEndTime(df.parse(endTime).getTime());
 		}
