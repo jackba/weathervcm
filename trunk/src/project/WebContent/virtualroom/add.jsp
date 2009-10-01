@@ -18,17 +18,17 @@ body{font-size:12px;}
 </head>
 <body style="overflow:scroll;overflow-x:hidden">
 <div class="wrap">
-<h1>当前位置：个人信息管理&nbsp;&gt;&nbsp;会议模板设置&nbsp;&gt;&nbsp;<span class="position_current"> 新增会议模板</span></h1>
+<h1>当前位置：个人信息管理&nbsp;&gt;&nbsp;虚拟房间设置&nbsp;&gt;&nbsp;<span class="position_current"> 新增虚拟房间</span></h1>
 	<div class="search">
 		
 	<form id="form1" name="form1" method="post" action="<%=request.getContextPath()%>/room_save.do">
 	<br/>
 	<table class="query">
 	  <tr class="t_title">
-		<th colspan="2" class="t">新增会议模板</th>
+		<th colspan="2" class="t">新增虚拟房间</th>
 	  </tr>
 	  <tr>
-	    <th width="20%"><font color="red">&nbsp;*</font>模板名称：</th>
+	    <th width="20%"><font color="red">&nbsp;*</font>虚拟房间名称：</th>
 	    <td><label>
 	      <input name="room.templateName" id="templateName" type="text" class="put200" maxlength="80">
 	    </label></td>
@@ -94,7 +94,7 @@ body{font-size:12px;}
 var formItemSelector;
 Ext.onReady(function(){
 	Ext.BLANK_IMAGE_URL="resources/images/default/s.gif";
-	window.parent.contentPanel.getActiveTab().setTitle("新增会议模板");
+	window.parent.contentPanel.getActiveTab().setTitle("新增虚拟房间");
     Ext.QuickTips.init();
     Ext.form.Field.prototype.msgTarget = 'side';
 });
@@ -141,7 +141,7 @@ if ( checkForm()){
 	}
 }
 function checkForm(){
-	if(validateRequired('templateName','会议模板名称')&&validateRequired('subject','会议主题')){		
+	if(validateRequired('templateName','虚拟房间名称')&&validateRequired('subject','会议主题')){		
 		return true;
 	}else {
 		return false;

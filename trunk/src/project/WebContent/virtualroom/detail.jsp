@@ -17,15 +17,15 @@ body{font-size:12px;}
 </head>
 <body style="overflow:scroll;overflow-x:hidden">
 <div class="wrap">
-<h1>当前位置：个人信息管理&nbsp;&gt;&nbsp;会议模板设置&nbsp;&gt;&nbsp;<span class="position_current"> 会议模板详情</span></h1>
+<h1>当前位置：个人信息管理&nbsp;&gt;&nbsp;虚拟房间设置&nbsp;&gt;&nbsp;<span class="position_current"> 虚拟房间详情</span></h1>
 	<div class="search">
 	<br/>
 	<table class="query">
 	  <tr class="t_title">
-		<th colspan="2" class="t">会议模板详情</th>
+		<th colspan="2" class="t">虚拟房间详情</th>
 	  </tr>
 	  <tr>
-	    <th width="20%"><font color="red">&nbsp;*</font>模板名称：</th>
+	    <th width="20%"><font color="red">&nbsp;*</font>虚拟房间名称：</th>
 	    <td><label>
 	      <s:property value='room.templateName'/>
 	    </label></td>
@@ -81,7 +81,7 @@ body{font-size:12px;}
 var formItemSelector;
 Ext.onReady(function(){
 	Ext.BLANK_IMAGE_URL="resources/images/default/s.gif";
-	window.parent.contentPanel.getActiveTab().setTitle("会议模板详情");
+	window.parent.contentPanel.getActiveTab().setTitle("虚拟房间详情");
     Ext.QuickTips.init();
     Ext.form.Field.prototype.msgTarget = 'side';
 });
