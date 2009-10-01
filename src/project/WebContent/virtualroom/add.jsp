@@ -42,8 +42,7 @@ body{font-size:12px;}
   	  <tr>
 	    <th class="row1"><font color="red">&nbsp;*</font>会议类型：</th>
 	    <td class="row2"><label>
-	    <div>
-			<input type="text" id="service_template" name="room.serviceTemplate"/>
+	    <div id="service_template">
 		</div>
 	    </label></td>
 	  </tr>
@@ -121,7 +120,8 @@ Ext.onReady(function(){
 	serviceds.load();
 	var serviceComboWithTooltip = new Ext.form.ComboBox({
 		store: serviceds,
-        hiddenName: 'serviceTemplate',
+		hiddenId: 'serviceTemplate',
+        hiddenName: 'room.serviceTemplate',
         valueField: 'serviceTemplateId',
         displayField: 'serviceTemplateDesc',
         typeAhead: true,
@@ -130,7 +130,7 @@ Ext.onReady(function(){
         triggerAction: 'all',
         emptyText: '请选择会议模板...',
         selectOnFocus: true,
-        applyTo: 'service_template'
+        renderTo: 'service_template'
     });
     
 });
@@ -179,7 +179,7 @@ if ( checkForm()){
 function checkForm(){
 	if (validateRequired('templateName','虚拟房间名称')
 			&& validateRequired('vitualConfId','虚拟房间号')
-			&& validateRequired('service_template','会议类型')
+			&& validateRequired('serviceTemplate','会议类型')
 			&& validateRequired('subject','会议主题')) {		
 		return true;
 	}else {
