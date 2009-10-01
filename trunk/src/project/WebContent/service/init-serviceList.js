@@ -1,8 +1,5 @@
 var ds;// 数据源
 var grid;// 数据显示表格
-var searchForm;// 查询表单
-var limit = 10;// 每页显示的记录数
-var ptb;// 分页控件
 
 // 页面加载后执行的代码
 Ext.onReady(function() {
@@ -17,7 +14,6 @@ function initData() {
 			url : 'service_search.do'
 		}),
 		reader : new Ext.data.JsonReader({
-			totalProperty : 'totalProperty',
 			root : 'root'
 		}, [{
 			name : 'serviceTemplateId'
@@ -31,12 +27,7 @@ function initData() {
 			name : 'matchingRate'
 		}])
 	});
-	ds.load({
-		params : {
-			start : 0,
-			limit : limit
-		}
-	});
+	ds.load();
 	initGrid();
 }
 // 初始化显示表格
@@ -71,27 +62,6 @@ function initGrid() {
 		sortable : true,
 		dataIndex : 'matchingRate'
 	}]);
-	// 工具栏对象
-	ptb = new Ext.PagingToolbar({
-		plugins : new Ext.ux.Andrie.pPageSize(),
-		pageSize : limit,
-		store : ds,
-		displayInfo : true,
-		displayMsg : '显示第 {0} 条到 {1} 条记录，一共 {2} 条',
-		emptyMsg : "对不起，查询记录为空!",
-		doLoad : loadStore
-		,items:['-', { 
-					pressed: true, 
-					enableToggle:true, 
-					text:'重置列表宽度 ', 
-					tooltip : '重置列表宽度',
-					iconCls : 'resetWidth16',
-					onClick : function() {
-						window.location.reload(); 
-					} 
-				}] 
-
-	});
 	// 表格对象
 	grid = new Ext.grid.GridPanel({
 		id : 'button-grid',
@@ -113,7 +83,6 @@ function initGrid() {
 				location.href = "service_update.do";
 			}
 		}],
-		bbar : ptb,
 		width: Ext.get("searchArea").getWidth()*0.99,
 		height:Ext.get("searchArea").getHeight()*0.99,
 		autoHeight : true,
@@ -125,11 +94,5 @@ function query() {
 	loadStore(0);
 }
 function loadStore(start){
-	ds.load({
-		params : {
-			start : start,
-			limit : ptb.getPageSize(),
-			'totalProperty' : ds.getTotalCount()
-		}
-	});
+	ds.load();
 }
