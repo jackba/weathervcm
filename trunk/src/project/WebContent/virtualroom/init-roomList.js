@@ -1,4 +1,5 @@
 var ds;// 数据源
+var serviceds; // 会议模板数据源
 var grid;// 数据显示表格
 var searchForm;// 查询表单
 var limit = 5;// 每页显示的记录数
@@ -44,6 +45,36 @@ function initData() {
 			limit : limit
 		}
 	});
+	
+	serviceds = new Ext.data.Store({
+		proxy : new Ext.data.HttpProxy({
+			url : 'service_search.do'
+		}),
+		reader : new Ext.data.JsonReader({
+			root : 'root'
+		}, [{
+			name : 'serviceTemplateId'
+		}, {
+			name : 'serviceTemplateName'
+		}, {
+			name : 'serviceTemplateDesc'
+		}])
+	});
+	serviceds.load();
+	var serviceComboWithTooltip = new Ext.form.ComboBox({
+		store: serviceds,
+        hiddenName: 'serviceTemplate',
+        valueField: 'serviceTemplateId',
+        displayField: 'serviceTemplateDesc',
+        typeAhead: true,
+        forceSelection: false,
+        mode: 'local',
+        triggerAction: 'all',
+        emptyText: '请选择会议模板...',
+        selectOnFocus: true,
+        applyTo: 'service_template'
+    });
+	
 	initGrid();
 }
 // 初始化显示表格
