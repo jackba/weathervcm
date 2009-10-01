@@ -97,4 +97,11 @@ public class VcmProperties {
 		}
 		return properties.getProperty("vcm.icm.defaultMemberId", "999");
 	}
+	
+	public synchronized static String getICMDefaultUserId() {
+		if (properties == null) {
+			new VcmProperties();
+		}
+		return properties.getProperty("vcm.icm.defaultUserId", "1");
+	}
 }
