@@ -46,9 +46,10 @@ public class RoomAction extends AbstractBaseAction{
 		return "add";
 	}
 	public String save() throws IOException,ParseException{
-		UserPrivilege up = (UserPrivilege)session.get("userPrivilege");
 		room.setStatus(DataDictStatus.normalStatus);
-		room.setUserId(up.getUserId());
+		UserPrivilege up = (UserPrivilege)session.get("userPrivilege");
+		String userId = up != null ? up.getUserId() : VcmProperties.getICMDefaultUserId();
+		room.setUserId(userId);
 		room.setMemberId(VcmProperties.getICMDefaultMemberId());
 		Date d = Calendar.getInstance().getTime();
 		room.setCreateTime(d);
