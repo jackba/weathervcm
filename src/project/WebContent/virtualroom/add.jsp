@@ -34,11 +34,17 @@ body{font-size:12px;}
 	    </label></td>
   	  </tr>
   	  <tr>
+	    <th width="20%"><font color="red">&nbsp;*</font>虚拟房间号：</th>
+	    <td><label>
+	      <input name="room.vitualConfId" id="vitualConfId" type="text" class="put200" maxlength="80">
+	    </label></td>
+  	  </tr>
+  	  <tr>
 	    <th class="row1"><font color="red">&nbsp;*</font>会议类型：</th>
 	    <td class="row2"><label>
-	      <select name="room.serviceTemplate" id="serviceTemplate">
-		  <option value="-1">请选择</option>
-		  </select>
+	    <div>
+			<input type="text" id="service_template" name="room.serviceTemplate"/>
+		</div>
 	    </label></td>
 	  </tr>
 	  <tr>
@@ -97,6 +103,36 @@ Ext.onReady(function(){
 	window.parent.contentPanel.getActiveTab().setTitle("新增虚拟房间");
     Ext.QuickTips.init();
     Ext.form.Field.prototype.msgTarget = 'side';
+
+    var serviceds = new Ext.data.Store({
+		proxy : new Ext.data.HttpProxy({
+			url : 'service_search.do'
+		}),
+		reader : new Ext.data.JsonReader({
+			root : 'root'
+		}, [{
+			name : 'serviceTemplateId'
+		}, {
+			name : 'serviceTemplateName'
+		}, {
+			name : 'serviceTemplateDesc'
+		}])
+	});
+	serviceds.load();
+	var serviceComboWithTooltip = new Ext.form.ComboBox({
+		store: serviceds,
+        hiddenName: 'serviceTemplate',
+        valueField: 'serviceTemplateId',
+        displayField: 'serviceTemplateDesc',
+        typeAhead: true,
+        forceSelection: false,
+        mode: 'local',
+        triggerAction: 'all',
+        emptyText: '请选择会议模板...',
+        selectOnFocus: true,
+        applyTo: 'service_template'
+    });
+    
 });
 function submitForm(){
 if ( checkForm()){
