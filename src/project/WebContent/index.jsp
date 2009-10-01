@@ -55,19 +55,6 @@ a:hover{}
 			</li>
 		</ul>
 	</div>
-	<div id="reserveMenus">
-		<ul class="menuList">
-			<li>
-				<span id="reserveConf" href="#">预约会议</span>
-			</li>
-			<li>
-				<span id="modifyReserve" href="#">变更预约申请</span>
-			</li>
-			<li>
-				<span id="auditReserve" href="#">预约会议审批</span>
-			</li>
-		</ul>
-	</div>
 	<div id="resourceMenus">
 		<ul class="menuList">
 			<li>
@@ -78,6 +65,16 @@ a:hover{}
 			</li>
 			<li>
 				<span id="available" href="#">可用资源</span>
+			</li>
+		</ul>
+	</div>
+	<div id="confMenus">
+		<ul class="menuList">
+			<li>
+				<span id="scheduleConf" href="#">预约会议</span>
+			</li>
+			<li>
+				<span id="manageConf" href="#">预约管理</span>
 			</li>
 			<li>
 				<span id="currentConf" href="#">正在召开的会议</span>
@@ -100,13 +97,16 @@ a:hover{}
 	<div id="personalMenus">
 		<ul class="menuList">
 			<li>
-				<span id="baseInfo" href="<%=request.getContextPath()%>/user_personalModify.do" onClick="onClickMenuItem(this)">基本信息管理</span>
+				<span id="baseInfo" href="<%=request.getContextPath()%>/user_personalModify.do" onClick="onClickMenuItem(this)">个人设置</span>
 			</li>
 			<li>
 				<span id="updatePassword" href="<%=request.getContextPath()%>/user_beforChangePassword.do" onClick="onClickMenuItem(this)">修改密码</span>
 			</li>
 			<li>
-				<span id="virtualRoom" href="<%=request.getContextPath()%>/room_list.do" onClick="onClickMenuItem(this)">虚拟房间设置</span>
+				<span id="virtualRoom" href="<%=request.getContextPath()%>/room_list.do" onClick="onClickMenuItem(this)">虚拟房间</span>
+			</li>
+			<li>
+				<span id="siteinfo" href="#">参会单位</span>
 			</li>
 		</ul>
 	</div>
