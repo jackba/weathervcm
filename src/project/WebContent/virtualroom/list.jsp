@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>会议模板列表</title>
+<title>虚拟房间列表</title>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/ext-all.css"/>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/content.css"/>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/edgrid.css"/>
@@ -29,13 +29,13 @@
 </head>
 <body>
 <div class="wrap">
-	<h1>当前位置：个人信息管理&nbsp;&gt;&nbsp;<span class="position_current"> 会议模板设置</span></h1>
+	<h1>当前位置：个人信息管理&nbsp;&gt;&nbsp;<span class="position_current"> 虚拟房间设置</span></h1>
 		<div id="searchArea" class="search">
 			
 			<form name="form1" id="form1" method="post" action="<%=request.getContextPath()%>/room_search.do">
 				<table border="1" width="800" class="query">
 					<tr>
-						<th>会议模板名称：</th>
+						<th>虚拟房间名称：</th>
 						<td>
 							<input name="templateName" type="text" id="templateName" class="put200" maxlength="15"/>
 						</td>
