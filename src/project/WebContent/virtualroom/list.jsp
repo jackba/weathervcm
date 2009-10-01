@@ -41,9 +41,9 @@
 						</td>
 						<th>会议类型：</th>
 						<td>
-							<select name="serviceTemplate" id="serviceTemplate">
-								<option value="-1">请选择</option>
-							</select>
+							<div>
+								<input type="text" id="service_template" name="service_template"/>
+							</div>
 						</td>
 					</tr>
 				</table>
