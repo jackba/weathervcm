@@ -41,8 +41,8 @@
 						</td>
 						<th>会议类型：</th>
 						<td>
-							<div>
-								<input type="text" id="service_template" name="service_template"/>
+							<div id="service_template">
+								
 							</div>
 						</td>
 					</tr>

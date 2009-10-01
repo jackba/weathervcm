@@ -63,7 +63,8 @@ function initData() {
 	serviceds.load();
 	var serviceComboWithTooltip = new Ext.form.ComboBox({
 		store: serviceds,
-        hiddenName: 'serviceTemplate',
+		hiddenId: 'serviceTemplate',
+        hiddenName: 'room.serviceTemplate',
         valueField: 'serviceTemplateId',
         displayField: 'serviceTemplateDesc',
         typeAhead: true,
@@ -72,7 +73,7 @@ function initData() {
         triggerAction: 'all',
         emptyText: '请选择会议模板...',
         selectOnFocus: true,
-        applyTo: 'service_template'
+        renderTo: 'service_template'
     });
 	
 	initGrid();
