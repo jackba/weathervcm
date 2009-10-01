@@ -177,7 +177,10 @@ if ( checkForm()){
 	}
 }
 function checkForm(){
-	if(validateRequired('templateName','虚拟房间名称')&&validateRequired('subject','会议主题')){		
+	if (validateRequired('templateName','虚拟房间名称')
+			&& validateRequired('vitualConfId','虚拟房间号')
+			&& validateRequired('service_template','会议类型')
+			&& validateRequired('subject','会议主题')) {		
 		return true;
 	}else {
 		return false;
