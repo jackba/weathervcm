@@ -64,7 +64,7 @@ function initData() {
 	var serviceComboWithTooltip = new Ext.form.ComboBox({
 		store: serviceds,
 		hiddenId: 'serviceTemplate',
-        hiddenName: 'room.serviceTemplate',
+        hiddenName: 'serviceTemplate',
         valueField: 'serviceTemplateId',
         displayField: 'serviceTemplateDesc',
         typeAhead: true,
