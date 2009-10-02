@@ -8,6 +8,6 @@ import com.cma.intervideo.util.ParamVo;
 
 public interface IRoomService {
 	public List<VirtualRoom> findRooms(List<ParamVo> params, PageHolder ph);
-	public void saveOrUpdate(VirtualRoom room);
+	public void saveOrUpdate(VirtualRoom room) throws Exception;
 	public VirtualRoom getRoomById(String roomId);
 }
