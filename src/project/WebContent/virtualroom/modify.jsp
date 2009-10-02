@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <html>
 <head>
@@ -30,35 +29,22 @@ body{font-size:12px;}
 		<th colspan="2" class="t">修改虚拟房间</th>
 	  </tr>
 	  <tr>
-	    <th width="20%"><font color="red">&nbsp;*</font>虚拟房间名称：</th>
+	    <th width="20%"><font color="red">&nbsp;*</font>虚拟房间名：</th>
 	    <td><label>
 	      <input name="room.templateName" value="<s:property value='room.templateName'/>" id="templateName" type="text" class="put200" maxlength="80">
 	    </label></td>
   	  </tr>
   	  <tr>
+	    <th width="20%"><font color="red">&nbsp;*</font>虚拟房间号：</th>
+	    <td><label>
+	      <input name="room.vitualConfId" value="<s:property value='room.vitualConfId'/>" id="vitualConfId" type="text" class="put200" maxlength="80">
+	    </label></td>
+  	  </tr>
+  	  <tr>
 	    <th class="row1"><font color="red">&nbsp;*</font>会议类型：</th>
 	    <td class="row2"><label>
-	      <select name="room.serviceTemplate" id="serviceTemplate">
-		  <option value="-1">请选择</option>
-		  </select>
+	    	<div id="service_template"></div>
 	    </label></td>
-	  </tr>
-	  <tr>
-	    <th class="row1"><font color="red">&nbsp;*</font>会议主题：</th>
-	    <td class="row2"><label>
-	      <input name="room.subject" value="<s:property value='room.subject'/>" type="text" id="subject" class="put200" maxlength="80">
-	    </label></td>
-	  </tr>
-	  <tr>
-	    <th class="row1">会议开始时间：</th>
-	    <td class="row2"><label>
-	      <input type="text" value="<s:property value='#request.startTime'/>" class="Wdate" id="startTime" name="startTime" onFocus="WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
-	    </label></td>
-	  </tr>
-	  <tr>
-	  	<th class="row1">会议结束时间：</th>
-		<td class="row2"><label>
-	      <input type="text" value="<s:property value='#request.endTime'/>" class="Wdate" id="endTime" name="endTime" onFocus="WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})"/></td>
 	  </tr>
 	  <tr>
 	    <th class="row1">会议密码：</th>
@@ -73,7 +59,7 @@ body{font-size:12px;}
 	    </label></td>
 	  </tr>
 	  <tr>
-	    <th  class="row1">备注：</th>
+	    <th  class="row1">描述：</th>
 	    <td class="row2"><label>
 	      <textarea name="room.description" cols="40" rows="5" id="description" class="w600" style="width: 450px;">
 		  <s:property value='room.description'/>
@@ -101,6 +87,36 @@ Ext.onReady(function(){
 	window.parent.contentPanel.getActiveTab().setTitle("修改虚拟房间");
     Ext.QuickTips.init();
     Ext.form.Field.prototype.msgTarget = 'side';
+
+    var serviceds = new Ext.data.Store({
+		proxy : new Ext.data.HttpProxy({
+			url : 'service_search.do'
+		}),
+		reader : new Ext.data.JsonReader({
+			root : 'root'
+		}, [{
+			name : 'serviceTemplateId'
+		}, {
+			name : 'serviceTemplateName'
+		}, {
+			name : 'serviceTemplateDesc'
+		}])
+	});
+	serviceds.load();
+	var serviceComboWithTooltip = new Ext.form.ComboBox({
+		store: serviceds,
+		hiddenId: 'serviceTemplate',
+        hiddenName: 'room.serviceTemplate',
+        valueField: 'serviceTemplateId',
+        displayField: 'serviceTemplateDesc',
+        typeAhead: true,
+        forceSelection: false,
+        mode: 'local',
+        triggerAction: 'all',
+        emptyText: '请选择会议模板...',
+        selectOnFocus: true,
+        renderTo: 'service_template'
+    });
 });
 function submitForm(){
 if ( checkForm()){
@@ -145,11 +161,13 @@ if ( checkForm()){
 	}
 }
 function checkForm(){
-	if(validateRequired('templateName','虚拟房间名称')&&validateRequired('subject','会议主题')){		
+	if (validateRequired('templateName','虚拟房间名称')
+			&& validateRequired('vitualConfId','虚拟房间号')
+			&& validateRequired('serviceTemplate','会议类型')) {		
 		return true;
 	}else {
 		return false;
-	}		
+	}
 }
 function validatePasswordRule(elementId, elementName) {
 	var pass=Ext.get(elementId).dom.value;

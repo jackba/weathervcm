@@ -25,33 +25,22 @@ body{font-size:12px;}
 		<th colspan="2" class="t">虚拟房间详情</th>
 	  </tr>
 	  <tr>
-	    <th width="20%"><font color="red">&nbsp;*</font>虚拟房间名称：</th>
+	    <th width="20%">虚拟房间名称：</th>
 	    <td><label>
 	      <s:property value='room.templateName'/>
 	    </label></td>
   	  </tr>
   	  <tr>
-	    <th class="row1"><font color="red">&nbsp;*</font>会议类型：</th>
+	    <th width="20%">虚拟房间号：</th>
+	    <td><label>
+	      <s:property value='room.vitualConfId'/>
+	    </label></td>
+  	  </tr>
+  	  <tr>
+	    <th class="row1">会议类型：</th>
 	    <td class="row2"><label>
 	      <s:property value='room.serviceTemplate'/>
 	    </label></td>
-	  </tr>
-	  <tr>
-	    <th class="row1"><font color="red">&nbsp;*</font>会议主题：</th>
-	    <td class="row2"><label>
-	      <s:property value='room.subject'/>
-	    </label></td>
-	  </tr>
-	  <tr>
-	    <th class="row1">会议开始时间：</th>
-	    <td class="row2"><label>
-	      <s:property value='#request.startTime'/>
-	    </label></td>
-	  </tr>
-	  <tr>
-	  	<th class="row1">会议结束时间：</th>
-		<td class="row2"><label>
-	      <s:property value='#request.endTime'/></td>
 	  </tr>
 	  <tr>
 	    <th class="row1">会议密码：</th>
@@ -66,7 +55,7 @@ body{font-size:12px;}
 	    </label></td>
 	  </tr>
 	  <tr>
-	    <th  class="row1">备注：</th>
+	    <th  class="row1">描述：</th>
 	    <td class="row2"><label>
 	      <s:property value='room.description'/>
 	    </label></td>

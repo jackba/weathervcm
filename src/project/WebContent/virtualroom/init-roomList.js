@@ -29,14 +29,9 @@ function initData() {
 		}, {
 			name : 'templateName'
 		}, {
-			name : 'virtualConfId'
+			name : 'vitualConfId'
 		}, {
 			name : 'description'
-		}, {
-			name : 'createTime',
-			type : 'date',
-			mapping : 'createTime.time',
-			dateFormat : 'time'
 		}])
 	});
 	ds.load({
@@ -87,7 +82,7 @@ function initGrid() {
 		dataIndex : 'roomId',
 		hidden : true
 	},{
-		header : "名称",
+		header : "虚拟房间名",
 		width: Ext.get("searchArea").getWidth()*0.25,
 		sortable : true,
 		dataIndex : 'templateName',
@@ -95,21 +90,20 @@ function initGrid() {
 			return String.format('<a href="room_detail.do?roomId={0}" target="_blank">{1}</a>',record.data.roomId,value);
 		}
 	}, {
+		header : "虚拟房间号",
+		width: Ext.get("searchArea").getWidth()*0.25,
+		sortable : true,
+		dataIndex : 'vitualConfId'
+	}, {
 		header : "会议类型",
 		width: Ext.get("searchArea").getWidth()*0.25,
 		sortable : true,
 		dataIndex : 'serviceTemplate'
 	}, {
-		header : "主题",
+		header : "描述",
 		width: Ext.get("searchArea").getWidth()*0.25,
 		sortable : true,
-		dataIndex : 'subject'
-	}, {
-		header : "创建时间",
-		width: Ext.get("searchArea").getWidth()*0.25,
-		sortable : false,
-		dataIndex : 'createTime',
-		renderer: Ext.util.Format.dateRenderer("Y-m-d H:i:s")
+		dataIndex : 'description'
 	}]);
 	// 工具栏对象
 	ptb = new Ext.PagingToolbar({
@@ -185,9 +179,6 @@ function initGrid() {
 		width: Ext.get("searchArea").getWidth()*0.99,
 		height:Ext.get("searchArea").getHeight()*0.99,
 		autoHeight : true,
-		//cls:vline-on,
-		//title : '用户列表',
-		//iconCls : 'icon-grid',
 		renderTo : 'searchArea'
 	});
 
@@ -209,7 +200,7 @@ function initGrid() {
 				var list = sm.getSelections();
 				var ids = [];
 				for (var i = 0; i < list.length; i++) {
-					ids[i] = list[i].data["roomId"];
+					ids[i] = list[i].data["roomId"] + "," + list[i].data["vitualConfId"];
 				}
 				roomService.deleteRooms(ids, function(data) {
 					if (data > 0) {
