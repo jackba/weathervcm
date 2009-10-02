@@ -20,4 +20,7 @@
 	<bean id="serviceDao" class="com.cma.intervideo.dao.mysql.ServiceDaoImpl">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
+	<bean id="confDao" class="com.cma.intervideo.dao.mysql.ConfDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
 </beans>

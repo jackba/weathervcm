@@ -18,4 +18,5 @@
 	<include file="struts-bulletin.xml"/>
 	<include file="struts-room.xml"/>
 	<include file="struts-service.xml"/>
+	<include file="struts-conf.xml"/>
 </struts> 

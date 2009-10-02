@@ -44,4 +44,11 @@
 			</bean>
 		</property>
 	</bean>
+	<bean id="confService" parent="baseTransactionProxy">
+		<property name="target">
+			<bean class="com.cma.intervideo.service.impl.ConfServiceImpl">
+				<property name="confDao" ref="confDao"></property>
+			</bean>
+		</property>
+	</bean>
 </beans>

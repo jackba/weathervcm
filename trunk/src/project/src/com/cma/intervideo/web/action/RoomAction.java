@@ -55,7 +55,7 @@ public class RoomAction extends AbstractBaseAction{
 		room.setCreateTime(d);
 		room.setUpdateTime(d);
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//		room.setRoomId(new SimpleDateFormat("yyyyMMddHHmmssSSS").format(d));
+		room.setRoomId(new SimpleDateFormat("yyyyMMddHHmmssSSS").format(d));
 		String startTime = request.getParameter("startTime");
 		if(startTime!=null && !startTime.equals("")){
 			room.setStartTime(df.parse(startTime).getTime());

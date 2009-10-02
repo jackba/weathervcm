@@ -6,7 +6,7 @@
     <class name="com.cma.intervideo.pojo.Conference" table="conference">
         <id name="conferenceId" type="java.lang.Integer">
             <column name="conference_id" />
-            <generator class="identity" />
+            <generator class="native" />
         </id>
         <property name="roomId" type="string">
             <column name="room_id" length="20" />
@@ -64,6 +64,24 @@
         </property>
         <property name="cancelReason" type="string">
             <column name="cancel_reason" length="200" />
+        </property>
+        <property name="initUnit" type="string">
+        	<column name="init_unit" length="200"/>
+        </property>
+        <property name="mainUnit" type="java.lang.Integer">
+        	<column name="main_unit"/>
+        </property>
+        <property name="presider" type="string">
+        	<column name="presider" length="40"/>
+        </property>
+        <property name="principalMobile" type="string">
+        	<column name="principal_mobile" length="15"/>
+        </property>
+        <property name="reserveCode" type="string">
+        	<column name="reserve_code" length="10"/>
+        </property>
+        <property name="contactMethod" type="string">
+        	<column name="contact_method" length="200"/>
         </property>
     </class>
 </hibernate-mapping>
