@@ -29,43 +29,14 @@ public class Conference implements java.io.Serializable {
 	private Date cancelTime;
 	private Date updateTime;
 	private String cancelReason;
-
+	private String initUnit;
+	private Integer mainUnit;
+	private String presider;
+	private String principalMobile;
+	private String reserveCode;
+	private String contactMethod;
+	
 	public Conference() {
-	}
-
-	public Conference(byte status, String subject, Date createTime,
-			Date updateTime) {
-		this.status = status;
-		this.subject = subject;
-		this.createTime = createTime;
-		this.updateTime = updateTime;
-	}
-
-	public Conference(String roomId, String userId, String radConferenceId,
-			String dialableNumber, String virtualConfId, Long startTime,
-			Long endTime, String serviceTemplate, String memberId,
-			String description, String password, String controlPin,
-			byte status, Integer portsNum, String subject, Date createTime,
-			Date cancelTime, Date updateTime, String cancelReason) {
-		this.roomId = roomId;
-		this.userId = userId;
-		this.radConferenceId = radConferenceId;
-		this.dialableNumber = dialableNumber;
-		this.virtualConfId = virtualConfId;
-		this.startTime = startTime;
-		this.endTime = endTime;
-		this.serviceTemplate = serviceTemplate;
-		this.memberId = memberId;
-		this.description = description;
-		this.password = password;
-		this.controlPin = controlPin;
-		this.status = status;
-		this.portsNum = portsNum;
-		this.subject = subject;
-		this.createTime = createTime;
-		this.cancelTime = cancelTime;
-		this.updateTime = updateTime;
-		this.cancelReason = cancelReason;
 	}
 
 	public Integer getConferenceId() {
@@ -227,5 +198,55 @@ public class Conference implements java.io.Serializable {
 	public void setCancelReason(String cancelReason) {
 		this.cancelReason = cancelReason;
 	}
+
+	public String getInitUnit() {
+		return initUnit;
+	}
+
+	public void setInitUnit(String initUnit) {
+		this.initUnit = initUnit;
+	}
+
+	public Integer getMainUnit() {
+		return mainUnit;
+	}
+
+	public void setMainUnit(Integer mainUnit) {
+		this.mainUnit = mainUnit;
+	}
+
+	public String getPresider() {
+		return presider;
+	}
+
+	public void setPresider(String presider) {
+		this.presider = presider;
+	}
+
+	public String getPrincipalMobile() {
+		return principalMobile;
+	}
+
+	public void setPrincipalMobile(String principalMobile) {
+		this.principalMobile = principalMobile;
+	}
+
+	public String getReserveCode() {
+		return reserveCode;
+	}
+
+	public void setReserveCode(String reserveCode) {
+		this.reserveCode = reserveCode;
+	}
+
+	public String getContactMethod() {
+		return contactMethod;
+	}
+
+	public void setContactMethod(String contactMethod) {
+		this.contactMethod = contactMethod;
+	}
+	
+	
 
 }

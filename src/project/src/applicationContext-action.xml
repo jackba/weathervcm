@@ -32,4 +32,8 @@
 		  scope="prototype" autowire="byName">
 		<property name="serviceService" ref="serviceService"></property>
 	</bean>
+	<bean id="confAction" class="com.cma.intervideo.web.action.ConfAction"
+		  scope="prototype" autowire="byName">
+		<property name="confService" ref="confService"></property>
+	</bean>
 </beans>
