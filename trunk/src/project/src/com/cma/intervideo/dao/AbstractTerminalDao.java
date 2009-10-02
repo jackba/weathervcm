@@ -16,7 +16,7 @@ public class AbstractTerminalDao extends AbstractDAO<Terminal, String>
 			.getLog(AbstractTerminalDao.class);
 
 	public List<Terminal> findTerminals(List<ParamVo> params, PageHolder ph) {
-		String hql = "from terminal t order by t.terminalId";
+		String hql = "from Terminal t order by t.terminalId";
 		if(params!=null){
 			for(int i=0;i<params.size();i++){
 				ParamVo vo = params.get(i);

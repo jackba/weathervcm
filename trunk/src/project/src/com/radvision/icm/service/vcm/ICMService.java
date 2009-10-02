@@ -21,6 +21,7 @@ import com.radvision.icm.service.ResourceService;
 import com.radvision.icm.service.ResourceServicePortType;
 import com.radvision.icm.service.ScheduleService;
 import com.radvision.icm.service.ScheduleServicePortType;
+import com.radvision.icm.service.TerminalResource;
 import com.radvision.icm.service.UserInfo;
 import com.radvision.icm.service.UserResult;
 import com.radvision.icm.service.UserService;
@@ -43,6 +44,7 @@ public class ICMService {
 			"http://radvision.com/icm/service/licenseservice", "LicenseService");
 	private final static QName USER_SERVICE = new QName(
 			"http://radvision.com/icm/service/userservice", "UserService");
+	public final static String ALL_CLASSIFICATIONID = "all";
 
 	protected static Service getService(ServiceType type) throws Exception {
 		Service svr = null;
@@ -216,6 +218,20 @@ public class ICMService {
 			e.printStackTrace();
 		}
 		return ret;
+	}
+
+	public static List<TerminalResource> getTerminals() {
+		List<TerminalResource> trs = null;
+		try {
+			trs = getResourceServicePortType().getTerminals(ALL_CLASSIFICATIONID);
+			logger.info("get " + (trs == null ? "0" : trs.size())
+					+ " Terminals from iCM platform");
+		} catch (Exception e) {
+			logger.info("Exception on getting Terminals from iCM platform - "
+					+ e.getMessage());
+			e.printStackTrace();
+		}
+		return trs;
 	}
 
 	private static UserInfo convertToUserInfo(User user) {
