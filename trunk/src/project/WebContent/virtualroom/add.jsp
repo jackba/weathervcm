@@ -28,7 +28,7 @@ body{font-size:12px;}
 		<th colspan="2" class="t">新增虚拟房间</th>
 	  </tr>
 	  <tr>
-	    <th width="20%"><font color="red">&nbsp;*</font>虚拟房间名称：</th>
+	    <th width="20%"><font color="red">&nbsp;*</font>虚拟房间名：</th>
 	    <td><label>
 	      <input name="room.templateName" id="templateName" type="text" class="put200" maxlength="80">
 	    </label></td>
@@ -42,26 +42,8 @@ body{font-size:12px;}
   	  <tr>
 	    <th class="row1"><font color="red">&nbsp;*</font>会议类型：</th>
 	    <td class="row2"><label>
-	    <div id="service_template">
-		</div>
+	    	<div id="service_template"></div>
 	    </label></td>
-	  </tr>
-	  <tr>
-	    <th class="row1"><font color="red">&nbsp;*</font>会议主题：</th>
-	    <td class="row2"><label>
-	      <input name="room.subject" type="text" id="subject" class="put200" maxlength="80">
-	    </label></td>
-	  </tr>
-	  <tr>
-	    <th class="row1">会议开始时间：</th>
-	    <td class="row2"><label>
-	      <input type="text" class="Wdate" id="startTime" name="startTime" onFocus="WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
-	    </label></td>
-	  </tr>
-	  <tr>
-	  	<th class="row1">会议结束时间：</th>
-		<td class="row2"><label>
-	      <input type="text" class="Wdate" id="endTime" name="endTime" onFocus="WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})"/></td>
 	  </tr>
 	  <tr>
 	    <th class="row1">会议密码：</th>
@@ -76,7 +58,7 @@ body{font-size:12px;}
 	    </label></td>
 	  </tr>
 	  <tr>
-	    <th  class="row1">备注：</th>
+	    <th class="row1">描述：</th>
 	    <td class="row2"><label>
 	      <textarea name="room.description" cols="40" rows="5" id="description" class="w600" style="width: 450px;"></textarea>
 	    </label></td>
@@ -179,8 +161,7 @@ if ( checkForm()){
 function checkForm(){
 	if (validateRequired('templateName','虚拟房间名称')
 			&& validateRequired('vitualConfId','虚拟房间号')
-			&& validateRequired('serviceTemplate','会议类型')
-			&& validateRequired('subject','会议主题')) {		
+			&& validateRequired('serviceTemplate','会议类型')) {		
 		return true;
 	}else {
 		return false;
