@@ -261,10 +261,10 @@ create index Relationship_2_FK on user_role
 create table virtual_room
 (
    room_id                        varchar(20)                    not null,
-   user_id                        varchar(128),
+   user_id                        varchar(128)                   not null,
    start_time                     decimal(15,0),
-   end_time                       decimal(15,0),
-   subject                        varchar(80)                    not null,
+   duration                       decimal(9,0),
+   subject                        varchar(80),
    service_template               varchar(32)                    not null,
    member_id                      varchar(32)                    not null,
    template_name                  varchar(80)                    not null,
