@@ -2,9 +2,7 @@ package com.cma.intervideo.web.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -25,126 +23,122 @@ import com.cma.intervideo.util.ParamVo;
 import com.cma.intervideo.util.UserPrivilege;
 import com.cma.intervideo.util.VcmProperties;
 
-public class RoomAction extends AbstractBaseAction{
+public class RoomAction extends AbstractBaseAction {
 	private static Log logger = LogFactory.getLog(RoomAction.class);
-	private IRoomService roomService ;
+	private IRoomService roomService;
 	private VirtualRoom room;
-	
+
 	public VirtualRoom getRoom() {
 		return room;
 	}
+
 	public void setRoom(VirtualRoom room) {
 		this.room = room;
 	}
+
 	public void setRoomService(IRoomService roomService) {
 		this.roomService = roomService;
 	}
-	public String list(){
+
+	public String list() {
 		return "list";
 	}
-	public String add(){
+
+	public String add() {
 		return "add";
 	}
-	public String save() throws IOException,ParseException{
+
+	public String save() throws IOException, ParseException, Exception {
 		room.setStatus(DataDictStatus.normalStatus);
-		UserPrivilege up = (UserPrivilege)session.get("userPrivilege");
-		String userId = up != null ? up.getUserId() : VcmProperties.getICMDefaultUserId();
+		UserPrivilege up = (UserPrivilege) session.get("userPrivilege");
+		String userId = up != null ? up.getUserId() : VcmProperties
+				.getICMDefaultUserId();
 		room.setUserId(userId);
 		room.setMemberId(VcmProperties.getICMDefaultMemberId());
 		Date d = Calendar.getInstance().getTime();
 		room.setCreateTime(d);
 		room.setUpdateTime(d);
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		room.setRoomId(new SimpleDateFormat("yyyyMMddHHmmssSSS").format(d));
-		String startTime = request.getParameter("startTime");
-		if(startTime!=null && !startTime.equals("")){
-			room.setStartTime(df.parse(startTime).getTime());
-		}
-		String endTime = request.getParameter("endTime");
-		if(endTime!=null && !endTime.equals("")){
-			room.setEndTime(df.parse(endTime).getTime());
-		}
+		// DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		// room.setRoomId(new SimpleDateFormat("yyyyMMddHHmmssSSS").format(d));
+		// String startTime = request.getParameter("startTime");
+		// if(startTime!=null && !startTime.equals("")){
+		// room.setStartTime(df.parse(startTime).getTime());
+		// }
 		response.setContentType("text/html;charset=utf-8");
 		roomService.saveOrUpdate(room);
-		try{
+		try {
 			outJson("{success:true, msg:'虚拟房间添加成功!'}");
-		}catch(Exception e){
+		} catch (Exception e) {
 			outJson("{success:true, msg:'虚拟房间添加失败'}");
 		}
 		return null;
 	}
-	public String search(){
-		UserPrivilege up = (UserPrivilege)session.get("userPrivilege");
+
+	public String search() {
 		String start = request.getParameter("start");
 		String limit = request.getParameter("limit");
 		String totalProperty = request.getParameter("totalProperty");
 		PageHolder ph = new PageHolder();
 		ph.setFirstIndex(Integer.parseInt(start));
 		ph.setPageSize(Integer.parseInt(limit));
-		if(totalProperty!=null && !totalProperty.equals("")){
+		if (totalProperty != null && !totalProperty.equals("")) {
 			ph.setResultSize(Integer.parseInt(totalProperty));
 		}
 		List<ParamVo> params = new ArrayList<ParamVo>();
 		String templateName = request.getParameter("templateName");
 		String serviceTemplate = request.getParameter("serviceTemplate");
-		if(templateName!=null && !templateName.equals("")){
+		if (templateName != null && !templateName.equals("")) {
 			ParamVo vo = new ParamVo();
 			vo.setParamName("templateName");
 			vo.setParamValue(templateName);
 			params.add(vo);
 		}
-		if(serviceTemplate!=null && !serviceTemplate.equals("-1")){
+		if (serviceTemplate != null && !serviceTemplate.equals("-1")) {
 			ParamVo vo = new ParamVo();
 			vo.setParamName("serviceTemplate");
 			vo.setParamValue(serviceTemplate);
 			params.add(vo);
 		}
 		List<VirtualRoom> roomList = roomService.findRooms(params, ph);
-		try{
+		try {
 			JSONObject json = new JSONObject();
 			json.put("totalProperty", ph.getResultSize());
 			JSONArray arr = JSONArray.fromObject(roomList);
 			json.put("root", arr);
 			System.out.println(json);
 			response.setCharacterEncoding("utf-8");
-		
+
 			PrintWriter out = response.getWriter();
 			out.print(json);
 			out.flush();
 			out.close();
-		}catch(Exception e){
+		} catch (Exception e) {
 			logger.error(e.toString());
 		}
 		return null;
 	}
-	public String modify(){
+
+	public String modify() {
 		String roomId = request.getParameter("roomId");
 		room = roomService.getRoomById(roomId);
-		Calendar c = Calendar.getInstance();
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		if(room.getStartTime()!=null){
-			c.setTimeInMillis(room.getStartTime());
-			request.setAttribute("startTime", df.format(c.getTime()));
-		}
-		if(room.getEndTime()!=null){
-			c.setTimeInMillis(room.getEndTime());
-			request.setAttribute("endTime", df.format(c.getTime()));
-		}
+		// Calendar c = Calendar.getInstance();
+		// DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		// if(room.getStartTime()!=null){
+		// c.setTimeInMillis(room.getStartTime());
+		// request.setAttribute("startTime", df.format(c.getTime()));
+		// }
 		return "modify";
 	}
-	public String update() throws IOException,ParseException{
+
+	public String update() throws IOException, ParseException, Exception {
 		VirtualRoom r = roomService.getRoomById(room.getRoomId());
 		Date d = Calendar.getInstance().getTime();
 		r.setUpdateTime(d);
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String startTime = request.getParameter("startTime");
-		String endTime = request.getParameter("endTime");
-		if(startTime!=null && !startTime.equals("")){
-			r.setStartTime(df.parse(startTime).getTime());
-		}
-		if(endTime!=null && !endTime.equals("")){
-			r.setEndTime(df.parse(endTime).getTime());
-		}
+		// DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		// String startTime = request.getParameter("startTime");
+		// if(startTime!=null && !startTime.equals("")){
+		// r.setStartTime(df.parse(startTime).getTime());
+		// }
 		r.setControlPin(room.getControlPin());
 		r.setPassword(room.getPassword());
 		r.setDescription(room.getDescription());
@@ -153,26 +147,23 @@ public class RoomAction extends AbstractBaseAction{
 		r.setServiceTemplate(room.getServiceTemplate());
 		response.setContentType("text/html;charset=utf-8");
 		roomService.saveOrUpdate(r);
-		try{
+		try {
 			outJson("{success:true, msg:'会议模板修改成功!'}");
-		}catch(Exception e){
+		} catch (Exception e) {
 			outJson("{success:true, msg:'会议模板修改失败'}");
 		}
 		return null;
 	}
-	public String detail(){
+
+	public String detail() {
 		String roomId = request.getParameter("roomId");
 		room = roomService.getRoomById(roomId);
-		Calendar c = Calendar.getInstance();
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		if(room.getStartTime()!=null){
-			c.setTimeInMillis(room.getStartTime());
-			request.setAttribute("startTime", df.format(c.getTime()));
-		}
-		if(room.getEndTime()!=null){
-			c.setTimeInMillis(room.getEndTime());
-			request.setAttribute("endTime", df.format(c.getTime()));
-		}
+		// Calendar c = Calendar.getInstance();
+		// DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		// if (room.getStartTime() != null) {
+		// c.setTimeInMillis(room.getStartTime());
+		// request.setAttribute("startTime", df.format(c.getTime()));
+		// }
 		return "detail";
 	}
 }
