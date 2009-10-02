@@ -36,4 +36,9 @@
 		  scope="prototype" autowire="byName">
 		<property name="confService" ref="confService"></property>
 	</bean>
+	<bean id="terminalAction"
+		  class="com.cma.intervideo.web.action.TerminalAction"
+		  scope="prototype" autowire="byName">
+		<property name="terminalService" ref="terminalService"></property>
+	</bean>
 </beans>
