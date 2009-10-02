@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC 
+	"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+	"http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="terminal" namespace="/"	extends="struts-base">
+		<action name="terminal_*" method="{1}" class="terminalAction">
+			<result name="list">/terminal/list.jsp</result>
+			<result name="update">/terminal/list.jsp</result>
+			<result name="detail">/terminal/detail.jsp</result>
+		</action>
+	</package>
+</struts>
