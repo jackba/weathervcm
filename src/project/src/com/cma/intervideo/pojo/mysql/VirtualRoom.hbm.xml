@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 2009-8-20 4:02:54 by Hibernate Tools 3.2.4.GA -->
+<!-- Generated Oct 2, 2009 3:49:30 PM by Hibernate Tools 3.2.4.GA -->
 <hibernate-mapping>
     <class name="com.cma.intervideo.pojo.VirtualRoom" table="virtual_room">
         <id name="roomId" type="string">
@@ -9,16 +9,16 @@
             <generator class="assigned" />
         </id>
         <property name="userId" type="string">
-            <column name="user_id" length="128" />
+            <column name="user_id" length="128" not-null="true" />
         </property>
         <property name="startTime" type="java.lang.Long">
             <column name="start_time" precision="15" scale="0" />
         </property>
-        <property name="endTime" type="java.lang.Long">
-            <column name="end_time" precision="15" scale="0" />
+        <property name="duration" type="java.lang.Integer">
+            <column name="duration" precision="9" scale="0" />
         </property>
         <property name="subject" type="string">
-            <column name="subject" length="80" not-null="true" />
+            <column name="subject" length="80" />
         </property>
         <property name="serviceTemplate" type="string">
             <column name="service_template" length="32" not-null="true" />
