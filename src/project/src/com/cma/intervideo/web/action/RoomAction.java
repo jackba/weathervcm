@@ -93,7 +93,7 @@ public class RoomAction extends AbstractBaseAction {
 			vo.setParamValue(templateName);
 			params.add(vo);
 		}
-		if (serviceTemplate != null && !serviceTemplate.equals("-1")) {
+		if (serviceTemplate != null && serviceTemplate.length() > 0) {
 			ParamVo vo = new ParamVo();
 			vo.setParamName("serviceTemplate");
 			vo.setParamValue(serviceTemplate);
