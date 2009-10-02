@@ -28,6 +28,12 @@ function initData() {
 		}, {
 			name : 'terminalProtocol'
 		}, {
+			name : 'e164'
+		}, {
+			name : 'countryCode'
+		}, {
+			name : 'areaCode'
+		}, {
 			name : 'maxBandwidth'
 		}])
 	});
@@ -59,12 +65,37 @@ function initGrid() {
 		header : "呼叫号码",
 		width: Ext.get("searchArea").getWidth() * 0.25,
 		sortable : true,
-		dataIndex : 'terminalNumber'
+		dataIndex : 'terminalNumber',
+		renderer : function(value, p, record){
+			if(record.data.terminalProtocol == '0'){
+				return "<span style='color:blue;'>" + record.data.e164 + "</span>";
+			} else if(record.data.terminalProtocol == '1'){
+				return "<span style='color:blue;'>" 
+				+ record.data.countryCode + " "
+				+ record.data.areaCode + " "
+				+ record.data.terminalNumber + "</span>";
+			} else {
+				return "<span style='color:blue;'>" + record.data.terminalNumber + "</span>";
+			}
+		}
 	}, {
 		header : "终端类型",
 		width: Ext.get("searchArea").getWidth() * 0.25,
 		sortable : false,
-		dataIndex : 'terminalProtocol'
+		dataIndex : 'terminalProtocol',
+		renderer : function(value, p, record){
+   			if(record.data.terminalProtocol == '0'){
+   				return "<span style='color:blue;'>" + "IP" + "</span>";
+   			} else if(record.data.terminalProtocol == '1'){
+   				return "<span style='color:blue;'>" + "ISDN" + "</span>";
+   			} else if(record.data.terminalProtocol == '2'){
+   				return "<span style='color:blue;'>" + "Daul" + "</span>";
+   			} else if(record.data.terminalProtocol == '3'){
+   				return "<span style='color:blue;'>" + "SIP" + "</span>";
+   			} else {
+   				return "<span style='color:blue;'>" + "Unknown" + "</span>";
+   			}
+		}
 	}, {
 		header : "带宽",
 		width: Ext.get("searchArea").getWidth() * 0.25,
