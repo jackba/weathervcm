@@ -13,7 +13,7 @@
 <script type="text/javascript" src="<%=request.getContextPath() %>/dwr/engine.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/dwr/util.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/dwr/interface/terminalService.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath() %>/service/init-terminalList.js" defer="defer"></script>
+<script type="text/javascript" src="<%=request.getContextPath() %>/terminal/init-terminalList.js" defer="defer"></script>
 <style type="text/css">
 .STYLE3 {
 	font-size: 12px

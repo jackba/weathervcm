@@ -17,6 +17,7 @@ function initData() {
 			url : 'terminal_search.do'
 		}),
 		reader : new Ext.data.JsonReader({
+			totalProperty : 'totalProperty',
 			root : 'root'
 		}, [{
 			name : 'terminalId'
@@ -30,7 +31,12 @@ function initData() {
 			name : 'maxBandwidth'
 		}])
 	});
-	ds.load();
+	ds.load({
+		params : {
+			start : 0,
+			limit : limit
+		}
+	});
 	initGrid();
 }
 // 初始化显示表格
