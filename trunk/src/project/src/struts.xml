@@ -19,4 +19,5 @@
 	<include file="struts-room.xml"/>
 	<include file="struts-service.xml"/>
 	<include file="struts-conf.xml"/>
+	<include file="struts-terminal.xml"/>
 </struts> 

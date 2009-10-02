@@ -40,6 +40,8 @@ drop table if exists virtual_room;
 
 drop table if exists service_template;
 
+drop table if exists terminal;
+
 /*==============================================================*/
 /* Table: bulletin_board                                        */
 /*==============================================================*/
@@ -308,5 +310,33 @@ create table service_template
    is_hd_capable                  decimal(8,0),
    ivr_prefix                     varchar(20),
    primary key (service_template_id)
+)
+type = InnoDB;
+
+/*==============================================================*/
+/* Table: terminal                                              */
+/*==============================================================*/
+create table terminal
+(
+   terminalId                     varchar(32)                    not null,
+   terminalName                   varchar(60),
+   terminalNumber                 varchar(40),
+   terminalProtocol               decimal(4,0)                   not null,
+   timeZoneId                     varchar(100),
+   zonePrefix                     varchar(10),
+   terminalEmail                  varchar(128),
+   statusId                       decimal(1,0),
+   registerGKId                   varchar(32),
+   nodeId                         varchar(32),
+   maxBandwidth                   decimal(9,0),
+   isdnMaxBandwidth               decimal(9,0),
+   isVoiceOnly                    decimal(1,0),
+   ip                             varchar(20),
+   e164                           varchar(50),
+   detailProtocol                 decimal(4,0),
+   defaultRoomId                  varchar(32),
+   countryCode                    varchar(10),
+   areaCode                       varchar(10),
+   primary key (terminalId)
 )
 type = InnoDB;

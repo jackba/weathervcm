@@ -106,6 +106,9 @@ a:hover{}
 				<span id="virtualRoom" href="<%=request.getContextPath()%>/room_list.do" onClick="onClickMenuItem(this)">虚拟房间</span>
 			</li>
 			<li>
+				<span id="terminalinfo" href="<%=request.getContextPath()%>/terminal_list.do" onClick="onClickMenuItem(this)">终端列表</span>
+			</li>
+			<li>
 				<span id="siteinfo" href="#">参会单位</span>
 			</li>
 		</ul>

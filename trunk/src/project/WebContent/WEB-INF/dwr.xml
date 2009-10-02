@@ -34,5 +34,9 @@
 			<param name="beanName" value="confService"></param>
 			<include method="deleteReserves"></include>
 		</create>
+		<create javascript="terminalService" creator="spring">
+			<param name="beanName" value="terminalService"></param>
+			<include method="deleteTerminals"></include>
+		</create>
 	</allow>
 </dwr>
