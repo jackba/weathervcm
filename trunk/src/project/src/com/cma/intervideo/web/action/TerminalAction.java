@@ -121,7 +121,7 @@ public class TerminalAction extends AbstractBaseAction {
 			t.setDetailProtocol((short)tr.getDetailProtocol());
 			t.setDefaultRoomId(tr.getDefaultRoomId());
 			t.setCountryCode(tr.getCountryCode());
-			t.setAreaCode(t.getAreaCode());
+			t.setAreaCode(tr.getAreaCode());
 			terminalService.saveOrUpdate(t);
 		}
 		return list();
