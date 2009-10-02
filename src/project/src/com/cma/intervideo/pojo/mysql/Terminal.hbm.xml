@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 2, 2009 10:01:02 PM by Hibernate Tools 3.2.4.GA -->
+<hibernate-mapping>
+    <class name="com.cma.intervideo.pojo.Terminal" table="terminal">
+        <id name="terminalId" type="string">
+            <column name="terminalId" length="32" />
+            <generator class="assigned" />
+        </id>
+        <property name="terminalName" type="string">
+            <column name="terminalName" length="60" />
+        </property>
+        <property name="terminalNumber" type="string">
+            <column name="terminalNumber" length="40" />
+        </property>
+        <property name="terminalProtocol" type="short">
+            <column name="terminalProtocol" precision="4" scale="0" not-null="true" />
+        </property>
+        <property name="timeZoneId" type="string">
+            <column name="timeZoneId" length="100" />
+        </property>
+        <property name="zonePrefix" type="string">
+            <column name="zonePrefix" length="10" />
+        </property>
+        <property name="terminalEmail" type="string">
+            <column name="terminalEmail" length="128" />
+        </property>
+        <property name="statusId" type="java.lang.Boolean">
+            <column name="statusId" precision="1" scale="0" />
+        </property>
+        <property name="registerGkid" type="string">
+            <column name="registerGKId" length="32" />
+        </property>
+        <property name="nodeId" type="string">
+            <column name="nodeId" length="32" />
+        </property>
+        <property name="maxBandwidth" type="java.lang.Integer">
+            <column name="maxBandwidth" precision="9" scale="0" />
+        </property>
+        <property name="isdnMaxBandwidth" type="java.lang.Integer">
+            <column name="isdnMaxBandwidth" precision="9" scale="0" />
+        </property>
+        <property name="isVoiceOnly" type="java.lang.Boolean">
+            <column name="isVoiceOnly" precision="1" scale="0" />
+        </property>
+        <property name="ip" type="string">
+            <column name="ip" length="20" />
+        </property>
+        <property name="e164" type="string">
+            <column name="e164" length="50" />
+        </property>
+        <property name="detailProtocol" type="java.lang.Short">
+            <column name="detailProtocol" precision="4" scale="0" />
+        </property>
+        <property name="defaultRoomId" type="string">
+            <column name="defaultRoomId" length="32" />
+        </property>
+        <property name="countryCode" type="string">
+            <column name="countryCode" length="10" />
+        </property>
+        <property name="areaCode" type="string">
+            <column name="areaCode" length="10" />
+        </property>
+    </class>
+</hibernate-mapping>
