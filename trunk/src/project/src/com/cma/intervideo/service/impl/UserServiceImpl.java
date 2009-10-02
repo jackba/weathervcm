@@ -88,15 +88,15 @@ public class UserServiceImpl implements IUserService {
 		if (tmp != null) {
 			throw new UserExistsException("用户 " + user.getUserName() + " 已经存在!");
 		}
-
 		// save user to ICM
+		logger.info("to save user to iCM platform......");
 		user.setUserId(null);
-		UserResult ur = ICMService.setUser(user);;
+		UserResult ur = ICMService.setUser(user);
 		if (ur == null || !ur.isSuccess())
 			throw new UserExistsException("平台保存用户" + user.getLoginId() + " 失败!");
-
 		// save user to VCM
 		try {
+			logger.info("to save user to VCM......");
 			user.setUserId(ur.getUserInfos().get(0).getUserId());
 			userDao.addUser(user);
 			if (roles != null) {
@@ -108,10 +108,9 @@ public class UserServiceImpl implements IUserService {
 			}
 		} catch (Exception e) {
 			logger.error(e.toString());
-			
-			// if fail to save user to VCM, ICM need to roll back
+			logger
+					.info("if fail to save user to VCM, need to delete the user from iCM platform that was saved just now!!");
 			ICMService.deleteUser(ur.getUserInfos().get(0).getUserId());
-			
 			throw new UserExistsException("用户 " + user.getLoginId() + " 已经存在!");
 		}
 	}
@@ -152,10 +151,12 @@ public class UserServiceImpl implements IUserService {
 	public void updateUser(User user) throws UserExistsException {
 		try {
 			// save user to ICM
-			UserResult ur = ICMService.setUser(user);;
+			UserResult ur = ICMService.setUser(user);
+			;
 			if (ur == null || !ur.isSuccess())
-				throw new UserExistsException("平台更新用户" + user.getLoginId() + " 失败!");
-			
+				throw new UserExistsException("平台更新用户" + user.getLoginId()
+						+ " 失败!");
+
 			// save user to VCM
 			userDao.saveOrUpdateUser(user);
 		} catch (Exception e) {
@@ -181,12 +182,14 @@ public class UserServiceImpl implements IUserService {
 			u.setUserType(user.getUserType());
 			Date d = Calendar.getInstance().getTime();
 			u.setUpdateTime(d);
-			
+
 			// save user to ICM
-			UserResult ur = ICMService.setUser(u);;
+			UserResult ur = ICMService.setUser(u);
+			;
 			if (ur == null || !ur.isSuccess())
-				throw new UserExistsException("平台更新用户" + user.getLoginId() + " 失败!");
-			
+				throw new UserExistsException("平台更新用户" + user.getLoginId()
+						+ " 失败!");
+
 			// save user to VCM
 			userDao.deleteUserRoleByUserId(user.getUserId());
 			if (roles != null) {
@@ -344,7 +347,7 @@ public class UserServiceImpl implements IUserService {
 		UserResult ur = ICMService.deleteUser(userId);
 		if (ur == null || !ur.isSuccess())
 			return;
-		
+
 		// then delete user from VCM
 		User user = userDao.getUser(userId);
 		user.setStatus(DataDictStatus.invalidateStatus);

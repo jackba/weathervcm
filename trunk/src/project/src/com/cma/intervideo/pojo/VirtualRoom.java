@@ -1,6 +1,6 @@
 package com.cma.intervideo.pojo;
 
-// Generated 2009-8-20 4:02:54 by Hibernate Tools 3.2.4.GA
+// Generated Oct 2, 2009 3:49:30 PM by Hibernate Tools 3.2.4.GA
 
 import java.util.Date;
 
@@ -12,7 +12,7 @@ public class VirtualRoom implements java.io.Serializable {
 	private String roomId;
 	private String userId;
 	private Long startTime;
-	private Long endTime;
+	private Integer duration;
 	private String subject;
 	private String serviceTemplate;
 	private String memberId;
@@ -28,11 +28,11 @@ public class VirtualRoom implements java.io.Serializable {
 	public VirtualRoom() {
 	}
 
-	public VirtualRoom(String roomId, String subject, String serviceTemplate,
+	public VirtualRoom(String roomId, String userId, String serviceTemplate,
 			String memberId, String templateName, String vitualConfId,
 			Short status, Date createTime, Date updateTime) {
 		this.roomId = roomId;
-		this.subject = subject;
+		this.userId = userId;
 		this.serviceTemplate = serviceTemplate;
 		this.memberId = memberId;
 		this.templateName = templateName;
@@ -43,14 +43,14 @@ public class VirtualRoom implements java.io.Serializable {
 	}
 
 	public VirtualRoom(String roomId, String userId, Long startTime,
-			Long endTime, String subject, String serviceTemplate,
+			Integer duration, String subject, String serviceTemplate,
 			String memberId, String templateName, String vitualConfId,
 			String description, String password, String controlPin,
 			Short status, Date createTime, Date updateTime) {
 		this.roomId = roomId;
 		this.userId = userId;
 		this.startTime = startTime;
-		this.endTime = endTime;
+		this.duration = duration;
 		this.subject = subject;
 		this.serviceTemplate = serviceTemplate;
 		this.memberId = memberId;
@@ -88,12 +88,12 @@ public class VirtualRoom implements java.io.Serializable {
 		this.startTime = startTime;
 	}
 
-	public Long getEndTime() {
-		return this.endTime;
+	public Integer getDuration() {
+		return this.duration;
 	}
 
-	public void setEndTime(Long endTime) {
-		this.endTime = endTime;
+	public void setDuration(Integer duration) {
+		this.duration = duration;
 	}
 
 	public String getSubject() {

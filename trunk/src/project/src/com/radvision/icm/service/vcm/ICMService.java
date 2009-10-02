@@ -6,7 +6,11 @@ import java.util.List;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.cma.intervideo.pojo.User;
+import com.cma.intervideo.pojo.VirtualRoom;
 import com.cma.intervideo.util.VcmProperties;
 import com.radvision.icm.service.ControlService;
 import com.radvision.icm.service.ControlServicePortType;
@@ -21,8 +25,11 @@ import com.radvision.icm.service.UserInfo;
 import com.radvision.icm.service.UserResult;
 import com.radvision.icm.service.UserService;
 import com.radvision.icm.service.UserServicePortType;
+import com.radvision.icm.service.VirtualRoomInfoEx;
+import com.radvision.icm.service.VirtualRoomResult;
 
 public class ICMService {
+	private static Log logger = LogFactory.getLog(ICMService.class);
 	protected static String m_ipPort = VcmProperties.getICMIPPort();
 	private final static QName CONTROL_SERVICE = new QName(
 			"http://radvision.com/icm/service/controlservice", "ControlService");
@@ -85,74 +92,157 @@ public class ICMService {
 				.getUserServicePort();
 	}
 
-	public static ScheduleServicePortType getScheduleServicePort()
+	public static ScheduleServicePortType getScheduleServicePortType()
 			throws Exception {
 		return ((ScheduleService) getService(ServiceType.ScheduleService))
 				.getScheduleServicePort();
 	}
 
-	public static ResourceServicePortType getResourceServicePort()
+	public static ResourceServicePortType getResourceServicePortType()
 			throws Exception {
 		return ((ResourceService) getService(ServiceType.ResourceService))
 				.getResourceServicePort();
 	}
 
-	public static LicenseServicePortType getLicenseServicePort()
+	public static LicenseServicePortType getLicenseServicePortType()
 			throws Exception {
 		return ((LicenseService) getService(ServiceType.LicenseService))
 				.getLicenseServicePort();
 	}
 
-	public static ControlServicePortType getControlServicePort()
+	public static ControlServicePortType getControlServicePortType()
 			throws Exception {
 		return ((ControlService) getService(ServiceType.ControlService))
 				.getControlServicePort();
 	}
-	
+
 	public static UserResult setUser(User user) {
 		UserResult ur = null;
 		try {
 			List<UserInfo> uis = new ArrayList<UserInfo>();
 			uis.add(convertToUserInfo(user));
 			ur = getUserServicePortType().setUsers(uis);
+			logger.info((ur != null && ur.isSuccess() ? "success" : "fail")
+					+ " to save user to iCM platform - loginid: "
+					+ user.getLoginId());
 		} catch (Exception e) {
+			logger.info("Exception on saving user to iCM platform - "
+					+ e.getMessage());
 			e.printStackTrace();
 		}
 		return ur;
 	}
-	
+
 	public static UserResult deleteUser(String userId) {
 		UserResult ur = null;
 		try {
 			List<String> ids = new ArrayList<String>();
 			ids.add(userId);
 			ur = getUserServicePortType().deleteUsers(ids);
+			logger.info((ur.isSuccess() ? "success" : "fail")
+					+ " to delete user from iCM platform - userId: " + userId);
 		} catch (Exception e) {
+			logger.info("Exception on deleting user from iCM platform - "
+					+ e.getMessage());
 			e.printStackTrace();
 		}
 		return ur;
 	}
-	
+
+	public static List<MeetingType> getMeetingTypes() {
+		List<MeetingType> mts = null;
+		try {
+			mts = getResourceServicePortType().getMeetingTypes();
+			logger.info("get " + (mts == null ? "0" : mts.size())
+					+ " meeting types from iCM platform");
+		} catch (Exception e) {
+			logger.info("Exception on get meeting types from iCM platform - "
+					+ e.getMessage());
+			e.printStackTrace();
+		}
+		return mts;
+	}
+
+	public static VirtualRoomResult createVirtualRoom(VirtualRoom room) {
+		VirtualRoomResult vrr = null;
+		try {
+			VirtualRoomInfoEx virtualRoo = converToVirtualRoomInfoEx(room);
+			vrr = getScheduleServicePortType().createVirtualRoom(virtualRoo);
+			logger
+					.info((vrr != null && vrr.isSuccess() ? "success" : "fail")
+							+ " to add virtual room to iCM platform - virtual room number: "
+							+ room.getVitualConfId() + ", room id: "
+							+ vrr.getVirtualRoomID());
+		} catch (Exception e) {
+			logger.info("Exception on adding virtual room to iCM platform - "
+					+ e.getMessage());
+			e.printStackTrace();
+		}
+		return vrr;
+	}
+
+	public static VirtualRoomResult modifyVirtualRoom(VirtualRoom room) {
+		VirtualRoomResult vrr = null;
+		try {
+			VirtualRoomInfoEx virtualRoo = converToVirtualRoomInfoEx(room);
+			vrr = getScheduleServicePortType().modifyVirtualRoom(virtualRoo);
+			logger
+					.info((vrr != null && vrr.isSuccess() ? "success" : "fail")
+							+ " to modify virtual room to iCM platform - virtual room number: "
+							+ room.getVitualConfId() + ", room id: "
+							+ vrr.getVirtualRoomID());
+		} catch (Exception e) {
+			logger
+					.info("Exception on modifying virtual room to iCM platform - "
+							+ e.getMessage());
+			e.printStackTrace();
+		}
+		return vrr;
+	}
+
+	public static boolean deleteVirtualRoom(String virtualRoomNumber) {
+		boolean ret = false;
+		try {
+			ret = getScheduleServicePortType().deleteVirtualRoom(
+					virtualRoomNumber);
+			logger
+					.info((ret ? "success" : "fail")
+							+ " to delete virtual room from iCM platform - virtual room number: "
+							+ virtualRoomNumber);
+		} catch (Exception e) {
+			logger
+					.info("Exception on deleting virtual room from iCM platform - virtual room number: "
+							+ virtualRoomNumber + " - " + e.getMessage());
+			e.printStackTrace();
+		}
+		return ret;
+	}
+
 	private static UserInfo convertToUserInfo(User user) {
 		UserInfo info = new UserInfo();
 		info.setUserId(user.getUserId());
 		info.setEmamil(user.getEmail());
-		info.setRoleId(2); //TODO: handle role
+		info.setRoleId(2); // TODO: handle role
 		info.setUserLoginId(user.getLoginId());
 		info.setUserFirstName(user.getUserName());
-		info.setUserLastName(user.getUserName()); //TODO: handle first name, last name
+		info.setUserLastName(user.getUserName()); // TODO: handle first name,
+		// last name
 		info.setPassword(user.getPassword());
 		info.setOfficePhoneNumber(user.getOfficeTelephone());
 		return info;
 	}
-	
-	public static List<MeetingType> getMeetingTypes() {
-		List<MeetingType> mts = null;
-		try {
-			mts = getResourceServicePort().getMeetingTypes();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return mts;
+
+	private static VirtualRoomInfoEx converToVirtualRoomInfoEx(VirtualRoom room) {
+		VirtualRoomInfoEx virtualRoo = new VirtualRoomInfoEx();
+		virtualRoo.setVirtualRoomID(room.getRoomId());
+		virtualRoo.setVirtualRoomName(room.getTemplateName());
+		virtualRoo.setVirtualRoomNumber(room.getVitualConfId());
+		virtualRoo.setPassword(room.getPassword());
+		virtualRoo.setChairControlPassword(room.getControlPin());
+		virtualRoo.setDescription(room.getDescription());
+		virtualRoo.setMemberID(room.getMemberId());
+		virtualRoo.setUserID(room.getUserId());
+		virtualRoo.setServiceID(room.getServiceTemplate());
+		return virtualRoo;
 	}
 }
