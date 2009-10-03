@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC 
+	"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+	"http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="unit" namespace="/"	extends="struts-base">
+		<action name="unit_*" method="{1}" class="unitAction">
+			<result name="list">/unit/list.jsp</result>
+			<result name="add">/unit/add.jsp</result>
+		</action>
+	</package>
+</struts>

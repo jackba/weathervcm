@@ -8,8 +8,8 @@
             <column name="unit_id" />
             <generator class="native" />
         </id>
-        <property name="uniName" type="int">
-            <column name="uni_name" not-null="true" />
+        <property name="unitName" type="string">
+            <column name="unit_name" not-null="true" />
         </property>
         <property name="partyId" type="string">
             <column name="party_id" length="20" />

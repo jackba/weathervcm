@@ -26,8 +26,8 @@
         <property name="startTime" type="java.lang.Long">
             <column name="start_time" precision="15" scale="0" />
         </property>
-        <property name="endTime" type="java.lang.Long">
-            <column name="end_time" precision="15" scale="0" />
+        <property name="timeLong" type="java.lang.Integer">
+            <column name="time_long" />
         </property>
         <property name="serviceTemplate" type="string">
             <column name="service_template" length="32" />
@@ -44,7 +44,7 @@
         <property name="controlPin" type="string">
             <column name="control_pin" />
         </property>
-        <property name="status" type="byte">
+        <property name="status" type="java.lang.Short">
             <column name="status" not-null="true" />
         </property>
         <property name="portsNum" type="java.lang.Integer">
@@ -82,6 +82,9 @@
         </property>
         <property name="contactMethod" type="string">
         	<column name="contact_method" length="200"/>
+        </property>
+        <property name="principal" type="string">
+        	<column name="principal" length="40"/>
         </property>
     </class>
 </hibernate-mapping>
