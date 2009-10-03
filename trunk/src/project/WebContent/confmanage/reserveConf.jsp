@@ -264,9 +264,9 @@ if ( checkForm()){
 							<s:if test="#request.personal == 'true'">
 							location.href = '<%=request.getContextPath() %>/conf_listReserve.do' ;
 							</s:if>
-							<s:test>
+							<s:else>
 							location.href = '<%=request.getContextPath()%>/conf_manageReserve.do';
-							</s:test>
+							</s:else>
 						}
 					});
 				} else {
