@@ -8,19 +8,19 @@ package com.cma.intervideo.pojo;
 public class Unit implements java.io.Serializable {
 
 	private Integer unitId;
-	private int uniName;
+	private String unitName;
 	private String partyId;
 	private String desc;
 
 	public Unit() {
 	}
 
-	public Unit(int uniName) {
-		this.uniName = uniName;
+	public Unit(String unitName) {
+		this.unitName = unitName;
 	}
 
-	public Unit(int uniName, String partyId, String desc) {
-		this.uniName = uniName;
+	public Unit(String unitName, String partyId, String desc) {
+		this.unitName = unitName;
 		this.partyId = partyId;
 		this.desc = desc;
 	}
@@ -33,12 +33,14 @@ public class Unit implements java.io.Serializable {
 		this.unitId = unitId;
 	}
 
-	public int getUniName() {
-		return this.uniName;
+	
+
+	public String getUnitName() {
+		return unitName;
 	}
 
-	public void setUniName(int uniName) {
-		this.uniName = uniName;
+	public void setUnitName(String unitName) {
+		this.unitName = unitName;
 	}
 
 	public String getPartyId() {
