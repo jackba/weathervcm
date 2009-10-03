@@ -21,22 +21,26 @@ function initData() {
 			totalProperty : 'totalProperty',
 			root : 'root'
 		}, [{
-			name : 'roomId'
+			name : 'conferenceId'
 		}, {
 			name : 'subject'
-		}, {
-			name : 'serviceTemplate'
-		}, {
-			name : 'templateName'
-		}, {
-			name : 'virtualConfId'
-		}, {
-			name : 'description'
 		}, {
 			name : 'createTime',
 			type : 'date',
 			mapping : 'createTime.time',
 			dateFormat : 'time'
+		}, {
+			name : 'status'
+		}, {
+			name : 'statusStr'
+		}, {
+			name : 'startTime'
+		}, {
+			name : 'timeLong'
+		}, {
+			name : 'initUnit'
+		}, {
+			name : 'serviceTemplate'
 		}])
 	});
 	ds.load({
@@ -75,7 +79,6 @@ function initData() {
         selectOnFocus: true,
         renderTo: 'service_template'
     });
-	
 	initGrid();
 }
 // 初始化显示表格
@@ -84,32 +87,47 @@ function initGrid() {
 	var sm = new Ext.grid.CheckboxSelectionModel();
 
 	var cm = new Ext.grid.ColumnModel([sm, {
-		dataIndex : 'roomId',
+		dataIndex : 'conferenceId',
 		hidden : true
 	},{
 		header : "名称",
-		width: Ext.get("searchArea").getWidth()*0.25,
+		width: Ext.get("searchArea").getWidth()*0.14,
 		sortable : true,
-		dataIndex : 'templateName',
+		dataIndex : 'subject',
 		renderer : function(value, p , record){
-			return String.format('<a href="room_detail.do?roomId={0}" target="_blank">{1}</a>',record.data.roomId,value);
+			return String.format('<a href="conf_reserveDetail.do?conferenceId={0}" target="_blank">{1}</a>',record.data.conferenceId,value);
 		}
 	}, {
-		header : "会议类型",
-		width: Ext.get("searchArea").getWidth()*0.25,
+		header : "预约时间",
+		width: Ext.get("searchArea").getWidth()*0.14,
 		sortable : true,
-		dataIndex : 'serviceTemplate'
-	}, {
-		header : "主题",
-		width: Ext.get("searchArea").getWidth()*0.25,
-		sortable : true,
-		dataIndex : 'subject'
-	}, {
-		header : "创建时间",
-		width: Ext.get("searchArea").getWidth()*0.25,
-		sortable : false,
 		dataIndex : 'createTime',
-		renderer: Ext.util.Format.dateRenderer("Y-m-d H:i:s")
+		renderer: Ext.util.Format.dateRenderer('Y-m-d H:i:s')
+	}, {
+		header : "状态",
+		width: Ext.get("searchArea").getWidth()*0.14,
+		sortable : true,
+		dataIndex : 'statusStr'
+	}, {
+		header : "起始时间",
+		width : Ext.get("searchArea").getWidth()*0.14,
+		sortable : true,
+		dataIndex : 'startTime'
+	}, {
+		header : "时长(分钟)",
+		width : Ext.get("searchArea").getWidth()*0.14,
+		sortable : true,
+		dataIndex : 'timeLong'
+	}, {
+		header : "组织单位",
+		width : Ext.get("searchArea").getWidth()*0.14,
+		sortable : true,
+		dataIndex : 'initUnit'
+	}, {
+		header : "会议类型",
+		width : Ext.get("searchArea").getWidth()*0.14,
+		sortable : true,
+		dataIndex : 'serviceTemplateName'
 	}]);
 	// 工具栏对象
 	ptb = new Ext.PagingToolbar({
@@ -144,20 +162,20 @@ function initGrid() {
 		forceFit:true,
 		loadMask : true,
 		//viewConfig : {forceFit : true},
-		tbar : ['<b>&nbsp;&nbsp;&nbsp;&nbsp;<font color=#990000>虚拟房间列表</font></b>','->',{
+		tbar : ['<b>&nbsp;&nbsp;&nbsp;&nbsp;<font color=#990000>预约会议列表</font></b>','->',{
 			id : 'btnAdd',
 			text : '添加',
 			pressed : true,
-			tooltip : '添加新虚拟房间',
+			tooltip : '预约会议',
 			iconCls : 'add16',
 			onClick : function() {
-				location.href = "room_add.do";
+				location.href = "conf_reserveConf.do";
 			}
 		}, {
 			id : 'btnEdit',
 			text : '修改',
 			pressed : true,
-			tooltip : '修改虚拟房间',
+			tooltip : '修改会议预约',
 			//iconCls : 'edit',
 			iconCls : 'edit16',
 			onClick : function() {
@@ -171,7 +189,7 @@ function initGrid() {
 			id : 'btnDel',
 			text : '删除',
 			pressed : true,
-			tooltip : '删除虚拟房间',
+			tooltip : '删除会议预约',
 			iconCls : 'delete16',
 			onClick : function() {
 				if (sm.hasSelection()) {
@@ -199,19 +217,19 @@ function initGrid() {
 			}
 		});*/
 		var list = sm.getSelections();
-		var id = list[0].data["roomId"];
-		location.href = "room_modify.do?roomId="+id;
+		var id = list[0].data["conferenceId"];
+		location.href = "conf_modifyReserve.do?conferenceId="+id;
 	}
 	
 	function del() {
-		Ext.MessageBox.confirm('提示', '确定要删除虚拟房间吗?', function(button) {
+		Ext.MessageBox.confirm('提示', '确定要删除会议预约吗?', function(button) {
 			if (button == 'yes') {
 				var list = sm.getSelections();
 				var ids = [];
 				for (var i = 0; i < list.length; i++) {
-					ids[i] = list[i].data["roomId"];
+					ids[i] = list[i].data["conferenceId"];
 				}
-				roomService.deleteRooms(ids, function(data) {
+				confService.deleteReserves(ids, function(data) {
 					if (data > 0) {
 						Ext.MessageBox.alert('提示', "删除" + data + '条数据成功!');
 						// 如果把当页数据删除完毕，则跳转到上一页！
@@ -240,7 +258,7 @@ function loadStore(start){
 			start : start,
 			limit : ptb.getPageSize(),
 			'totalProperty' : ds.getTotalCount(),
-			'templateName' : Ext.get("templateName").dom.value,
+			'subject' : Ext.get("subject").dom.value,
 			'serviceTemplate' : Ext.get("serviceTemplate").dom.value
 		}
 	});
