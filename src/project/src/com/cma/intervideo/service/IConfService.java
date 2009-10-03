@@ -8,5 +8,7 @@ import com.cma.intervideo.util.ParamVo;
 
 public interface IConfService {
 	public List<Conference> findConfs(List<ParamVo> params, PageHolder ph);
-	public void saveOrUpdate(Conference conf);
+	public void createConf(Conference conf) throws Exception;
+	public void modifyConf(Conference conf) throws Exception;
+	public Conference getConfById(String confId);
 }

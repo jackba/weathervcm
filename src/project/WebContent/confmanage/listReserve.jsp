@@ -42,9 +42,7 @@
 						</td>
 						<th>会议类型：</th>
 						<td>
-							<div id="service_template">
-								
-							</div>
+							<div id="service_template"></div>
 						</td>
 					</tr>
 				</table>

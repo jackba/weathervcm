@@ -23,6 +23,8 @@ function initData() {
 		}, [{
 			name : 'conferenceId'
 		}, {
+			name : 'radConferenceId'
+		}, {
 			name : 'subject'
 		}, {
 			name : 'createTime',
@@ -90,6 +92,9 @@ function initGrid() {
 		dataIndex : 'conferenceId',
 		hidden : true
 	},{
+		dataIndex : 'radConferenceId',
+		hidden : true
+	},{
 		header : "名称",
 		width: Ext.get("searchArea").getWidth()*0.14,
 		sortable : true,
@@ -127,7 +132,7 @@ function initGrid() {
 		header : "会议类型",
 		width : Ext.get("searchArea").getWidth()*0.14,
 		sortable : true,
-		dataIndex : 'serviceTemplateName'
+		dataIndex : 'serviceTemplate'
 	}]);
 	// 工具栏对象
 	ptb = new Ext.PagingToolbar({
@@ -227,7 +232,7 @@ function initGrid() {
 				var list = sm.getSelections();
 				var ids = [];
 				for (var i = 0; i < list.length; i++) {
-					ids[i] = list[i].data["conferenceId"];
+					ids[i] = list[i].data["conferenceId"]+","+list[i].data["radConferenceId"];
 				}
 				confService.deleteReserves(ids, function(data) {
 					if (data > 0) {
