@@ -51,6 +51,13 @@
 			</bean>
 		</property>
 	</bean>
+	<bean id="unitService" parent="baseTransactionProxy">
+		<property name="target">
+			<bean class="com.cma.intervideo.service.impl.UnitServiceImpl">
+				<property name="unitDao" ref="unitDao"></property>
+			</bean>
+		</property>
+	</bean>
 	<bean id="terminalService" parent="baseTransactionProxy">
 		<property name="target">
 			<bean class="com.cma.intervideo.service.impl.TerminalServiceImpl">

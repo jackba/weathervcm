@@ -23,6 +23,9 @@
 	<bean id="confDao" class="com.cma.intervideo.dao.mysql.ConfDaoImpl">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
+	<bean id="unitDao" class="com.cma.intervideo.dao.mysql.UnitDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
 	<bean id="terminalDao" class="com.cma.intervideo.dao.mysql.TerminalDaoImpl">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
