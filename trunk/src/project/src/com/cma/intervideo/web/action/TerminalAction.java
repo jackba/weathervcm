@@ -95,6 +95,25 @@ public class TerminalAction extends AbstractBaseAction {
 		}
 		return null;
 	}
+	
+	public String searchAll() {
+		List<Terminal> terminalList = terminalService.findTerminals();
+		try {
+			JSONObject json = new JSONObject();
+			JSONArray arr = JSONArray.fromObject(terminalList);
+			json.put("root", arr);
+			System.out.println(json);
+			response.setCharacterEncoding("utf-8");
+
+			PrintWriter out = response.getWriter();
+			out.print(json);
+			out.flush();
+			out.close();
+		} catch (Exception e) {
+			logger.error(e.toString());
+		}
+		return null;
+	}
 
 	public String update() throws IOException, ParseException, Exception {
 		terminalService.deleteAllTerminals();

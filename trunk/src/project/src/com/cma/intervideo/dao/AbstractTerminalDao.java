@@ -15,6 +15,14 @@ public class AbstractTerminalDao extends AbstractDAO<Terminal, String>
 	private final static Log logger = LogFactory
 			.getLog(AbstractTerminalDao.class);
 
+	public List<Terminal> findTerminals() {
+		String hql = "from Terminal t order by t.terminalId";
+		List<Terminal> lst = getHibernateTemplate().find(hql);
+		logger.info("AbstractServiceDao.findTerminals return " + lst.size()
+				+ " Terminal(s), hql = " + hql);
+		return lst;
+	}
+	
 	public List<Terminal> findTerminals(List<ParamVo> params, PageHolder ph) {
 		String hql = "from Terminal t order by t.terminalId";
 		if(params!=null){
@@ -33,7 +41,7 @@ public class AbstractTerminalDao extends AbstractDAO<Terminal, String>
 		}
 		List<Terminal> lst = getHibernateTemplate().find(hql);
 		logger.info("AbstractTerminalDao.findTerminals return " + lst.size()
-				+ " Terminal, hql = " + hql);
+				+ " Terminal(s), hql = " + hql);
 		return lst;
 	}
 

@@ -13,6 +13,9 @@ public class TerminalServiceImpl implements ITerminalService{
 	public void setTerminalDao(ITerminalDao terminalDao) {
 		this.terminalDao = terminalDao;
 	}
+	public List<Terminal> findTerminals() {
+		return terminalDao.findTerminals();
+	}
 	public List<Terminal> findTerminals(List<ParamVo> params, PageHolder ph){
 		return terminalDao.findTerminals(params, ph);
 	}

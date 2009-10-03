@@ -42,6 +42,8 @@ drop table if exists service_template;
 
 drop table if exists terminal;
 
+drop table unit;
+
 /*==============================================================*/
 /* Table: bulletin_board                                        */
 /*==============================================================*/
@@ -340,3 +342,15 @@ create table terminal
    primary key (terminalId)
 )
 type = InnoDB;
+
+create table unit
+(
+   unit_id                        int                            not null 
+AUTO_INCREMENT,
+   unit_name                       varchar(40)                            not null,
+   party_id                       varchar(20),
+   description                         varchar(200),
+   primary key (unit_id)
+)
+type = InnoDB;
+

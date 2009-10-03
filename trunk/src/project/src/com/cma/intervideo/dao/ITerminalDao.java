@@ -8,6 +8,7 @@ import com.cma.intervideo.util.PageHolder;
 import com.cma.intervideo.util.ParamVo;
 
 public interface ITerminalDao extends DAO<Terminal, String>{
+	public List<Terminal> findTerminals();
 	public List<Terminal> findTerminals(List<ParamVo> params, PageHolder ph);
 	public Terminal getTerminal(String terminalId);
 }

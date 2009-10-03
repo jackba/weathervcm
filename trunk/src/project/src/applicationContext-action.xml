@@ -42,4 +42,9 @@
 		  scope="prototype" autowire="byName">
 		<property name="terminalService" ref="terminalService"></property>
 	</bean>
+	<bean id="unitAction"
+		  class="com.cma.intervideo.web.action.UnitAction"
+		  scope="prototype" autowire="byName">
+		<property name="unitService" ref="unitService"></property>
+	</bean>
 </beans>

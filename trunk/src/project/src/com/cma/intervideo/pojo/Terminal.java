@@ -26,7 +26,6 @@ public class Terminal implements java.io.Serializable {
 	private String defaultRoomId;
 	private String countryCode;
 	private String areaCode;
-	private String dialString;
 
 	public Terminal() {
 	}
