@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>会议模板详情</title>
+<title>终端详情</title>
 <link rel="stylesheet" type="text/css"
 	href="<%=request.getContextPath() %>/resources/css/ext-all.css">
 <link rel="stylesheet" type="text/css"
@@ -27,41 +27,27 @@ body {
 </head>
 <body style="overflow: scroll; overflow-x: hidden">
 <div class="wrap">
-<h1>当前位置：会议与资源&nbsp;&gt;&nbsp;<span class="position_current">会议模板详情</span></h1>
+<h1>当前位置：基本信息&nbsp;&gt;&nbsp;<span class="position_current">终端详情</span></h1>
 <div class="search"><br />
 <table class="query">
 	<tr class="t_title">
-		<th colspan="2" class="t">会议模板基本信息</th>
+		<th colspan="2" class="t">终端基本信息</th>
 	</tr>
 	<tr>
-		<th width="20%">会议模板名称：</th>
-		<td><s:property value='serviceTemplate.serviceTemplateName' />&nbsp;</td>
+		<th width="20%">终端名称：</th>
+		<td><s:property value='terminal.terminalName' />&nbsp;</td>
 	</tr>
 	<tr>
-		<th width="20%">会议模板前缀：</th>
-		<td><s:property value='serviceTemplate.servicePrefix' />&nbsp;</td>
+		<th width="20%">终端类型：</th>
+		<td><s:property value='terminal.protocolDesc' />&nbsp;</td>
+	</tr>
+		<tr>
+		<th width="20%">终端号码：</th>
+		<td><s:property value='terminal.dialString' />&nbsp;</td>
 	</tr>
 	<tr>
-		<th width="20%">会议模板描述：</th>
-		<td><s:property value='serviceTemplate.serviceTemplateDesc' />&nbsp;</td>
-	</tr>
-
-	<tr>
-		<th width="20%">会议模板带宽：</th>
-		<td><s:property value='serviceTemplate.matchingRate' />&nbsp;</td>
-	</tr>
-
-	<tr>
-		<th width="20%">builtInToken：</th>
-		<td><s:property value="serviceTemplate.builtInToken" />&nbsp;</td>
-	</tr>
-	<tr>
-		<th width="20%">mcuService：</th>
-		<td><s:property value="serviceTemplate.serviceType" />&nbsp;</td>
-	</tr>
-	<tr>
-		<th width="20%">switchingMode：</th>
-		<td><s:property value="serviceTemplate.switchingMode" />&nbsp;</td>
+		<th width="20%">带宽：</th>
+		<td><s:property value='terminal.maxBandwidth' />&nbsp;</td>
 	</tr>
 </table>
 <div class="dotLine"></div>

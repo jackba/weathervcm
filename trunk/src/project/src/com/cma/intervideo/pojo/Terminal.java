@@ -26,6 +26,7 @@ public class Terminal implements java.io.Serializable {
 	private String defaultRoomId;
 	private String countryCode;
 	private String areaCode;
+	private String dialString;
 
 	public Terminal() {
 	}
@@ -214,5 +215,26 @@ public class Terminal implements java.io.Serializable {
 	public void setAreaCode(String areaCode) {
 		this.areaCode = areaCode;
 	}
-
+	
+	public String getDialString() {
+		if (getTerminalProtocol() == 0)	// IP
+			return getE164();
+		else if (getTerminalProtocol() == 1) //ISDN
+			return getCountryCode() + " " +  getAreaCode() + " " + getTerminalNumber();
+		else // SIP and others
+			return getTerminalNumber();
+	}
+	
+	public String getProtocolDesc() {
+		if (getTerminalProtocol() == 0)	// IP
+			return "IP";
+		else if (getTerminalProtocol() == 1)	// ISDN
+			return "ISDN";
+		else if (getTerminalProtocol() == 2)	// DUAL
+			return "Daul";
+		else if (getTerminalProtocol() == 3)	// SIP
+			return "SIP";
+		else
+			return "Unknown";
+	}
 }

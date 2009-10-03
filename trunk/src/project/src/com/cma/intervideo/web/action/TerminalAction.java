@@ -128,6 +128,8 @@ public class TerminalAction extends AbstractBaseAction {
 	}
 
 	public String detail() {
+		String id = request.getParameter("terminalId");
+		terminal = terminalService.getTerminal(id);
 		return "detail";
 	}
 }
