@@ -38,5 +38,9 @@
 			<param name="beanName" value="terminalService"></param>
 			<include method="deleteTerminals"></include>
 		</create>
+		<create javascript="unitService" creator="spring">
+			<param name="beanName" value="unitService"></param>
+			<include method="deleteUnits"></include>
+		</create>
 	</allow>
 </dwr>

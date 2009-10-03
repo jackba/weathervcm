@@ -10,7 +10,7 @@ public class Unit implements java.io.Serializable {
 	private Integer unitId;
 	private String unitName;
 	private String partyId;
-	private String desc;
+	private String description;
 
 	public Unit() {
 	}
@@ -19,10 +19,10 @@ public class Unit implements java.io.Serializable {
 		this.unitName = unitName;
 	}
 
-	public Unit(String unitName, String partyId, String desc) {
+	public Unit(String unitName, String partyId, String description) {
 		this.unitName = unitName;
 		this.partyId = partyId;
-		this.desc = desc;
+		this.description = description;
 	}
 
 	public Integer getUnitId() {
@@ -51,12 +51,12 @@ public class Unit implements java.io.Serializable {
 		this.partyId = partyId;
 	}
 
-	public String getDesc() {
-		return this.desc;
+	public String getDescription() {
+		return this.description;
 	}
 
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }

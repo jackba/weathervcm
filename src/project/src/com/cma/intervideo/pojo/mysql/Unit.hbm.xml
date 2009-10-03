@@ -9,13 +9,13 @@
             <generator class="native" />
         </id>
         <property name="unitName" type="string">
-            <column name="unit_name" not-null="true" />
+            <column name="unit_name" length="40" not-null="true" />
         </property>
         <property name="partyId" type="string">
             <column name="party_id" length="20" />
         </property>
-        <property name="desc" type="string">
-            <column name="desc" length="200" />
+        <property name="description" type="string">
+            <column name="description" length="200" />
         </property>
     </class>
 </hibernate-mapping>

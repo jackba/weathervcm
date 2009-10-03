@@ -8,6 +8,7 @@ import com.cma.intervideo.util.ParamVo;
 
 public interface ITerminalService {
 	public List<Terminal> findTerminals(List<ParamVo> params, PageHolder ph);
+	public List<Terminal> findTerminals();
 	public void saveOrUpdate(Terminal terminal);
 	public int deleteAllTerminals();
 	public Terminal getTerminal(String terminalId);

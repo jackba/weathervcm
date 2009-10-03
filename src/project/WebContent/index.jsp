@@ -109,7 +109,7 @@ a:hover{}
 				<span id="terminalinfo" href="<%=request.getContextPath()%>/terminal_list.do" onClick="onClickMenuItem(this)">终端列表</span>
 			</li>
 			<li>
-				<span id="siteinfo" href="#">参会单位</span>
+				<span id="siteinfo" href="<%=request.getContextPath()%>/unit_list.do" onClick="onClickMenuItem(this)">参会单位</span>
 			</li>
 		</ul>
 	</div>

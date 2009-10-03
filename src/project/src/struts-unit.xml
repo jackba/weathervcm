@@ -7,6 +7,8 @@
 		<action name="unit_*" method="{1}" class="unitAction">
 			<result name="list">/unit/list.jsp</result>
 			<result name="add">/unit/add.jsp</result>
+			<result name="modify">/unit/modify.jsp</result>
+			<result name="detail">/unit/detail.jsp</result>
 		</action>
 	</package>
 </struts>
