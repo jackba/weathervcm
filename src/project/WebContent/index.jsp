@@ -71,10 +71,10 @@ a:hover{}
 	<div id="confMenus">
 		<ul class="menuList">
 			<li>
-				<span id="scheduleConf" href="#">预约会议</span>
+				<span id="scheduleConf" href="<%=request.getContextPath()%>/conf_listReserve.do" onClick="onClickMenuItem(this)">预约会议</span>
 			</li>
 			<li>
-				<span id="manageConf" href="#">预约管理</span>
+				<span id="manageConf" href="<%=request.getContextPath()%>/conf_manageReserve.do" onClick="onClickMenuItem(this)">预约管理</span>
 			</li>
 			<li>
 				<span id="currentConf" href="#">正在召开的会议</span>
