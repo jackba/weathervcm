@@ -12,7 +12,7 @@
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/ext-all.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/ext-lang-zh_CN.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/ItemSelector/Multiselect.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/ItemSelector/DDView.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/ItemSelector/DDView.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/validate.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/calendar/WdatePicker.js"></script>
 
@@ -35,6 +35,12 @@ body{font-size:12px;}
 	    <th width="20%"><font color="red">&nbsp;*</font>名称：</th>
 	    <td><label>
 	      <input name="conf.subject" id="subject" type="text" class="put200" maxlength="40">
+	    </label></td>
+  	  </tr>
+  	  <tr>
+	    <th width="20%"><font color="red">&nbsp;*</font>会议号：</th>
+	    <td><label>
+	      <input name="conf.dialableNumber" id="dialableNumber" type="text" class="put200" maxlength="40">
 	    </label></td>
   	  </tr>
   	  <tr>
@@ -84,12 +90,6 @@ body{font-size:12px;}
 	  	<th class="row1">负责人手机：</th>
 		<td class="row2">
 		  <input name="conf.principalMobile" id="principalMobile" type="text" class="put200" maxlength="15"/>
-		</td>
-	  </tr>
-	  <tr>
-	  	<th class="row1">会议号码：</th>
-		<td class="row2">
-		  <input name="conf.dialableNumber" id="dialableNumber" type="text" class="put200" maxlength="20"/>
 		</td>
 	  </tr>
 	  <tr>
@@ -168,7 +168,7 @@ Ext.onReady(function(){
 	var serviceComboWithTooltip = new Ext.form.ComboBox({
 		store: serviceds,
 		hiddenId: 'serviceTemplate',
-        hiddenName: 'room.serviceTemplate',
+        hiddenName: 'conf.serviceTemplate',
         valueField: 'serviceTemplateId',
         displayField: 'serviceTemplateDesc',
         typeAhead: true,
@@ -190,7 +190,7 @@ Ext.onReady(function(){
 		}, {
 			name : 'unitName'
 		}, {
-			name : 'desc'
+			name : 'description'
 		}])
 	});
 	unitds.load();
@@ -199,7 +199,7 @@ Ext.onReady(function(){
 		hiddenId: 'mainUnit',
         hiddenName: 'conf.mainUnit',
         valueField: 'unitId',
-        displayField: 'desc',
+        displayField: 'unitName',
         typeAhead: true,
         forceSelection: false,
         mode: 'local',
@@ -281,9 +281,13 @@ if ( checkForm()){
 }
 function checkForm(){
 	if (validateRequired('subject','名称')
+			&& validateRequired('dialableNumber','会议号')
 			&& validateRequired('initUnit','组织单位')
+			&& validateRequired('startTime','开始时间')
+			&& validateRequired('timeLong','时长')
+			&& validateRequired('mainUnit','主会场')
 			&& validateRequired('serviceTemplate','会议类型')
-			&& validateRequired('startTime','会议开始时间')) {		
+			) {		
 		return true;
 	}else {
 		return false;

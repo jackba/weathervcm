@@ -9,9 +9,11 @@ import javax.xml.ws.Service;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.cma.intervideo.pojo.Conference;
 import com.cma.intervideo.pojo.User;
 import com.cma.intervideo.pojo.VirtualRoom;
 import com.cma.intervideo.util.VcmProperties;
+import com.radvision.icm.service.ConferenceInfo;
 import com.radvision.icm.service.ControlService;
 import com.radvision.icm.service.ControlServicePortType;
 import com.radvision.icm.service.LicenseService;
@@ -19,6 +21,7 @@ import com.radvision.icm.service.LicenseServicePortType;
 import com.radvision.icm.service.MeetingType;
 import com.radvision.icm.service.ResourceService;
 import com.radvision.icm.service.ResourceServicePortType;
+import com.radvision.icm.service.ScheduleResult;
 import com.radvision.icm.service.ScheduleService;
 import com.radvision.icm.service.ScheduleServicePortType;
 import com.radvision.icm.service.TerminalResource;
@@ -223,7 +226,8 @@ public class ICMService {
 	public static List<TerminalResource> getTerminals() {
 		List<TerminalResource> trs = null;
 		try {
-			trs = getResourceServicePortType().getTerminals(ALL_CLASSIFICATIONID);
+			trs = getResourceServicePortType().getTerminals(
+					ALL_CLASSIFICATIONID);
 			logger.info("get " + (trs == null ? "0" : trs.size())
 					+ " Terminals from iCM platform");
 		} catch (Exception e) {
@@ -232,6 +236,86 @@ public class ICMService {
 			e.printStackTrace();
 		}
 		return trs;
+	}
+
+	public static ScheduleResult createConference(Conference conf) {
+		ScheduleResult sr = null;
+		try {
+			ConferenceInfo info = convertToConferenceInfo(conf, true);
+			sr = getScheduleServicePortType().createConference(info);
+			logger
+					.info((sr != null && sr.isSuccess() ? "success" : "fail")
+							+ " to schedule conference to iCM platform - conference subject: "
+							+ conf.getSubject());
+		} catch (Exception e) {
+			logger
+					.info("Exception on creating confernece to iCM platform - conference subject: "
+							+ conf.getSubject() + " - " + e.getMessage());
+			e.printStackTrace();
+		}
+		return sr;
+	}
+
+	public static ScheduleResult modifyConference(Conference conf) {
+		ScheduleResult sr = null;
+		try {
+			ConferenceInfo info = convertToConferenceInfo(conf, false);
+			sr = getScheduleServicePortType().modifyConference(info);
+			logger
+					.info((sr != null && sr.isSuccess() ? "success" : "fail")
+							+ " to modify conference to iCM platform - rad conference id : "
+							+ conf.getRadConferenceId());
+		} catch (Exception e) {
+			logger
+					.info("Exception on modifying confernece to iCM platform - rad conference id: "
+							+ conf.getRadConferenceId()
+							+ " - "
+							+ e.getMessage());
+			e.printStackTrace();
+		}
+		return sr;
+	}
+
+	public static boolean cancelConference(String confId) {
+		if (confId == null || confId.length() == 0)
+			return false;
+
+		boolean b = false;
+		try {
+			b = getScheduleServicePortType().cancelConference(confId);
+			logger
+					.info((b ? "success" : "fail")
+							+ " to cancel conference to iCM platform - rad conference id: "
+							+ confId);
+		} catch (Exception e) {
+			logger
+					.info("Exception on creating confernece to iCM platform - - rad conference id: "
+							+ confId + " - - " + e.getMessage());
+			e.printStackTrace();
+		}
+		return b;
+	}
+
+	private static ConferenceInfo convertToConferenceInfo(Conference conf,
+			boolean isCreating) {
+		ConferenceInfo info = new ConferenceInfo();
+		info.setConferenceId(isCreating ? null : conf.getRadConferenceId());
+		info.setUserID(conf.getUserId());
+		info.setOrgID(conf.getMemberId());
+		info.setDialableConferenceId(conf.getDialableNumber());
+		long startTime = conf.getStartTime();
+		long endTime = startTime + conf.getTimeLong() * 60000;
+		info.setStartTime(startTime);
+		info.setEndTime(endTime);
+		info.setMeetingTypeId(conf.getServiceTemplate());
+		info.setDescription(conf.getDescription());
+		info.setPassword(conf.getPassword());
+		info.setFullControlPassword(conf.getControlPin());
+		int reservedport = conf.getPortsNum() == null ? 2 : conf.getPortsNum();
+		info.setReservedIPPorts(reservedport);
+		// info.setReservedISDNPorts(reservedport);
+		info.setSubject(conf.getSubject());
+		return info;
 	}
 
 	private static UserInfo convertToUserInfo(User user) {

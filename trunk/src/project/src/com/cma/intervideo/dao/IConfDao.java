@@ -9,4 +9,5 @@ import com.cma.intervideo.util.ParamVo;
 
 public interface IConfDao extends DAO<Conference, Integer>{
 	public List<Conference> findConfs(List<ParamVo> params, PageHolder ph);
+	public void merge(Conference conf);
 }
