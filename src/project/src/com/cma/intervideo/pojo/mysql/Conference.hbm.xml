@@ -6,7 +6,7 @@
     <class name="com.cma.intervideo.pojo.Conference" table="conference">
         <id name="conferenceId" type="java.lang.Integer">
             <column name="conference_id" />
-            <generator class="native" />
+            <generator class="identity" />
         </id>
         <property name="roomId" type="string">
             <column name="room_id" length="20" />

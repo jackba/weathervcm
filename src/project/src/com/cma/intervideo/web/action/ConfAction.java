@@ -17,6 +17,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.cma.intervideo.pojo.Conference;
+import com.cma.intervideo.pojo.Unit;
 import com.cma.intervideo.service.IConfService;
 import com.cma.intervideo.service.IUnitService;
 import com.cma.intervideo.util.AbstractBaseAction;
@@ -116,8 +117,14 @@ public class ConfAction extends AbstractBaseAction {
 			conf.setStartTime(df.parse(startTime).getTime());
 		}
 		response.setContentType("text/html;charset=utf-8");
+		
+		String units = request.getParameter("confUnits");
+		String[] unitList = null;
+		if(units!=null && !units.equals(""))
+			unitList = units.split(",");
+
 		try {
-			confService.createConf(conf);
+			confService.createConf(conf, unitList);
 			outJson("{success:true, msg:'预约会议成功!'}");
 		} catch (Exception e) {
 			outJson("{success:true, msg:'预约会议失败'}");
@@ -142,9 +149,15 @@ public class ConfAction extends AbstractBaseAction {
 			conf.setStartTime(df.parse(startTime).getTime());
 		}
 		response.setContentType("text/html;charset=utf-8");
+		
+		String units = request.getParameter("confUnits");
+		String[] unitList = null;
+		if(units!=null && !units.equals(""))
+			unitList = units.split(",");
+		
 		try {
 			session.clear();
-			confService.modifyConf(conf);
+			confService.modifyConf(conf, unitList);
 			outJson("{success:true, msg:'预约会议修改成功!'}");
 		} catch (Exception e) {
 			outJson("{success:true, msg:'预约会议修改失败!'}");
@@ -161,5 +174,55 @@ public class ConfAction extends AbstractBaseAction {
 	public String manageReserve() {
 		request.setAttribute("personal", "false");
 		return "listReserve";
+	}
+	
+	public String getUnitsByConfId(){
+		String id = request.getParameter("conferenceId");
+		boolean selected = "true".equalsIgnoreCase(request.getParameter("selected"));
+		List<Unit> units = confService.findUnitsByConfId(id, selected);
+		JSONObject json = new JSONObject();
+		JSONArray arr = JSONArray.fromObject(units);
+		json.put("root", arr);
+		try{
+			System.out.println(json);
+			response.setCharacterEncoding("utf-8");
+		
+			PrintWriter out = response.getWriter();
+			out.print(json);
+			out.flush();
+			out.close();
+		}catch(Exception e){
+			logger.error(e.toString());
+		}
+		return null;
+	}
+	public String getAllUnitsExclud(){
+		List<Unit> allUnits = confService.findAllUnits();
+		String id = request.getParameter("conferenceId");
+		List<Unit> confUnits = confService.findUnitsByConfId(id, false);
+		for(int i=0;i<confUnits.size();i++){
+			Unit unit = confUnits.get(i);
+			for (int inneri=0;inneri<allUnits.size();inneri++){
+				Unit inunit = allUnits.get(inneri);
+				if (unit.getUnitId().equals(inunit.getUnitId())){
+					allUnits.remove(inneri);
+				}
+			}
+		}
+		JSONObject json = new JSONObject();
+		JSONArray arr = JSONArray.fromObject(allUnits);
+		json.put("root", arr);
+		try{
+			System.out.println(json);
+			response.setCharacterEncoding("utf-8");
+		
+			PrintWriter out = response.getWriter();
+			out.print(json);
+			out.flush();
+			out.close();
+		}catch(Exception e){
+			logger.error(e.toString());
+		}
+		return null;
 	}
 }

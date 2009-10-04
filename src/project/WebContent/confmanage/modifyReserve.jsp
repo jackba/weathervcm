@@ -208,29 +208,60 @@ Ext.onReady(function(){
         selectOnFocus: true,
         renderTo: 'main_unit'
     });
+
+	var fds = new Ext.data.Store({
+		proxy : new Ext.data.HttpProxy({
+			url : 'conf_getUnitsByConfId.do?conferenceId=<%=request.getParameter("conferenceId")%>&selected=false'
+		}),
+		reader : new Ext.data.JsonReader({
+			root : 'root'
+		}, [{
+			name : 'unitId'
+		}, {
+			name : 'unitName'
+		}, {
+			name : 'description'
+		}])
+	});
+	fds.load();
+	var tds = new Ext.data.Store({
+		proxy : new Ext.data.HttpProxy({
+			url : 'conf_getUnitsByConfId.do?conferenceId=<%=request.getParameter("conferenceId")%>&selected=true'
+		}),
+		reader : new Ext.data.JsonReader({
+			root : 'root'
+		}, [{
+			name : 'unitId'
+		}, {
+			name : 'unitName'
+		}, {
+			name : 'description'
+		}])
+	});
+	tds.load();
 	/*
 	 * Ext.ux.ItemSelector Example Code
 	 */
-	
-			formItemSelector = new Ext.ux.ItemSelector({
-				//labelWidth: 75,
-				width:650,
-				renderTo:'conf_unit',
-				name:"confUnits",
-				fieldLabel:"ItemSelector",
-				hideLabel:true,
-				dataFields:["unitId", "unitName"],
-				fromStore:unitds,
-				toData:[],
-				msWidth:250,
-				msHeight:200,
-				valueField:"unitId",
-				displayField:"unitName",
-				imagePath:"resources/js/ItemSelector",
-				//switchToFrom:true,
-				toLegend:"已选单位",
-				fromLegend:"可选单位"
-			});
+	formItemSelector = new Ext.ux.ItemSelector({
+		//labelWidth: 75,
+		width:650,
+		renderTo:'conf_unit',
+		name:"confUnits",
+		fieldLabel:"ItemSelector",
+		hideLabel:true,
+		dataFields:["unitId", "unitName"],
+		fromStore:fds,
+		toStore:tds,
+		toData:[],
+		msWidth:250,
+		msHeight:200,
+		valueField:"unitId",
+		displayField:"unitName",
+		imagePath:"resources/js/ItemSelector",
+		//switchToFrom:true,
+		toLegend:"已选单位",
+		fromLegend:"可选单位"
+	});
 });
 function submitForm(){
 if ( checkForm()){

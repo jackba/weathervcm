@@ -27,7 +27,6 @@ import com.cma.intervideo.pojo.User;
 import com.cma.intervideo.service.IBulletinService;
 import com.cma.intervideo.service.IUserService;
 import com.cma.intervideo.util.AbstractBaseAction;
-import com.cma.intervideo.util.MD5;
 import com.cma.intervideo.util.PageHolder;
 import com.cma.intervideo.util.UserPrivilege;
 import com.sun.image.codec.jpeg.ImageFormatException;
