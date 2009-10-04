@@ -115,7 +115,7 @@ body{font-size:12px;}
 var formItemSelector;
 Ext.onReady(function(){
 	Ext.BLANK_IMAGE_URL="resources/images/default/s.gif";
-	window.parent.contentPanel.getActiveTab().setTitle("修改操作员信息");
+	// window.parent.contentPanel.getActiveTab().setTitle("修改操作员信息");
 	Ext.getDom("sex").selectedIndex = <s:property value="user.sex"/> - 1;
     Ext.QuickTips.init();
     Ext.form.Field.prototype.msgTarget = 'side';

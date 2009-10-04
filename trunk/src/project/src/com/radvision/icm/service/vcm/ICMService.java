@@ -24,6 +24,7 @@ import com.radvision.icm.service.ResourceServicePortType;
 import com.radvision.icm.service.ScheduleResult;
 import com.radvision.icm.service.ScheduleService;
 import com.radvision.icm.service.ScheduleServicePortType;
+import com.radvision.icm.service.TerminalInfo;
 import com.radvision.icm.service.TerminalResource;
 import com.radvision.icm.service.UserInfo;
 import com.radvision.icm.service.UserResult;
@@ -238,10 +239,10 @@ public class ICMService {
 		return trs;
 	}
 
-	public static ScheduleResult createConference(Conference conf) {
+	public static ScheduleResult createConference(Conference conf, List<String> listTerminalId) {
 		ScheduleResult sr = null;
 		try {
-			ConferenceInfo info = convertToConferenceInfo(conf, true);
+			ConferenceInfo info = convertToConferenceInfo(conf, listTerminalId, true);
 			sr = getScheduleServicePortType().createConference(info);
 			logger
 					.info((sr != null && sr.isSuccess() ? "success" : "fail")
@@ -256,10 +257,10 @@ public class ICMService {
 		return sr;
 	}
 
-	public static ScheduleResult modifyConference(Conference conf) {
+	public static ScheduleResult modifyConference(Conference conf, List<String> listTerminalId) {
 		ScheduleResult sr = null;
 		try {
-			ConferenceInfo info = convertToConferenceInfo(conf, false);
+			ConferenceInfo info = convertToConferenceInfo(conf, listTerminalId, false);
 			sr = getScheduleServicePortType().modifyConference(info);
 			logger
 					.info((sr != null && sr.isSuccess() ? "success" : "fail")
@@ -296,7 +297,7 @@ public class ICMService {
 		return b;
 	}
 
-	private static ConferenceInfo convertToConferenceInfo(Conference conf,
+	private static ConferenceInfo convertToConferenceInfo(Conference conf, List<String> listTerminalId, 
 			boolean isCreating) {
 		ConferenceInfo info = new ConferenceInfo();
 		info.setConferenceId(isCreating ? null : conf.getRadConferenceId());
@@ -315,6 +316,14 @@ public class ICMService {
 		info.setReservedIPPorts(reservedport);
 		// info.setReservedISDNPorts(reservedport);
 		info.setSubject(conf.getSubject());
+		if (listTerminalId != null && listTerminalId.size() > 0) {
+			List<TerminalInfo> terminals = info.getTerminals();
+			for (int i = 0; i < listTerminalId.size(); i++) {
+				TerminalInfo ti = new TerminalInfo();
+				ti.setTerminalId(listTerminalId.get(i));
+				terminals.add(ti);
+			}
+		}
 		return info;
 	}
 

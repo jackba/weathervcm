@@ -41,6 +41,7 @@ public class Conference implements java.io.Serializable {
 	private String principal;
 	private String serviceTemplateName; //added additional
 	private String statusStr; //added additional
+	private String confUnitNames; //added additional
 	public Conference() {
 	}
 
@@ -281,5 +282,13 @@ public class Conference implements java.io.Serializable {
 		}else{
 			return "删除";
 		}
+	}
+
+	public String getConfUnitNames() {
+		return confUnitNames;
+	}
+
+	public void setConfUnitNames(String confUnitNames) {
+		this.confUnitNames = confUnitNames;
 	}
 }

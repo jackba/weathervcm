@@ -92,7 +92,7 @@ body{font-size:12px;}
 	  <tr>
 	    <th class="row1">参加单位：</th>
 	    <td class="row2"><label>
-	      <s:property value='conf.confUnit'/>
+	      <s:property value='conf.confUnitNames'/>
 	    </label></td>
 	  </tr>
 	  <tr>
@@ -123,7 +123,7 @@ body{font-size:12px;}
 var formItemSelector;
 Ext.onReady(function(){
 	Ext.BLANK_IMAGE_URL="resources/images/default/s.gif";
-	window.parent.contentPanel.getActiveTab().setTitle("预约会议详情");
+	// window.parent.contentPanel.getActiveTab().setTitle("预约会议详情");
     Ext.QuickTips.init();
     Ext.form.Field.prototype.msgTarget = 'side';
 });
