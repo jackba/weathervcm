@@ -20,6 +20,7 @@ import com.cma.intervideo.pojo.Conference;
 import com.cma.intervideo.pojo.Unit;
 import com.cma.intervideo.pojo.VirtualRoom;
 import com.cma.intervideo.service.IConfService;
+import com.cma.intervideo.service.IRoomService;
 import com.cma.intervideo.util.AbstractBaseAction;
 import com.cma.intervideo.util.PageHolder;
 import com.cma.intervideo.util.ParamVo;
@@ -29,6 +30,7 @@ import com.cma.intervideo.util.VcmProperties;
 public class ConfAction extends AbstractBaseAction {
 	private static Log logger = LogFactory.getLog(AbstractBaseAction.class);
 	private IConfService confService;
+	private IRoomService roomService;
 	private Conference conf;
 
 	public Conference getConf() {
@@ -42,7 +44,11 @@ public class ConfAction extends AbstractBaseAction {
 	public void setConfService(IConfService confService) {
 		this.confService = confService;
 	}
-	
+
+	public void setRoomService(IRoomService roomService) {
+		this.roomService = roomService;
+	}
+
 	public String listReserve() {
 		request.setAttribute("personal", "true");
 		return "listReserve";
@@ -112,15 +118,15 @@ public class ConfAction extends AbstractBaseAction {
 			conf.setStartTime(df.parse(startTime).getTime());
 		}
 		response.setContentType("text/html;charset=utf-8");
-		
+
 		String units = request.getParameter("confUnits");
 		String[] unitList = null;
-		if(units!=null && !units.equals(""))
+		if (units != null && !units.equals(""))
 			unitList = units.split(",");
 
 		try {
-			confService.createConf(conf, unitList);
 			conf.setStatus(Conference.status_upcoming);
+			confService.createConf(conf, unitList);
 			outJson("{success:true, msg:'预约会议成功!'}");
 		} catch (Exception e) {
 			outJson("{success:true, msg:'预约会议失败'}");
@@ -133,25 +139,31 @@ public class ConfAction extends AbstractBaseAction {
 		conf = confService.getConfById(id);
 		return "modifyReserve";
 	}
-	
+
 	public String loadvm() {
 		String roomId = request.getParameter("roomId");
-		VirtualRoom room = confService.findVirtualRoomByRoomId(roomId);
-		conf = new Conference();
-//		conf.setSubject(room.getSubject());
-		conf.setSubject(room.getTemplateName());
-		conf.setServiceTemplate(room.getServiceTemplate());
-		conf.setServiceTemplateName(room.getServiceTemplateName());
-		conf.setServiceTemplateDesc(room.getServiceTemplateDesc());
-		conf.setDescription(room.getDescription());
-		conf.setPassword(room.getPassword());
-		conf.setControlPin(room.getControlPin());
-		conf.setDialableNumber(room.getVitualConfId());
+		if (roomId == null)
+			return "reserveConf";
+
+		VirtualRoom room = roomService.getRoomById(roomId);
+		if (room != null) {
+			conf = new Conference();
+			// conf.setSubject(room.getSubject());
+			conf.setSubject(room.getTemplateName());
+			conf.setServiceTemplate(room.getServiceTemplate());
+			conf.setServiceTemplateName(room.getServiceTemplateName());
+			conf.setServiceTemplateDesc(room.getServiceTemplateDesc());
+			conf.setDescription(room.getDescription());
+			conf.setPassword(room.getPassword());
+			conf.setControlPin(room.getControlPin());
+			conf.setDialableNumber(room.getVitualConfId());
+		}
 		return "reserveConf";
 	}
 
 	public String update() throws Exception {
-		Conference oldConf = confService.getConfById(conf.getConferenceId().toString());
+		Conference oldConf = confService.getConfById(conf.getConferenceId()
+				.toString());
 		conf.setCreateTime(oldConf.getCreateTime());
 		Date d = Calendar.getInstance().getTime();
 		conf.setUpdateTime(d);
@@ -161,12 +173,12 @@ public class ConfAction extends AbstractBaseAction {
 			conf.setStartTime(df.parse(startTime).getTime());
 		}
 		response.setContentType("text/html;charset=utf-8");
-		
+
 		String units = request.getParameter("confUnits");
 		String[] unitList = null;
-		if(units!=null && !units.equals(""))
+		if (units != null && !units.equals(""))
 			unitList = units.split(",");
-		
+
 		try {
 			session.clear();
 			confService.modifyConf(conf, unitList);
@@ -187,36 +199,38 @@ public class ConfAction extends AbstractBaseAction {
 		request.setAttribute("personal", "false");
 		return "listReserve";
 	}
-	
-	public String getUnitsByConfId(){
+
+	public String getUnitsByConfId() {
 		String id = request.getParameter("conferenceId");
-		boolean selected = "true".equalsIgnoreCase(request.getParameter("selected"));
+		boolean selected = "true".equalsIgnoreCase(request
+				.getParameter("selected"));
 		List<Unit> units = confService.findUnitsByConfId(id, selected);
 		JSONObject json = new JSONObject();
 		JSONArray arr = JSONArray.fromObject(units);
 		json.put("root", arr);
-		try{
+		try {
 			System.out.println(json);
 			response.setCharacterEncoding("utf-8");
-		
+
 			PrintWriter out = response.getWriter();
 			out.print(json);
 			out.flush();
 			out.close();
-		}catch(Exception e){
+		} catch (Exception e) {
 			logger.error(e.toString());
 		}
 		return null;
 	}
-	public String getAllUnitsExclud(){
+
+	public String getAllUnitsExclud() {
 		List<Unit> allUnits = confService.findAllUnits();
 		String id = request.getParameter("conferenceId");
 		List<Unit> confUnits = confService.findUnitsByConfId(id, false);
-		for(int i=0;i<confUnits.size();i++){
+		for (int i = 0; i < confUnits.size(); i++) {
 			Unit unit = confUnits.get(i);
-			for (int inneri=0;inneri<allUnits.size();inneri++){
+			for (int inneri = 0; inneri < allUnits.size(); inneri++) {
 				Unit inunit = allUnits.get(inneri);
-				if (unit.getUnitId().equals(inunit.getUnitId())){
+				if (unit.getUnitId().equals(inunit.getUnitId())) {
 					allUnits.remove(inneri);
 				}
 			}
@@ -224,15 +238,15 @@ public class ConfAction extends AbstractBaseAction {
 		JSONObject json = new JSONObject();
 		JSONArray arr = JSONArray.fromObject(allUnits);
 		json.put("root", arr);
-		try{
+		try {
 			System.out.println(json);
 			response.setCharacterEncoding("utf-8");
-		
+
 			PrintWriter out = response.getWriter();
 			out.print(json);
 			out.flush();
 			out.close();
-		}catch(Exception e){
+		} catch (Exception e) {
 			logger.error(e.toString());
 		}
 		return null;

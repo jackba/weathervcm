@@ -37,7 +37,15 @@ body{font-size:12px;}
 	      <input name="conf.subject" value="<s:property value='conf.subject'/>" id="subject" type="text" class="put200" maxlength="40">
 	    </label></td>
   	  </tr>
-  	  
+  	  <tr>
+	    <th class="row1"><font color="red">&nbsp;*</font>虚拟房间：</th>
+	    <td class="row2">
+	    <label>
+	    	<div id="virtual_room"></div>
+	    </label>
+	    <input type="button" class="butt_bg1"  onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" value="加载" onClick="loadvmex()" ></input>
+	  	</td>
+	  </tr>
   	  <tr>
 	    <th width="20%"><font color="red">&nbsp;*</font>会议号：</th>
 	    <td><label>
@@ -325,6 +333,11 @@ function checkForm(){
 	}else {
 		return false;
 	}		
+}
+function loadvmex(){
+	var roomId = Ext.get('roomId').dom.value;
+	document.form1.action="<%=request.getContextPath()%>/conf_loadvm.do?roomId="+roomId;
+	document.form1.submit();
 }
 function validatePasswordRule(elementId, elementName) {
 	var pass=Ext.get(elementId).dom.value;

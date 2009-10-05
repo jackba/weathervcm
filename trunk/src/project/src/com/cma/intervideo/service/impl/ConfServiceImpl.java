@@ -7,13 +7,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.cma.intervideo.dao.IConfDao;
-import com.cma.intervideo.dao.IRoomDao;
 import com.cma.intervideo.dao.IServiceDao;
 import com.cma.intervideo.dao.IUnitDao;
 import com.cma.intervideo.pojo.Conference;
 import com.cma.intervideo.pojo.ServiceTemplate;
 import com.cma.intervideo.pojo.Unit;
-import com.cma.intervideo.pojo.VirtualRoom;
 import com.cma.intervideo.service.IConfService;
 import com.cma.intervideo.util.PageHolder;
 import com.cma.intervideo.util.ParamVo;
@@ -25,7 +23,6 @@ public class ConfServiceImpl implements IConfService {
 	private IConfDao confDao;
 	private IUnitDao unitDao;
 	private IServiceDao serviceDao;
-	private IRoomDao roomDao;
 
 	public void setConfDao(IConfDao confDao) {
 		this.confDao = confDao;
@@ -38,11 +35,7 @@ public class ConfServiceImpl implements IConfService {
 	public void setServiceDao(IServiceDao serviceDao) {
 		this.serviceDao = serviceDao;
 	}
-	
-	public void setRoomDao(IRoomDao roomDao) {
-		this.roomDao = roomDao;
-	}
-	
+		
 	public int deleteReserves(List<String> reserves) {
 		int deleted = 0;
 		for (int i = 0; i < reserves.size(); i++) {
@@ -183,10 +176,6 @@ public class ConfServiceImpl implements IConfService {
 		return confDao.findUnitsByConfId(confId, selected);
 	}
 	
-	public VirtualRoom findVirtualRoomByRoomId(String roomId) {
-		return roomDao.getObjectByID(roomId);
-	}
-
 	private void updateUnitInfo(Conference conf) {
 		List<Unit> listUnit = findUnitsByConfId(conf.getConferenceId().toString(), true);
 		if (listUnit == null || listUnit.size() == 0)

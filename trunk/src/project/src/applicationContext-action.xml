@@ -35,6 +35,7 @@
 	<bean id="confAction" class="com.cma.intervideo.web.action.ConfAction"
 		  scope="prototype" autowire="byName">
 		<property name="confService" ref="confService"></property>
+		<property name="roomService" ref="roomService"></property>
 	</bean>
 	<bean id="terminalAction"
 		  class="com.cma.intervideo.web.action.TerminalAction"
