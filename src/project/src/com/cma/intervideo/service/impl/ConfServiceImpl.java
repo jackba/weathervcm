@@ -7,8 +7,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.cma.intervideo.dao.IConfDao;
+import com.cma.intervideo.dao.IServiceDao;
 import com.cma.intervideo.dao.IUnitDao;
 import com.cma.intervideo.pojo.Conference;
+import com.cma.intervideo.pojo.ServiceTemplate;
 import com.cma.intervideo.pojo.Unit;
 import com.cma.intervideo.service.IConfService;
 import com.cma.intervideo.util.PageHolder;
@@ -20,6 +22,7 @@ public class ConfServiceImpl implements IConfService {
 	private static final Log logger = LogFactory.getLog(ConfServiceImpl.class);
 	private IConfDao confDao;
 	private IUnitDao unitDao;
+	private IServiceDao serviceDao;
 
 	public void setConfDao(IConfDao confDao) {
 		this.confDao = confDao;
@@ -27,6 +30,10 @@ public class ConfServiceImpl implements IConfService {
 	
 	public void setUnitDao(IUnitDao unitDao) {
 		this.unitDao = unitDao;
+	}
+	
+	public void setServiceDao(IServiceDao serviceDao) {
+		this.serviceDao = serviceDao;
 	}
 	
 	public int deleteReserves(List<String> reserves) {
@@ -74,32 +81,52 @@ public class ConfServiceImpl implements IConfService {
 		List<Conference> listConf = confDao.findConfs(params, ph);
 		if (listConf != null) {
 			int confSize = listConf.size();
-			for (int i = 0; i < confSize; i++) {
-				String names = getUnitNamesByConfId(listConf.get(i).getConferenceId().toString());
-				listConf.get(i).setConfUnitNames(names);
-			}
+			for (int i = 0; i < confSize; i++)
+				updateAdditionalInfo(listConf.get(i));
 		}
 		return listConf;
 	}
 	
-	private String getUnitNamesByConfId(String confId) {
-		List<Unit> listUnit = findUnitsByConfId(confId, true);
+	private void updateUnitInfo(Conference conf) {
+		List<Unit> listUnit = findUnitsByConfId(conf.getConferenceId().toString(), true);
 		if (listUnit == null || listUnit.size() == 0)
-			return "";
+			return;
 		String names = "";
 		int unitSize = listUnit.size();
 		for (int j = 0; j < unitSize-1; j++) {
 			names += listUnit.get(j).getUnitName() + ", ";
 		}
 		names += listUnit.get(unitSize-1).getUnitName();
-		return names;
+		conf.setConfUnitNames(names);
+	}
+	
+	private void updateMainUnitInfo(Conference conf) {
+		Unit unit = unitDao.getObjectByID(conf.getMainUnit());
+		if (unit == null)
+			return;
+		conf.setMainUnitName(unit.getUnitName());
+	}
+	
+	private void updateServiceTemplateInfo(Conference conf) {
+		if (conf == null || conf.getServiceTemplate() == null || conf.getServiceTemplate().length() == 0)
+			return;
+		ServiceTemplate st = serviceDao.getServiceTemplate(conf.getServiceTemplate());
+		if (st == null)
+			return;
+		conf.setServiceTemplateDesc(st.getServiceTemplateDesc());
+		conf.setServiceTemplateName(st.getServiceTemplateName());
 	}
 
 	public Conference getConfById(String confId) {
-		Conference conference = confDao.getObjectByID(new Integer(confId));
-		String names = getUnitNamesByConfId(confId);
-		conference.setConfUnitNames(names);
-		return conference;
+		Conference conf = confDao.getObjectByID(new Integer(confId));
+		updateAdditionalInfo(conf);
+		return conf;
+	}
+	
+	private void updateAdditionalInfo(Conference conf) {
+		updateUnitInfo(conf);
+		updateMainUnitInfo(conf);
+		updateServiceTemplateInfo(conf);
 	}
 
 	public void createConf(Conference conf, String[] units) throws Exception {

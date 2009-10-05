@@ -19,7 +19,6 @@ import org.apache.commons.logging.LogFactory;
 import com.cma.intervideo.pojo.Conference;
 import com.cma.intervideo.pojo.Unit;
 import com.cma.intervideo.service.IConfService;
-import com.cma.intervideo.service.IUnitService;
 import com.cma.intervideo.util.AbstractBaseAction;
 import com.cma.intervideo.util.PageHolder;
 import com.cma.intervideo.util.ParamVo;
@@ -29,7 +28,6 @@ import com.cma.intervideo.util.VcmProperties;
 public class ConfAction extends AbstractBaseAction {
 	private static Log logger = LogFactory.getLog(AbstractBaseAction.class);
 	private IConfService confService;
-	private IUnitService unitService;
 	private Conference conf;
 
 	public Conference getConf() {
@@ -42,10 +40,6 @@ public class ConfAction extends AbstractBaseAction {
 
 	public void setConfService(IConfService confService) {
 		this.confService = confService;
-	}
-
-	public void setUnitService(IUnitService unitService) {
-		this.unitService = unitService;
 	}
 
 	public String listReserve() {
@@ -102,7 +96,7 @@ public class ConfAction extends AbstractBaseAction {
 	}
 
 	public String save() throws IOException, ParseException {
-		conf.setStatus(Conference.status_normal);
+		conf.setStatus(Conference.status_tobescheduled);
 		UserPrivilege up = (UserPrivilege) session.get("userPrivilege");
 		String userId = up != null ? up.getUserId() : VcmProperties
 				.getICMDefaultUserId();
@@ -125,6 +119,7 @@ public class ConfAction extends AbstractBaseAction {
 
 		try {
 			confService.createConf(conf, unitList);
+			conf.setStatus(Conference.status_upcoming);
 			outJson("{success:true, msg:'预约会议成功!'}");
 		} catch (Exception e) {
 			outJson("{success:true, msg:'预约会议失败'}");

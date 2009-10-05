@@ -105,6 +105,7 @@ Ext.onReady(function(){
 	serviceds.load();
 	var serviceComboWithTooltip = new Ext.form.ComboBox({
 		store: serviceds,
+		value: "<s:property value='room.serviceTemplateDesc'/>",
 		hiddenId: 'serviceTemplate',
         hiddenName: 'room.serviceTemplate',
         valueField: 'serviceTemplateId',

@@ -24,6 +24,16 @@ public class VirtualRoom implements java.io.Serializable {
 	private Short status;
 	private Date createTime;
 	private Date updateTime;
+	private String serviceTemplateName; // additional property
+	private String serviceTemplateDesc; //additional property
+
+	public String getServiceTemplateName() {
+		return serviceTemplateName;
+	}
+
+	public void setServiceTemplateName(String serviceTemplateName) {
+		this.serviceTemplateName = serviceTemplateName;
+	}
 
 	public VirtualRoom() {
 	}
@@ -110,6 +120,14 @@ public class VirtualRoom implements java.io.Serializable {
 
 	public void setServiceTemplate(String serviceTemplate) {
 		this.serviceTemplate = serviceTemplate;
+	}
+
+	public String getServiceTemplateDesc() {
+		return serviceTemplateDesc;
+	}
+
+	public void setServiceTemplateDesc(String serviceTemplateDesc) {
+		this.serviceTemplateDesc = serviceTemplateDesc;
 	}
 
 	public String getMemberId() {
