@@ -6,6 +6,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.cma.intervideo.dao.IRoomDao;
+import com.cma.intervideo.dao.IServiceDao;
+import com.cma.intervideo.pojo.ServiceTemplate;
 import com.cma.intervideo.pojo.VirtualRoom;
 import com.cma.intervideo.service.IRoomService;
 import com.cma.intervideo.util.PageHolder;
@@ -16,13 +18,31 @@ import com.radvision.icm.service.vcm.ICMService;
 public class RoomServiceImpl implements IRoomService {
 	private final static Log logger = LogFactory.getLog(RoomServiceImpl.class);
 	private IRoomDao roomDao;
+	private IServiceDao serviceDao;
 
 	public void setRoomDao(IRoomDao roomDao) {
 		this.roomDao = roomDao;
 	}
+	
+	public void setServiceDao(IServiceDao serviceDao) {
+		this.serviceDao = serviceDao;
+	}
 
 	public List<VirtualRoom> findRooms(List<ParamVo> params, PageHolder ph) {
-		return roomDao.findRooms(params, ph);
+		List<VirtualRoom> listRoom = roomDao.findRooms(params, ph);
+		for (int i = 0; i < listRoom.size(); i++)
+			updateServiceTemplateInfo(listRoom.get(i));
+		return listRoom;
+	}
+	
+	private void updateServiceTemplateInfo(VirtualRoom room) {
+		if (room == null || room.getServiceTemplate() == null || room.getServiceTemplate().length() == 0)
+			return;
+		ServiceTemplate st = serviceDao.getServiceTemplate(room.getServiceTemplate());
+		if (st == null)
+			return;
+		room.setServiceTemplateDesc(st.getServiceTemplateDesc());
+		room.setServiceTemplateName(st.getServiceTemplateName());
 	}
 
 	public int deleteRooms(List<String> rooms) {
@@ -87,6 +107,8 @@ public class RoomServiceImpl implements IRoomService {
 	}
 
 	public VirtualRoom getRoomById(String roomId) {
-		return roomDao.getObjectByID(roomId);
+		VirtualRoom room = roomDao.getObjectByID(roomId);
+		updateServiceTemplateInfo(room);
+		return room;
 	}
 }

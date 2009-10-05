@@ -56,7 +56,7 @@ body{font-size:12px;}
 	  <tr>
 	    <th  class="row1">主会场：</th>
 	    <td class="row2"><label>
-	      <s:property value='conf.mainUnit'/>
+	      <s:property value='conf.mainUnitName'/>
 	    </label></td>
 	  </tr>
 	  <tr>
@@ -68,7 +68,7 @@ body{font-size:12px;}
 	  <tr>
 	    <th class="row1">会议类型：</th>
 	    <td class="row2"><label>
-	      <s:property value='conf.serviceTemplate'/>
+	      <s:property value='conf.serviceTemplateDesc'/>
 	    </label></td>
 	  </tr>
 	  <tr>

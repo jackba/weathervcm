@@ -167,6 +167,7 @@ Ext.onReady(function(){
 	serviceds.load();
 	var serviceComboWithTooltip = new Ext.form.ComboBox({
 		store: serviceds,
+		value: "<s:property value='conf.serviceTemplateDesc'/>",
 		hiddenId: 'serviceTemplate',
         hiddenName: 'conf.serviceTemplate',
         valueField: 'serviceTemplateId',
@@ -196,6 +197,7 @@ Ext.onReady(function(){
 	unitds.load();
 	var unitComboWithTooltip = new Ext.form.ComboBox({
 		store: unitds,
+		value: "<s:property value='conf.mainUnitName'/>",
 		hiddenId: 'mainUnit',
         hiddenName: 'conf.mainUnit',
         valueField: 'unitId',

@@ -27,6 +27,8 @@ function initData() {
 		}, {
 			name : 'serviceTemplate'
 		}, {
+			name : 'serviceTemplateDesc'
+		}, {
 			name : 'templateName'
 		}, {
 			name : 'vitualConfId'
@@ -98,7 +100,7 @@ function initGrid() {
 		header : "会议类型",
 		width: Ext.get("searchArea").getWidth()*0.25,
 		sortable : true,
-		dataIndex : 'serviceTemplate'
+		dataIndex : 'serviceTemplateDesc'
 	}, {
 		header : "描述",
 		width: Ext.get("searchArea").getWidth()*0.25,

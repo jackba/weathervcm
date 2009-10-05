@@ -11,6 +11,7 @@ public class Unit implements java.io.Serializable {
 	private String unitName;
 	private String partyId;
 	private String description;
+	private String partyName; //additional property
 
 	public Unit() {
 	}
@@ -57,6 +58,14 @@ public class Unit implements java.io.Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getPartyName() {
+		return partyName;
+	}
+
+	public void setPartyName(String partyName) {
+		this.partyName = partyName;
 	}
 
 }

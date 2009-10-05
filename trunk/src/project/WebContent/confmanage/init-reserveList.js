@@ -43,6 +43,8 @@ function initData() {
 			name : 'initUnit'
 		}, {
 			name : 'serviceTemplate'
+		}, {
+			name : 'serviceTemplateDesc'
 		}])
 	});
 	ds.load({
@@ -132,7 +134,7 @@ function initGrid() {
 		header : "会议类型",
 		width : Ext.get("searchArea").getWidth()*0.14,
 		sortable : true,
-		dataIndex : 'serviceTemplate'
+		dataIndex : 'serviceTemplateDesc'
 	}]);
 	// 工具栏对象
 	ptb = new Ext.PagingToolbar({
