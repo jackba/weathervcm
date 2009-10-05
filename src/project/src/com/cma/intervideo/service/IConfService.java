@@ -15,5 +15,4 @@ public interface IConfService {
 	public Conference getConfById(String confId);
 	public List<Unit> findUnitsByConfId(String confId, boolean selected);
 	public List<Unit> findAllUnits();
-	public VirtualRoom findVirtualRoomByRoomId(String roomId);
 }

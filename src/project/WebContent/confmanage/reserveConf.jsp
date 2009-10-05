@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <html>
 <head>
@@ -15,6 +14,7 @@
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/ItemSelector/DDView.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/validate.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/calendar/WdatePicker.js"></script>
+
 <style type="text/css">
 body{font-size:12px;}
 </style>
@@ -23,7 +23,6 @@ body{font-size:12px;}
 <div class="wrap">
 <h1>当前位置：会议管理&nbsp;&gt;&nbsp;会议预约管理&nbsp;&gt;&nbsp;<span class="position_current"> 预约会议</span></h1>
 	<div class="search">
-		
 	<form id="form1" name="form1" method="post" action="<%=request.getContextPath()%>/conf_save.do">
 	<br/>
 	<table class="query">
@@ -33,7 +32,7 @@ body{font-size:12px;}
 	  <tr>
 	    <th width="20%"><font color="red">&nbsp;*</font>名称：</th>
 	    <td><label>
-	      <input name="conf.subject" value="<s:property value='conf.subject'/>" id="subject" type="text" class="put200" maxlength="40">
+	      <input name="conf.subject" value="<s:property value='conf.subject'/>" id="subject" type="text" class="put200" maxlength="40"></input>
 	    </label></td>
   	  </tr>
   	  <tr>
@@ -42,19 +41,19 @@ body{font-size:12px;}
 	    <label>
 	    	<div id="virtual_room"></div>
 	    </label>
-	    <input type="button" class="butt_bg1"  onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" value="加载" onClick="loadvm()" >
+	    <input type="button" class="butt_bg1"  onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" value="加载" onClick="loadvmex()" ></input>
 	  	</td>
 	  </tr>
   	  <tr>
 	    <th width="20%"><font color="red">&nbsp;*</font>会议号：</th>
 	    <td><label>
-	      <input name="conf.dialableNumber" value="<s:property value='conf.dialableNumber'/>" id="dialableNumber" type="text" class="put200" maxlength="40">
+	      <input name="conf.dialableNumber" value="<s:property value='conf.dialableNumber'/>" id="dialableNumber" type="text" class="put200" maxlength="40"></input>
 	    </label></td>
   	  </tr>
   	  <tr>
 	    <th width="20%"><font color="red">&nbsp;*</font>组织单位：</th>
 	    <td><label>
-	      <input name="conf.initUnit" id="initUnit" type="text" class="put200" maxlength="200"/>
+	      <input name="conf.initUnit" value="<s:property value='conf.initUnit'/>"  id="initUnit" type="text" class="put200" maxlength="200"/>
 	    </label></td>
   	  </tr>
 	  <tr>
@@ -66,7 +65,7 @@ body{font-size:12px;}
 	  <tr>
 	  	<th width="20%"><font color="red">&nbsp;*</font>时长：</th>
 		<td>
-		  <input name="conf.timeLong" id="timeLong" type="text" class="put200" maxlength="10"/>分钟
+		  <input name="conf.timeLong" value="<s:property value='conf.timeLong'/>"  id="timeLong" type="text" class="put200" maxlength="10"/>分钟
 		</td>
 	  </tr>
 	  <tr>
@@ -78,38 +77,37 @@ body{font-size:12px;}
 	  <tr>
 	  	<th width="20%">主持人：</th>
 		<td>
-		  <input name="conf.presider" id="presider" type="text" class="put200" maxlength="40"/>
+		  <input name="conf.presider" value="<s:property value='conf.presider'/>" id="presider" type="text" class="put200" maxlength="40"/>
 		</td>
 	  </tr>
   	  <tr>
 	    <th class="row1"><font color="red">&nbsp;*</font>会议类型：</th>
 	    <td class="row2"><label>
-	    <div id="service_template">
-		</div>
+	    	<div id="service_template"></div>
 	    </label></td>
 	  </tr>
 	  <tr>
 	  	<th class="row1">会议负责人：</th>
 		<td>
-		  <input name="conf.principal" id="principal" type="text" class="put200" maxlength="40"/>
+		  <input name="conf.principal" value="<s:property value='conf.principal'/>" id="principal" type="text" class="put200" maxlength="40"/>
 		</td>
 	  </tr>
 	  <tr>
 	  	<th class="row1">负责人手机：</th>
 		<td class="row2">
-		  <input name="conf.principalMobile" id="principalMobile" type="text" class="put200" maxlength="15"/>
+		  <input name="conf.principalMobile" value="<s:property value='conf.principalMobile'/>"  id="principalMobile" type="text" class="put200" maxlength="15"/>
 		</td>
 	  </tr>
 	  <tr>
 	  	<th class="row1">联系方式：</th>
 		<td class="row2">
-		  <input name="conf.contactMethod" id="contactMethod" type="text" class="put200" maxlength="200"/>
+		  <input name="conf.contactMethod" value="<s:property value='conf.contactMethod'/>" id="contactMethod" type="text" class="put200" maxlength="200"/>
 		</td>
 	  </tr>
 	  <tr>
 	  	<th class="row1"><input type="button" value="生成预约码"/></th>
 		<td class="row2">
-		  <input name="conf.reserveCode" id="reserveCode" type="text" class="put200" maxlength="10"/>
+		  <input name="conf.reserveCode" id="conf.reserveCode" type="text" class="put200" maxlength="10"/>
 		</td>
 	  </tr>
 	  <tr>
@@ -121,19 +119,19 @@ body{font-size:12px;}
 	  <tr>
 	    <th class="row1">会议密码：</th>
 	    <td class="row2"><label>
-	      <input name="conf.password" type="password" id="password" class="put200" maxlength="8">
+	      <input name="conf.password" value="<s:property value='conf.password'/>" type="password" id="password" class="put200" maxlength="8">
 	    </label></td>
 	  </tr>
 	  <tr>
 	    <th  class="row1">控制口令：</th>
 	    <td class="row2"><label>
-	      <input name="conf.controlPin" type="password" id="controlPin" class="put200" maxlength="8">
+	      <input name="conf.controlPin" value="<s:property value='conf.controlPin'/>" type="password" id="controlPin" class="put200" maxlength="8">
 	    </label></td>
 	  </tr>
 	  <tr>
 	    <th  class="row1">主要议题：</th>
 	    <td class="row2"><label>
-	      <textarea name="conf.description" cols="40" rows="5" id="description" class="w600" style="width: 450px;"></textarea>
+	      <textarea name="conf.description" value="<s:property value='conf.description'/>" cols="40" rows="5" id="description" class="w600" style="width: 450px;"></textarea>
 	    </label></td>
 	  </tr>
   </table>
@@ -154,7 +152,7 @@ body{font-size:12px;}
 var formItemSelector;
 Ext.onReady(function(){
 	Ext.BLANK_IMAGE_URL="resources/images/default/s.gif";
-	window.parent.contentPanel.getActiveTab().setTitle("新增虚拟房间");
+	window.parent.contentPanel.getActiveTab().setTitle("预约会议");
     Ext.QuickTips.init();
     Ext.form.Field.prototype.msgTarget = 'side';
 
@@ -203,6 +201,7 @@ Ext.onReady(function(){
 	serviceds.load();
 	var serviceComboWithTooltip = new Ext.form.ComboBox({
 		store: serviceds,
+		value: "<s:property value='conf.serviceTemplateDesc'/>",
 		hiddenId: 'serviceTemplate',
         hiddenName: 'conf.serviceTemplate',
         valueField: 'serviceTemplateId',
@@ -232,6 +231,7 @@ Ext.onReady(function(){
 	unitds.load();
 	var unitComboWithTooltip = new Ext.form.ComboBox({
 		store: unitds,
+		value: "<s:property value='conf.mainUnitName'/>",
 		hiddenId: 'mainUnit',
         hiddenName: 'conf.mainUnit',
         valueField: 'unitId',
@@ -247,7 +247,6 @@ Ext.onReady(function(){
 	/*
 	 * Ext.ux.ItemSelector Example Code
 	 */
-	
 			formItemSelector = new Ext.ux.ItemSelector({
 				//labelWidth: 75,
 				width:650,
@@ -353,6 +352,7 @@ function loadvm(){
 	//定义ajax的调用过程
 	Ext.Ajax.request({
 		url:'<%=request.getContextPath()%>/conf_loadvm.do',
+		method: 'post',
 		params: {
 			roomId: Ext.get('roomId').dom.value
 		},
@@ -367,6 +367,15 @@ function loadvm(){
 			Ext.Msg.alert('加载失败',result.responseText);
 	    }
 	});
+}
+function loadvmex(){
+	var roomId = Ext.get('roomId').dom.value;
+	if (roomId == null || roomId=="") {
+		Ext.Msg.alert('提示', '请选择要加载的虚拟房间!');
+		return;
+	}
+	document.form1.action="<%=request.getContextPath()%>/conf_loadvm.do?roomId="+roomId;
+	document.form1.submit();
 }
 function validatePasswordRule(elementId, elementName) {
 	var pass=Ext.get(elementId).dom.value;
