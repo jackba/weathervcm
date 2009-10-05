@@ -9,4 +9,5 @@ import com.cma.intervideo.util.ParamVo;
 
 public interface IRoomDao extends DAO<VirtualRoom, String>{
 	public List<VirtualRoom> findRooms(List<ParamVo> params, PageHolder ph);
+	public List<VirtualRoom> findRooms(String userId);
 }

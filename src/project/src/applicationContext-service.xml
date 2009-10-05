@@ -51,6 +51,7 @@
 				<property name="confDao" ref="confDao"></property>
 				<property name="unitDao" ref="unitDao"></property>
 				<property name="serviceDao" ref="serviceDao"/>
+				<property name="roomDao" ref="roomDao"/>
 			</bean>
 		</property>
 	</bean>

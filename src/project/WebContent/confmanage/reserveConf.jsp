@@ -15,7 +15,6 @@
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/ItemSelector/DDView.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/validate.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/calendar/WdatePicker.js"></script>
-
 <style type="text/css">
 body{font-size:12px;}
 </style>
@@ -34,13 +33,22 @@ body{font-size:12px;}
 	  <tr>
 	    <th width="20%"><font color="red">&nbsp;*</font>名称：</th>
 	    <td><label>
-	      <input name="conf.subject" id="subject" type="text" class="put200" maxlength="40">
+	      <input name="conf.subject" value="<s:property value='conf.subject'/>" id="subject" type="text" class="put200" maxlength="40">
 	    </label></td>
   	  </tr>
   	  <tr>
+	    <th class="row1"><font color="red">&nbsp;*</font>虚拟房间：</th>
+	    <td class="row2">
+	    <label>
+	    	<div id="virtual_room"></div>
+	    </label>
+	    <input type="button" class="butt_bg1"  onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" value="加载" onClick="loadvm()" >
+	  	</td>
+	  </tr>
+  	  <tr>
 	    <th width="20%"><font color="red">&nbsp;*</font>会议号：</th>
 	    <td><label>
-	      <input name="conf.dialableNumber" id="dialableNumber" type="text" class="put200" maxlength="40">
+	      <input name="conf.dialableNumber" value="<s:property value='conf.dialableNumber'/>" id="dialableNumber" type="text" class="put200" maxlength="40">
 	    </label></td>
   	  </tr>
   	  <tr>
@@ -150,6 +158,34 @@ Ext.onReady(function(){
     Ext.QuickTips.init();
     Ext.form.Field.prototype.msgTarget = 'side';
 
+    var vmds = new Ext.data.Store({
+		proxy : new Ext.data.HttpProxy({
+			url : 'room_getRoomsByUser.do'
+		}),
+		reader : new Ext.data.JsonReader({
+			root : 'root'
+		}, [{
+			name : 'roomId'
+		}, {
+			name : 'templateName'
+		}])
+	});
+	vmds.load();
+	var roomComboWithTooltip = new Ext.form.ComboBox({
+		store: vmds,
+		hiddenId: 'roomId',
+        hiddenName: 'conf.roomId',
+        valueField: 'roomId',
+        displayField: 'templateName',
+        typeAhead: true,
+        forceSelection: false,
+        mode: 'local',
+        triggerAction: 'all',
+        emptyText: '请选择虚拟房间...',
+        selectOnFocus: true,
+        renderTo: 'virtual_room'
+    });
+    
     var serviceds = new Ext.data.Store({
 		proxy : new Ext.data.HttpProxy({
 			url : 'service_search.do'
@@ -292,6 +328,45 @@ function checkForm(){
 	}else {
 		return false;
 	}		
+}
+function loadvm(){
+	var ajax_loading_callback = function()
+	{
+	    Ext.MessageBox.show({
+	       title: '提示',
+	       progressText: '加载虚拟房间，请稍等……',
+	       width:300,
+	       progress:true,
+	       closable:false,
+	       animEl: 'body'
+	   });
+	}
+	
+	var ajax_loaded_callback = function()
+	{
+	    Ext.MessageBox.hide();
+	}
+	
+	Ext.Ajax.on('beforerequest', ajax_loading_callback, this);
+	Ext.Ajax.on('requestcomplete', ajax_loaded_callback, this);
+	
+	//定义ajax的调用过程
+	Ext.Ajax.request({
+		url:'<%=request.getContextPath()%>/conf_loadvm.do',
+		params: {
+			roomId: Ext.get('roomId').dom.value
+		},
+		success:function(result,request){
+			var resp = Ext.util.JSON.decode(result.responseText);
+			if(resp.success == true){	
+			} else {
+				Ext.Msg.alert('加载失败',resp.msg);
+			}
+	    },
+	    failure:function(result,request){
+			Ext.Msg.alert('加载失败',result.responseText);
+	    }
+	});
 }
 function validatePasswordRule(elementId, elementName) {
 	var pass=Ext.get(elementId).dom.value;

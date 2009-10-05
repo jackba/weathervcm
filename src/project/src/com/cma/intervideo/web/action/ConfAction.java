@@ -18,6 +18,7 @@ import org.apache.commons.logging.LogFactory;
 
 import com.cma.intervideo.pojo.Conference;
 import com.cma.intervideo.pojo.Unit;
+import com.cma.intervideo.pojo.VirtualRoom;
 import com.cma.intervideo.service.IConfService;
 import com.cma.intervideo.util.AbstractBaseAction;
 import com.cma.intervideo.util.PageHolder;
@@ -41,7 +42,7 @@ public class ConfAction extends AbstractBaseAction {
 	public void setConfService(IConfService confService) {
 		this.confService = confService;
 	}
-
+	
 	public String listReserve() {
 		request.setAttribute("personal", "true");
 		return "listReserve";
@@ -131,6 +132,22 @@ public class ConfAction extends AbstractBaseAction {
 		String id = request.getParameter("conferenceId");
 		conf = confService.getConfById(id);
 		return "modifyReserve";
+	}
+	
+	public String loadvm() {
+		String roomId = request.getParameter("roomId");
+		VirtualRoom room = confService.findVirtualRoomByRoomId(roomId);
+		conf = new Conference();
+//		conf.setSubject(room.getSubject());
+		conf.setSubject(room.getTemplateName());
+		conf.setServiceTemplate(room.getServiceTemplate());
+		conf.setServiceTemplateName(room.getServiceTemplateName());
+		conf.setServiceTemplateDesc(room.getServiceTemplateDesc());
+		conf.setDescription(room.getDescription());
+		conf.setPassword(room.getPassword());
+		conf.setControlPin(room.getControlPin());
+		conf.setDialableNumber(room.getVitualConfId());
+		return "reserveConf";
 	}
 
 	public String update() throws Exception {
