@@ -35,6 +35,13 @@ public class RoomServiceImpl implements IRoomService {
 		return listRoom;
 	}
 	
+	public List<VirtualRoom> findRooms(String userId) {
+		List<VirtualRoom> listRoom = roomDao.findRooms(userId);
+		for (int i = 0; i < listRoom.size(); i++)
+			updateServiceTemplateInfo(listRoom.get(i));
+		return listRoom;
+	}
+	
 	private void updateServiceTemplateInfo(VirtualRoom room) {
 		if (room == null || room.getServiceTemplate() == null || room.getServiceTemplate().length() == 0)
 			return;

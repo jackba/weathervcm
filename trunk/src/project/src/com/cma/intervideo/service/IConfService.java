@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.cma.intervideo.pojo.Conference;
 import com.cma.intervideo.pojo.Unit;
+import com.cma.intervideo.pojo.VirtualRoom;
 import com.cma.intervideo.util.PageHolder;
 import com.cma.intervideo.util.ParamVo;
 
@@ -14,4 +15,5 @@ public interface IConfService {
 	public Conference getConfById(String confId);
 	public List<Unit> findUnitsByConfId(String confId, boolean selected);
 	public List<Unit> findAllUnits();
+	public VirtualRoom findVirtualRoomByRoomId(String roomId);
 }

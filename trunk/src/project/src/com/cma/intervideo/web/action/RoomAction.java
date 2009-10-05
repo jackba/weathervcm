@@ -117,6 +117,28 @@ public class RoomAction extends AbstractBaseAction {
 		}
 		return null;
 	}
+	
+	public String getRoomsByUser() {
+		UserPrivilege up = (UserPrivilege) session.get("userPrivilege");
+		String userId = up != null ? up.getUserId() : VcmProperties
+				.getICMDefaultUserId();
+		List<VirtualRoom> roomList = roomService.findRooms(userId);
+		try {
+			JSONObject json = new JSONObject();
+			JSONArray arr = JSONArray.fromObject(roomList);
+			json.put("root", arr);
+			System.out.println(json);
+			response.setCharacterEncoding("utf-8");
+
+			PrintWriter out = response.getWriter();
+			out.print(json);
+			out.flush();
+			out.close();
+		} catch (Exception e) {
+			logger.error(e.toString());
+		}
+		return null;
+	}
 
 	public String modify() {
 		String roomId = request.getParameter("roomId");
@@ -129,7 +151,7 @@ public class RoomAction extends AbstractBaseAction {
 		// }
 		return "modify";
 	}
-
+	
 	public String update() throws IOException, ParseException, Exception {
 		VirtualRoom r = roomService.getRoomById(room.getRoomId());
 		Date d = Calendar.getInstance().getTime();
