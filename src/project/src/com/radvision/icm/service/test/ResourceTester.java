@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.radvision.icm.service.DeviceControllerIpPort;
 import com.radvision.icm.service.Layout;
+import com.radvision.icm.service.McuResourceResult;
 import com.radvision.icm.service.MeetingType;
 import com.radvision.icm.service.ResourceResult;
 import com.radvision.icm.service.ResourceService;
@@ -25,6 +26,7 @@ public class ResourceTester extends ServiceTester {
 				System.out.println("              3 - getTerminals");
 				System.out.println("              4 - getRooms");
 				System.out.println("              5 - setTerminals");
+				System.out.println("              6 - getResourceInfos");
 				return;
 			}
 			System.out.println("Welcome you into the iCM test center.");
@@ -39,6 +41,7 @@ public class ResourceTester extends ServiceTester {
 				System.out.println("              3 - getTerminals");
 				System.out.println("              4 - getRooms");
 				System.out.println("              5 - setTerminals");
+				System.out.println("              6 - getResourceInfos");
 				return;
 			}
 
@@ -58,13 +61,17 @@ public class ResourceTester extends ServiceTester {
 			case 5:
 				ResourceTester.testSetTerminals();
 				break;
+			case 6:
+				ResourceTester.testGetResourceInfos();
+				break;
 			default:
-				System.out.println("The test option is 1~5.");
+				System.out.println("The test option is 1~6.");
 				System.out.println("<testoption>: 1 - getIPPorts");
 				System.out.println("              2 - getMeetingTypes");
 				System.out.println("              3 - getTerminals");
 				System.out.println("              4 - getRooms");
 				System.out.println("              5 - setTerminals");
+				System.out.println("              6 - getResourceInfos");
 				break;
 			}
 		} catch (Exception e) {
@@ -168,11 +175,7 @@ public class ResourceTester extends ServiceTester {
 		terminal.setTerminalName("Terminal_H320_1");
 		terminal.setTerminalNumber("6552852811");
 		/**
-		 * 0 - H323/IP, the default type 
-		 * 1 � H320/ISDN 
-		 * 2 � Dual 
-		 * 3 � SIP 
-		 * 4 � PSTN
+		 * 0 - H323/IP, the default type 1 � H320/ISDN 2 � Dual 3 � SIP 4 � PSTN
 		 */
 		terminal.setTerminalProtocol(1);
 		terminals.add(terminal);
@@ -198,6 +201,27 @@ public class ResourceTester extends ServiceTester {
 						+ tr.get(i).getTerminalProtocol() + "; id = "
 						+ tr.get(i).getTerminalId());
 			}
+		}
+	}
+
+	private static void testGetResourceInfos() {
+		try {
+			List<MeetingType> mts = getResourceServicePort().getMeetingTypes();
+			List<String> serviceTemplateIds = new ArrayList<String>();
+			if (mts != null) {
+				for (int i = 0; i < mts.size(); i++) {
+					serviceTemplateIds.add(mts.get(i).getId());
+				}
+			}
+			long startTime = 1255708800000L;
+			long endTime = 1255795200000L;
+			int interval = 60;
+			McuResourceResult result = getResourceServicePort()
+					.getResourceInfos(serviceTemplateIds, startTime, endTime,
+							interval);
+			System.out.println(result.isSuccess());
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }
