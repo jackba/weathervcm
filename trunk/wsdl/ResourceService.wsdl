@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions targetNamespace="http://radvision.com/icm/service/resourceservice" name="ResourceService" xmlns:tns="http://radvision.com/icm/service/resourceservice" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import namespace="http://radvision.com/icm/service/resourceservice" schemaLocation="ResourceService_schema1.xsd"/>
+    </xsd:schema>
+  </types>
+  <message name="getTerminals">
+    <part name="parameters" element="tns:getTerminals"/>
+  </message>
+  <message name="getTerminalsResponse">
+    <part name="parameters" element="tns:getTerminalsResponse"/>
+  </message>
+  <message name="NoClassificationFoundException">
+    <part name="fault" element="tns:NoClassificationFoundException"/>
+  </message>
+  <message name="InvalidArgumentException">
+    <part name="fault" element="tns:InvalidArgumentException"/>
+  </message>
+  <message name="setTerminals">
+    <part name="parameters" element="tns:setTerminals"/>
+  </message>
+  <message name="setTerminalsResponse">
+    <part name="parameters" element="tns:setTerminalsResponse"/>
+  </message>
+  <message name="getRooms">
+    <part name="parameters" element="tns:getRooms"/>
+  </message>
+  <message name="getRoomsResponse">
+    <part name="parameters" element="tns:getRoomsResponse"/>
+  </message>
+  <message name="getDeviceControllerIpPort">
+    <part name="parameters" element="tns:getDeviceControllerIpPort"/>
+  </message>
+  <message name="getDeviceControllerIpPortResponse">
+    <part name="parameters" element="tns:getDeviceControllerIpPortResponse"/>
+  </message>
+  <message name="MoreClassificationsFoundException">
+    <part name="fault" element="tns:MoreClassificationsFoundException"/>
+  </message>
+  <message name="getMeetingTypes">
+    <part name="parameters" element="tns:getMeetingTypes"/>
+  </message>
+  <message name="getMeetingTypesResponse">
+    <part name="parameters" element="tns:getMeetingTypesResponse"/>
+  </message>
+  <message name="deleteTerminals">
+    <part name="parameters" element="tns:deleteTerminals"/>
+  </message>
+  <message name="deleteTerminalsResponse">
+    <part name="parameters" element="tns:deleteTerminalsResponse"/>
+  </message>
+  <message name="getTerminalsByIds">
+    <part name="parameters" element="tns:getTerminalsByIds"/>
+  </message>
+  <message name="getTerminalsByIdsResponse">
+    <part name="parameters" element="tns:getTerminalsByIdsResponse"/>
+  </message>
+  <message name="searchTerminal">
+    <part name="parameters" element="tns:searchTerminal"/>
+  </message>
+  <message name="searchTerminalResponse">
+    <part name="parameters" element="tns:searchTerminalResponse"/>
+  </message>
+  <message name="getResourceInfos">
+    <part name="parameters" element="tns:getResourceInfos"/>
+  </message>
+  <message name="getResourceInfosResponse">
+    <part name="parameters" element="tns:getResourceInfosResponse"/>
+  </message>
+  <portType name="ResourceServicePortType">
+    <operation name="getTerminals">
+      <input message="tns:getTerminals"/>
+      <output message="tns:getTerminalsResponse"/>
+      <fault message="tns:NoClassificationFoundException" name="NoClassificationFoundException"/>
+      <fault message="tns:InvalidArgumentException" name="InvalidArgumentException"/>
+    </operation>
+    <operation name="setTerminals">
+      <input message="tns:setTerminals"/>
+      <output message="tns:setTerminalsResponse"/>
+    </operation>
+    <operation name="getRooms">
+      <input message="tns:getRooms"/>
+      <output message="tns:getRoomsResponse"/>
+    </operation>
+    <operation name="getDeviceControllerIpPort">
+      <input message="tns:getDeviceControllerIpPort"/>
+      <output message="tns:getDeviceControllerIpPortResponse"/>
+      <fault message="tns:NoClassificationFoundException" name="NoClassificationFoundException"/>
+      <fault message="tns:MoreClassificationsFoundException" name="MoreClassificationsFoundException"/>
+    </operation>
+    <operation name="getMeetingTypes">
+      <input message="tns:getMeetingTypes"/>
+      <output message="tns:getMeetingTypesResponse"/>
+    </operation>
+    <operation name="deleteTerminals">
+      <input message="tns:deleteTerminals"/>
+      <output message="tns:deleteTerminalsResponse"/>
+    </operation>
+    <operation name="getTerminalsByIds">
+      <input message="tns:getTerminalsByIds"/>
+      <output message="tns:getTerminalsByIdsResponse"/>
+    </operation>
+    <operation name="searchTerminal">
+      <input message="tns:searchTerminal"/>
+      <output message="tns:searchTerminalResponse"/>
+      <fault message="tns:NoClassificationFoundException" name="NoClassificationFoundException"/>
+      <fault message="tns:InvalidArgumentException" name="InvalidArgumentException"/>
+    </operation>
+    <operation name="getResourceInfos">
+      <input message="tns:getResourceInfos"/>
+      <output message="tns:getResourceInfosResponse"/>
+    </operation>
+  </portType>
+  <binding name="ResourceServicePortBinding" type="tns:ResourceServicePortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="getTerminals">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="NoClassificationFoundException">
+        <soap:fault name="NoClassificationFoundException" use="literal"/>
+      </fault>
+      <fault name="InvalidArgumentException">
+        <soap:fault name="InvalidArgumentException" use="literal"/>
+      </fault>
+    </operation>
+    <operation name="setTerminals">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="getRooms">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="getDeviceControllerIpPort">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="NoClassificationFoundException">
+        <soap:fault name="NoClassificationFoundException" use="literal"/>
+      </fault>
+      <fault name="MoreClassificationsFoundException">
+        <soap:fault name="MoreClassificationsFoundException" use="literal"/>
+      </fault>
+    </operation>
+    <operation name="getMeetingTypes">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="deleteTerminals">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="getTerminalsByIds">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="searchTerminal">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="NoClassificationFoundException">
+        <soap:fault name="NoClassificationFoundException" use="literal"/>
+      </fault>
+      <fault name="InvalidArgumentException">
+        <soap:fault name="InvalidArgumentException" use="literal"/>
+      </fault>
+    </operation>
+    <operation name="getResourceInfos">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="ResourceService">
+    <port name="ResourceServicePort" binding="tns:ResourceServicePortBinding">
+      <soap:address location="REPLACE_WITH_ACTUAL_URL"/>
+    </port>
+  </service>
+</definitions>
+

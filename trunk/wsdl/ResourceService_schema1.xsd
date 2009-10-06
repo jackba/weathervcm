@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" targetNamespace="http://radvision.com/icm/service/resourceservice" xmlns:tns="http://radvision.com/icm/service/resourceservice" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="InvalidArgumentException" type="tns:InvalidArgumentException"/>
+
+  <xs:element name="MoreClassificationsFoundException" type="tns:MoreClassificationsFoundException"/>
+
+  <xs:element name="NoClassificationFoundException" type="tns:NoClassificationFoundException"/>
+
+  <xs:element name="deleteTerminals" type="tns:deleteTerminals"/>
+
+  <xs:element name="deleteTerminalsResponse" type="tns:deleteTerminalsResponse"/>
+
+  <xs:element name="getDeviceControllerIpPort" type="tns:getDeviceControllerIpPort"/>
+
+  <xs:element name="getDeviceControllerIpPortResponse" type="tns:getDeviceControllerIpPortResponse"/>
+
+  <xs:element name="getMeetingTypes" type="tns:getMeetingTypes"/>
+
+  <xs:element name="getMeetingTypesResponse" type="tns:getMeetingTypesResponse"/>
+
+  <xs:element name="getResourceInfos" type="tns:getResourceInfos"/>
+
+  <xs:element name="getResourceInfosResponse" type="tns:getResourceInfosResponse"/>
+
+  <xs:element name="getRooms" type="tns:getRooms"/>
+
+  <xs:element name="getRoomsResponse" type="tns:getRoomsResponse"/>
+
+  <xs:element name="getTerminals" type="tns:getTerminals"/>
+
+  <xs:element name="getTerminalsByIds" type="tns:getTerminalsByIds"/>
+
+  <xs:element name="getTerminalsByIdsResponse" type="tns:getTerminalsByIdsResponse"/>
+
+  <xs:element name="getTerminalsResponse" type="tns:getTerminalsResponse"/>
+
+  <xs:element name="searchTerminal" type="tns:searchTerminal"/>
+
+  <xs:element name="searchTerminalResponse" type="tns:searchTerminalResponse"/>
+
+  <xs:element name="setTerminals" type="tns:setTerminals"/>
+
+  <xs:element name="setTerminalsResponse" type="tns:setTerminalsResponse"/>
+
+  <xs:complexType name="deleteTerminals">
+    <xs:sequence>
+      <xs:element name="terminalIds" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="deleteTerminalsResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:resourceResult" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="resourceResult">
+    <xs:sequence>
+      <xs:element name="errorCode" type="xs:int"/>
+      <xs:element name="errorInfo" type="xs:string" minOccurs="0"/>
+      <xs:element name="success" type="xs:boolean"/>
+      <xs:element name="terminals" type="tns:terminalResource" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="terminalResource">
+    <xs:sequence>
+      <xs:element name="areaCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="classificationNames" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="countryCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="defaultRoomId" type="xs:string" minOccurs="0"/>
+      <xs:element name="detailProtocol" type="xs:int"/>
+      <xs:element name="e164" type="xs:string" minOccurs="0"/>
+      <xs:element name="IP" type="xs:string" minOccurs="0"/>
+      <xs:element name="ISDNLocations" type="tns:isdnLocation" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="isVoiceOnly" type="xs:boolean"/>
+      <xs:element name="isdnMaxBandwidth" type="xs:int"/>
+      <xs:element name="maxBandwidth" type="xs:int"/>
+      <xs:element name="nodeId" type="xs:string" minOccurs="0"/>
+      <xs:element name="registerGKId" type="xs:string" minOccurs="0"/>
+      <xs:element name="statusId" type="xs:int"/>
+      <xs:element name="terminalEmail" type="xs:string" minOccurs="0"/>
+      <xs:element name="terminalId" type="xs:string" minOccurs="0"/>
+      <xs:element name="terminalName" type="xs:string" minOccurs="0"/>
+      <xs:element name="terminalNumber" type="xs:string" minOccurs="0"/>
+      <xs:element name="terminalProtocol" type="xs:int"/>
+      <xs:element name="timeZoneId" type="xs:string" minOccurs="0"/>
+      <xs:element name="zonePrefix" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="isdnLocation">
+    <xs:sequence>
+      <xs:element name="areaCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="countryCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="nodeId" type="xs:string" minOccurs="0"/>
+      <xs:element name="telephoneNumber" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="setTerminals">
+    <xs:sequence>
+      <xs:element name="terminals" type="tns:terminalResource" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="overwritten" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="setTerminalsResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:resourceResult" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="searchTerminal">
+    <xs:sequence>
+      <xs:element name="classificationName" type="xs:string" minOccurs="0"/>
+      <xs:element name="name" type="xs:string" minOccurs="0"/>
+      <xs:element name="dialingInfo" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="searchTerminalResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:terminalResource" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="NoClassificationFoundException">
+    <xs:sequence>
+      <xs:element name="message" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="InvalidArgumentException">
+    <xs:sequence>
+      <xs:element name="message" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getTerminals">
+    <xs:sequence>
+      <xs:element name="netClassificationName" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getTerminalsResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:terminalResource" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getDeviceControllerIpPort">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getDeviceControllerIpPortResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:deviceControllerIpPort" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="deviceControllerIpPort">
+    <xs:sequence>
+      <xs:element name="ip" type="xs:string" minOccurs="0"/>
+      <xs:element name="port" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="MoreClassificationsFoundException">
+    <xs:sequence>
+      <xs:element name="message" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getTerminalsByIds">
+    <xs:sequence>
+      <xs:element name="terminalIds" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getTerminalsByIdsResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:terminalResource" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getRooms">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getRoomsResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:roomResource" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="roomResource">
+    <xs:sequence>
+      <xs:element name="conferenceRoomId" type="xs:string" minOccurs="0"/>
+      <xs:element name="conferenceRoomLocation" type="xs:string" minOccurs="0"/>
+      <xs:element name="conferenceRoomName" type="xs:string" minOccurs="0"/>
+      <xs:element name="status" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getMeetingTypes">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getMeetingTypesResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:meetingType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="meetingType">
+    <xs:sequence>
+      <xs:element name="bandwidth" type="xs:int"/>
+      <xs:element name="builtInToken" type="xs:string" minOccurs="0"/>
+      <xs:element name="description" type="xs:string" minOccurs="0"/>
+      <xs:element name="id" type="xs:string" minOccurs="0"/>
+      <xs:element name="layouts" type="tns:layout" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="mcuService" type="xs:int"/>
+      <xs:element name="name" type="xs:string" minOccurs="0"/>
+      <xs:element name="resolution" type="xs:string" minOccurs="0"/>
+      <xs:element name="servicePrefix" type="xs:string" minOccurs="0"/>
+      <xs:element name="switchingMode" type="xs:int"/>
+      <xs:element name="views" type="tns:view" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="layout">
+    <xs:sequence>
+      <xs:element name="description" type="xs:string" minOccurs="0"/>
+      <xs:element name="index" type="xs:int"/>
+      <xs:element name="layoutType" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="view">
+    <xs:sequence>
+      <xs:element name="initialVideoLayout" type="xs:string" minOccurs="0"/>
+      <xs:element name="maxVideoLayout" type="xs:string" minOccurs="0"/>
+      <xs:element name="viewId" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getResourceInfos">
+    <xs:sequence>
+      <xs:element name="serviceTemplateIds" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="startTime" type="xs:long"/>
+      <xs:element name="endTime" type="xs:long"/>
+      <xs:element name="interval" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getResourceInfosResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:mcuResourceResult" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="mcuResourceResult">
+    <xs:sequence>
+      <xs:element name="confNums" type="xs:int" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="errorCode" type="xs:int"/>
+      <xs:element name="errorInfo" type="xs:string" minOccurs="0"/>
+      <xs:element name="infos" type="tns:mcuResourceInfo" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="success" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="mcuResourceInfo">
+    <xs:sequence>
+      <xs:element name="endTime" type="xs:long"/>
+      <xs:element name="interval" type="xs:int"/>
+      <xs:element name="portNums" type="xs:int" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="serviceTemplateId" type="xs:string" minOccurs="0"/>
+      <xs:element name="startTime" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+

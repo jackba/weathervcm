@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" targetNamespace="http://radvision.com/icm/service/userservice" xmlns:tns="http://radvision.com/icm/service/userservice" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="UserNotExistedException" type="tns:UserNotExistedException"/>
+
+  <xs:element name="authUser" type="tns:authUser"/>
+
+  <xs:element name="authUserResponse" type="tns:authUserResponse"/>
+
+  <xs:element name="deleteUsers" type="tns:deleteUsers"/>
+
+  <xs:element name="deleteUsersResponse" type="tns:deleteUsersResponse"/>
+
+  <xs:element name="getUserByLoginId" type="tns:getUserByLoginId"/>
+
+  <xs:element name="getUserByLoginIdResponse" type="tns:getUserByLoginIdResponse"/>
+
+  <xs:element name="getUsers" type="tns:getUsers"/>
+
+  <xs:element name="getUsersResponse" type="tns:getUsersResponse"/>
+
+  <xs:element name="searchUsers" type="tns:searchUsers"/>
+
+  <xs:element name="searchUsersByLoginId" type="tns:searchUsersByLoginId"/>
+
+  <xs:element name="searchUsersByLoginIdResponse" type="tns:searchUsersByLoginIdResponse"/>
+
+  <xs:element name="searchUsersResponse" type="tns:searchUsersResponse"/>
+
+  <xs:element name="setUsers" type="tns:setUsers"/>
+
+  <xs:element name="setUsersResponse" type="tns:setUsersResponse"/>
+
+  <xs:complexType name="getUsers">
+    <xs:sequence>
+      <xs:element name="useIds" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getUsersResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:userInfo" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="userInfo">
+    <xs:sequence>
+      <xs:element name="branch" type="xs:string" minOccurs="0"/>
+      <xs:element name="defaultTermialId" type="xs:string" minOccurs="0"/>
+      <xs:element name="department" type="xs:string" minOccurs="0"/>
+      <xs:element name="emamil" type="xs:string" minOccurs="0"/>
+      <xs:element name="mobilePhoneNumber" type="xs:string" minOccurs="0"/>
+      <xs:element name="officePhoneNumber" type="xs:string" minOccurs="0"/>
+      <xs:element name="password" type="xs:string" minOccurs="0"/>
+      <xs:element name="roleId" type="xs:int"/>
+      <xs:element name="timezoneId" type="xs:string" minOccurs="0"/>
+      <xs:element name="userFirstName" type="xs:string" minOccurs="0"/>
+      <xs:element name="userId" type="xs:string" minOccurs="0"/>
+      <xs:element name="userLastName" type="xs:string" minOccurs="0"/>
+      <xs:element name="userLoginId" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="searchUsersByLoginId">
+    <xs:sequence>
+      <xs:element name="loginId" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="searchUsersByLoginIdResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:userInfo" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getUserByLoginId">
+    <xs:sequence>
+      <xs:element name="loginId" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getUserByLoginIdResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:userInfo" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="UserNotExistedException">
+    <xs:sequence>
+      <xs:element name="message" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="searchUsers">
+    <xs:sequence>
+      <xs:element name="userSearchCondition" type="tns:userSearchConditon" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="userSearchConditon">
+    <xs:sequence>
+      <xs:element name="firstName" type="xs:string" minOccurs="0"/>
+      <xs:element name="lastName" type="xs:string" minOccurs="0"/>
+      <xs:element name="loginId" type="xs:string" minOccurs="0"/>
+      <xs:element name="name" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="searchUsersResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:userInfo" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="deleteUsers">
+    <xs:sequence>
+      <xs:element name="useIds" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="deleteUsersResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:userResult" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="userResult">
+    <xs:sequence>
+      <xs:element name="errorCode" type="xs:int"/>
+      <xs:element name="errorInfo" type="xs:string" minOccurs="0"/>
+      <xs:element name="success" type="xs:boolean"/>
+      <xs:element name="userInfos" type="tns:userInfo" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="setUsers">
+    <xs:sequence>
+      <xs:element name="UserInfos" type="tns:userInfo" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="setUsersResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:userResult" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="authUser">
+    <xs:sequence>
+      <xs:element name="loginId" type="xs:string" minOccurs="0"/>
+      <xs:element name="pwd" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="authUserResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:userResult" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+

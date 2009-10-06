@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions targetNamespace="http://radvision.com/icm/service/directoryuserservice" name="DirectoryUserService" xmlns:tns="http://radvision.com/icm/service/directoryuserservice" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import namespace="http://radvision.com/icm/service/directoryuserservice" schemaLocation="DirectoryUserService_schema1.xsd"/>
+    </xsd:schema>
+  </types>
+  <message name="removeDirectory">
+    <part name="parameters" element="tns:removeDirectory"/>
+  </message>
+  <message name="removeDirectoryResponse">
+    <part name="parameters" element="tns:removeDirectoryResponse"/>
+  </message>
+  <message name="DirectoryOperationFailedException">
+    <part name="fault" element="tns:DirectoryOperationFailedException"/>
+  </message>
+  <message name="prepareSession">
+    <part name="parameters" element="tns:prepareSession"/>
+  </message>
+  <message name="prepareSessionResponse">
+    <part name="parameters" element="tns:prepareSessionResponse"/>
+  </message>
+  <message name="DirectoryServerNotFoundException">
+    <part name="fault" element="tns:DirectoryServerNotFoundException"/>
+  </message>
+  <message name="OrganizationNotFoundException">
+    <part name="fault" element="tns:OrganizationNotFoundException"/>
+  </message>
+  <message name="CookieDuplicateException">
+    <part name="fault" element="tns:CookieDuplicateException"/>
+  </message>
+  <message name="prepareUsers">
+    <part name="parameters" element="tns:prepareUsers"/>
+  </message>
+  <message name="prepareUsersResponse">
+    <part name="parameters" element="tns:prepareUsersResponse"/>
+  </message>
+  <message name="SessionNotExistedException">
+    <part name="fault" element="tns:SessionNotExistedException"/>
+  </message>
+  <message name="submit">
+    <part name="parameters" element="tns:submit"/>
+  </message>
+  <message name="submitResponse">
+    <part name="parameters" element="tns:submitResponse"/>
+  </message>
+  <message name="createDirectoryUsers">
+    <part name="parameters" element="tns:createDirectoryUsers"/>
+  </message>
+  <message name="createDirectoryUsersResponse">
+    <part name="parameters" element="tns:createDirectoryUsersResponse"/>
+  </message>
+  <message name="updateDirectoryUsers">
+    <part name="parameters" element="tns:updateDirectoryUsers"/>
+  </message>
+  <message name="updateDirectoryUsersResponse">
+    <part name="parameters" element="tns:updateDirectoryUsersResponse"/>
+  </message>
+  <message name="deleteDirectoryUsers">
+    <part name="parameters" element="tns:deleteDirectoryUsers"/>
+  </message>
+  <message name="deleteDirectoryUsersResponse">
+    <part name="parameters" element="tns:deleteDirectoryUsersResponse"/>
+  </message>
+  <message name="cancel">
+    <part name="parameters" element="tns:cancel"/>
+  </message>
+  <message name="cancelResponse">
+    <part name="parameters" element="tns:cancelResponse"/>
+  </message>
+  <portType name="DirectoryUserServicePortType">
+    <operation name="removeDirectory">
+      <input message="tns:removeDirectory"/>
+      <output message="tns:removeDirectoryResponse"/>
+      <fault message="tns:DirectoryOperationFailedException" name="DirectoryOperationFailedException"/>
+    </operation>
+    <operation name="prepareSession">
+      <input message="tns:prepareSession"/>
+      <output message="tns:prepareSessionResponse"/>
+      <fault message="tns:DirectoryServerNotFoundException" name="DirectoryServerNotFoundException"/>
+      <fault message="tns:OrganizationNotFoundException" name="OrganizationNotFoundException"/>
+      <fault message="tns:CookieDuplicateException" name="CookieDuplicateException"/>
+    </operation>
+    <operation name="prepareUsers">
+      <input message="tns:prepareUsers"/>
+      <output message="tns:prepareUsersResponse"/>
+      <fault message="tns:SessionNotExistedException" name="SessionNotExistedException"/>
+    </operation>
+    <operation name="submit">
+      <input message="tns:submit"/>
+      <output message="tns:submitResponse"/>
+      <fault message="tns:DirectoryOperationFailedException" name="DirectoryOperationFailedException"/>
+    </operation>
+    <operation name="createDirectoryUsers">
+      <input message="tns:createDirectoryUsers"/>
+      <output message="tns:createDirectoryUsersResponse"/>
+      <fault message="tns:DirectoryOperationFailedException" name="DirectoryOperationFailedException"/>
+    </operation>
+    <operation name="updateDirectoryUsers">
+      <input message="tns:updateDirectoryUsers"/>
+      <output message="tns:updateDirectoryUsersResponse"/>
+      <fault message="tns:DirectoryOperationFailedException" name="DirectoryOperationFailedException"/>
+    </operation>
+    <operation name="deleteDirectoryUsers">
+      <input message="tns:deleteDirectoryUsers"/>
+      <output message="tns:deleteDirectoryUsersResponse"/>
+      <fault message="tns:DirectoryOperationFailedException" name="DirectoryOperationFailedException"/>
+    </operation>
+    <operation name="cancel">
+      <input message="tns:cancel"/>
+      <output message="tns:cancelResponse"/>
+    </operation>
+  </portType>
+  <binding name="DirectoryUserServicePortBinding" type="tns:DirectoryUserServicePortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="removeDirectory">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="DirectoryOperationFailedException">
+        <soap:fault name="DirectoryOperationFailedException" use="literal"/>
+      </fault>
+    </operation>
+    <operation name="prepareSession">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="DirectoryServerNotFoundException">
+        <soap:fault name="DirectoryServerNotFoundException" use="literal"/>
+      </fault>
+      <fault name="OrganizationNotFoundException">
+        <soap:fault name="OrganizationNotFoundException" use="literal"/>
+      </fault>
+      <fault name="CookieDuplicateException">
+        <soap:fault name="CookieDuplicateException" use="literal"/>
+      </fault>
+    </operation>
+    <operation name="prepareUsers">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="SessionNotExistedException">
+        <soap:fault name="SessionNotExistedException" use="literal"/>
+      </fault>
+    </operation>
+    <operation name="submit">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="DirectoryOperationFailedException">
+        <soap:fault name="DirectoryOperationFailedException" use="literal"/>
+      </fault>
+    </operation>
+    <operation name="createDirectoryUsers">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="DirectoryOperationFailedException">
+        <soap:fault name="DirectoryOperationFailedException" use="literal"/>
+      </fault>
+    </operation>
+    <operation name="updateDirectoryUsers">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="DirectoryOperationFailedException">
+        <soap:fault name="DirectoryOperationFailedException" use="literal"/>
+      </fault>
+    </operation>
+    <operation name="deleteDirectoryUsers">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="DirectoryOperationFailedException">
+        <soap:fault name="DirectoryOperationFailedException" use="literal"/>
+      </fault>
+    </operation>
+    <operation name="cancel">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="DirectoryUserService">
+    <port name="DirectoryUserServicePort" binding="tns:DirectoryUserServicePortBinding">
+      <soap:address location="REPLACE_WITH_ACTUAL_URL"/>
+    </port>
+  </service>
+</definitions>
+

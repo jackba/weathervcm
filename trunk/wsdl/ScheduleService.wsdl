@@ -1,0 +1,748 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions targetNamespace="http://radvision.com/icm/service/scheduleservice" name="ScheduleService" xmlns:tns="http://radvision.com/icm/service/scheduleservice" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import namespace="http://radvision.com/icm/service/scheduleservice" schemaLocation="ScheduleService_schema1.xsd"/>
+    </xsd:schema>
+  </types>
+  <message name="getPhyConfId">
+    <part name="parameters" element="tns:getPhyConfId"/>
+  </message>
+  <message name="getPhyConfIdResponse">
+    <part name="parameters" element="tns:getPhyConfIdResponse"/>
+  </message>
+  <message name="createConference">
+    <part name="parameters" element="tns:createConference"/>
+  </message>
+  <message name="createConferenceResponse">
+    <part name="parameters" element="tns:createConferenceResponse"/>
+  </message>
+  <message name="createConferenceSP">
+    <part name="parameters" element="tns:createConferenceSP"/>
+  </message>
+  <message name="createConferenceSPResponse">
+    <part name="parameters" element="tns:createConferenceSPResponse"/>
+  </message>
+  <message name="modifyConference">
+    <part name="parameters" element="tns:modifyConference"/>
+  </message>
+  <message name="modifyConferenceResponse">
+    <part name="parameters" element="tns:modifyConferenceResponse"/>
+  </message>
+  <message name="modifyConferenceSP">
+    <part name="parameters" element="tns:modifyConferenceSP"/>
+  </message>
+  <message name="modifyConferenceSPResponse">
+    <part name="parameters" element="tns:modifyConferenceSPResponse"/>
+  </message>
+  <message name="deleteHistoryConferences">
+    <part name="parameters" element="tns:deleteHistoryConferences"/>
+  </message>
+  <message name="deleteHistoryConferencesResponse">
+    <part name="parameters" element="tns:deleteHistoryConferencesResponse"/>
+  </message>
+  <message name="searchConferences">
+    <part name="parameters" element="tns:searchConferences"/>
+  </message>
+  <message name="searchConferencesResponse">
+    <part name="parameters" element="tns:searchConferencesResponse"/>
+  </message>
+  <message name="cancelConference">
+    <part name="parameters" element="tns:cancelConference"/>
+  </message>
+  <message name="cancelConferenceResponse">
+    <part name="parameters" element="tns:cancelConferenceResponse"/>
+  </message>
+  <message name="cancelConferences">
+    <part name="parameters" element="tns:cancelConferences"/>
+  </message>
+  <message name="cancelConferencesResponse">
+    <part name="parameters" element="tns:cancelConferencesResponse"/>
+  </message>
+  <message name="viewConference">
+    <part name="parameters" element="tns:viewConference"/>
+  </message>
+  <message name="viewConferenceResponse">
+    <part name="parameters" element="tns:viewConferenceResponse"/>
+  </message>
+  <message name="InvalidArgumentException">
+    <part name="fault" element="tns:InvalidArgumentException"/>
+  </message>
+  <message name="NotConferenceFoundException">
+    <part name="fault" element="tns:NotConferenceFoundException"/>
+  </message>
+  <message name="removeConference">
+    <part name="parameters" element="tns:removeConference"/>
+  </message>
+  <message name="removeConferenceResponse">
+    <part name="parameters" element="tns:removeConferenceResponse"/>
+  </message>
+  <message name="createRecurrence">
+    <part name="parameters" element="tns:createRecurrence"/>
+  </message>
+  <message name="createRecurrenceResponse">
+    <part name="parameters" element="tns:createRecurrenceResponse"/>
+  </message>
+  <message name="addRecurrence">
+    <part name="parameters" element="tns:addRecurrence"/>
+  </message>
+  <message name="addRecurrenceResponse">
+    <part name="parameters" element="tns:addRecurrenceResponse"/>
+  </message>
+  <message name="modifyRecurrence">
+    <part name="parameters" element="tns:modifyRecurrence"/>
+  </message>
+  <message name="modifyRecurrenceResponse">
+    <part name="parameters" element="tns:modifyRecurrenceResponse"/>
+  </message>
+  <message name="cancelRecurrence">
+    <part name="parameters" element="tns:cancelRecurrence"/>
+  </message>
+  <message name="cancelRecurrenceResponse">
+    <part name="parameters" element="tns:cancelRecurrenceResponse"/>
+  </message>
+  <message name="viewRecurrence">
+    <part name="parameters" element="tns:viewRecurrence"/>
+  </message>
+  <message name="viewRecurrenceResponse">
+    <part name="parameters" element="tns:viewRecurrenceResponse"/>
+  </message>
+  <message name="checkAlternativeTimes">
+    <part name="parameters" element="tns:checkAlternativeTimes"/>
+  </message>
+  <message name="checkAlternativeTimesResponse">
+    <part name="parameters" element="tns:checkAlternativeTimesResponse"/>
+  </message>
+  <message name="checkAlternateTerminals">
+    <part name="parameters" element="tns:checkAlternateTerminals"/>
+  </message>
+  <message name="checkAlternateTerminalsResponse">
+    <part name="parameters" element="tns:checkAlternateTerminalsResponse"/>
+  </message>
+  <message name="InvalidTerminalIdException">
+    <part name="fault" element="tns:InvalidTerminalIdException"/>
+  </message>
+  <message name="viewVirtualRoomsByUserId">
+    <part name="parameters" element="tns:viewVirtualRoomsByUserId"/>
+  </message>
+  <message name="viewVirtualRoomsByUserIdResponse">
+    <part name="parameters" element="tns:viewVirtualRoomsByUserIdResponse"/>
+  </message>
+  <message name="VirtualRoomNotFoundException">
+    <part name="fault" element="tns:VirtualRoomNotFoundException"/>
+  </message>
+  <message name="viewVirtualRooms">
+    <part name="parameters" element="tns:viewVirtualRooms"/>
+  </message>
+  <message name="viewVirtualRoomsResponse">
+    <part name="parameters" element="tns:viewVirtualRoomsResponse"/>
+  </message>
+  <message name="UserNotExistException">
+    <part name="fault" element="tns:UserNotExistException"/>
+  </message>
+  <message name="viewVirtualRoomByName">
+    <part name="parameters" element="tns:viewVirtualRoomByName"/>
+  </message>
+  <message name="viewVirtualRoomByNameResponse">
+    <part name="parameters" element="tns:viewVirtualRoomByNameResponse"/>
+  </message>
+  <message name="viewVirtualRoomById">
+    <part name="parameters" element="tns:viewVirtualRoomById"/>
+  </message>
+  <message name="viewVirtualRoomByIdResponse">
+    <part name="parameters" element="tns:viewVirtualRoomByIdResponse"/>
+  </message>
+  <message name="viewConferenceByDialableNumber">
+    <part name="parameters" element="tns:viewConferenceByDialableNumber"/>
+  </message>
+  <message name="viewConferenceByDialableNumberResponse">
+    <part name="parameters" element="tns:viewConferenceByDialableNumberResponse"/>
+  </message>
+  <message name="createVirtualRoom">
+    <part name="parameters" element="tns:createVirtualRoom"/>
+  </message>
+  <message name="createVirtualRoomResponse">
+    <part name="parameters" element="tns:createVirtualRoomResponse"/>
+  </message>
+  <message name="modifyVirtualRoom">
+    <part name="parameters" element="tns:modifyVirtualRoom"/>
+  </message>
+  <message name="modifyVirtualRoomResponse">
+    <part name="parameters" element="tns:modifyVirtualRoomResponse"/>
+  </message>
+  <message name="deleteVirtualRoom">
+    <part name="parameters" element="tns:deleteVirtualRoom"/>
+  </message>
+  <message name="deleteVirtualRoomResponse">
+    <part name="parameters" element="tns:deleteVirtualRoomResponse"/>
+  </message>
+  <message name="viewVirtualRoomByDialableNumber">
+    <part name="parameters" element="tns:viewVirtualRoomByDialableNumber"/>
+  </message>
+  <message name="viewVirtualRoomByDialableNumberResponse">
+    <part name="parameters" element="tns:viewVirtualRoomByDialableNumberResponse"/>
+  </message>
+  <message name="ServiceMismatchException">
+    <part name="fault" element="tns:ServiceMismatchException"/>
+  </message>
+  <message name="viewConferenceOrVirtualRoomByDialableNumber">
+    <part name="parameters" element="tns:viewConferenceOrVirtualRoomByDialableNumber"/>
+  </message>
+  <message name="viewConferenceOrVirtualRoomByDialableNumberResponse">
+    <part name="parameters" element="tns:viewConferenceOrVirtualRoomByDialableNumberResponse"/>
+  </message>
+  <message name="NoDefaultServiceException">
+    <part name="fault" element="tns:NoDefaultServiceException"/>
+  </message>
+  <message name="UpcomingConferenceException">
+    <part name="fault" element="tns:UpcomingConferenceException"/>
+  </message>
+  <message name="UpcomingConferenceConflictException">
+    <part name="fault" element="tns:UpcomingConferenceConflictException"/>
+  </message>
+  <message name="getDialedNumberConferenceInfo">
+    <part name="parameters" element="tns:getDialedNumberConferenceInfo"/>
+  </message>
+  <message name="getDialedNumberConferenceInfoResponse">
+    <part name="parameters" element="tns:getDialedNumberConferenceInfoResponse"/>
+  </message>
+  <message name="getVersion">
+    <part name="parameters" element="tns:getVersion"/>
+  </message>
+  <message name="getVersionResponse">
+    <part name="parameters" element="tns:getVersionResponse"/>
+  </message>
+  <portType name="ScheduleServicePortType">
+    <operation name="getPhyConfId">
+      <input message="tns:getPhyConfId"/>
+      <output message="tns:getPhyConfIdResponse"/>
+    </operation>
+    <operation name="createConference">
+      <input message="tns:createConference"/>
+      <output message="tns:createConferenceResponse"/>
+    </operation>
+    <operation name="createConferenceSP">
+      <input message="tns:createConferenceSP"/>
+      <output message="tns:createConferenceSPResponse"/>
+    </operation>
+    <operation name="modifyConference">
+      <input message="tns:modifyConference"/>
+      <output message="tns:modifyConferenceResponse"/>
+    </operation>
+    <operation name="modifyConferenceSP">
+      <input message="tns:modifyConferenceSP"/>
+      <output message="tns:modifyConferenceSPResponse"/>
+    </operation>
+    <operation name="deleteHistoryConferences">
+      <input message="tns:deleteHistoryConferences"/>
+      <output message="tns:deleteHistoryConferencesResponse"/>
+    </operation>
+    <operation name="searchConferences">
+      <input message="tns:searchConferences"/>
+      <output message="tns:searchConferencesResponse"/>
+    </operation>
+    <operation name="cancelConference">
+      <input message="tns:cancelConference"/>
+      <output message="tns:cancelConferenceResponse"/>
+    </operation>
+    <operation name="cancelConferences">
+      <input message="tns:cancelConferences"/>
+      <output message="tns:cancelConferencesResponse"/>
+    </operation>
+    <operation name="viewConference">
+      <input message="tns:viewConference"/>
+      <output message="tns:viewConferenceResponse"/>
+      <fault message="tns:InvalidArgumentException" name="InvalidArgumentException"/>
+      <fault message="tns:NotConferenceFoundException" name="NotConferenceFoundException"/>
+    </operation>
+    <operation name="removeConference">
+      <input message="tns:removeConference"/>
+      <output message="tns:removeConferenceResponse"/>
+      <fault message="tns:InvalidArgumentException" name="InvalidArgumentException"/>
+    </operation>
+    <operation name="createRecurrence">
+      <input message="tns:createRecurrence"/>
+      <output message="tns:createRecurrenceResponse"/>
+    </operation>
+    <operation name="addRecurrence">
+      <input message="tns:addRecurrence"/>
+      <output message="tns:addRecurrenceResponse"/>
+    </operation>
+    <operation name="modifyRecurrence">
+      <input message="tns:modifyRecurrence"/>
+      <output message="tns:modifyRecurrenceResponse"/>
+    </operation>
+    <operation name="cancelRecurrence">
+      <input message="tns:cancelRecurrence"/>
+      <output message="tns:cancelRecurrenceResponse"/>
+    </operation>
+    <operation name="viewRecurrence">
+      <input message="tns:viewRecurrence"/>
+      <output message="tns:viewRecurrenceResponse"/>
+      <fault message="tns:InvalidArgumentException" name="InvalidArgumentException"/>
+    </operation>
+    <operation name="checkAlternativeTimes">
+      <input message="tns:checkAlternativeTimes"/>
+      <output message="tns:checkAlternativeTimesResponse"/>
+      <fault message="tns:InvalidArgumentException" name="InvalidArgumentException"/>
+    </operation>
+    <operation name="checkAlternateTerminals">
+      <input message="tns:checkAlternateTerminals"/>
+      <output message="tns:checkAlternateTerminalsResponse"/>
+      <fault message="tns:InvalidArgumentException" name="InvalidArgumentException"/>
+      <fault message="tns:InvalidTerminalIdException" name="InvalidTerminalIdException"/>
+    </operation>
+    <operation name="viewVirtualRoomsByUserId">
+      <input message="tns:viewVirtualRoomsByUserId"/>
+      <output message="tns:viewVirtualRoomsByUserIdResponse"/>
+      <fault message="tns:InvalidArgumentException" name="InvalidArgumentException"/>
+      <fault message="tns:VirtualRoomNotFoundException" name="VirtualRoomNotFoundException"/>
+    </operation>
+    <operation name="viewVirtualRooms">
+      <input message="tns:viewVirtualRooms"/>
+      <output message="tns:viewVirtualRoomsResponse"/>
+      <fault message="tns:InvalidArgumentException" name="InvalidArgumentException"/>
+      <fault message="tns:VirtualRoomNotFoundException" name="VirtualRoomNotFoundException"/>
+      <fault message="tns:UserNotExistException" name="UserNotExistException"/>
+    </operation>
+    <operation name="viewVirtualRoomByName">
+      <input message="tns:viewVirtualRoomByName"/>
+      <output message="tns:viewVirtualRoomByNameResponse"/>
+      <fault message="tns:InvalidArgumentException" name="InvalidArgumentException"/>
+      <fault message="tns:VirtualRoomNotFoundException" name="VirtualRoomNotFoundException"/>
+    </operation>
+    <operation name="viewVirtualRoomById">
+      <input message="tns:viewVirtualRoomById"/>
+      <output message="tns:viewVirtualRoomByIdResponse"/>
+      <fault message="tns:InvalidArgumentException" name="InvalidArgumentException"/>
+      <fault message="tns:VirtualRoomNotFoundException" name="VirtualRoomNotFoundException"/>
+    </operation>
+    <operation name="viewConferenceByDialableNumber">
+      <input message="tns:viewConferenceByDialableNumber"/>
+      <output message="tns:viewConferenceByDialableNumberResponse"/>
+      <fault message="tns:InvalidArgumentException" name="InvalidArgumentException"/>
+      <fault message="tns:NotConferenceFoundException" name="NotConferenceFoundException"/>
+    </operation>
+    <operation name="createVirtualRoom">
+      <input message="tns:createVirtualRoom"/>
+      <output message="tns:createVirtualRoomResponse"/>
+    </operation>
+    <operation name="modifyVirtualRoom">
+      <input message="tns:modifyVirtualRoom"/>
+      <output message="tns:modifyVirtualRoomResponse"/>
+    </operation>
+    <operation name="deleteVirtualRoom">
+      <input message="tns:deleteVirtualRoom"/>
+      <output message="tns:deleteVirtualRoomResponse"/>
+    </operation>
+    <operation name="viewVirtualRoomByDialableNumber">
+      <input message="tns:viewVirtualRoomByDialableNumber"/>
+      <output message="tns:viewVirtualRoomByDialableNumberResponse"/>
+      <fault message="tns:InvalidArgumentException" name="InvalidArgumentException"/>
+      <fault message="tns:VirtualRoomNotFoundException" name="VirtualRoomNotFoundException"/>
+      <fault message="tns:ServiceMismatchException" name="ServiceMismatchException"/>
+    </operation>
+    <operation name="viewConferenceOrVirtualRoomByDialableNumber">
+      <input message="tns:viewConferenceOrVirtualRoomByDialableNumber"/>
+      <output message="tns:viewConferenceOrVirtualRoomByDialableNumberResponse"/>
+      <fault message="tns:InvalidArgumentException" name="InvalidArgumentException"/>
+      <fault message="tns:NotConferenceFoundException" name="NotConferenceFoundException"/>
+      <fault message="tns:ServiceMismatchException" name="ServiceMismatchException"/>
+      <fault message="tns:NoDefaultServiceException" name="NoDefaultServiceException"/>
+      <fault message="tns:UpcomingConferenceException" name="UpcomingConferenceException"/>
+      <fault message="tns:UpcomingConferenceConflictException" name="UpcomingConferenceConflictException"/>
+    </operation>
+    <operation name="getDialedNumberConferenceInfo">
+      <input message="tns:getDialedNumberConferenceInfo"/>
+      <output message="tns:getDialedNumberConferenceInfoResponse"/>
+      <fault message="tns:InvalidArgumentException" name="InvalidArgumentException"/>
+      <fault message="tns:ServiceMismatchException" name="ServiceMismatchException"/>
+      <fault message="tns:NoDefaultServiceException" name="NoDefaultServiceException"/>
+      <fault message="tns:UpcomingConferenceException" name="UpcomingConferenceException"/>
+      <fault message="tns:UpcomingConferenceConflictException" name="UpcomingConferenceConflictException"/>
+      <fault message="tns:NotConferenceFoundException" name="NotConferenceFoundException"/>
+    </operation>
+    <operation name="getVersion">
+      <input message="tns:getVersion"/>
+      <output message="tns:getVersionResponse"/>
+    </operation>
+  </portType>
+  <binding name="ScheduleServicePortBinding" type="tns:ScheduleServicePortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="getPhyConfId">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="createConference">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="createConferenceSP">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="modifyConference">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="modifyConferenceSP">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="deleteHistoryConferences">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="searchConferences">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="cancelConference">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="cancelConferences">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="viewConference">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="InvalidArgumentException">
+        <soap:fault name="InvalidArgumentException" use="literal"/>
+      </fault>
+      <fault name="NotConferenceFoundException">
+        <soap:fault name="NotConferenceFoundException" use="literal"/>
+      </fault>
+    </operation>
+    <operation name="removeConference">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="InvalidArgumentException">
+        <soap:fault name="InvalidArgumentException" use="literal"/>
+      </fault>
+    </operation>
+    <operation name="createRecurrence">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="addRecurrence">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="modifyRecurrence">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="cancelRecurrence">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="viewRecurrence">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="InvalidArgumentException">
+        <soap:fault name="InvalidArgumentException" use="literal"/>
+      </fault>
+    </operation>
+    <operation name="checkAlternativeTimes">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="InvalidArgumentException">
+        <soap:fault name="InvalidArgumentException" use="literal"/>
+      </fault>
+    </operation>
+    <operation name="checkAlternateTerminals">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="InvalidArgumentException">
+        <soap:fault name="InvalidArgumentException" use="literal"/>
+      </fault>
+      <fault name="InvalidTerminalIdException">
+        <soap:fault name="InvalidTerminalIdException" use="literal"/>
+      </fault>
+    </operation>
+    <operation name="viewVirtualRoomsByUserId">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="InvalidArgumentException">
+        <soap:fault name="InvalidArgumentException" use="literal"/>
+      </fault>
+      <fault name="VirtualRoomNotFoundException">
+        <soap:fault name="VirtualRoomNotFoundException" use="literal"/>
+      </fault>
+    </operation>
+    <operation name="viewVirtualRooms">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="InvalidArgumentException">
+        <soap:fault name="InvalidArgumentException" use="literal"/>
+      </fault>
+      <fault name="VirtualRoomNotFoundException">
+        <soap:fault name="VirtualRoomNotFoundException" use="literal"/>
+      </fault>
+      <fault name="UserNotExistException">
+        <soap:fault name="UserNotExistException" use="literal"/>
+      </fault>
+    </operation>
+    <operation name="viewVirtualRoomByName">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="InvalidArgumentException">
+        <soap:fault name="InvalidArgumentException" use="literal"/>
+      </fault>
+      <fault name="VirtualRoomNotFoundException">
+        <soap:fault name="VirtualRoomNotFoundException" use="literal"/>
+      </fault>
+    </operation>
+    <operation name="viewVirtualRoomById">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="InvalidArgumentException">
+        <soap:fault name="InvalidArgumentException" use="literal"/>
+      </fault>
+      <fault name="VirtualRoomNotFoundException">
+        <soap:fault name="VirtualRoomNotFoundException" use="literal"/>
+      </fault>
+    </operation>
+    <operation name="viewConferenceByDialableNumber">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="InvalidArgumentException">
+        <soap:fault name="InvalidArgumentException" use="literal"/>
+      </fault>
+      <fault name="NotConferenceFoundException">
+        <soap:fault name="NotConferenceFoundException" use="literal"/>
+      </fault>
+    </operation>
+    <operation name="createVirtualRoom">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="modifyVirtualRoom">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="deleteVirtualRoom">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="viewVirtualRoomByDialableNumber">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="InvalidArgumentException">
+        <soap:fault name="InvalidArgumentException" use="literal"/>
+      </fault>
+      <fault name="VirtualRoomNotFoundException">
+        <soap:fault name="VirtualRoomNotFoundException" use="literal"/>
+      </fault>
+      <fault name="ServiceMismatchException">
+        <soap:fault name="ServiceMismatchException" use="literal"/>
+      </fault>
+    </operation>
+    <operation name="viewConferenceOrVirtualRoomByDialableNumber">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="InvalidArgumentException">
+        <soap:fault name="InvalidArgumentException" use="literal"/>
+      </fault>
+      <fault name="NotConferenceFoundException">
+        <soap:fault name="NotConferenceFoundException" use="literal"/>
+      </fault>
+      <fault name="ServiceMismatchException">
+        <soap:fault name="ServiceMismatchException" use="literal"/>
+      </fault>
+      <fault name="NoDefaultServiceException">
+        <soap:fault name="NoDefaultServiceException" use="literal"/>
+      </fault>
+      <fault name="UpcomingConferenceException">
+        <soap:fault name="UpcomingConferenceException" use="literal"/>
+      </fault>
+      <fault name="UpcomingConferenceConflictException">
+        <soap:fault name="UpcomingConferenceConflictException" use="literal"/>
+      </fault>
+    </operation>
+    <operation name="getDialedNumberConferenceInfo">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="InvalidArgumentException">
+        <soap:fault name="InvalidArgumentException" use="literal"/>
+      </fault>
+      <fault name="ServiceMismatchException">
+        <soap:fault name="ServiceMismatchException" use="literal"/>
+      </fault>
+      <fault name="NoDefaultServiceException">
+        <soap:fault name="NoDefaultServiceException" use="literal"/>
+      </fault>
+      <fault name="UpcomingConferenceException">
+        <soap:fault name="UpcomingConferenceException" use="literal"/>
+      </fault>
+      <fault name="UpcomingConferenceConflictException">
+        <soap:fault name="UpcomingConferenceConflictException" use="literal"/>
+      </fault>
+      <fault name="NotConferenceFoundException">
+        <soap:fault name="NotConferenceFoundException" use="literal"/>
+      </fault>
+    </operation>
+    <operation name="getVersion">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="ScheduleService">
+    <port name="ScheduleServicePort" binding="tns:ScheduleServicePortBinding">
+      <soap:address location="REPLACE_WITH_ACTUAL_URL"/>
+    </port>
+  </service>
+</definitions>
+
