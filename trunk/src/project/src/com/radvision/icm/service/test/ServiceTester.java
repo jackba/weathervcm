@@ -13,7 +13,7 @@ import com.radvision.icm.service.vcm.ServiceType;
 public class ServiceTester {
 	//protected static String m_ipPort = "192.168.227.40:8080";
 	//protected static String m_ipPort = "192.168.1.102:8080";
-	protected static String m_ipPort = "192.168.225.207:8080";
+	protected static String m_ipPort = "192.168.1.101:8080";
 	private final static QName CONTROL_SERVICE = new QName(
 			"http://radvision.com/icm/service/controlservice", "ControlService");
 	private final static QName RESOURCE_SERVICE = new QName(
