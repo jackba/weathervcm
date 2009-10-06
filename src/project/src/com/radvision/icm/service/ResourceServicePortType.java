@@ -29,8 +29,8 @@ public interface ResourceServicePortType {
      * @param netClassificationName
      * @return
      *     returns java.util.List<com.radvision.icm.service.TerminalResource>
-     * @throws NoClassificationFoundException_Exception
      * @throws InvalidArgumentException_Exception
+     * @throws NoClassificationFoundException_Exception
      */
     @WebMethod
     @WebResult(name = "result", targetNamespace = "")
@@ -131,8 +131,8 @@ public interface ResourceServicePortType {
      * @param name
      * @return
      *     returns java.util.List<com.radvision.icm.service.TerminalResource>
-     * @throws NoClassificationFoundException_Exception
      * @throws InvalidArgumentException_Exception
+     * @throws NoClassificationFoundException_Exception
      */
     @WebMethod
     @WebResult(name = "result", targetNamespace = "")
@@ -147,5 +147,28 @@ public interface ResourceServicePortType {
         String dialingInfo)
         throws InvalidArgumentException_Exception, NoClassificationFoundException_Exception
     ;
+
+    /**
+     * 
+     * @param serviceTemplateIds
+     * @param startTime
+     * @param interval
+     * @param endTime
+     * @return
+     *     returns com.radvision.icm.service.McuResourceResult
+     */
+    @WebMethod
+    @WebResult(name = "result", targetNamespace = "")
+    @RequestWrapper(localName = "getResourceInfos", targetNamespace = "http://radvision.com/icm/service/resourceservice", className = "com.radvision.icm.service.GetResourceInfos")
+    @ResponseWrapper(localName = "getResourceInfosResponse", targetNamespace = "http://radvision.com/icm/service/resourceservice", className = "com.radvision.icm.service.GetResourceInfosResponse")
+    public McuResourceResult getResourceInfos(
+        @WebParam(name = "serviceTemplateIds", targetNamespace = "")
+        List<String> serviceTemplateIds,
+        @WebParam(name = "startTime", targetNamespace = "")
+        long startTime,
+        @WebParam(name = "endTime", targetNamespace = "")
+        long endTime,
+        @WebParam(name = "interval", targetNamespace = "")
+        int interval);
 
 }
