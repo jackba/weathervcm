@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions targetNamespace="http://radvision.com/icm/service/userservice" name="UserService" xmlns:tns="http://radvision.com/icm/service/userservice" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import namespace="http://radvision.com/icm/service/userservice" schemaLocation="UserService_schema1.xsd"/>
+    </xsd:schema>
+  </types>
+  <message name="getUserByLoginId">
+    <part name="parameters" element="tns:getUserByLoginId"/>
+  </message>
+  <message name="getUserByLoginIdResponse">
+    <part name="parameters" element="tns:getUserByLoginIdResponse"/>
+  </message>
+  <message name="UserNotExistedException">
+    <part name="fault" element="tns:UserNotExistedException"/>
+  </message>
+  <message name="searchUsersByLoginId">
+    <part name="parameters" element="tns:searchUsersByLoginId"/>
+  </message>
+  <message name="searchUsersByLoginIdResponse">
+    <part name="parameters" element="tns:searchUsersByLoginIdResponse"/>
+  </message>
+  <message name="setUsers">
+    <part name="parameters" element="tns:setUsers"/>
+  </message>
+  <message name="setUsersResponse">
+    <part name="parameters" element="tns:setUsersResponse"/>
+  </message>
+  <message name="deleteUsers">
+    <part name="parameters" element="tns:deleteUsers"/>
+  </message>
+  <message name="deleteUsersResponse">
+    <part name="parameters" element="tns:deleteUsersResponse"/>
+  </message>
+  <message name="getUsers">
+    <part name="parameters" element="tns:getUsers"/>
+  </message>
+  <message name="getUsersResponse">
+    <part name="parameters" element="tns:getUsersResponse"/>
+  </message>
+  <message name="searchUsers">
+    <part name="parameters" element="tns:searchUsers"/>
+  </message>
+  <message name="searchUsersResponse">
+    <part name="parameters" element="tns:searchUsersResponse"/>
+  </message>
+  <message name="authUser">
+    <part name="parameters" element="tns:authUser"/>
+  </message>
+  <message name="authUserResponse">
+    <part name="parameters" element="tns:authUserResponse"/>
+  </message>
+  <portType name="UserServicePortType">
+    <operation name="getUserByLoginId">
+      <input message="tns:getUserByLoginId"/>
+      <output message="tns:getUserByLoginIdResponse"/>
+      <fault message="tns:UserNotExistedException" name="UserNotExistedException"/>
+    </operation>
+    <operation name="searchUsersByLoginId">
+      <input message="tns:searchUsersByLoginId"/>
+      <output message="tns:searchUsersByLoginIdResponse"/>
+    </operation>
+    <operation name="setUsers">
+      <input message="tns:setUsers"/>
+      <output message="tns:setUsersResponse"/>
+    </operation>
+    <operation name="deleteUsers">
+      <input message="tns:deleteUsers"/>
+      <output message="tns:deleteUsersResponse"/>
+    </operation>
+    <operation name="getUsers">
+      <input message="tns:getUsers"/>
+      <output message="tns:getUsersResponse"/>
+    </operation>
+    <operation name="searchUsers">
+      <input message="tns:searchUsers"/>
+      <output message="tns:searchUsersResponse"/>
+    </operation>
+    <operation name="authUser">
+      <input message="tns:authUser"/>
+      <output message="tns:authUserResponse"/>
+    </operation>
+  </portType>
+  <binding name="UserServicePortBinding" type="tns:UserServicePortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="getUserByLoginId">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="UserNotExistedException">
+        <soap:fault name="UserNotExistedException" use="literal"/>
+      </fault>
+    </operation>
+    <operation name="searchUsersByLoginId">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="setUsers">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="deleteUsers">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="getUsers">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="searchUsers">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="authUser">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="UserService">
+    <port name="UserServicePort" binding="tns:UserServicePortBinding">
+      <soap:address location="REPLACE_WITH_ACTUAL_URL"/>
+    </port>
+  </service>
+</definitions>
+

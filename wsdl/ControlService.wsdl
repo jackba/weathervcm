@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions targetNamespace="http://radvision.com/icm/service/controlservice" name="ControlService" xmlns:tns="http://radvision.com/icm/service/controlservice" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import namespace="http://radvision.com/icm/service/controlservice" schemaLocation="ControlService_schema1.xsd"/>
+    </xsd:schema>
+  </types>
+  <message name="extendLiveConference">
+    <part name="parameters" element="tns:extendLiveConference"/>
+  </message>
+  <message name="extendLiveConferenceResponse">
+    <part name="parameters" element="tns:extendLiveConferenceResponse"/>
+  </message>
+  <message name="terminateLiveConference">
+    <part name="parameters" element="tns:terminateLiveConference"/>
+  </message>
+  <message name="terminateLiveConferenceResponse">
+    <part name="parameters" element="tns:terminateLiveConferenceResponse"/>
+  </message>
+  <message name="inviteNewTerminal">
+    <part name="parameters" element="tns:inviteNewTerminal"/>
+  </message>
+  <message name="inviteNewTerminalResponse">
+    <part name="parameters" element="tns:inviteNewTerminalResponse"/>
+  </message>
+  <message name="inviteNewTerminalEx">
+    <part name="parameters" element="tns:inviteNewTerminalEx"/>
+  </message>
+  <message name="inviteNewTerminalExResponse">
+    <part name="parameters" element="tns:inviteNewTerminalExResponse"/>
+  </message>
+  <message name="dropAttendedTerminal">
+    <part name="parameters" element="tns:dropAttendedTerminal"/>
+  </message>
+  <message name="dropAttendedTerminalResponse">
+    <part name="parameters" element="tns:dropAttendedTerminalResponse"/>
+  </message>
+  <portType name="ControlServicePortType">
+    <operation name="extendLiveConference">
+      <input message="tns:extendLiveConference"/>
+      <output message="tns:extendLiveConferenceResponse"/>
+    </operation>
+    <operation name="terminateLiveConference">
+      <input message="tns:terminateLiveConference"/>
+      <output message="tns:terminateLiveConferenceResponse"/>
+    </operation>
+    <operation name="inviteNewTerminal">
+      <input message="tns:inviteNewTerminal"/>
+      <output message="tns:inviteNewTerminalResponse"/>
+    </operation>
+    <operation name="inviteNewTerminalEx">
+      <input message="tns:inviteNewTerminalEx"/>
+      <output message="tns:inviteNewTerminalExResponse"/>
+    </operation>
+    <operation name="dropAttendedTerminal">
+      <input message="tns:dropAttendedTerminal"/>
+      <output message="tns:dropAttendedTerminalResponse"/>
+    </operation>
+  </portType>
+  <binding name="ControlServicePortBinding" type="tns:ControlServicePortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="extendLiveConference">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="terminateLiveConference">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="inviteNewTerminal">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="inviteNewTerminalEx">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="dropAttendedTerminal">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="ControlService">
+    <port name="ControlServicePort" binding="tns:ControlServicePortBinding">
+      <soap:address location="REPLACE_WITH_ACTUAL_URL"/>
+    </port>
+  </service>
+</definitions>
+

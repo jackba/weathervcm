@@ -1,0 +1,899 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" targetNamespace="http://radvision.com/icm/service/scheduleservice" xmlns:tns="http://radvision.com/icm/service/scheduleservice" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="InvalidArgumentException" type="tns:InvalidArgumentException"/>
+
+  <xs:element name="InvalidTerminalIdException" type="tns:InvalidTerminalIdException"/>
+
+  <xs:element name="NoDefaultServiceException" type="tns:NoDefaultServiceException"/>
+
+  <xs:element name="NotConferenceFoundException" type="tns:NotConferenceFoundException"/>
+
+  <xs:element name="ServiceMismatchException" type="tns:ServiceMismatchException"/>
+
+  <xs:element name="UpcomingConferenceConflictException" type="tns:UpcomingConferenceConflictException"/>
+
+  <xs:element name="UpcomingConferenceException" type="tns:UpcomingConferenceException"/>
+
+  <xs:element name="UserNotExistException" type="tns:UserNotExistException"/>
+
+  <xs:element name="VirtualRoomNotFoundException" type="tns:VirtualRoomNotFoundException"/>
+
+  <xs:element name="addRecurrence" type="tns:addRecurrence"/>
+
+  <xs:element name="addRecurrenceResponse" type="tns:addRecurrenceResponse"/>
+
+  <xs:element name="cancelConference" type="tns:cancelConference"/>
+
+  <xs:element name="cancelConferenceResponse" type="tns:cancelConferenceResponse"/>
+
+  <xs:element name="cancelConferences" type="tns:cancelConferences"/>
+
+  <xs:element name="cancelConferencesResponse" type="tns:cancelConferencesResponse"/>
+
+  <xs:element name="cancelRecurrence" type="tns:cancelRecurrence"/>
+
+  <xs:element name="cancelRecurrenceResponse" type="tns:cancelRecurrenceResponse"/>
+
+  <xs:element name="checkAlternateTerminals" type="tns:checkAlternateTerminals"/>
+
+  <xs:element name="checkAlternateTerminalsResponse" type="tns:checkAlternateTerminalsResponse"/>
+
+  <xs:element name="checkAlternativeTimes" type="tns:checkAlternativeTimes"/>
+
+  <xs:element name="checkAlternativeTimesResponse" type="tns:checkAlternativeTimesResponse"/>
+
+  <xs:element name="createConference" type="tns:createConference"/>
+
+  <xs:element name="createConferenceResponse" type="tns:createConferenceResponse"/>
+
+  <xs:element name="createConferenceSP" type="tns:createConferenceSP"/>
+
+  <xs:element name="createConferenceSPResponse" type="tns:createConferenceSPResponse"/>
+
+  <xs:element name="createRecurrence" type="tns:createRecurrence"/>
+
+  <xs:element name="createRecurrenceResponse" type="tns:createRecurrenceResponse"/>
+
+  <xs:element name="createVirtualRoom" type="tns:createVirtualRoom"/>
+
+  <xs:element name="createVirtualRoomResponse" type="tns:createVirtualRoomResponse"/>
+
+  <xs:element name="deleteHistoryConferences" type="tns:deleteHistoryConferences"/>
+
+  <xs:element name="deleteHistoryConferencesResponse" type="tns:deleteHistoryConferencesResponse"/>
+
+  <xs:element name="deleteVirtualRoom" type="tns:deleteVirtualRoom"/>
+
+  <xs:element name="deleteVirtualRoomResponse" type="tns:deleteVirtualRoomResponse"/>
+
+  <xs:element name="getDialedNumberConferenceInfo" type="tns:getDialedNumberConferenceInfo"/>
+
+  <xs:element name="getDialedNumberConferenceInfoResponse" type="tns:getDialedNumberConferenceInfoResponse"/>
+
+  <xs:element name="getPhyConfId" type="tns:getPhyConfId"/>
+
+  <xs:element name="getPhyConfIdResponse" type="tns:getPhyConfIdResponse"/>
+
+  <xs:element name="getVersion" type="tns:getVersion"/>
+
+  <xs:element name="getVersionResponse" type="tns:getVersionResponse"/>
+
+  <xs:element name="modifyConference" type="tns:modifyConference"/>
+
+  <xs:element name="modifyConferenceResponse" type="tns:modifyConferenceResponse"/>
+
+  <xs:element name="modifyConferenceSP" type="tns:modifyConferenceSP"/>
+
+  <xs:element name="modifyConferenceSPResponse" type="tns:modifyConferenceSPResponse"/>
+
+  <xs:element name="modifyRecurrence" type="tns:modifyRecurrence"/>
+
+  <xs:element name="modifyRecurrenceResponse" type="tns:modifyRecurrenceResponse"/>
+
+  <xs:element name="modifyVirtualRoom" type="tns:modifyVirtualRoom"/>
+
+  <xs:element name="modifyVirtualRoomResponse" type="tns:modifyVirtualRoomResponse"/>
+
+  <xs:element name="removeConference" type="tns:removeConference"/>
+
+  <xs:element name="removeConferenceResponse" type="tns:removeConferenceResponse"/>
+
+  <xs:element name="searchConferences" type="tns:searchConferences"/>
+
+  <xs:element name="searchConferencesResponse" type="tns:searchConferencesResponse"/>
+
+  <xs:element name="viewConference" type="tns:viewConference"/>
+
+  <xs:element name="viewConferenceByDialableNumber" type="tns:viewConferenceByDialableNumber"/>
+
+  <xs:element name="viewConferenceByDialableNumberResponse" type="tns:viewConferenceByDialableNumberResponse"/>
+
+  <xs:element name="viewConferenceOrVirtualRoomByDialableNumber" type="tns:viewConferenceOrVirtualRoomByDialableNumber"/>
+
+  <xs:element name="viewConferenceOrVirtualRoomByDialableNumberResponse" type="tns:viewConferenceOrVirtualRoomByDialableNumberResponse"/>
+
+  <xs:element name="viewConferenceResponse" type="tns:viewConferenceResponse"/>
+
+  <xs:element name="viewRecurrence" type="tns:viewRecurrence"/>
+
+  <xs:element name="viewRecurrenceResponse" type="tns:viewRecurrenceResponse"/>
+
+  <xs:element name="viewVirtualRoomByDialableNumber" type="tns:viewVirtualRoomByDialableNumber"/>
+
+  <xs:element name="viewVirtualRoomByDialableNumberResponse" type="tns:viewVirtualRoomByDialableNumberResponse"/>
+
+  <xs:element name="viewVirtualRoomById" type="tns:viewVirtualRoomById"/>
+
+  <xs:element name="viewVirtualRoomByIdResponse" type="tns:viewVirtualRoomByIdResponse"/>
+
+  <xs:element name="viewVirtualRoomByName" type="tns:viewVirtualRoomByName"/>
+
+  <xs:element name="viewVirtualRoomByNameResponse" type="tns:viewVirtualRoomByNameResponse"/>
+
+  <xs:element name="viewVirtualRooms" type="tns:viewVirtualRooms"/>
+
+  <xs:element name="viewVirtualRoomsByUserId" type="tns:viewVirtualRoomsByUserId"/>
+
+  <xs:element name="viewVirtualRoomsByUserIdResponse" type="tns:viewVirtualRoomsByUserIdResponse"/>
+
+  <xs:element name="viewVirtualRoomsResponse" type="tns:viewVirtualRoomsResponse"/>
+
+  <xs:complexType name="viewInfo">
+    <xs:complexContent>
+      <xs:extension base="tns:layoutInfo">
+        <xs:sequence>
+          <xs:element name="dynamic" type="xs:boolean"/>
+          <xs:element name="initialLayoutID" type="xs:string" minOccurs="0"/>
+          <xs:element name="maxLayoutID" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="layoutInfo">
+    <xs:sequence>
+      <xs:element name="frameTitleShowedState" type="xs:string" minOccurs="0"/>
+      <xs:element name="layoutId" type="xs:string" minOccurs="0"/>
+      <xs:element name="layoutType" type="xs:string" minOccurs="0"/>
+      <xs:element name="videoRole" type="xs:string" minOccurs="0"/>
+      <xs:element name="viewId" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="viewConferenceOrVirtualRoomByDialableNumber">
+    <xs:sequence>
+      <xs:element name="dialableNumber" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="viewConferenceOrVirtualRoomByDialableNumberResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:conferenceInfo" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="conferenceInfo">
+    <xs:sequence>
+      <xs:element name="admitUnresolvedCalls" type="xs:boolean"/>
+      <xs:element name="advancedInfo" type="tns:conferenceAdvancedInfo" minOccurs="0"/>
+      <xs:element name="allowRecording" type="xs:boolean" minOccurs="0"/>
+      <xs:element name="allowStreaming" type="xs:boolean" minOccurs="0"/>
+      <xs:element name="autoExtend" type="xs:boolean"/>
+      <xs:element name="blockDialin" type="xs:boolean"/>
+      <xs:element name="classificationName" type="xs:string" minOccurs="0"/>
+      <xs:element name="conferenceId" type="xs:string" minOccurs="0"/>
+      <xs:element name="conferenceStatus" type="xs:int"/>
+      <xs:element name="description" type="xs:string" minOccurs="0"/>
+      <xs:element name="dialIn" type="xs:boolean"/>
+      <xs:element name="dialableConferenceId" type="xs:string" minOccurs="0"/>
+      <xs:element name="endTime" type="xs:long"/>
+      <xs:element name="events" type="tns:eventInfo" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="forcedDialableConferenceId" type="xs:boolean"/>
+      <xs:element name="fullControlPassword" type="xs:string" minOccurs="0"/>
+      <xs:element name="layouts" type="tns:layoutInfo" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="meetingTypeId" type="xs:string" minOccurs="0"/>
+      <xs:element name="orgID" type="xs:string" minOccurs="0"/>
+      <xs:element name="password" type="xs:string" minOccurs="0"/>
+      <xs:element name="priority" type="xs:int"/>
+      <xs:element name="recordMeetingWhenStart" type="xs:boolean" minOccurs="0"/>
+      <xs:element name="recordingDuration" type="xs:int" minOccurs="0"/>
+      <xs:element name="recordingQuality" type="xs:int" minOccurs="0"/>
+      <xs:element name="recurrenceId" type="xs:string" minOccurs="0"/>
+      <xs:element name="requiredLevel" type="xs:int"/>
+      <xs:element name="reservedIPPorts" type="xs:int"/>
+      <xs:element name="reservedISDNPorts" type="xs:int"/>
+      <xs:element name="reservedSPAudioOnlyPorts" type="xs:int"/>
+      <xs:element name="reservedTPAudioOnlyPorts" type="xs:int"/>
+      <xs:element name="rooms" type="tns:roomInfo" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="SDGInfo" type="tns:sdgInfo" minOccurs="0"/>
+      <xs:element name="servicePrefix" type="xs:string" minOccurs="0"/>
+      <xs:element name="startTime" type="xs:long"/>
+      <xs:element name="streamingStatus" type="xs:int"/>
+      <xs:element name="subject" type="xs:string" minOccurs="0"/>
+      <xs:element name="terminals" type="tns:terminalInfo" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="testSchedule" type="xs:boolean"/>
+      <xs:element name="timeZoneId" type="xs:string" minOccurs="0"/>
+      <xs:element name="userID" type="xs:string" minOccurs="0"/>
+      <xs:element name="waitingRoom" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="conferenceAdvancedInfo">
+    <xs:sequence>
+      <xs:element name="allowDynamicGrow" type="xs:boolean"/>
+      <xs:element name="durationAfterLeft" type="xs:int"/>
+      <xs:element name="enableMCUCascading" type="xs:boolean"/>
+      <xs:element name="terminationCondition" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="eventInfo">
+    <xs:sequence>
+      <xs:element name="eventMemo" type="xs:string" minOccurs="0"/>
+      <xs:element name="eventType" type="xs:int"/>
+      <xs:element name="relativeTime" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="roomInfo">
+    <xs:sequence>
+      <xs:element name="roomId" type="xs:string" minOccurs="0"/>
+      <xs:element name="terminalId" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="sdgInfo">
+    <xs:sequence>
+      <xs:element name="SDGAccessInfos" type="tns:sdgAccessInfo" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="sdgAccessInfo">
+    <xs:sequence>
+      <xs:element name="SDGAccessURL" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="terminalInfo">
+    <xs:sequence>
+      <xs:element name="areaCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="audioOnly" type="xs:boolean"/>
+      <xs:element name="audioOnlyPortCount" type="xs:int"/>
+      <xs:element name="audioVideoPortCount" type="xs:int"/>
+      <xs:element name="bindingAreaCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="bindingCountryCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="bindingNumber" type="xs:string" minOccurs="0"/>
+      <xs:element name="countryCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="dual" type="xs:boolean"/>
+      <xs:element name="host" type="xs:boolean"/>
+      <xs:element name="ISDN" type="xs:boolean"/>
+      <xs:element name="layouts" type="tns:terminalLayoutInfo" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="outSider" type="xs:boolean"/>
+      <xs:element name="scheduleInfo" type="tns:scheduleInfo" minOccurs="0"/>
+      <xs:element name="scheduledGWId" type="xs:string" minOccurs="0"/>
+      <xs:element name="telePresence" type="xs:boolean"/>
+      <xs:element name="terminalId" type="xs:string" minOccurs="0"/>
+      <xs:element name="terminalNumber" type="xs:string" minOccurs="0"/>
+      <xs:element name="videoOnlyPortCount" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="terminalLayoutInfo">
+    <xs:sequence>
+      <xs:element name="layoutType" type="xs:string" minOccurs="0"/>
+      <xs:element name="positionId" type="xs:string" minOccurs="0"/>
+      <xs:element name="viewId" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="scheduleInfo">
+    <xs:sequence>
+      <xs:element name="DIDNumber" type="xs:string" minOccurs="0"/>
+      <xs:element name="dialableConferenceId" type="xs:string" minOccurs="0"/>
+      <xs:element name="dialingExpression" type="xs:string" minOccurs="0"/>
+      <xs:element name="gateway" type="tns:gatewayInfo" minOccurs="0"/>
+      <xs:element name="zonePrefix" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="gatewayInfo">
+    <xs:sequence>
+      <xs:element name="gatewayPorts" type="tns:gatewayPort" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="gatewayPort">
+    <xs:sequence>
+      <xs:element name="areaCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="countryCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="networkAlias" type="xs:string" minOccurs="0"/>
+      <xs:element name="telephoneNumber" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="InvalidArgumentException">
+    <xs:sequence>
+      <xs:element name="message" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="NotConferenceFoundException">
+    <xs:sequence>
+      <xs:element name="message" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ServiceMismatchException">
+    <xs:sequence>
+      <xs:element name="message" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="NoDefaultServiceException">
+    <xs:sequence>
+      <xs:element name="message" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="UpcomingConferenceException">
+    <xs:sequence>
+      <xs:element name="message" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="UpcomingConferenceConflictException">
+    <xs:sequence>
+      <xs:element name="message" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="createConferenceSP">
+    <xs:sequence>
+      <xs:element name="conferenceInfo" type="tns:conferenceInfo" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="createConferenceSPResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:scheduleResult" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="scheduleResult">
+    <xs:sequence>
+      <xs:element name="conferenceId" type="xs:string" minOccurs="0"/>
+      <xs:element name="conferenceInfo" type="tns:conferenceInfo" minOccurs="0"/>
+      <xs:element name="errorInfo" type="xs:string" minOccurs="0"/>
+      <xs:element name="errorStatus" type="xs:int"/>
+      <xs:element name="localAccessUrl" type="xs:string" minOccurs="0"/>
+      <xs:element name="publicAccessUrl" type="xs:string" minOccurs="0"/>
+      <xs:element name="resourceDeviceType" type="xs:int"/>
+      <xs:element name="resourceId" type="xs:string" minOccurs="0"/>
+      <xs:element name="resourceType" type="xs:int"/>
+      <xs:element name="success" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="viewVirtualRoomsByUserId">
+    <xs:sequence>
+      <xs:element name="userId" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="viewVirtualRoomsByUserIdResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:virtualRoomInfo" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="virtualRoomInfo">
+    <xs:complexContent>
+      <xs:extension base="tns:conferenceInfo">
+        <xs:sequence>
+          <xs:element name="gatewayInfo" type="tns:gatewayInfo" minOccurs="0"/>
+          <xs:element name="name" type="xs:string" minOccurs="0"/>
+          <xs:element name="public" type="xs:boolean"/>
+          <xs:element name="virtualRoomNumber" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="VirtualRoomNotFoundException">
+    <xs:sequence>
+      <xs:element name="message" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="checkAlternateTerminals">
+    <xs:sequence>
+      <xs:element name="terminalIds" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="startTime" type="xs:long"/>
+      <xs:element name="endTime" type="xs:long"/>
+      <xs:element name="cycleInterval" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="checkAlternateTerminalsResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:alternateTerminalsTimedSlice" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="alternateTerminalsTimedSlice">
+    <xs:sequence>
+      <xs:element name="alternateTerminals" type="tns:alternateTerminal" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="endTime" type="xs:long"/>
+      <xs:element name="startTime" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="alternateTerminal">
+    <xs:sequence>
+      <xs:element name="available" type="xs:boolean"/>
+      <xs:element name="terminalId" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="InvalidTerminalIdException">
+    <xs:sequence>
+      <xs:element name="message" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getDialedNumberConferenceInfo">
+    <xs:sequence>
+      <xs:element name="dialableNumber" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getDialedNumberConferenceInfoResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:conferenceInfo" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="cancelConference">
+    <xs:sequence>
+      <xs:element name="conferenceId" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="cancelConferenceResponse">
+    <xs:sequence>
+      <xs:element name="result" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="viewRecurrence">
+    <xs:sequence>
+      <xs:element name="recurrenceId" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="viewRecurrenceResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:recurrenceInfo" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="recurrenceInfo">
+    <xs:sequence>
+      <xs:element name="conferenceInfoTemplate" type="tns:conferenceInfo" minOccurs="0"/>
+      <xs:element name="conferenceInfos" type="tns:conferenceInfo" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="recurInstanceInfos" type="tns:recurInstanceInfo" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="recurrenceId" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="recurInstanceInfo">
+    <xs:sequence>
+      <xs:element name="endTime" type="xs:long"/>
+      <xs:element name="instanceId" type="xs:string" minOccurs="0"/>
+      <xs:element name="startTime" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="createVirtualRoom">
+    <xs:sequence>
+      <xs:element name="virtualRoo" type="tns:virtualRoomInfoEx" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="virtualRoomInfoEx">
+    <xs:sequence>
+      <xs:element name="attendees" type="tns:wsTemplateAttendeeInfo" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="blockDialIn" type="xs:boolean"/>
+      <xs:element name="chairControlPassword" type="xs:string" minOccurs="0"/>
+      <xs:element name="description" type="xs:string" minOccurs="0"/>
+      <xs:element name="duration" type="xs:int"/>
+      <xs:element name="isAutoExtend" type="xs:boolean"/>
+      <xs:element name="memberID" type="xs:string" minOccurs="0"/>
+      <xs:element name="outsiders" type="tns:wsOutsiderInfo" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="password" type="xs:string" minOccurs="0"/>
+      <xs:element name="recordMeetingWhenStart" type="xs:boolean"/>
+      <xs:element name="referenceCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="reservedPorts" type="xs:int"/>
+      <xs:element name="serviceID" type="xs:string" minOccurs="0"/>
+      <xs:element name="streamingRecording" type="xs:boolean"/>
+      <xs:element name="streamingStatus" type="xs:int"/>
+      <xs:element name="timeZone" type="xs:string" minOccurs="0"/>
+      <xs:element name="userID" type="xs:string" minOccurs="0"/>
+      <xs:element name="virtualRoomID" type="xs:string" minOccurs="0"/>
+      <xs:element name="virtualRoomName" type="xs:string" minOccurs="0"/>
+      <xs:element name="virtualRoomNumber" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="wsTemplateAttendeeInfo">
+    <xs:sequence>
+      <xs:element name="areaCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="bandwidth" type="xs:int"/>
+      <xs:element name="countryCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="dialIn" type="xs:boolean"/>
+      <xs:element name="dual" type="xs:boolean"/>
+      <xs:element name="e164" type="xs:string" minOccurs="0"/>
+      <xs:element name="email" type="xs:string" minOccurs="0"/>
+      <xs:element name="firstName" type="xs:string" minOccurs="0"/>
+      <xs:element name="for3G" type="xs:boolean"/>
+      <xs:element name="host" type="xs:boolean"/>
+      <xs:element name="ISDN" type="xs:boolean"/>
+      <xs:element name="lastName" type="xs:string" minOccurs="0"/>
+      <xs:element name="memberID" type="xs:string" minOccurs="0"/>
+      <xs:element name="outsiderType" type="xs:string" minOccurs="0"/>
+      <xs:element name="owner" type="xs:boolean"/>
+      <xs:element name="partyProtocolType" type="xs:string" minOccurs="0"/>
+      <xs:element name="terminalAlias" type="xs:string" minOccurs="0"/>
+      <xs:element name="terminalAttendee" type="xs:boolean"/>
+      <xs:element name="terminalId" type="xs:string" minOccurs="0"/>
+      <xs:element name="terminalNumber" type="xs:string" minOccurs="0"/>
+      <xs:element name="userID" type="xs:string" minOccurs="0"/>
+      <xs:element name="viewID" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="wsOutsiderInfo">
+    <xs:sequence>
+      <xs:element name="areaCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="bandwidth" type="xs:int"/>
+      <xs:element name="countryCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="dialIn" type="xs:boolean"/>
+      <xs:element name="dual" type="xs:boolean"/>
+      <xs:element name="e164" type="xs:string" minOccurs="0"/>
+      <xs:element name="email" type="xs:string" minOccurs="0"/>
+      <xs:element name="firstName" type="xs:string" minOccurs="0"/>
+      <xs:element name="for3G" type="xs:boolean"/>
+      <xs:element name="host" type="xs:boolean"/>
+      <xs:element name="ISDN" type="xs:boolean"/>
+      <xs:element name="lastName" type="xs:string" minOccurs="0"/>
+      <xs:element name="outsiderType" type="xs:string" minOccurs="0"/>
+      <xs:element name="owner" type="xs:boolean"/>
+      <xs:element name="partyProtocolType" type="xs:string" minOccurs="0"/>
+      <xs:element name="terminalAlias" type="xs:string" minOccurs="0"/>
+      <xs:element name="terminalAttendee" type="xs:boolean"/>
+      <xs:element name="terminalId" type="xs:string" minOccurs="0"/>
+      <xs:element name="terminalNumber" type="xs:string" minOccurs="0"/>
+      <xs:element name="viewID" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="createVirtualRoomResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:virtualRoomResult" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="virtualRoomResult">
+    <xs:sequence>
+      <xs:element name="errorInfo" type="xs:string" minOccurs="0"/>
+      <xs:element name="errorStatus" type="xs:int"/>
+      <xs:element name="success" type="xs:boolean"/>
+      <xs:element name="virtualRoomID" type="xs:string" minOccurs="0"/>
+      <xs:element name="virtualRoomInfo" type="tns:virtualRoomInfoEx" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="createConference">
+    <xs:sequence>
+      <xs:element name="conferenceInfo" type="tns:conferenceInfo" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="createConferenceResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:scheduleResult" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addRecurrence">
+    <xs:sequence>
+      <xs:element name="recurrenceInfo" type="tns:recurrenceInfo" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addRecurrenceResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:scheduleResult" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="modifyVirtualRoom">
+    <xs:sequence>
+      <xs:element name="virtualRoo" type="tns:virtualRoomInfoEx" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="modifyVirtualRoomResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:virtualRoomResult" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="cancelRecurrence">
+    <xs:sequence>
+      <xs:element name="recurrenceId" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="cancelRecurrenceResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:scheduleResult" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="viewVirtualRooms">
+    <xs:sequence>
+      <xs:element name="loginId" type="xs:string" minOccurs="0"/>
+      <xs:element name="memberId" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="viewVirtualRoomsResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:virtualRoomInfo" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="UserNotExistException">
+    <xs:sequence>
+      <xs:element name="message" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="viewVirtualRoomById">
+    <xs:sequence>
+      <xs:element name="virtualRoomId" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="viewVirtualRoomByIdResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:virtualRoomInfo" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getVersion">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getVersionResponse">
+    <xs:sequence>
+      <xs:element name="result" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="viewVirtualRoomByDialableNumber">
+    <xs:sequence>
+      <xs:element name="dialableNumber" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="viewVirtualRoomByDialableNumberResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:virtualRoomInfo" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="searchConferences">
+    <xs:sequence>
+      <xs:element name="condition" type="tns:conferenceInfoCondition" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="conferenceInfoCondition">
+    <xs:sequence>
+      <xs:element name="conferenceId" type="xs:string" minOccurs="0"/>
+      <xs:element name="conferenceStatus" type="xs:int"/>
+      <xs:element name="endTime" type="xs:long"/>
+      <xs:element name="partyE164" type="xs:string" minOccurs="0"/>
+      <xs:element name="startTime" type="xs:long"/>
+      <xs:element name="subject" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="searchConferencesResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:conferenceInfo" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="deleteVirtualRoom">
+    <xs:sequence>
+      <xs:element name="virtualRoomNumber" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="deleteVirtualRoomResponse">
+    <xs:sequence>
+      <xs:element name="result" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="deleteHistoryConferences">
+    <xs:sequence>
+      <xs:element name="conferenceIds" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="deleteHistoryConferencesResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:scheduleResult" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="createRecurrence">
+    <xs:sequence>
+      <xs:element name="recurrenceInfo" type="tns:recurrenceInfo" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="createRecurrenceResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:scheduleResult" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="viewConference">
+    <xs:sequence>
+      <xs:element name="conferenceId" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="viewConferenceResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:conferenceInfo" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="modifyRecurrence">
+    <xs:sequence>
+      <xs:element name="recurrenceInfo" type="tns:recurrenceInfo" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="modifyRecurrenceResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:scheduleResult" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="modifyConferenceSP">
+    <xs:sequence>
+      <xs:element name="conferenceInfo" type="tns:conferenceInfo" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="modifyConferenceSPResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:scheduleResult" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="modifyConference">
+    <xs:sequence>
+      <xs:element name="conferenceInfo" type="tns:conferenceInfo" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="modifyConferenceResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:scheduleResult" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="checkAlternativeTimes">
+    <xs:sequence>
+      <xs:element name="conferenceInfo" type="tns:conferenceInfo" minOccurs="0"/>
+      <xs:element name="startTime" type="xs:long"/>
+      <xs:element name="endTime" type="xs:long"/>
+      <xs:element name="cycleInterval" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="checkAlternativeTimesResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:availableInfo" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="availableInfo">
+    <xs:sequence>
+      <xs:element name="available" type="xs:boolean"/>
+      <xs:element name="endTime" type="xs:long"/>
+      <xs:element name="startTime" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="viewConferenceByDialableNumber">
+    <xs:sequence>
+      <xs:element name="dialableNumber" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="viewConferenceByDialableNumberResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:conferenceInfo" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="cancelConferences">
+    <xs:sequence>
+      <xs:element name="conferenceIds" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="cancelConferencesResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:scheduleResult" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="removeConference">
+    <xs:sequence>
+      <xs:element name="conferenceId" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="removeConferenceResponse">
+    <xs:sequence>
+      <xs:element name="result" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getPhyConfId">
+    <xs:sequence>
+      <xs:element name="conferenceId" type="xs:string" minOccurs="0"/>
+      <xs:element name="terminalIdOrNumber" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getPhyConfIdResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:scheduleResultEx" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="scheduleResultEx">
+    <xs:complexContent>
+      <xs:extension base="tns:scheduleResult">
+        <xs:sequence>
+          <xs:element name="phyConfId" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="viewVirtualRoomByName">
+    <xs:sequence>
+      <xs:element name="virtualRoomName" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="viewVirtualRoomByNameResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:virtualRoomInfo" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions targetNamespace="http://radvision.com/icm/service/licenseservice" name="LicenseService" xmlns:tns="http://radvision.com/icm/service/licenseservice" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import namespace="http://radvision.com/icm/service/licenseservice" schemaLocation="LicenseService_schema1.xsd"/>
+    </xsd:schema>
+  </types>
+  <message name="setConcurrentCapacity">
+    <part name="parameters" element="tns:setConcurrentCapacity"/>
+  </message>
+  <message name="setConcurrentCapacityResponse">
+    <part name="parameters" element="tns:setConcurrentCapacityResponse"/>
+  </message>
+  <message name="CapacityException">
+    <part name="fault" element="tns:CapacityException"/>
+  </message>
+  <portType name="LicenseServicePortType">
+    <operation name="setConcurrentCapacity">
+      <input message="tns:setConcurrentCapacity"/>
+      <output message="tns:setConcurrentCapacityResponse"/>
+      <fault message="tns:CapacityException" name="CapacityException"/>
+    </operation>
+  </portType>
+  <binding name="LicenseServicePortBinding" type="tns:LicenseServicePortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="setConcurrentCapacity">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="CapacityException">
+        <soap:fault name="CapacityException" use="literal"/>
+      </fault>
+    </operation>
+  </binding>
+  <service name="LicenseService">
+    <port name="LicenseServicePort" binding="tns:LicenseServicePortBinding">
+      <soap:address location="REPLACE_WITH_ACTUAL_URL"/>
+    </port>
+  </service>
+</definitions>
+

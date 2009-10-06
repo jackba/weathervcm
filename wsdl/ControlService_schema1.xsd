@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" targetNamespace="http://radvision.com/icm/service/controlservice" xmlns:tns="http://radvision.com/icm/service/controlservice" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="dropAttendedTerminal" type="tns:dropAttendedTerminal"/>
+
+  <xs:element name="dropAttendedTerminalResponse" type="tns:dropAttendedTerminalResponse"/>
+
+  <xs:element name="extendLiveConference" type="tns:extendLiveConference"/>
+
+  <xs:element name="extendLiveConferenceResponse" type="tns:extendLiveConferenceResponse"/>
+
+  <xs:element name="inviteNewTerminal" type="tns:inviteNewTerminal"/>
+
+  <xs:element name="inviteNewTerminalEx" type="tns:inviteNewTerminalEx"/>
+
+  <xs:element name="inviteNewTerminalExResponse" type="tns:inviteNewTerminalExResponse"/>
+
+  <xs:element name="inviteNewTerminalResponse" type="tns:inviteNewTerminalResponse"/>
+
+  <xs:element name="terminateLiveConference" type="tns:terminateLiveConference"/>
+
+  <xs:element name="terminateLiveConferenceResponse" type="tns:terminateLiveConferenceResponse"/>
+
+  <xs:complexType name="inviteNewTerminalEx">
+    <xs:sequence>
+      <xs:element name="conferenceId" type="xs:string" minOccurs="0"/>
+      <xs:element name="terminal" type="tns:terminal" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="terminal">
+    <xs:sequence>
+      <xs:element name="audioOnlyPortCount" type="xs:int"/>
+      <xs:element name="audioVideoPortCount" type="xs:int"/>
+      <xs:element name="connectRate" type="xs:int"/>
+      <xs:element name="desc" type="xs:string" minOccurs="0"/>
+      <xs:element name="IP" type="xs:string" minOccurs="0"/>
+      <xs:element name="isDialIn" type="xs:boolean"/>
+      <xs:element name="isHost" type="xs:boolean"/>
+      <xs:element name="isOutside" type="xs:boolean"/>
+      <xs:element name="isVoiceOnly" type="xs:boolean"/>
+      <xs:element name="phyId" type="xs:string" minOccurs="0"/>
+      <xs:element name="telePresence" type="xs:boolean"/>
+      <xs:element name="terminalId" type="xs:string" minOccurs="0"/>
+      <xs:element name="terminalName" type="xs:string" minOccurs="0"/>
+      <xs:element name="terminalNumber" type="xs:string" minOccurs="0"/>
+      <xs:element name="videoOnlyPortCount" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="inviteNewTerminalExResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:controlResultEx" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="controlResultEx">
+    <xs:complexContent>
+      <xs:extension base="tns:controlResult">
+        <xs:sequence>
+          <xs:element name="phyConfId" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="controlResult">
+    <xs:sequence>
+      <xs:element name="conferenceId" type="xs:string" minOccurs="0"/>
+      <xs:element name="deviceId" type="xs:string" minOccurs="0"/>
+      <xs:element name="deviceIp" type="xs:string" minOccurs="0"/>
+      <xs:element name="deviceName" type="xs:string" minOccurs="0"/>
+      <xs:element name="errorCode" type="xs:int"/>
+      <xs:element name="errorInfo" type="xs:string" minOccurs="0"/>
+      <xs:element name="operationFailedCode" type="xs:int"/>
+      <xs:element name="success" type="xs:boolean"/>
+      <xs:element name="terminalId" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="dropAttendedTerminal">
+    <xs:sequence>
+      <xs:element name="conferenceId" type="xs:string" minOccurs="0"/>
+      <xs:element name="terminalId" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="dropAttendedTerminalResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:controlResult" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="extendLiveConference">
+    <xs:sequence>
+      <xs:element name="conferenceId" type="xs:string" minOccurs="0"/>
+      <xs:element name="extendTime" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="extendLiveConferenceResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:controlResult" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="terminateLiveConference">
+    <xs:sequence>
+      <xs:element name="conferenceId" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="terminateLiveConferenceResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:controlResult" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="inviteNewTerminal">
+    <xs:sequence>
+      <xs:element name="conferenceId" type="xs:string" minOccurs="0"/>
+      <xs:element name="terminal" type="tns:terminal" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="inviteNewTerminalResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:controlResult" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+

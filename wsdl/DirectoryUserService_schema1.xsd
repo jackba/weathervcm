@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" targetNamespace="http://radvision.com/icm/service/directoryuserservice" xmlns:tns="http://radvision.com/icm/service/directoryuserservice" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="CookieDuplicateException" type="tns:CookieDuplicateException"/>
+
+  <xs:element name="DirectoryOperationFailedException" type="tns:DirectoryOperationFailedException"/>
+
+  <xs:element name="DirectoryServerNotFoundException" type="tns:DirectoryServerNotFoundException"/>
+
+  <xs:element name="OrganizationNotFoundException" type="tns:OrganizationNotFoundException"/>
+
+  <xs:element name="SessionNotExistedException" type="tns:SessionNotExistedException"/>
+
+  <xs:element name="cancel" type="tns:cancel"/>
+
+  <xs:element name="cancelResponse" type="tns:cancelResponse"/>
+
+  <xs:element name="createDirectoryUsers" type="tns:createDirectoryUsers"/>
+
+  <xs:element name="createDirectoryUsersResponse" type="tns:createDirectoryUsersResponse"/>
+
+  <xs:element name="deleteDirectoryUsers" type="tns:deleteDirectoryUsers"/>
+
+  <xs:element name="deleteDirectoryUsersResponse" type="tns:deleteDirectoryUsersResponse"/>
+
+  <xs:element name="prepareSession" type="tns:prepareSession"/>
+
+  <xs:element name="prepareSessionResponse" type="tns:prepareSessionResponse"/>
+
+  <xs:element name="prepareUsers" type="tns:prepareUsers"/>
+
+  <xs:element name="prepareUsersResponse" type="tns:prepareUsersResponse"/>
+
+  <xs:element name="removeDirectory" type="tns:removeDirectory"/>
+
+  <xs:element name="removeDirectoryResponse" type="tns:removeDirectoryResponse"/>
+
+  <xs:element name="submit" type="tns:submit"/>
+
+  <xs:element name="submitResponse" type="tns:submitResponse"/>
+
+  <xs:element name="updateDirectoryUsers" type="tns:updateDirectoryUsers"/>
+
+  <xs:element name="updateDirectoryUsersResponse" type="tns:updateDirectoryUsersResponse"/>
+
+  <xs:complexType name="createDirectoryUsers">
+    <xs:sequence>
+      <xs:element name="arg0" type="tns:directoryInfo" minOccurs="0"/>
+      <xs:element name="arg1" type="tns:directoryUserInfo" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="directoryInfo">
+    <xs:sequence>
+      <xs:element name="host" type="xs:string" minOccurs="0"/>
+      <xs:element name="organization" type="xs:string" minOccurs="0"/>
+      <xs:element name="organizationId" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="directoryUserInfo">
+    <xs:complexContent>
+      <xs:extension base="tns:userInfo">
+        <xs:sequence>
+          <xs:element name="alternativeLoginIds" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="distinguishedName" type="xs:string" minOccurs="0"/>
+          <xs:element name="virtualRoomNumber" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="userInfo">
+    <xs:sequence>
+      <xs:element name="branch" type="xs:string" minOccurs="0"/>
+      <xs:element name="defaultTermialId" type="xs:string" minOccurs="0"/>
+      <xs:element name="department" type="xs:string" minOccurs="0"/>
+      <xs:element name="emamil" type="xs:string" minOccurs="0"/>
+      <xs:element name="mobilePhoneNumber" type="xs:string" minOccurs="0"/>
+      <xs:element name="officePhoneNumber" type="xs:string" minOccurs="0"/>
+      <xs:element name="password" type="xs:string" minOccurs="0"/>
+      <xs:element name="roleId" type="xs:int"/>
+      <xs:element name="timezoneId" type="xs:string" minOccurs="0"/>
+      <xs:element name="userFirstName" type="xs:string" minOccurs="0"/>
+      <xs:element name="userId" type="xs:string" minOccurs="0"/>
+      <xs:element name="userLastName" type="xs:string" minOccurs="0"/>
+      <xs:element name="userLoginId" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="createDirectoryUsersResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="DirectoryOperationFailedException">
+    <xs:sequence>
+      <xs:element name="message" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="deleteDirectoryUsers">
+    <xs:sequence>
+      <xs:element name="arg0" type="tns:directoryInfo" minOccurs="0"/>
+      <xs:element name="arg1" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="deleteDirectoryUsersResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="prepareSession">
+    <xs:sequence>
+      <xs:element name="arg0" type="tns:directoryOperationSession" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="directoryOperationSession">
+    <xs:complexContent>
+      <xs:extension base="tns:directoryInfo">
+        <xs:sequence>
+          <xs:element name="cookie" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="prepareSessionResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:directoryOperationSession" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="DirectoryServerNotFoundException">
+    <xs:sequence>
+      <xs:element name="message" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="OrganizationNotFoundException">
+    <xs:sequence>
+      <xs:element name="message" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="CookieDuplicateException">
+    <xs:sequence>
+      <xs:element name="message" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="cancel">
+    <xs:sequence>
+      <xs:element name="arg0" type="tns:directoryOperationSession" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="cancelResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="submit">
+    <xs:sequence>
+      <xs:element name="arg0" type="tns:directoryOperationSession" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="submitResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="updateDirectoryUsers">
+    <xs:sequence>
+      <xs:element name="arg0" type="tns:directoryInfo" minOccurs="0"/>
+      <xs:element name="arg1" type="tns:directoryUserInfo" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="updateDirectoryUsersResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="prepareUsers">
+    <xs:sequence>
+      <xs:element name="arg0" type="tns:directoryOperationSession" minOccurs="0"/>
+      <xs:element name="arg1" type="tns:directoryUserInfo" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="prepareUsersResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="SessionNotExistedException">
+    <xs:sequence>
+      <xs:element name="message" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="removeDirectory">
+    <xs:sequence>
+      <xs:element name="arg0" type="tns:directoryInfo" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="removeDirectoryResponse">
+    <xs:sequence/>
+  </xs:complexType>
+</xs:schema>
+

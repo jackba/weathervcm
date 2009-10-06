@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" targetNamespace="http://radvision.com/icm/service/licenseservice" xmlns:tns="http://radvision.com/icm/service/licenseservice" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="CapacityException" type="tns:CapacityException"/>
+
+  <xs:element name="setConcurrentCapacity" type="tns:setConcurrentCapacity"/>
+
+  <xs:element name="setConcurrentCapacityResponse" type="tns:setConcurrentCapacityResponse"/>
+
+  <xs:complexType name="setConcurrentCapacity">
+    <xs:sequence>
+      <xs:element name="capacityStr" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="setConcurrentCapacityResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="CapacityException">
+    <xs:sequence>
+      <xs:element name="errorCode" type="xs:int"/>
+      <xs:element name="message" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+
