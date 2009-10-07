@@ -106,6 +106,10 @@ public class ConfAction extends AbstractBaseAction {
 	}
 
 	public String reserveConf() {
+		String personal = request.getParameter("psersonal");
+		if(personal!=null&&!personal.equals("")){
+			request.setAttribute("personal", personal);
+		}
 		return "reserveConf";
 	}
 
@@ -142,6 +146,10 @@ public class ConfAction extends AbstractBaseAction {
 	}
 
 	public String modifyReserve() {
+		String personal = request.getParameter("personal");
+		if(personal!=null && !personal.equals("")){
+			request.setAttribute("personal", personal);
+		}
 		String id = request.getParameter("conferenceId");
 		conf = confService.getConfById(id);
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
