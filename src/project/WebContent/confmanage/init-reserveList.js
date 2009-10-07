@@ -103,7 +103,7 @@ function initGrid() {
 		sortable : true,
 		dataIndex : 'subject',
 		renderer : function(value, p , record){
-			return String.format('<a href="conf_reserveDetail.do?conferenceId={0}" target="_blank">{1}</a>',record.data.conferenceId,value);
+			return String.format('<a href="conf_reserveDetail.do?personal='+Ext.getDom('personal').value+'&conferenceId={0}" target="_blank">{1}</a>',record.data.conferenceId,value);
 		}
 	}, {
 		header : "预约时间",
@@ -180,7 +180,7 @@ function initGrid() {
 			tooltip : '预约会议',
 			iconCls : 'add16',
 			onClick : function() {
-				location.href = "conf_reserveConf.do";
+				location.href = "conf_reserveConf.do?personal="+Ext.getDom("personal").value;
 			}
 		}, {
 			id : 'btnEdit',
@@ -229,7 +229,7 @@ function initGrid() {
 		});*/
 		var list = sm.getSelections();
 		var id = list[0].data["conferenceId"];
-		location.href = "conf_modifyReserve.do?conferenceId="+id;
+		location.href = "conf_modifyReserve.do?personal="+Ext.getDom('personal').value+"&conferenceId="+id;
 	}
 	
 	function del() {

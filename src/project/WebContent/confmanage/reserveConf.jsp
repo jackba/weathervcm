@@ -24,6 +24,7 @@ body{font-size:12px;}
 <h1>当前位置：会议管理&nbsp;&gt;&nbsp;会议预约管理&nbsp;&gt;&nbsp;<span class="position_current"> 预约会议</span></h1>
 	<div class="search">
 	<form id="form1" name="form1" method="post" action="<%=request.getContextPath()%>/conf_save.do">
+	<input type="hidden" name="personal" value="<s:property value='#request.personal'/>"/>
 	<br/>
 	<table class="query">
 	  <tr class="t_title">
