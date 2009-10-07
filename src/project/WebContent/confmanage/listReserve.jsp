@@ -33,7 +33,7 @@
 		<div id="searchArea" class="search">
 			
 			<form name="form1" id="form1" method="post" action="<%=request.getContextPath()%>/conf_searchReserves.do">
-				<input type="hidden" name="personal" value="<s:property value='#request.personal'/>"/>
+				<input type="hidden" name="personal" id="personal" value="<s:property value='#request.personal'/>"/>
 				<table border="1" width="800" class="query">
 					<tr>
 						<th>会议名称：</th>

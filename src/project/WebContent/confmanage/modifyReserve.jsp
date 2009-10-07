@@ -124,7 +124,7 @@ body{font-size:12px;}
 	  <tr>
 	    <th  class="row1">主要议题：</th>
 	    <td class="row2"><label>
-	      <textarea name="conf.description" value="<s:property value='conf.description'/>" cols="40" rows="5" id="description" class="w600" style="width: 450px;"></textarea>
+	      <textarea name="conf.description" cols="40" rows="5" id="description" class="w600" style="width: 450px;"><s:property value='conf.description'/></textarea>
 	    </label></td>
 	  </tr>
   </table>
