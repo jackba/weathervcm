@@ -44,7 +44,7 @@ body{font-size:12px;}
 	  <tr>
 	    <th class="row1">开始时间：</th>
 	    <td class="row2"><label>
-	      <s:property value='conf.startTime'/>
+	      <s:property value='#request.startTime'/>
 	    </label></td>
 	  </tr>
 	  <tr>
