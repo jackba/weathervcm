@@ -11,6 +11,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 
 import com.cma.intervideo.dao.util.AbstractDAO;
+import com.cma.intervideo.pojo.ConfParty;
 import com.cma.intervideo.pojo.ConfUnit;
 import com.cma.intervideo.pojo.Conference;
 import com.cma.intervideo.pojo.Unit;
@@ -30,6 +31,9 @@ public abstract class AbstractConfDao extends AbstractDAO<Conference, Integer> i
 				if(vo.getParamName().equals("serviceTemplate")){
 					hql += " and conference.serviceTemplate='"+vo.getParamValue()+"'";
 				}
+				if(vo.getParamName().equals("userId")){
+					hql += " and conference.userId="+vo.getParamValue();
+				}
 			}
 		}
 		if(ph.isGetCount()){
@@ -47,6 +51,13 @@ public abstract class AbstractConfDao extends AbstractDAO<Conference, Integer> i
 		confUnit.setConferenceId(confId);
 		confUnit.setUnitId(unitId);
 		this.getHibernateTemplate().save(confUnit);
+	}
+	
+	public void addConfParty(Integer confId, String partyId){
+		ConfParty confParty = new ConfParty();
+		confParty.setPartyId(partyId);
+		confParty.setConferenceId(confId);
+		this.getHibernateTemplate().save(confParty);
 	}
 	
 	public List<Unit> findUnitsByConfId(String confId, boolean selected){
@@ -90,13 +101,13 @@ public abstract class AbstractConfDao extends AbstractDAO<Conference, Integer> i
 		return this.getHibernateTemplate().find("from Unit unit");
 	}
 	
-	public void deleteConfUnitsByConfId(String confId){
+	public void deleteConfUnitsByConfId(Integer confId){
 		Session s = this.getSession();
 		Connection conn = s.connection();
 		PreparedStatement pstmt = null;
 		try{
 			pstmt = conn.prepareStatement("delete from conf_unit where conference_id=?");
-			pstmt.setString(1, confId);
+			pstmt.setInt(1, confId);
 			pstmt.executeUpdate();
 		}catch(Exception e){
 			logger.error(e.toString());
@@ -104,6 +115,24 @@ public abstract class AbstractConfDao extends AbstractDAO<Conference, Integer> i
 			try{
 				if(pstmt!=null)
 					pstmt.close();
+			}catch(Exception ex){
+				logger.error(ex.toString());
+			}
+		}
+	}
+	public void deleteConfPartiesByConfId(Integer confId){
+		Session s = this.getSession();
+		Connection conn = s.connection();
+		PreparedStatement pstmt = null;
+		try{
+			
+		}catch(Exception e){
+			logger.error(e.toString());
+		}finally{
+			try{
+				pstmt = conn.prepareStatement("delete from conf_party where conference_id=?");
+				pstmt.setInt(1, confId);
+				pstmt.executeUpdate();
 			}catch(Exception ex){
 				logger.error(ex.toString());
 			}

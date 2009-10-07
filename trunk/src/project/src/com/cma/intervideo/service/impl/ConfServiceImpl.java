@@ -8,9 +8,11 @@ import org.apache.commons.logging.LogFactory;
 
 import com.cma.intervideo.dao.IConfDao;
 import com.cma.intervideo.dao.IServiceDao;
+import com.cma.intervideo.dao.ITerminalDao;
 import com.cma.intervideo.dao.IUnitDao;
 import com.cma.intervideo.pojo.Conference;
 import com.cma.intervideo.pojo.ServiceTemplate;
+import com.cma.intervideo.pojo.Terminal;
 import com.cma.intervideo.pojo.Unit;
 import com.cma.intervideo.service.IConfService;
 import com.cma.intervideo.util.PageHolder;
@@ -23,7 +25,7 @@ public class ConfServiceImpl implements IConfService {
 	private IConfDao confDao;
 	private IUnitDao unitDao;
 	private IServiceDao serviceDao;
-
+	
 	public void setConfDao(IConfDao confDao) {
 		this.confDao = confDao;
 	}
@@ -63,7 +65,7 @@ public class ConfServiceImpl implements IConfService {
 		}
 		logger.info("to delete Conference from VCM - conferenceId: " + confId);
 		try {
-			confDao.deleteConfUnitsByConfId(confId);
+			confDao.deleteConfUnitsByConfId(Integer.parseInt(confId));
 			confDao.removeObjectByID(new Integer(confId));
 		} catch (Exception e) {
 			logger
@@ -108,6 +110,11 @@ public class ConfServiceImpl implements IConfService {
 							units[i]));
 				}
 			}
+			if(listTerminalId!=null){
+				for(int i=0;i<listTerminalId.size();i++){
+					confDao.addConfParty(conf.getConferenceId(), listTerminalId.get(i));
+				}
+			}
 		} catch (Exception e) {
 			logger.error(e.toString());
 			logger
@@ -144,6 +151,19 @@ public class ConfServiceImpl implements IConfService {
 			conf.setVirtualConfId(sr.getConferenceInfo()
 					.getDialableConferenceId());
 			confDao.saveOrUpdate(conf);
+			confDao.deleteConfPartiesByConfId(conf.getConferenceId());
+			confDao.deleteConfUnitsByConfId(conf.getConferenceId());
+			if (units != null) {
+				for (int i = 0; i < units.length; i++) {
+					confDao.addConfUnit(conf.getConferenceId(), new Integer(
+							units[i]));
+				}
+			}
+			if(listTerminalId!=null){
+				for(int i=0;i<listTerminalId.size();i++){
+					confDao.addConfParty(conf.getConferenceId(), listTerminalId.get(i));
+				}
+			}
 		} catch (Exception e) {
 			logger.error(e.toString());
 			logger

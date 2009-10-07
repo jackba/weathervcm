@@ -67,6 +67,13 @@ public class ConfAction extends AbstractBaseAction {
 		List<ParamVo> params = new ArrayList<ParamVo>();
 		String subject = request.getParameter("subject");
 		String serviceTemplate = request.getParameter("serviceTemplate");
+		String personal = request.getParameter("personal");
+		if(personal.equals("true")){
+			UserPrivilege up = (UserPrivilege)session.get("userPrivilege");
+			ParamVo vo = new ParamVo();
+			vo.setParamName("userId");
+			vo.setParamValue(up.getUserId());
+		}
 		if (subject != null && !subject.equals("")) {
 			ParamVo vo = new ParamVo();
 			vo.setParamName("subject");
