@@ -6,13 +6,13 @@
     <class name="com.cma.intervideo.pojo.ConfParty" table="conf_party">
         <id name="confPartyId" type="java.lang.Integer">
             <column name="conf_party_id" />
-            <generator class="identity" />
+            <generator class="native" />
         </id>
         <property name="conferenceId" type="int">
             <column name="conference_id" not-null="true" />
         </property>
         <property name="partyId" type="string">
-            <column name="party_id" length="20" not-null="true" />
+            <column name="party_id" length="32" not-null="true" />
         </property>
     </class>
 </hibernate-mapping>
