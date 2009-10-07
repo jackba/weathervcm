@@ -137,6 +137,10 @@ public class ConfAction extends AbstractBaseAction {
 	public String modifyReserve() {
 		String id = request.getParameter("conferenceId");
 		conf = confService.getConfById(id);
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Calendar c = Calendar.getInstance();
+		c.setTimeInMillis(conf.getStartTime());
+		request.setAttribute("startTime", df.format(c.getTime()));
 		return "modifyReserve";
 	}
 
@@ -164,14 +168,26 @@ public class ConfAction extends AbstractBaseAction {
 	public String update() throws Exception {
 		Conference oldConf = confService.getConfById(conf.getConferenceId()
 				.toString());
-		conf.setCreateTime(oldConf.getCreateTime());
 		Date d = Calendar.getInstance().getTime();
-		conf.setUpdateTime(d);
+		oldConf.setUpdateTime(d);
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String startTime = request.getParameter("startTime");
 		if (startTime != null && !startTime.equals("")) {
-			conf.setStartTime(df.parse(startTime).getTime());
+			oldConf.setStartTime(df.parse(startTime).getTime());
 		}
+		oldConf.setContactMethod(conf.getContactMethod());
+		oldConf.setSubject(conf.getSubject());
+		oldConf.setControlPin(conf.getControlPin());
+		oldConf.setPassword(conf.getPassword());
+		oldConf.setDialableNumber(conf.getDialableNumber());
+		oldConf.setInitUnit(conf.getInitUnit());
+		oldConf.setTimeLong(conf.getTimeLong());
+		oldConf.setMainUnit(conf.getMainUnit());
+		oldConf.setPresider(conf.getPresider());
+		oldConf.setPrincipal(conf.getPrincipal());
+		oldConf.setPrincipalMobile(conf.getPrincipalMobile());
+		oldConf.setReserveCode(conf.getReserveCode());
+		oldConf.setDescription(conf.getDescription());
 		response.setContentType("text/html;charset=utf-8");
 
 		String units = request.getParameter("confUnits");
@@ -180,8 +196,7 @@ public class ConfAction extends AbstractBaseAction {
 			unitList = units.split(",");
 
 		try {
-			session.clear();
-			confService.modifyConf(conf, unitList);
+			confService.modifyConf(oldConf, unitList);
 			outJson("{success:true, msg:'预约会议修改成功!'}");
 		} catch (Exception e) {
 			outJson("{success:true, msg:'预约会议修改失败!'}");
@@ -192,6 +207,10 @@ public class ConfAction extends AbstractBaseAction {
 	public String reserveDetail() {
 		String confId = request.getParameter("conferenceId");
 		conf = confService.getConfById(confId);
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Calendar c = Calendar.getInstance();
+		c.setTimeInMillis(conf.getStartTime());
+		request.setAttribute("startTime", df.format(c.getTime()));
 		return "reserveDetail";
 	}
 

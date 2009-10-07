@@ -143,12 +143,7 @@ public class ConfServiceImpl implements IConfService {
 			conf.setRadConferenceId(sr.getConferenceId());
 			conf.setVirtualConfId(sr.getConferenceInfo()
 					.getDialableConferenceId());
-			// confDao.saveOrUpdate(conf); //TODO: ERROR -
-			// org.springframework.orm.hibernate3.HibernateSystemException: a
-			// different object with the same identifier value was already
-			// associated with the session:
-			// [com.cma.intervideo.pojo.Conference#2]
-			confDao.merge(conf);
+			confDao.saveOrUpdate(conf);
 		} catch (Exception e) {
 			logger.error(e.toString());
 			logger
