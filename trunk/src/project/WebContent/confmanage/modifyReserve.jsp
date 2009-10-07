@@ -38,15 +38,6 @@ body{font-size:12px;}
 	    </label></td>
   	  </tr>
   	  <tr>
-	    <th class="row1"><font color="red">&nbsp;*</font>虚拟房间：</th>
-	    <td class="row2">
-	    <label>
-	    	<div id="virtual_room"></div>
-	    </label>
-	    <input type="button" class="butt_bg1"  onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" value="加载" onClick="loadvmex()" ></input>
-	  	</td>
-	  </tr>
-  	  <tr>
 	    <th width="20%"><font color="red">&nbsp;*</font>会议号：</th>
 	    <td><label>
 	      <input name="conf.dialableNumber" value="<s:property value='conf.dialableNumber'/>" id="dialableNumber" type="text" class="put200" maxlength="40">
@@ -61,7 +52,7 @@ body{font-size:12px;}
 	  <tr>
 	  	<th width="20%"><font color="red">&nbsp;*</font>开始时间：</th>
 		<td>
-		  <input type="text" class="Wdate" id="startTime" name="startTime" onFocus="WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
+		  <input type="text" class="Wdate" id="startTime" name="startTime" value="<s:property value='#request.startTime'/>" onFocus="WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
 		</td>
 	  </tr>
 	  <tr>
@@ -152,6 +143,7 @@ body{font-size:12px;}
 </div><!--end of wrap-->
 <script language="javascript">
 var formItemSelector;
+var unitComboWithTooltip;
 Ext.onReady(function(){
 	Ext.BLANK_IMAGE_URL="resources/images/default/s.gif";
 	window.parent.contentPanel.getActiveTab().setTitle("修改预约会议");
@@ -175,7 +167,7 @@ Ext.onReady(function(){
 	serviceds.load();
 	var serviceComboWithTooltip = new Ext.form.ComboBox({
 		store: serviceds,
-		value: "<s:property value='conf.serviceTemplateDesc'/>",
+		value: "<s:property value='conf.serviceTemplate'/>",
 		hiddenId: 'serviceTemplate',
         hiddenName: 'conf.serviceTemplate',
         valueField: 'serviceTemplateId',
@@ -203,9 +195,9 @@ Ext.onReady(function(){
 		}])
 	});
 	unitds.load();
-	var unitComboWithTooltip = new Ext.form.ComboBox({
+	unitComboWithTooltip = new Ext.form.ComboBox({
 		store: unitds,
-		value: "<s:property value='conf.mainUnitName'/>",
+		value: "<s:property value='conf.mainUnit'/>",
 		hiddenId: 'mainUnit',
         hiddenName: 'conf.mainUnit',
         valueField: 'unitId',
@@ -218,7 +210,6 @@ Ext.onReady(function(){
         selectOnFocus: true,
         renderTo: 'main_unit'
     });
-
 	var fds = new Ext.data.Store({
 		proxy : new Ext.data.HttpProxy({
 			url : 'conf_getUnitsByConfId.do?conferenceId=<%=request.getParameter("conferenceId")%>&selected=false'
