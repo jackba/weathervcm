@@ -69,7 +69,7 @@ create table conf_party
 (
    conf_party_id                  int                            not null AUTO_INCREMENT,
    conference_id                  int                            not null,
-   party_id                       varchar(20)                    not null,
+   party_id                       varchar(32)                    not null,
    primary key (conf_party_id)
 )
 type = InnoDB;
