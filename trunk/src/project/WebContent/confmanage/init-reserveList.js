@@ -50,7 +50,8 @@ function initData() {
 	ds.load({
 		params : {
 			start : 0,
-			limit : limit
+			limit : limit,
+			personal : Ext.get("personal").dom.value
 		}
 	});
 	
@@ -119,7 +120,10 @@ function initGrid() {
 		header : "起始时间",
 		width : Ext.get("searchArea").getWidth()*0.14,
 		sortable : true,
-		dataIndex : 'startTime'
+		dataIndex : 'startTime',
+		renderer : function(value, p, record){
+			return new Date(value).format('Y-m-d H:i:s');
+		}
 	}, {
 		header : "时长(分钟)",
 		width : Ext.get("searchArea").getWidth()*0.14,
@@ -266,7 +270,8 @@ function loadStore(start){
 			limit : ptb.getPageSize(),
 			'totalProperty' : ds.getTotalCount(),
 			'subject' : Ext.get("subject").dom.value,
-			'serviceTemplate' : Ext.get("serviceTemplate").dom.value
+			'serviceTemplate' : Ext.get("serviceTemplate").dom.value,
+			'personal' : Ext.get("personal").dom.value
 		}
 	});
 }
