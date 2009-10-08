@@ -74,7 +74,7 @@ public abstract class BaseRequest {
 	}
 	public String encode(){
 		try{
-			String xml = "<?xml version=\"1.0\" encoding=\"UFT-8\"?><MCU_XML_API/>";
+			String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><MCU_XML_API/>";
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			doc = db.parse(new ByteArrayInputStream(xml.getBytes("utf-8")));
