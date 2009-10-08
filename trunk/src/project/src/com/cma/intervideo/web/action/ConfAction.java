@@ -191,6 +191,7 @@ public class ConfAction extends AbstractBaseAction {
 			oldConf.setStartTime(df.parse(startTime).getTime());
 		}
 		oldConf.setContactMethod(conf.getContactMethod());
+		oldConf.setServiceTemplate(conf.getServiceTemplate());
 		oldConf.setSubject(conf.getSubject());
 		oldConf.setControlPin(conf.getControlPin());
 		oldConf.setPassword(conf.getPassword());
