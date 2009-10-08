@@ -74,10 +74,10 @@ public abstract class BaseRequest {
 	}
 	public String encode(){
 		try{
-			String xml = "<?xml version=\"1.0\" encoding=\"GBK\"?><MCU_XML_API/>";
+			String xml = "<?xml version=\"1.0\" encoding=\"UFT-8\"?><MCU_XML_API/>";
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
-			doc = db.parse(new ByteArrayInputStream(xml.getBytes("gbk")));
+			doc = db.parse(new ByteArrayInputStream(xml.getBytes("utf-8")));
 			Element root = doc.getDocumentElement();
 			add("Version",VcmProperties.getProperty("version"),root);
 			add("Account",VcmProperties.getProperty("account"),root);
@@ -113,10 +113,10 @@ public abstract class BaseRequest {
 			Transformer transformer = tFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			OutputStreamWriter osw = new OutputStreamWriter(bos, "gbk");
+			OutputStreamWriter osw = new OutputStreamWriter(bos, "utf-8");
 			StreamResult result = new StreamResult(osw);
 			transformer.transform(source, result);
-			return bos.toString("gbk").replaceFirst("<\\?xml version=\"1.0\" encoding=\"UTF-8\"\\?>", "<?xml version=\"1.0\" encoding=\"GBK\"?>");
+			return bos.toString("utf-8");
 		}catch(Exception e){
 			logger.error(e.toString());
 			return null;
