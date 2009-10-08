@@ -17,4 +17,5 @@ public interface IConfDao extends DAO<Conference, Integer>{
 	public void deleteConfUnitsByConfId(Integer confId);
 	public void addConfParty(Integer confId, String partyId);
 	public void deleteConfPartiesByConfId(Integer confId);
+	public Conference findConfByRadConfId(String radConferenceId);
 }

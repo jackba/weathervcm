@@ -138,4 +138,11 @@ public abstract class AbstractConfDao extends AbstractDAO<Conference, Integer> i
 			}
 		}
 	}
+	public Conference findConfByRadConfId(String radConferenceId){
+		List l = this.getHibernateTemplate().find("from Conference c where c.radConferenceId=?",radConferenceId);
+		if(l!=null && l.size()>0){
+			return (Conference)l.get(0);
+		}else
+			return null;
+	}
 }
