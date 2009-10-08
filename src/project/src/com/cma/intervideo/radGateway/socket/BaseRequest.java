@@ -17,7 +17,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
 
-import com.cma.intervideo.util.VcmProperties;
+import com.cma.intervideo.util.PropertiesHelper;
 
 public abstract class BaseRequest {
 	private static Log logger = LogFactory.getLog(BaseRequest.class);
@@ -79,13 +79,9 @@ public abstract class BaseRequest {
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			doc = db.parse(new ByteArrayInputStream(xml.getBytes("utf-8")));
 			Element root = doc.getDocumentElement();
-			add("Version",VcmProperties.getProperty("version"),root);
-			add("Account",VcmProperties.getProperty("account"),root);
-			String password = VcmProperties.getProperty("password");
-			if(password==null){
-				password = "";
-			}
-			add("Password", password, root);
+			add("Version",PropertiesHelper.getMcuProxyVersion(),root);
+			add("Account",PropertiesHelper.getMcuProxyAccount(),root);
+			add("Password",PropertiesHelper.getMcuProxyPassword(),root);
 			requestId = String.valueOf(incSeq());
 			doEncode(add("Request",root));
 			this.xml = toString();
