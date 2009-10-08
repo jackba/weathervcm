@@ -20,8 +20,8 @@ import com.cma.intervideo.service.IRoomService;
 import com.cma.intervideo.util.AbstractBaseAction;
 import com.cma.intervideo.util.PageHolder;
 import com.cma.intervideo.util.ParamVo;
+import com.cma.intervideo.util.PropertiesHelper;
 import com.cma.intervideo.util.UserPrivilege;
-import com.cma.intervideo.util.VcmProperties;
 
 public class RoomAction extends AbstractBaseAction {
 	private static Log logger = LogFactory.getLog(RoomAction.class);
@@ -51,10 +51,9 @@ public class RoomAction extends AbstractBaseAction {
 	public String save() throws IOException, ParseException, Exception {
 		room.setStatus(DataDictStatus.normalStatus);
 		UserPrivilege up = (UserPrivilege) session.get("userPrivilege");
-		String userId = up != null ? up.getUserId() : VcmProperties
-				.getICMDefaultUserId();
+		String userId = up != null ? up.getUserId() : PropertiesHelper.getIcmDefaultUserId();
 		room.setUserId(userId);
-		room.setMemberId(VcmProperties.getICMDefaultMemberId());
+		room.setMemberId(PropertiesHelper.getIcmDefaultMemberId());
 		Date d = Calendar.getInstance().getTime();
 		room.setCreateTime(d);
 		room.setUpdateTime(d);
@@ -120,8 +119,7 @@ public class RoomAction extends AbstractBaseAction {
 	
 	public String getRoomsByUser() {
 		UserPrivilege up = (UserPrivilege) session.get("userPrivilege");
-		String userId = up != null ? up.getUserId() : VcmProperties
-				.getICMDefaultUserId();
+		String userId = up != null ? up.getUserId() : PropertiesHelper.getIcmDefaultUserId();
 		List<VirtualRoom> roomList = roomService.findRooms(userId);
 		try {
 			JSONObject json = new JSONObject();

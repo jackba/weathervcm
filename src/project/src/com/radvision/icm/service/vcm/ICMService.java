@@ -12,7 +12,7 @@ import org.apache.commons.logging.LogFactory;
 import com.cma.intervideo.pojo.Conference;
 import com.cma.intervideo.pojo.User;
 import com.cma.intervideo.pojo.VirtualRoom;
-import com.cma.intervideo.util.VcmProperties;
+import com.cma.intervideo.util.PropertiesHelper;
 import com.radvision.icm.service.ConferenceInfo;
 import com.radvision.icm.service.ControlService;
 import com.radvision.icm.service.ControlServicePortType;
@@ -35,7 +35,7 @@ import com.radvision.icm.service.VirtualRoomResult;
 
 public class ICMService {
 	private static Log logger = LogFactory.getLog(ICMService.class);
-	protected static String m_ipPort = VcmProperties.getICMIPPort();
+	protected static String m_ipPort = PropertiesHelper.getIcmIpPort();
 	private final static QName CONTROL_SERVICE = new QName(
 			"http://radvision.com/icm/service/controlservice", "ControlService");
 	private final static QName RESOURCE_SERVICE = new QName(
