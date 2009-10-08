@@ -1,8 +1,5 @@
 package com.radvision.icm.service.test;
 
-import com.radvision.icm.service.LicenseService;
-import com.radvision.icm.service.LicenseServicePortType;
-import com.radvision.icm.service.vcm.ServiceType;
 
 public class LicenseTester extends ServiceTester {
 
@@ -34,11 +31,5 @@ public class LicenseTester extends ServiceTester {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	private static LicenseServicePortType getLicenseServicePort()
-			throws Exception {
-		return ((LicenseService) getService(ServiceType.LicenseService))
-				.getLicenseServicePort();
 	}
 }
