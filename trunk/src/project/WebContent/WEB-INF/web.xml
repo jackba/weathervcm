@@ -27,7 +27,13 @@
 		</init-param>
 		<load-on-startup>2</load-on-startup>
 	</servlet>
-	
+	<servlet>
+    	<description>create socket connection ...</description>
+    	<display-name>Socket Gateway</display-name>
+    	<servlet-name>SocketGateway</servlet-name>
+    	<servlet-class>com.cma.intervideo.radGateway.socket.SocketGateway</servlet-class>
+    	<load-on-startup>20</load-on-startup>
+  	</servlet>
 	<servlet-mapping>
 		<servlet-name>dwr-invoker</servlet-name>
 		<url-pattern>/dwr/*</url-pattern>
