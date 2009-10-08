@@ -9,6 +9,9 @@ public class PropertiesHelper {
 	private static boolean m_startMcuProxySocket = VcmProperties.getPropertyByBoolean("vcm.icm.mcuproxy.startSocket", false);
 	private static int m_mcuProxyQueueNum = Integer.parseInt(VcmProperties.getProperty("vcm.icm.mcuproxy.queueNum","20"));
 	private static int m_mcuConnectionTestPeriod = Integer.parseInt(VcmProperties.getProperty("vcm.icm.mcuproxy.connectionTestPeriod","5")) * 1000;
+	private static String m_mcuProxyAccount = VcmProperties.getProperty("vcm.icm.mcuproxy.mcuAccount", "admin");
+	private static String m_mcuProxyPassword = VcmProperties.getProperty("vcm.icm.mcuproxy.mcuPassword", "");
+	private static String m_mcuProxyVersion = VcmProperties.getProperty("vcm.icm.mcuproxy.version", "iCM 5.0");
 	
 	public static String getIcmIpPort() {
 		return m_icmIpPort;
@@ -40,5 +43,17 @@ public class PropertiesHelper {
 	
 	public static int getMcuConnectionTestPeriod() {
 		return m_mcuConnectionTestPeriod;
+	}
+	
+	public static String getMcuProxyAccount() {
+		return m_mcuProxyAccount;
+	}
+	
+	public static String getMcuProxyPassword() {
+		return m_mcuProxyPassword;
+	}
+	
+	public static String getMcuProxyVersion() {
+		return m_mcuProxyVersion;
 	}
 }

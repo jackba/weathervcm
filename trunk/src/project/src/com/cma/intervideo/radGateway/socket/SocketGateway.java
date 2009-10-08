@@ -27,7 +27,6 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.cma.intervideo.service.NotificationHandleService;
 import com.cma.intervideo.util.PropertiesHelper;
-import com.cma.intervideo.util.VcmProperties;
 
 public class SocketGateway extends HttpServlet {
 	private static Log logger = LogFactory.getLog(SocketGateway.class);
@@ -442,7 +441,7 @@ public class SocketGateway extends HttpServlet {
 		try {
 			if (aMessage
 					.startsWith("<?xml version=\"1.0\" encoding=\"UTF-8\"?><MCU_XML_API><Version>"
-							+ VcmProperties.getProperty("version")
+							+ PropertiesHelper.getMcuProxyVersion()
 							+ "</Version><Response>")) {
 				BaseResponse response = BaseResponse.parse(aMessage);
 				BaseRequest request = (BaseRequest) reqToRes.get(response
