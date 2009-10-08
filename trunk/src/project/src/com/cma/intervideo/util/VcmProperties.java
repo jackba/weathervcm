@@ -83,25 +83,54 @@ public class VcmProperties {
 			}
 		}
 	}
-
-	public synchronized static String getICMIPPort() {
-		if (properties == null) {
-			new VcmProperties();
-		}
-		return properties.getProperty("vcm.icm.ipport", "localhost:8080");
-	}
 	
-	public synchronized static String getICMDefaultMemberId() {
-		if (properties == null) {
-			new VcmProperties();
-		}
-		return properties.getProperty("vcm.icm.defaultMemberId", "999");
-	}
+	/**
+     * Gets a property int value by key and default value.
+     */
+    public static int getPropertyByInt(String key, int defaultValue)
+    {
+    	   String value = getProperty(key);
+    	   if (value == null)
+    	       return defaultValue;
+    	   try
+    	   {
+    	   	   return Integer.parseInt(value);
+    	   }catch(Exception e)
+    	   {
+    	       System.err.println(e);
+    	   	   return defaultValue;
+    	   }
+    }
+    
+    /**
+     * Gets a property long value by key and default value.
+     */
+	public static long getPropertyByLong(String key, long defaultValue)
+    {
+        String value = getProperty(key);
+    	if (value == null)
+            return defaultValue;
+        try
+        {
+            return Long.parseLong(value);
+        }catch(Exception e)
+        {
+            System.err.println(e);
+        	return defaultValue;
+        }
+    }
 	
-	public synchronized static String getICMDefaultUserId() {
-		if (properties == null) {
-			new VcmProperties();
-		}
-		return properties.getProperty("vcm.icm.defaultUserId", "1");
-	}
+	/**
+     * Gets a property boolean value by key and default value.
+     */
+    public static boolean getPropertyByBoolean(String key,boolean defaultValue)
+    {
+        String value = getProperty(key);
+        if (value == null)
+            return defaultValue;
+        if ("true".equalsIgnoreCase(value))
+            return true;
+        else
+            return false;
+    }
 }

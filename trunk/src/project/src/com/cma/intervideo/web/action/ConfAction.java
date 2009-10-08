@@ -24,8 +24,8 @@ import com.cma.intervideo.service.IRoomService;
 import com.cma.intervideo.util.AbstractBaseAction;
 import com.cma.intervideo.util.PageHolder;
 import com.cma.intervideo.util.ParamVo;
+import com.cma.intervideo.util.PropertiesHelper;
 import com.cma.intervideo.util.UserPrivilege;
-import com.cma.intervideo.util.VcmProperties;
 
 public class ConfAction extends AbstractBaseAction {
 	private static Log logger = LogFactory.getLog(AbstractBaseAction.class);
@@ -116,10 +116,9 @@ public class ConfAction extends AbstractBaseAction {
 	public String save() throws IOException, ParseException {
 		conf.setStatus(Conference.status_tobescheduled);
 		UserPrivilege up = (UserPrivilege) session.get("userPrivilege");
-		String userId = up != null ? up.getUserId() : VcmProperties
-				.getICMDefaultUserId();
+		String userId = up != null ? up.getUserId() : PropertiesHelper.getIcmDefaultUserId();
 		conf.setUserId(userId);
-		conf.setMemberId(VcmProperties.getICMDefaultMemberId());
+		conf.setMemberId(PropertiesHelper.getIcmDefaultMemberId());
 		Date d = Calendar.getInstance().getTime();
 		conf.setCreateTime(d);
 		conf.setUpdateTime(d);

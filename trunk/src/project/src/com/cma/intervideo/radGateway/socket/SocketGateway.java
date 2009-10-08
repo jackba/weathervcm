@@ -8,8 +8,6 @@ import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Hashtable;
 import java.util.List;
@@ -28,12 +26,13 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.cma.intervideo.service.NotificationHandleService;
+import com.cma.intervideo.util.PropertiesHelper;
 import com.cma.intervideo.util.VcmProperties;
 
 public class SocketGateway extends HttpServlet {
 	private static Log logger = LogFactory.getLog(SocketGateway.class);
 	private static ApplicationContext ctx = null;
-	private static Hashtable reqToRes = new Hashtable(1000);
+	private static Hashtable<String, BaseRequest> reqToRes = new Hashtable<String, BaseRequest>(1000);
 	private static Object sendLock = new Object();
 	private static SocketGateway instance;
 	Socket mcuSocket = null;
@@ -328,15 +327,14 @@ public class SocketGateway extends HttpServlet {
 		if(ctx==null){
 			ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
 		}
-		String startSocketGateway = VcmProperties.getProperty("startSocketGateway","false");
-		//如果配置为false,则不启动SocketGateway
-		if(startSocketGateway.equals("false")){
+		boolean startMcuProxySocket = PropertiesHelper.startMcuProxySocket();
+		if(!startMcuProxySocket){
 			logger.info("socket gateway are setuped to not start");
 			return;
 		}
 		logger.info("begin to start socket gateway...");
-		String mcuIp = VcmProperties.getProperty("mcuIp","10.1.26.248");
-		int mcuPort = Integer.parseInt(VcmProperties.getProperty("mcuPort","3336"));
+		String mcuIp = PropertiesHelper.getMcuProxyIp();
+		int mcuPort = PropertiesHelper.getMcuProxyPort();
 		try{
 			mcuSocket = new Socket();
 			mcuSocket.connect(new InetSocketAddress(mcuIp,mcuPort),5*1000);
@@ -344,7 +342,7 @@ public class SocketGateway extends HttpServlet {
 			os = new DataOutputStream(mcuSocket.getOutputStream());
 			pw = new PrintWriter(os,true);
 			is = mcuSocket.getInputStream();
-			queueNum = Integer.parseInt(VcmProperties.getProperty("queueNum","20"));
+			queueNum = PropertiesHelper.getMcuProxyQueueNum();
 			queue = new LinkedBlockingQueue[queueNum];
 			for(int i=0;i<queueNum;i++){
 				queue[i] = new LinkedBlockingQueue();
@@ -356,7 +354,7 @@ public class SocketGateway extends HttpServlet {
 			Timer timer = new Timer();
 			TestTask tt = new TestTask(this);
 			//每testPeriod秒钟进行一次测试
-			int testPeriod = Integer.parseInt(VcmProperties.getProperty("testMCUConnectionPeriod","5"))*1000;
+			int testPeriod = PropertiesHelper.getMcuConnectionTestPeriod();
 			timer.schedule(tt, Calendar.getInstance().getTime(), testPeriod);
 			NotificationHandleService service = (NotificationHandleService)ctx.getBean("notificationHandleService");
 			GetConferenceListRequest request = new GetConferenceListRequest();
@@ -400,8 +398,8 @@ public class SocketGateway extends HttpServlet {
 		}
 		//建立新的连接
 		try{
-			String mcuIp = VcmProperties.getProperty("mcuIp","10.1.26.248");
-			int mcuPort = Integer.parseInt(VcmProperties.getProperty("mcuPort","3336"));
+			String mcuIp = PropertiesHelper.getMcuProxyIp();
+			int mcuPort = PropertiesHelper.getMcuProxyPort();
 			mcuSocket = new Socket();
 			mcuSocket.connect(new InetSocketAddress(mcuIp,mcuPort),5*1000);
 			logger.info("reconnected to radvision proxy gateway");
