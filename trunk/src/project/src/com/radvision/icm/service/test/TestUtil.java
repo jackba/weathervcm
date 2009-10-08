@@ -193,7 +193,7 @@ public class TestUtil
 			}
 			System.out.println("----------------------------------------------------------------------------");
 			System.out.println();
-			List ls = cb.getLayouts();
+			List<LayoutInfo> ls = cb.getLayouts();
 			if(ls!=null&&ls.size()>0)
 			{
 				for(int i=0;i<ls.size();i++)
@@ -362,7 +362,7 @@ public class TestUtil
 		}
 		System.out.println("----------------------------------------------------------------------------");
 		System.out.println();
-		List ls = cb.getLayouts();
+		List<LayoutInfo> ls = cb.getLayouts();
 		if(ls!=null&&ls.size()>0)
 		{
 			for(int i=0;i<ls.size();i++)
@@ -498,7 +498,7 @@ public class TestUtil
 			}
 			System.out.println("----------------------------------------------------------------------------");
 			System.out.println();
-			List ls = cb.getLayouts();
+			List<LayoutInfo> ls = cb.getLayouts();
 			if(ls!=null&&ls.size()>0)
 			{
 				for(int i=0;i<ls.size();i++)
