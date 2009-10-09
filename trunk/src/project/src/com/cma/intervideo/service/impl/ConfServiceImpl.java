@@ -8,11 +8,9 @@ import org.apache.commons.logging.LogFactory;
 
 import com.cma.intervideo.dao.IConfDao;
 import com.cma.intervideo.dao.IServiceDao;
-import com.cma.intervideo.dao.ITerminalDao;
 import com.cma.intervideo.dao.IUnitDao;
 import com.cma.intervideo.pojo.Conference;
 import com.cma.intervideo.pojo.ServiceTemplate;
-import com.cma.intervideo.pojo.Terminal;
 import com.cma.intervideo.pojo.Unit;
 import com.cma.intervideo.service.IConfService;
 import com.cma.intervideo.util.PageHolder;
@@ -65,8 +63,10 @@ public class ConfServiceImpl implements IConfService {
 		}
 		logger.info("to delete Conference from VCM - conferenceId: " + confId);
 		try {
+			Conference conf = confDao.getObjectByID(Integer.parseInt(confId));
+			conf.setStatus(Conference.status_history);
 			confDao.deleteConfUnitsByConfId(Integer.parseInt(confId));
-			confDao.removeObjectByID(new Integer(confId));
+			confDao.saveOrUpdate(conf);
 		} catch (Exception e) {
 			logger
 					.info("Exception on deleting Conference from VCM - conferenceId: "
