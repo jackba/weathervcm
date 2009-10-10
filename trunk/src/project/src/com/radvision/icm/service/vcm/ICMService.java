@@ -3,6 +3,7 @@ package com.radvision.icm.service.vcm;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.jws.WebParam;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
@@ -18,6 +19,7 @@ import com.radvision.icm.service.ControlService;
 import com.radvision.icm.service.ControlServicePortType;
 import com.radvision.icm.service.LicenseService;
 import com.radvision.icm.service.LicenseServicePortType;
+import com.radvision.icm.service.McuResourceResult;
 import com.radvision.icm.service.MeetingType;
 import com.radvision.icm.service.ResourceService;
 import com.radvision.icm.service.ResourceServicePortType;
@@ -167,6 +169,18 @@ public class ICMService {
 			e.printStackTrace();
 		}
 		return mts;
+	}
+	
+	public static McuResourceResult getResourceInfos(List<String> serviceTemplateIds,long startTime,long endTime,int interval){
+		McuResourceResult mrr = null;
+		try{
+			mrr = getResourceServicePortType().getResourceInfos(serviceTemplateIds, startTime, endTime, interval);
+			logger.info((mrr.isSuccess() ? "success" : "fail")+" to get resource infos from iCM platform");
+		}catch(Exception e){
+			logger.info("Exception on get resource infos from iCM platform - " + e.getMessage());
+			e.printStackTrace();
+		}
+		return mrr;
 	}
 
 	public static VirtualRoomResult createVirtualRoom(VirtualRoom room) {

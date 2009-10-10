@@ -47,4 +47,9 @@
 		  scope="prototype" autowire="byName">
 		<property name="unitService" ref="unitService"></property>
 	</bean>
+	<bean id="resourceAction"
+		  class="com.cma.intervideo.web.action.ResourceAction"
+		  scope="prototype" autowire="byName">
+		<property name="resourceService" ref="resourceService"></property>
+	</bean>
 </beans>
