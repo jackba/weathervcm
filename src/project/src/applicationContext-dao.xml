@@ -29,4 +29,7 @@
 	<bean id="terminalDao" class="com.cma.intervideo.dao.mysql.TerminalDaoImpl">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
+	<bean id="resourceDao" class="com.cma.intervideo.dao.mysql.ResourceDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
 </beans>

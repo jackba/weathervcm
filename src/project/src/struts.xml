@@ -21,4 +21,5 @@
 	<include file="struts-conf.xml"/>
 	<include file="struts-terminal.xml"/>
 	<include file="struts-unit.xml"/>
+	<include file="struts-resource.xml"/>
 </struts> 
