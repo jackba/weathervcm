@@ -61,10 +61,10 @@ a:hover{}
 				<span id="role" href="<%=request.getContextPath()%>/service_list.do" onClick="onClickMenuItem(this)">会议模板</span>
 			</li>
 			<li>
-				<span id="occupation" href="#">资源占用情况</span>
+				<span id="occupation" href="<%=request.getContextPath()%>/res_occupy.do" onClick="onClickMenuItem(this)">资源占用情况</span>
 			</li>
 			<li>
-				<span id="available" href="#">可用资源</span>
+				<span id="available" href="<%=request.getContextPath()%>/res_available.do" onClick="onClickMenuItem(this)">可用资源</span>
 			</li>
 		</ul>
 	</div>
