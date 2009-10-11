@@ -47,7 +47,8 @@
 						</td>
 						<th>日期：</th>
 						<td>
-						<input type="text" class="Wdate" id="day" name="day" onFocus="WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd'})"/>
+						<!--<input type="text" class="Wdate" id="day" name="day" onFocus="WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd'})"/>-->
+						<div id="dayDiv"></div>
 						</td>
 					</tr>
 				</table>
@@ -63,8 +64,16 @@
 var ds;// 数据源
 var serviceds; // 会议模板数据源
 var mychart; //图表
+var day;
 Ext.onReady(function() {
 	Ext.BLANK_IMAGE_URL="resources/images/default/s.gif";
+	day = new Ext.form.DateField({
+		name:'day',
+		id:'day',
+		readOnly:true,
+		format:'Y\-m\-d',
+		renderTo:'dayDiv'
+	});
 	ds = new Ext.data.Store({
 		proxy : new Ext.data.HttpProxy({
 			url : 'res_searchAvailable.do'
@@ -115,6 +124,16 @@ Ext.onReady(function() {
 });
 function query() {
 	loadStore();
+}
+function loadStore(){
+//	alert(Ext.get('status').dom.value);
+	if (validateRequired('serviceTemplate','会议类型')
+			&& validateRequired('day','日期')
+			) {
+		
+	}else{
+		return;
+	}
 	if(mychart==null || mychart==undefined){
 		mychart = new Ext.Panel({
         title: '可用资源情况',
@@ -124,9 +143,27 @@ function query() {
 		autoWidth : true,
 		//height:Ext.get("searchArea").getHeight()*0.99,
 		//autoHeight : true,
-		height: 600,
+		height: 400,
 		layout:'fit',
 		tbar: [{
+			xtype:'tbfill'
+		},{
+			text: '上一天',
+			handler: function(){
+				day.setValue(day.getValue().add(Date.DAY,-1));
+				loadStore();
+			}
+		},{
+			xtype: 'tbseparator'
+		},{
+			text: '下一天',
+			handler: function(){
+				day.setValue(day.getValue().add(Date.DAY,1));
+				loadStore();
+			}
+		},{
+			xtype: 'tbseparator'
+		},{
             text: '重新载入',
             handler: function(){
                 loadStore();
@@ -199,10 +236,7 @@ function query() {
             }]
         }
     });
-	}
-}
-function loadStore(){
-//	alert(Ext.get('status').dom.value);
+	}		
 	ds.load({
 		params : {
 			'serviceTemplate' : Ext.get("serviceTemplate").dom.value,
