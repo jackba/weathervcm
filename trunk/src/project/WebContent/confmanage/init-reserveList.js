@@ -54,7 +54,6 @@ function initData() {
 			personal : Ext.get("personal").dom.value
 		}
 	});
-	
 	serviceds = new Ext.data.Store({
 		proxy : new Ext.data.HttpProxy({
 			url : 'service_search.do'

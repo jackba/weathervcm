@@ -150,7 +150,8 @@ function loadStore(){
 		},{
 			text: '上一天',
 			handler: function(){
-				day.setValue(day.getValue().add(Date.DAY,-1));
+				if(day.getValue()!=null && day.getValue()!=undefined && day.getValue()!="")
+					day.setValue(day.getValue().add(Date.DAY,-1));
 				loadStore();
 			}
 		},{
@@ -158,7 +159,8 @@ function loadStore(){
 		},{
 			text: '下一天',
 			handler: function(){
-				day.setValue(day.getValue().add(Date.DAY,1));
+				if(day.getValue()!=null && day.getValue()!=undefined && day.getValue()!="")
+					day.setValue(day.getValue().add(Date.DAY,1));
 				loadStore();
 			}
 		},{
