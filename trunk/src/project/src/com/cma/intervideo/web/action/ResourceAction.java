@@ -4,7 +4,9 @@ import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import net.sf.json.JSONArray;
@@ -13,18 +15,27 @@ import net.sf.json.JSONObject;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.cma.intervideo.pojo.ServiceTemplate;
 import com.cma.intervideo.service.IResourceService;
+import com.cma.intervideo.service.IServiceService;
 import com.cma.intervideo.util.AbstractBaseAction;
 import com.cma.intervideo.vo.ResourceVo;
+import com.radvision.icm.service.McuResourceInfo;
 import com.radvision.icm.service.McuResourceResult;
 import com.radvision.icm.service.vcm.ICMService;
 
 public class ResourceAction extends AbstractBaseAction{
 	private static final Log logger = LogFactory.getLog(ResourceAction.class);
 	private IResourceService resourceService;
+	private IServiceService serviceService;
 	public void setResourceService(IResourceService resourceService) {
 		this.resourceService = resourceService;
 	}
+	
+	public void setServiceService(IServiceService serviceService) {
+		this.serviceService = serviceService;
+	}
+
 	public String occupy(){
 		return "occupy";
 	}
@@ -32,6 +43,49 @@ public class ResourceAction extends AbstractBaseAction{
 		return "available";
 	}
 	public String searchOccupy(){
+		try{
+			Calendar c = Calendar.getInstance();
+			long startTime = c.getTimeInMillis();
+			long endTime = startTime + 60*1000;
+			int interval = 1;
+			List<String> serviceTemplateIds = new ArrayList<String>();
+			List<ServiceTemplate> serviceList = serviceService.findServices();
+			HashMap<String,String> serviceMap = new HashMap<String,String>(serviceList.size());
+			for(int i=0;i<serviceList.size();i++){
+				serviceTemplateIds.add(serviceList.get(i).getServiceTemplateId());
+				serviceMap.put(serviceList.get(i).getServiceTemplateId(), serviceList.get(i).getServiceTemplateName());
+			}
+			McuResourceResult mrr = ICMService.getResourceInfos(serviceTemplateIds, startTime, endTime, interval);
+			int totalConfs = mrr.getConfNums().get(1) - (int)Math.round(mrr.getConfNums().get(0)*mrr.getConfNums().get(1)/100.0);
+			List<McuResourceInfo> infoList = mrr.getInfos();
+			List<ResourceVo> voList = new ArrayList<ResourceVo>();
+			for(int i=0;i<infoList.size();i++){
+				List<Integer> portNums = infoList.get(i).getPortNums();
+				int total = portNums.get(1);
+				ResourceVo vo = new ResourceVo();
+				vo.setAvailableNum((int)Math.round(portNums.get(0)*total/100.0));
+				vo.setOccupyNum(total-vo.getAvailableNum());
+				vo.setServiceTemplateName(serviceMap.get(infoList.get(i).getServiceTemplateId()));
+				voList.add(vo);
+			}
+			List<Integer> portNums = mrr.getInfos().get(0).getPortNums();
+			
+			int minutes = 0;
+			JSONObject json = new JSONObject();
+			json.put("totalProperty", voList.size());
+			json.put("totalConfs", totalConfs);
+			JSONArray arr = JSONArray.fromObject(voList);
+			json.put("root", arr);
+			System.out.println(json);
+			response.setCharacterEncoding("utf-8");
+
+			PrintWriter out = response.getWriter();
+			out.print(json);
+			out.flush();
+			out.close();
+		}catch(Exception e){
+			logger.error(e.toString());
+		}
 		return null;
 	}
 	public String searchAvailable(){
