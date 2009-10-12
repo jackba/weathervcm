@@ -5,6 +5,7 @@ public class ResourceVo {
 	private int availableNum;
 	//小时分钟,格式为22:15
 	private String hourMinutes;
+	private String serviceTemplateName;
 	public int getOccupyNum() {
 		return occupyNum;
 	}
@@ -22,6 +23,12 @@ public class ResourceVo {
 	}
 	public void setHourMinutes(String hourMinutes) {
 		this.hourMinutes = hourMinutes;
+	}
+	public String getServiceTemplateName() {
+		return serviceTemplateName;
+	}
+	public void setServiceTemplateName(String serviceTemplateName) {
+		this.serviceTemplateName = serviceTemplateName;
 	}
 	
 	

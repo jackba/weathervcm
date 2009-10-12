@@ -51,5 +51,6 @@
 		  class="com.cma.intervideo.web.action.ResourceAction"
 		  scope="prototype" autowire="byName">
 		<property name="resourceService" ref="resourceService"></property>
+		<property name="serviceService" ref="serviceService"></property>
 	</bean>
 </beans>
