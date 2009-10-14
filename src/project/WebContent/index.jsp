@@ -6,12 +6,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>自主会商平台</title>
 <link rel="stylesheet" type="text/css" href="resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/content.css"/>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/edgrid.css"/>
 <script language="javascript">
 var loginId = "<s:property value='#session.userPrivilege.userName'/>";
 </script>
 <script type="text/javascript" src="resources/js/ext-base.js"></script>
 <script type="text/javascript" src="resources/js/ext-all.js"></script>
 <script type="text/javascript" src="resources/js/ext-lang-zh_CN.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/validate.js"></script>
 <script type="text/javascript" src="init-main.js"></script>
 <style type="text/css">
 body{font:12px Tahoma;margin:0px;text-align:center;background:#FF;}
@@ -20,7 +23,7 @@ a:hover{}
 #center{margin:0;}
 #left{ position:absolute; height:100%;top:0px; left:0px; margin:0px;padding:10px;width:70%; text-align:left;}
 #right{ position:absolute; height:100%;top:0px; right:0px; margin:0px;padding:10px;width:30%; background: #FFFFCC; border:1px solid; border-color:#6593cf; text-align:left;}
-#bulletinBoardTitle{ color:#FF0000;}
+.bulletinBoardTitle{ color:#FF0000;}
 .menuList {
 	list-style: square;
 	padding-left: 30px;
@@ -153,17 +156,50 @@ a:hover{}
 </div>
 <div id="center">
 <div id="left">
-The date tag will allow you to format a Date in a quick and easy way. You can specify a custom format (eg. "dd/MM/yyyy hh:mm"), you can generate easy readable notations (like "in 2 hours, 14 minutes"), or you can just fall back on a predefined format with key 'struts.date.format' in your properties file.
+<div class="wrap">
+		<div id="searchArea" class="search">
+			
+			<form name="form1" id="form1" method="post" action="<%=request.getContextPath()%>/res_searchAvailable.do">
+				<table border="1" width="800" class="query">
+					<tr>
+						<th>会议类型：</th>
+						<td>
+							<div id="service_template"></div>
+						</td>
+						<th>时间间隔（分钟）：</th>
+						<td>
+						<select name="interval" id="interval">
+						<option value="60" selected="selected">60</option>
+						<option value="30">30</option>
+						<option value="15">15</option>
+						</select>
+						</td>
+						<th>日期：</th>
+						<td>
+						<!--<input type="text" class="Wdate" id="day" name="day" onFocus="WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd'})"/>-->
+						<div id="dayDiv"></div>
+						</td>
+					</tr>
+				</table>
+				<div align="center" class="query_btn">
+					<td colspan="2">
+						<input type="button" value="查询" id="btnQuery"	class="butt_bg1" onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" onClick="query()" /> &nbsp;&nbsp;
+						<input type="button" value="重置" id="btnReset"	class="butt_bg1" onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" onClick="reset()" /></td>
+				</div>
+			</form>
+		</div><!--end of searchArea-->
+	</div><!--end of wrap-->
 </div>
 <div id="right">
-<h2 id="bulletinBoardTitle">>>最新公告</h2>
-<br/>
+<h1 class="bulletinBoardTitle">>>最新公告</h1>
+<div class="search">
 <s:iterator value='#request.bulletinList'>
 <ul>
 <a href="<%=request.getContextPath()%>/bulletin_detail.do?bulletinId=<s:property value='bulletinId'/>" target="_blank"><s:property value='title'/>(<s:date name='effectiveTime' format='yyyy-MM-dd'/>)</a>
 </ul>
 </s:iterator>
 <p align="right"><a href="<%=request.getContextPath()%>/bulletin_list.do" target="_blank">>>more</a></p>
+</div>
 </div>
 </div>
 </body>
