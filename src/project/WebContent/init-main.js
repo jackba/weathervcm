@@ -30,6 +30,7 @@ Ext.onReady(function(){
 	});
 	var northToolbar = new Ext.Toolbar({
 		id:'tb',
+		height:30,
 		items:[{
 			text:"欢迎"+loginId+"进入全国天气预报电视会商系统"
 		},{
@@ -65,7 +66,8 @@ Ext.onReady(function(){
 			id:'north',
 			html:Ext.getDom("north").innerHTML,
 			split:true,
-			autoHeight:true,
+			height:106,
+			//autoHeight:true,
 			margin:'0 0 0 0',
 			bbar:northToolbar
 		},{
@@ -207,8 +209,8 @@ function loadStore(){
         title: '可用资源情况',
         frame:true,
         renderTo: 'searchArea',
-        width: Ext.get("searchArea").getWidth()*0.99,
-		autoWidth : true,
+        width: Ext.get("searchArea").getWidth()*0.98,
+		//autoWidth : true,
 		//height:Ext.get("searchArea").getHeight()*0.99,
 		//autoHeight : true,
 		height: 400,
@@ -287,6 +289,7 @@ function loadStore(){
                 displayName: '占用',
                 yField: 'occupyNum',
                 style: {
+                	labelPosition: 'outside',
                     //image:'bar.gif',
                     mode: 'stretch',
                     //color:0x99BBE8
@@ -297,6 +300,7 @@ function loadStore(){
                 displayName: '空闲',
                 yField: 'availableNum',
                 style: {
+                	labelPosition: 'outside',
 					//image:'bar.gif',
                     mode: 'stretch',
                     //color:0x99BBE8
