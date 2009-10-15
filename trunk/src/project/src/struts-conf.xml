@@ -9,6 +9,7 @@
 			<result name="reserveConf">/confmanage/reserveConf.jsp</result>
 			<result name="modifyReserve">/confmanage/modifyReserve.jsp</result>
 			<result name="reserveDetail">/confmanage/reserveDetail.jsp</result>
+			<result name="listRunning">/confmanage/listRunning.jsp</result>
 		</action>
 	</package>
 </struts>

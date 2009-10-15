@@ -1,6 +1,8 @@
 package com.cma.intervideo.web.action;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -10,11 +12,20 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.ServletOutputStream;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFDataFormat;
+import org.apache.poi.hssf.usermodel.HSSFRichTextString;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import com.cma.intervideo.pojo.Conference;
 import com.cma.intervideo.pojo.Unit;
@@ -26,12 +37,29 @@ import com.cma.intervideo.util.PageHolder;
 import com.cma.intervideo.util.ParamVo;
 import com.cma.intervideo.util.PropertiesHelper;
 import com.cma.intervideo.util.UserPrivilege;
+import com.cma.intervideo.util.VcmProperties;
+import com.lowagie.text.Document;
+import com.lowagie.text.Font;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.BaseFont;
+import com.lowagie.text.pdf.PdfPCell;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfWriter;
 
 public class ConfAction extends AbstractBaseAction {
 	private static Log logger = LogFactory.getLog(AbstractBaseAction.class);
 	private IConfService confService;
 	private IRoomService roomService;
 	private Conference conf;
+	private Integer conferenceId;
+	
+	public Integer getConferenceId() {
+		return conferenceId;
+	}
+
+	public void setConferenceId(Integer conferenceId) {
+		this.conferenceId = conferenceId;
+	}
 
 	public Conference getConf() {
 		return conf;
@@ -53,7 +81,119 @@ public class ConfAction extends AbstractBaseAction {
 		request.setAttribute("personal", "true");
 		return "listReserve";
 	}
+	
+	public String listRunning(){
+		String ipport = VcmProperties.getProperty("vcm.icm.ipport");
+		String monitorUrl = VcmProperties.getProperty("vcm.icm.monitorUrl");
+		monitorUrl = "http://"+ipport+monitorUrl;
+		request.setAttribute("monitorUrl", monitorUrl);
+		return "listRunning";
+	}
+	public String searchRunnings(){
+		String start = request.getParameter("start");
+		String limit = request.getParameter("limit");
+		String totalProperty = request.getParameter("totalProperty");
+		PageHolder ph = new PageHolder();
+		ph.setFirstIndex(Integer.parseInt(start));
+		ph.setPageSize(Integer.parseInt(limit));
+		if (totalProperty != null && !totalProperty.equals("")) {
+			ph.setResultSize(Integer.parseInt(totalProperty));
+		}
+		List<ParamVo> params = new ArrayList<ParamVo>();
+		ParamVo vo = new ParamVo();
+		vo.setParamName("status");
+		vo.setParamValue(Conference.status_ongoing);
+		params.add(vo);
+		String subject = request.getParameter("subject");
+		if (subject != null && !subject.equals("")) {
+			vo = new ParamVo();
+			vo.setParamName("subject");
+			vo.setParamValue(subject);
+			params.add(vo);
+		}
+		String dialableNumber = request.getParameter("dialableNumber");
+		if(dialableNumber != null && !dialableNumber.equals("")){
+			vo = new ParamVo();
+			vo.setParamName("dialableNumber");
+			vo.setParamValue(dialableNumber);
+			params.add(vo);
+		}
+		List<Conference> confList = confService.findConfs(params, ph);
+		try {
+			JSONObject json = new JSONObject();
+			json.put("totalProperty", ph.getResultSize());
+			JSONArray arr = JSONArray.fromObject(confList);
+			json.put("root", arr);
+			System.out.println(json);
+			response.setCharacterEncoding("utf-8");
 
+			PrintWriter out = response.getWriter();
+			out.print(json);
+			out.flush();
+			out.close();
+		} catch (Exception e) {
+			logger.error(e.toString());
+		}
+		return null;
+	}
+	public String generatePDF(){
+		String start = request.getParameter("start");
+		String limit = request.getParameter("limit");
+		String totalProperty = request.getParameter("totalProperty");
+		PageHolder ph = new PageHolder();
+		ph.setFirstIndex(Integer.parseInt(start));
+		ph.setPageSize(Integer.parseInt(limit));
+		if (totalProperty != null && !totalProperty.equals("")) {
+			ph.setResultSize(Integer.parseInt(totalProperty));
+		}
+		List<ParamVo> params = new ArrayList<ParamVo>();
+		String subject = request.getParameter("subject");
+		if (subject != null && !subject.equals("")) {
+			ParamVo vo = new ParamVo();
+			vo.setParamName("subject");
+			vo.setParamValue(subject);
+			params.add(vo);
+		}
+		String dialableNumber = request.getParameter("dialableNumber");
+		if(dialableNumber != null && !dialableNumber.equals("")){
+			ParamVo vo = new ParamVo();
+			vo.setParamName("dialableNumber");
+			vo.setParamValue(dialableNumber);
+			params.add(vo);
+		}
+		List<Conference> confList = confService.findConfs(params, ph);
+		exportToPDF(confList);
+		return null;
+	}
+	public String generateExcel(){
+		String start = request.getParameter("start");
+		String limit = request.getParameter("limit");
+		String totalProperty = request.getParameter("totalProperty");
+		PageHolder ph = new PageHolder();
+		ph.setFirstIndex(Integer.parseInt(start));
+		ph.setPageSize(Integer.parseInt(limit));
+		if (totalProperty != null && !totalProperty.equals("")) {
+			ph.setResultSize(Integer.parseInt(totalProperty));
+		}
+		List<ParamVo> params = new ArrayList<ParamVo>();
+		String subject = request.getParameter("subject");
+		if (subject != null && !subject.equals("")) {
+			ParamVo vo = new ParamVo();
+			vo.setParamName("subject");
+			vo.setParamValue(subject);
+			params.add(vo);
+		}
+		String dialableNumber = request.getParameter("dialableNumber");
+		if(dialableNumber != null && !dialableNumber.equals("")){
+			ParamVo vo = new ParamVo();
+			vo.setParamName("dialableNumber");
+			vo.setParamValue(dialableNumber);
+			params.add(vo);
+		}
+		List<Conference> confList = confService.findConfs(params, ph);
+		exportToExcel(confList);
+		return null;
+	}
 	public String searchReserves() {
 		String start = request.getParameter("start");
 		String limit = request.getParameter("limit");
@@ -284,5 +424,116 @@ public class ConfAction extends AbstractBaseAction {
 			logger.error(e.toString());
 		}
 		return null;
+	}
+	private void exportToExcel(List<Conference> l){
+		try{
+			response.setCharacterEncoding("utf-8");
+			response.setContentType("application/vnd.ms-excel");
+			OutputStream out = response.getOutputStream();
+			//String fileName = new String("正在召开的会议.xls".getBytes("UTF-8"),"ISO8859-1");
+			String fileName = new String("list.xls");
+			response.addHeader("Content-Disposition", "attachment;filename="+fileName);
+			HSSFWorkbook wb = new HSSFWorkbook();
+			HSSFSheet sheet = wb.createSheet();
+			wb.setSheetName(0, "正在召开的会议");
+			HSSFRow row = sheet.createRow(0);
+			HSSFCell cell = row.createCell(0);
+			cell.setCellValue(new HSSFRichTextString("主题"));
+			cell = row.createCell(1);
+			cell.setCellValue(new HSSFRichTextString("会议号"));
+			cell = row.createCell(2);
+			cell.setCellValue(new HSSFRichTextString("组织单位"));
+			cell = row.createCell(3);
+			cell.setCellValue(new HSSFRichTextString("开始时间"));
+			cell = row.createCell(4);
+			cell.setCellValue(new HSSFRichTextString("时长"));
+			cell = row.createCell(5);
+			cell.setCellValue(new HSSFRichTextString("会议负责人"));
+			cell = row.createCell(6);
+			cell.setCellValue(new HSSFRichTextString("负责人手机"));
+			cell = row.createCell(7);
+			cell.setCellValue(new HSSFRichTextString("联系方式"));
+			cell = row.createCell(8);
+			cell.setCellValue(new HSSFRichTextString("主要议题"));
+			HSSFCellStyle cellStyle = wb.createCellStyle();
+			cellStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("m/d/yy h:mm"));
+			for(int i=0;i<l.size();i++){
+				Conference c = l.get(i);
+				row = sheet.createRow(i+1);
+				cell = row.createCell(0);
+				cell.setCellValue(new HSSFRichTextString(c.getSubject()));
+				cell = row.createCell(1);
+				cell.setCellValue(new HSSFRichTextString(c.getDialableNumber()));
+				cell = row.createCell(2);
+				cell.setCellValue(new HSSFRichTextString(c.getInitUnit()));
+				cell = row.createCell(3);
+				Date startTime = new Date(c.getStartTime());
+				cell.setCellValue(startTime);
+				cell = row.createCell(4);
+				cell.setCellValue(c.getTimeLong());
+				cell = row.createCell(5);
+				cell.setCellValue(new HSSFRichTextString(c.getPrincipal()));
+				cell = row.createCell(6);
+				cell.setCellValue(new HSSFRichTextString(c.getPrincipalMobile()));
+				cell = row.createCell(7);
+				cell.setCellValue(new HSSFRichTextString(c.getContactMethod()));
+				cell = row.createCell(8);
+				cell.setCellValue(new HSSFRichTextString(c.getDescription()));
+			}
+			wb.write(out);
+			out.flush();
+			out.close();
+		}catch(Exception e){
+			logger.error(e.toString());
+		}
+	}
+	private void exportToPDF(List<Conference> l){
+		Document document = new Document();
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		try{
+			PdfWriter.getInstance(document, baos);
+			document.open();
+			BaseFont bfChinese = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H",    
+		            BaseFont.NOT_EMBEDDED);              
+			Font fontChinese = new Font(bfChinese, 12, Font.NORMAL);    
+			PdfPTable table = new PdfPTable(9);
+			PdfPCell cell = new PdfPCell(new Paragraph("正在召开的会议",fontChinese));
+			cell.setColspan(9);
+			table.addCell(cell);
+			table.addCell(new Paragraph("主题",fontChinese));
+			table.addCell(new Paragraph("会议号",fontChinese));
+			table.addCell(new Paragraph("组织单位",fontChinese));
+			table.addCell(new Paragraph("开始时间",fontChinese));
+			table.addCell(new Paragraph("时长",fontChinese));
+			table.addCell(new Paragraph("会议负责人",fontChinese));
+			table.addCell(new Paragraph("负责人手机",fontChinese));
+			table.addCell(new Paragraph("联系方式",fontChinese));
+			table.addCell(new Paragraph("主要议题",fontChinese));
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			for(int i=0;i<l.size();i++){
+				Conference c = l.get(i);
+				table.addCell(new Paragraph(c.getSubject(),fontChinese));
+				table.addCell(c.getDialableNumber());
+				table.addCell(new Paragraph(c.getInitUnit(),fontChinese));
+				Date startTime = new Date(c.getStartTime());
+				table.addCell(df.format(startTime));
+				table.addCell(c.getTimeLong().toString());
+				table.addCell(new Paragraph(c.getPrincipal(),fontChinese));
+				table.addCell(new Paragraph(c.getPrincipalMobile(),fontChinese));
+				table.addCell(new Paragraph(c.getContactMethod(),fontChinese));
+				table.addCell(new Paragraph(c.getDescription(),fontChinese));
+			}
+			document.add(table);
+			document.close();
+			response.setContentType("application/pdf");
+			response.setCharacterEncoding("utf-8");
+			response.setContentLength(baos.size());
+			ServletOutputStream out = response.getOutputStream();
+			baos.writeTo(out);
+			out.flush();
+			out.close();
+		}catch(Exception e){
+			logger.error(e.toString());
+		}
 	}
 }
