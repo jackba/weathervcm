@@ -34,6 +34,12 @@ public abstract class AbstractConfDao extends AbstractDAO<Conference, Integer> i
 				if(vo.getParamName().equals("userId")){
 					hql += " and conference.userId="+vo.getParamValue();
 				}
+				if(vo.getParamName().equals("dialableNumber")){
+					hql += " and conference.dialableNumber='"+vo.getParamValue()+"'";
+				}
+				if(vo.getParamName().equals("status")){
+					hql += " and conference.status="+vo.getParamValue();
+				}
 			}
 		}
 		if(ph.isGetCount()){
