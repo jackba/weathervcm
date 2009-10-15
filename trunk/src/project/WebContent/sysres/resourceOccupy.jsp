@@ -63,8 +63,8 @@ function loadStore(){
         title: '资源占用情况',
         frame:true,
         renderTo: 'searchArea',
-        width: Ext.get("searchArea").getWidth()*0.99,
-		autoWidth : true,
+        width: Ext.get("searchArea").getWidth()*0.98,
+		//autoWidth : true,
 		//height:Ext.get("searchArea").getHeight()*0.99,
 		//autoHeight : true,
 		height: 400,
@@ -125,6 +125,7 @@ function loadStore(){
                 displayName: '占用',
                 yField: 'occupyNum',
                 style: {
+					labelPosition: 'outside',
                     //image:'bar.gif',
                     mode: 'stretch',
                     //color:0x99BBE8
@@ -135,6 +136,7 @@ function loadStore(){
                 displayName: '空闲',
                 yField: 'availableNum',
                 style: {
+					labelPosition: 'outside',
 					//image:'bar.gif',
                     mode: 'stretch',
                     //color:0x99BBE8

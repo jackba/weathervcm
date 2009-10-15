@@ -31,7 +31,7 @@
 		<div id="searchArea" class="search">
 			
 			<form name="form1" id="form1" method="post" action="<%=request.getContextPath()%>/res_searchAvailable.do">
-				<table border="1" width="800" class="query">
+				<table border="1" class="query">
 					<tr>
 						<th>会议类型：</th>
 						<td>
@@ -53,9 +53,8 @@
 					</tr>
 				</table>
 				<div align="center" class="query_btn">
-					<td colspan="2">
 						<input type="button" value="查询" id="btnQuery"	class="butt_bg1" onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" onClick="query()" /> &nbsp;&nbsp;
-						<input type="button" value="重置" id="btnReset"	class="butt_bg1" onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" onClick="reset()" /></td>
+						<input type="button" value="重置" id="btnReset"	class="butt_bg1" onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" onClick="reset()" />
 				</div>
 			</form>
 		</div><!--end of searchArea-->
@@ -139,8 +138,8 @@ function loadStore(){
         title: '可用资源情况',
         frame:true,
         renderTo: 'searchArea',
-        width: Ext.get("searchArea").getWidth()*0.99,
-		autoWidth : true,
+        width: Ext.get("searchArea").getWidth()*0.98,
+		//autoWidth : true,
 		//height:Ext.get("searchArea").getHeight()*0.99,
 		//autoHeight : true,
 		height: 400,
@@ -219,6 +218,7 @@ function loadStore(){
                 displayName: '占用',
                 yField: 'occupyNum',
                 style: {
+					labelPosition: 'outside',
                     //image:'bar.gif',
                     mode: 'stretch',
                     //color:0x99BBE8
@@ -229,6 +229,7 @@ function loadStore(){
                 displayName: '空闲',
                 yField: 'availableNum',
                 style: {
+					labelPosition: 'outside',
 					//image:'bar.gif',
                     mode: 'stretch',
                     //color:0x99BBE8

@@ -17,12 +17,13 @@ var loginId = "<s:property value='#session.userPrivilege.userName'/>";
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/validate.js"></script>
 <script type="text/javascript" src="init-main.js"></script>
 <style type="text/css">
-body{font:12px Tahoma;margin:0px;text-align:center;background:#FF;}
+body{font:12px Tahoma;margin:0px; padding:0px;text-align:center;background:#FF;}
 a:link,a:visited{font-size:12px;text-decoration:none;}
 a:hover{}
-#center{margin:0;}
-#left{ position:absolute; height:100%;top:0px; left:0px; margin:0px;padding:10px;width:70%; text-align:left;}
-#right{ position:absolute; height:100%;top:0px; right:0px; margin:0px;padding:10px;width:30%; background: #FFFFCC; border:1px solid; border-color:#6593cf; text-align:left;}
+#north{margin:0;padding:0;}
+#center{margin:0; padding:0}
+#left{ position:absolute; height:100%;top:0px; left:0px; margin:0px;padding:0px; width:70%; text-align:left; border:0;}
+#right{ position:absolute; height:100%;top:0px; right:0px; margin:0px;padding:0px; width:30%; background: #FFFFCC; border:1px solid; border-color:#6593cf; text-align:left;}
 .bulletinBoardTitle{ color:#FF0000;}
 .menuList {
 	list-style: square;
@@ -41,8 +42,8 @@ a:hover{}
 </style>
 </head>
 <body>
-<div id="north" style="display:none">
-<table border="0" width="100%" cellpadding="0" cellspacing="0"><tr><td height="76" width="777"><img src="images/head1_01.jpg"/></td><td background="images/head1_02.jpg">&nbsp;</td><td width="233"><img src="images/head1_04.jpg"/></td></tr></table>
+<div id="north">
+<table border="0" width="100%" cellpadding="0" cellspacing="0"><tr><td background="images/head1_01.jpg" height="76" width="777">&nbsp;</td><td background="images/head1_02.jpg">&nbsp;</td><td background="images/head1_04.jpg" width="233">&nbsp;</td></tr></table>
 </div>
 <div id="menus" style="display:none">
 	<div id="systemMenus">
@@ -80,7 +81,7 @@ a:hover{}
 				<span id="manageConf" href="<%=request.getContextPath()%>/conf_manageReserve.do" onClick="onClickMenuItem(this)">预约管理</span>
 			</li>
 			<li>
-				<span id="currentConf" href="#">正在召开的会议</span>
+				<span id="currentConf" href="<%=request.getContextPath()%>/conf_listRunning.do" onClick="onClickMenuItem(this)">正在召开的会议</span>
 			</li>
 			<li>
 				<span id="currentDayConf" href="#">当日会议安排</span>
@@ -160,7 +161,7 @@ a:hover{}
 		<div id="searchArea" class="search">
 			
 			<form name="form1" id="form1" method="post" action="<%=request.getContextPath()%>/res_searchAvailable.do">
-				<table border="1" width="800" class="query">
+				<table border="1" class="query">
 					<tr>
 						<th>会议类型：</th>
 						<td>
@@ -182,9 +183,8 @@ a:hover{}
 					</tr>
 				</table>
 				<div align="center" class="query_btn">
-					<td colspan="2">
 						<input type="button" value="查询" id="btnQuery"	class="butt_bg1" onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" onClick="query()" /> &nbsp;&nbsp;
-						<input type="button" value="重置" id="btnReset"	class="butt_bg1" onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" onClick="reset()" /></td>
+						<input type="button" value="重置" id="btnReset"	class="butt_bg1" onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" onClick="reset()" />
 				</div>
 			</form>
 		</div><!--end of searchArea-->
