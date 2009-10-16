@@ -227,5 +227,5 @@ function reset() {
 	Ext.get("form1").reset();
 }
 function openMonitorWin(confId) { 
-    	window.open(monitorUrl+"?ConfId="+confId,"newwindow", "height=520,width=600,top=100,left=200,toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
+    	window.open(monitorUrl+"?ConfId="+confId,"newwindow", "fullscreen=yes,toolbar=no, menubar=no, scrollbars=no, location=no, status=no");
 }
