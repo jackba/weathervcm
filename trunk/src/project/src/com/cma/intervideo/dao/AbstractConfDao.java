@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -39,6 +40,12 @@ public abstract class AbstractConfDao extends AbstractDAO<Conference, Integer> i
 				}
 				if(vo.getParamName().equals("status")){
 					hql += " and conference.status="+vo.getParamValue();
+				}
+				if(vo.getParamName().equals("startTime")){
+					hql += " and conference.startTime>="+((Date)vo.getParamValue()).getTime();
+				}
+				if(vo.getParamName().equals("endTime")){
+					hql += " and conference.startTime<"+((Date)vo.getParamValue()).getTime();
 				}
 			}
 		}

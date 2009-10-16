@@ -42,6 +42,7 @@ import com.lowagie.text.Document;
 import com.lowagie.text.Font;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.BaseFont;
+import com.lowagie.text.pdf.PdfCell;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
@@ -90,35 +91,35 @@ public class ConfAction extends AbstractBaseAction {
 		return "listRunning";
 	}
 	public String searchRunnings(){
-		String start = request.getParameter("start");
-		String limit = request.getParameter("limit");
-		String totalProperty = request.getParameter("totalProperty");
 		PageHolder ph = new PageHolder();
-		ph.setFirstIndex(Integer.parseInt(start));
-		ph.setPageSize(Integer.parseInt(limit));
-		if (totalProperty != null && !totalProperty.equals("")) {
-			ph.setResultSize(Integer.parseInt(totalProperty));
+		List<Conference> confList = getConfList(ph);
+		try {
+			JSONObject json = new JSONObject();
+			json.put("totalProperty", ph.getResultSize());
+			JSONArray arr = JSONArray.fromObject(confList);
+			json.put("root", arr);
+			System.out.println(json);
+			response.setCharacterEncoding("utf-8");
+
+			PrintWriter out = response.getWriter();
+			out.print(json);
+			out.flush();
+			out.close();
+		} catch (Exception e) {
+			logger.error(e.toString());
 		}
-		List<ParamVo> params = new ArrayList<ParamVo>();
-		ParamVo vo = new ParamVo();
-		vo.setParamName("status");
-		vo.setParamValue(Conference.status_ongoing);
-		params.add(vo);
-		String subject = request.getParameter("subject");
-		if (subject != null && !subject.equals("")) {
-			vo = new ParamVo();
-			vo.setParamName("subject");
-			vo.setParamValue(subject);
-			params.add(vo);
-		}
-		String dialableNumber = request.getParameter("dialableNumber");
-		if(dialableNumber != null && !dialableNumber.equals("")){
-			vo = new ParamVo();
-			vo.setParamName("dialableNumber");
-			vo.setParamValue(dialableNumber);
-			params.add(vo);
-		}
-		List<Conference> confList = confService.findConfs(params, ph);
+		return null;
+	}
+	public String listCurrentDay(){
+		String ipport = VcmProperties.getProperty("vcm.icm.ipport");
+		String monitorUrl = VcmProperties.getProperty("vcm.icm.monitorUrl");
+		monitorUrl = "http://"+ipport+monitorUrl;
+		request.setAttribute("monitorUrl", monitorUrl);
+		return "listCurrentDay";
+	}
+	public String searchCurrentDays(){
+		PageHolder ph = new PageHolder();
+		List<Conference> confList = getConfList(ph);
 		try {
 			JSONObject json = new JSONObject();
 			json.put("totalProperty", ph.getResultSize());
@@ -137,39 +138,13 @@ public class ConfAction extends AbstractBaseAction {
 		return null;
 	}
 	public String generatePDF(){
-		String start = request.getParameter("start");
-		String limit = request.getParameter("limit");
-		String totalProperty = request.getParameter("totalProperty");
-		PageHolder ph = new PageHolder();
-		ph.setFirstIndex(Integer.parseInt(start));
-		ph.setPageSize(Integer.parseInt(limit));
-		if (totalProperty != null && !totalProperty.equals("")) {
-			ph.setResultSize(Integer.parseInt(totalProperty));
-		}
-		List<ParamVo> params = new ArrayList<ParamVo>();
-		String subject = request.getParameter("subject");
-		if (subject != null && !subject.equals("")) {
-			ParamVo vo = new ParamVo();
-			vo.setParamName("subject");
-			vo.setParamValue(subject);
-			params.add(vo);
-		}
-		String dialableNumber = request.getParameter("dialableNumber");
-		if(dialableNumber != null && !dialableNumber.equals("")){
-			ParamVo vo = new ParamVo();
-			vo.setParamName("dialableNumber");
-			vo.setParamValue(dialableNumber);
-			params.add(vo);
-		}
-		List<Conference> confList = confService.findConfs(params, ph);
-		exportToPDF(confList);
+		exportToPDF(getConfList(new PageHolder()));
 		return null;
 	}
-	public String generateExcel(){
+	private List<Conference> getConfList(PageHolder ph){
 		String start = request.getParameter("start");
 		String limit = request.getParameter("limit");
 		String totalProperty = request.getParameter("totalProperty");
-		PageHolder ph = new PageHolder();
 		ph.setFirstIndex(Integer.parseInt(start));
 		ph.setPageSize(Integer.parseInt(limit));
 		if (totalProperty != null && !totalProperty.equals("")) {
@@ -190,8 +165,38 @@ public class ConfAction extends AbstractBaseAction {
 			vo.setParamValue(dialableNumber);
 			params.add(vo);
 		}
+		String listType = request.getParameter("listType");
+		if(listType!=null && !listType.equals("")){
+			if(listType.equals("running")){
+				ParamVo vo = new ParamVo();
+				vo.setParamName("status");
+				vo.setParamValue(Conference.status_ongoing);
+				params.add(vo);
+			}else if(listType.equals("currentDay")){
+					Calendar c = Calendar.getInstance();
+					DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+					try{
+					Date startTime = df.parse(df.format(c.getTime()));
+					c.add(Calendar.DATE, 1);
+					Date endTime = df.parse(df.format(c.getTime()));
+					ParamVo vo = new ParamVo();
+					vo.setParamName("startTime");
+					vo.setParamValue(startTime);
+					params.add(vo);
+					vo = new ParamVo();
+					vo.setParamName("endTime");
+					vo.setParamValue(endTime);
+					params.add(vo);
+				}catch(Exception e){
+					logger.error(e.toString());
+				}
+			}
+		}
 		List<Conference> confList = confService.findConfs(params, ph);
-		exportToExcel(confList);
+		return confList;
+	}
+	public String generateExcel(){
+		exportToExcel(getConfList(new PageHolder()));
 		return null;
 	}
 	public String searchReserves() {
@@ -469,6 +474,7 @@ public class ConfAction extends AbstractBaseAction {
 				cell = row.createCell(3);
 				Date startTime = new Date(c.getStartTime());
 				cell.setCellValue(startTime);
+				cell.setCellStyle(cellStyle);
 				cell = row.createCell(4);
 				cell.setCellValue(c.getTimeLong());
 				cell = row.createCell(5);
@@ -497,18 +503,30 @@ public class ConfAction extends AbstractBaseAction {
 		            BaseFont.NOT_EMBEDDED);              
 			Font fontChinese = new Font(bfChinese, 12, Font.NORMAL);    
 			PdfPTable table = new PdfPTable(9);
+			table.setWidthPercentage(100);
+			float[] widths = {5f,3f,4f,4f,3f,4f,4f,6f,6f};
+			table.setWidths(widths);
 			PdfPCell cell = new PdfPCell(new Paragraph("正在召开的会议",fontChinese));
 			cell.setColspan(9);
 			table.addCell(cell);
-			table.addCell(new Paragraph("主题",fontChinese));
-			table.addCell(new Paragraph("会议号",fontChinese));
-			table.addCell(new Paragraph("组织单位",fontChinese));
-			table.addCell(new Paragraph("开始时间",fontChinese));
-			table.addCell(new Paragraph("时长",fontChinese));
-			table.addCell(new Paragraph("会议负责人",fontChinese));
-			table.addCell(new Paragraph("负责人手机",fontChinese));
-			table.addCell(new Paragraph("联系方式",fontChinese));
-			table.addCell(new Paragraph("主要议题",fontChinese));
+			cell  = new PdfPCell(new Paragraph("主题",fontChinese));
+			table.addCell(cell);
+			cell  = new PdfPCell(new Paragraph("会议号",fontChinese));
+			table.addCell(cell);
+			cell  = new PdfPCell(new Paragraph("组织单位",fontChinese));
+			table.addCell(cell);
+			cell  = new PdfPCell(new Paragraph("开始时间",fontChinese));
+			table.addCell(cell);
+			cell  = new PdfPCell(new Paragraph("时长",fontChinese));
+			table.addCell(cell);
+			cell  = new PdfPCell(new Paragraph("会议负责人",fontChinese));
+			table.addCell(cell);
+			cell  = new PdfPCell(new Paragraph("负责人手机",fontChinese));
+			table.addCell(cell);
+			cell  = new PdfPCell(new Paragraph("联系方式",fontChinese));
+			table.addCell(cell);
+			cell  = new PdfPCell(new Paragraph("主要议题",fontChinese));
+			table.addCell(cell);
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			for(int i=0;i<l.size();i++){
 				Conference c = l.get(i);

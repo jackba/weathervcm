@@ -10,6 +10,7 @@
 			<result name="modifyReserve">/confmanage/modifyReserve.jsp</result>
 			<result name="reserveDetail">/confmanage/reserveDetail.jsp</result>
 			<result name="listRunning">/confmanage/listRunning.jsp</result>
+			<result name="listCurrentDay">/confmanage/listCurrentDay.jsp</result>
 		</action>
 	</package>
 </struts>
