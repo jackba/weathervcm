@@ -84,7 +84,7 @@ a:hover{}
 				<span id="currentConf" href="<%=request.getContextPath()%>/conf_listRunning.do" onClick="onClickMenuItem(this)">正在召开的会议</span>
 			</li>
 			<li>
-				<span id="currentDayConf" href="#">当日会议安排</span>
+				<span id="currentDayConf" href="<%=request.getContextPath()%>/conf_listCurrentDay.do" onClick="onClickMenuItem(this)">当日会议安排</span>
 			</li>
 			<li>
 				<span id="currentWeekConf" href="#">本周会议安排</span>

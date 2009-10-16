@@ -14,7 +14,7 @@ Ext.onReady(function() {
 function initData() {
 	ds = new Ext.data.Store({
 		proxy : new Ext.data.HttpProxy({
-			url : 'conf_searchRunnings.do'
+			url : 'conf_searchCurrentDays.do'
 		}),
 		reader : new Ext.data.JsonReader({
 			totalProperty : 'totalProperty',
@@ -52,7 +52,7 @@ function initData() {
 		params : {
 			start : 0,
 			limit : limit,
-			'listType' : 'running'
+			'listType' : 'currentDay'
 		}
 	});
 	initGrid();
@@ -143,7 +143,7 @@ function initGrid() {
 		forceFit:true,
 		loadMask : true,
 		//viewConfig : {forceFit : true},
-		tbar : ['<b>&nbsp;&nbsp;&nbsp;&nbsp;<font color=#990000>正在召开的会议</font></b>','->',{
+		tbar : ['<b>&nbsp;&nbsp;&nbsp;&nbsp;<font color=#990000>当日会议安排</font></b>','->',{
 			id : 'btnMonitor',
 			text : '监控',
 			pressed : true,
@@ -153,7 +153,14 @@ function initGrid() {
 				if (sm.getCount() == 1) {
 					var list = sm.getSelections();
 					var id = list[0].data["radConferenceId"];
-					openMonitorWin(id);
+					var status = list[0].data["status"];
+					if(status==0){
+						Ext.MessageBox.alert('提示',"会议还未开始!");
+					}else if(status==2){
+						Ext.MessageBox.alert('提示',"会议已经结束!")
+					}else{
+						openMonitorWin(id);
+					}
 				} else {
 					Ext.MessageBox.alert('提示', "请选择一条记录!");
 				}
@@ -202,7 +209,7 @@ function initGrid() {
 		params += "&totalProperty="+ds.getTotalCount();
 		params += "&subject="+Ext.get("subject").dom.value;
 		params += "&dialableNumber="+Ext.get("dialableNumber").dom.value;
-		params += "&lisType=running";
+		params += "&listType=currentDay";
 		return params;
 	}
 }
@@ -219,7 +226,7 @@ function loadStore(start){
 			'totalProperty' : ds.getTotalCount(),
 			'subject' : Ext.get("subject").dom.value,
 			'dialableNumber' : Ext.get("dialableNumber").dom.value,
-			'listType' : 'running'
+			'listType' : 'currentDay'
 		}
 	});
 }
