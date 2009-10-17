@@ -87,13 +87,13 @@ a:hover{}
 				<span id="currentDayConf" href="<%=request.getContextPath()%>/conf_listCurrentDay.do" onClick="onClickMenuItem(this)">当日会议安排</span>
 			</li>
 			<li>
-				<span id="currentWeekConf" href="#">本周会议安排</span>
+				<span id="currentWeekConf" href="<%=request.getContextPath()%>/conf_listCurrentWeek.do" onClick="onClickMenuItem(this)">本周会议安排</span>
 			</li>
 			<li>
-				<span id="currentMonthConf" href="#">本月会议安排</span>
+				<span id="currentMonthConf" href="<%=request.getContextPath()%>/conf_listCurrentMonth.do" onClick="onClickMenuItem(this)">本月会议安排</span>
 			</li>
 			<li>
-				<span id="allConf" href="#">所有会议安排</span>
+				<span id="allConf" href="<%=request.getContextPath()%>/conf_listAll.do" onClick="onClickMenuItem(this)">所有会议安排</span>
 			</li>
 		</ul>
 	</div>

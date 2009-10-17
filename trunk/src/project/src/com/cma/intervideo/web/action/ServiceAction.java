@@ -55,6 +55,8 @@ public class ServiceAction extends AbstractBaseAction{
 		List<MeetingType> mts = ICMService.getMeetingTypes();
 		for (int i = 0; mts != null && i < mts.size(); i++) {
 			MeetingType mt = mts.get(i);
+			if ("EMBEDDED".equals(mt.getBuiltInToken()) || "N/A".equals(mt.getServicePrefix()))
+				continue;
 			ServiceTemplate service = new ServiceTemplate();
 			service.setServiceTemplateId(mt.getId());
 			service.setServicePrefix(mt.getServicePrefix());

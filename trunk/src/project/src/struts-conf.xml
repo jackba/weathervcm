@@ -11,6 +11,9 @@
 			<result name="reserveDetail">/confmanage/reserveDetail.jsp</result>
 			<result name="listRunning">/confmanage/listRunning.jsp</result>
 			<result name="listCurrentDay">/confmanage/listCurrentDay.jsp</result>
+			<result name="listCurrentWeek">/confmanage/listCurrentWeek.jsp</result>
+			<result name="listCurrentMonth">/confmanage/listCurrentMonth.jsp</result>
+			<result name="listAll">/confmanage/listAll.jsp</result>
 		</action>
 	</package>
 </struts>
