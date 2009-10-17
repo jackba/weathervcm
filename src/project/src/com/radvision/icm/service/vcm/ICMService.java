@@ -3,7 +3,6 @@ package com.radvision.icm.service.vcm;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.jws.WebParam;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 

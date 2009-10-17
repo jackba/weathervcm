@@ -42,7 +42,6 @@ import com.lowagie.text.Document;
 import com.lowagie.text.Font;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.BaseFont;
-import com.lowagie.text.pdf.PdfCell;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
@@ -117,7 +116,88 @@ public class ConfAction extends AbstractBaseAction {
 		request.setAttribute("monitorUrl", monitorUrl);
 		return "listCurrentDay";
 	}
+	public String listCurrentWeek(){
+		String ipport = VcmProperties.getProperty("vcm.icm.ipport");
+		String monitorUrl = VcmProperties.getProperty("vcm.icm.monitorUrl");
+		monitorUrl = "http://"+ipport+monitorUrl;
+		request.setAttribute("monitorUrl", monitorUrl);
+		return "listCurrentWeek";
+	}
+	public String listCurrentMonth(){
+		String ipport = VcmProperties.getProperty("vcm.icm.ipport");
+		String monitorUrl = VcmProperties.getProperty("vcm.icm.monitorUrl");
+		monitorUrl = "http://"+ipport+monitorUrl;
+		request.setAttribute("monitorUrl", monitorUrl);
+		return "listCurrentMonth";
+	}
+	public String listAll(){
+		String ipport = VcmProperties.getProperty("vcm.icm.ipport");
+		String monitorUrl = VcmProperties.getProperty("vcm.icm.monitorUrl");
+		monitorUrl = "http://"+ipport+monitorUrl;
+		request.setAttribute("monitorUrl", monitorUrl);
+		return "listAll";
+	}
 	public String searchCurrentDays(){
+		PageHolder ph = new PageHolder();
+		List<Conference> confList = getConfList(ph);
+		try {
+			JSONObject json = new JSONObject();
+			json.put("totalProperty", ph.getResultSize());
+			JSONArray arr = JSONArray.fromObject(confList);
+			json.put("root", arr);
+			System.out.println(json);
+			response.setCharacterEncoding("utf-8");
+
+			PrintWriter out = response.getWriter();
+			out.print(json);
+			out.flush();
+			out.close();
+		} catch (Exception e) {
+			logger.error(e.toString());
+		}
+		return null;
+	}
+	public String searchCurrentWeeks(){
+		PageHolder ph = new PageHolder();
+		List<Conference> confList = getConfList(ph);
+		try {
+			JSONObject json = new JSONObject();
+			json.put("totalProperty", ph.getResultSize());
+			JSONArray arr = JSONArray.fromObject(confList);
+			json.put("root", arr);
+			System.out.println(json);
+			response.setCharacterEncoding("utf-8");
+
+			PrintWriter out = response.getWriter();
+			out.print(json);
+			out.flush();
+			out.close();
+		} catch (Exception e) {
+			logger.error(e.toString());
+		}
+		return null;
+	}
+	public String searchCurrentMonths(){
+		PageHolder ph = new PageHolder();
+		List<Conference> confList = getConfList(ph);
+		try {
+			JSONObject json = new JSONObject();
+			json.put("totalProperty", ph.getResultSize());
+			JSONArray arr = JSONArray.fromObject(confList);
+			json.put("root", arr);
+			System.out.println(json);
+			response.setCharacterEncoding("utf-8");
+
+			PrintWriter out = response.getWriter();
+			out.print(json);
+			out.flush();
+			out.close();
+		} catch (Exception e) {
+			logger.error(e.toString());
+		}
+		return null;
+	}
+	public String searchAlls(){
 		PageHolder ph = new PageHolder();
 		List<Conference> confList = getConfList(ph);
 		try {
@@ -167,17 +247,59 @@ public class ConfAction extends AbstractBaseAction {
 		}
 		String listType = request.getParameter("listType");
 		if(listType!=null && !listType.equals("")){
-			if(listType.equals("running")){
+			if("running".equals(listType)){
 				ParamVo vo = new ParamVo();
 				vo.setParamName("status");
 				vo.setParamValue(Conference.status_ongoing);
 				params.add(vo);
-			}else if(listType.equals("currentDay")){
-					Calendar c = Calendar.getInstance();
-					DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-					try{
+			}else if("currentDay".equals(listType)){
+				Calendar c = Calendar.getInstance();
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+				try{
 					Date startTime = df.parse(df.format(c.getTime()));
 					c.add(Calendar.DATE, 1);
+					Date endTime = df.parse(df.format(c.getTime()));
+					ParamVo vo = new ParamVo();
+					vo.setParamName("startTime");
+					vo.setParamValue(startTime);
+					params.add(vo);
+					vo = new ParamVo();
+					vo.setParamName("endTime");
+					vo.setParamValue(endTime);
+					params.add(vo);
+				}catch(Exception e){
+					logger.error(e.toString());
+				}
+			} else if ("currentWeek".equals(listType)) {
+				Calendar c = Calendar.getInstance();
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+				try{
+					Date startTime = df.parse(df.format(c.getTime()));
+					c.setTime(startTime);
+					c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+					startTime = df.parse(df.format(c.getTime()));
+					c.add(Calendar.DATE, 7);
+					Date endTime = df.parse(df.format(c.getTime()));
+					ParamVo vo = new ParamVo();
+					vo.setParamName("startTime");
+					vo.setParamValue(startTime);
+					params.add(vo);
+					vo = new ParamVo();
+					vo.setParamName("endTime");
+					vo.setParamValue(endTime);
+					params.add(vo);
+				}catch(Exception e){
+					logger.error(e.toString());
+				}
+			} else if ("currentMonth".equals(listType)) {
+				Calendar c = Calendar.getInstance();
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+				try{
+					Date startTime = df.parse(df.format(c.getTime()));
+					c.setTime(startTime);
+					c.set(Calendar.DAY_OF_MONTH, 1);
+					startTime = df.parse(df.format(c.getTime()));
+					c.add(Calendar.MONTH, 1);
 					Date endTime = df.parse(df.format(c.getTime()));
 					ParamVo vo = new ParamVo();
 					vo.setParamName("startTime");
