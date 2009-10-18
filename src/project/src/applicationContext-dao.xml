@@ -32,4 +32,7 @@
 	<bean id="resourceDao" class="com.cma.intervideo.dao.mysql.ResourceDaoImpl">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
+	<bean id="statDao" class="com.cma.intervideo.dao.mysql.StatDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
 </beans>

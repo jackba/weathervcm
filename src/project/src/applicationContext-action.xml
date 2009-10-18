@@ -53,4 +53,8 @@
 		<property name="resourceService" ref="resourceService"></property>
 		<property name="serviceService" ref="serviceService"></property>
 	</bean>
+	<bean id="statAction" class="com.cma.intervideo.web.action.StatAction"
+		  scope="prototype" autowire="byName">
+		<property name="statService" ref="statService"></property>
+	</bean>
 </beans>
