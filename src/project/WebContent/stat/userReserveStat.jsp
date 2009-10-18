@@ -8,7 +8,9 @@
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/content.css"/>
 </head>
 <body>
+<br/>
 	<h1>当前位置：统计分析&nbsp;&gt;&nbsp;<span class="position_current"> 用户使用次数排行</span></h1>
+<br/><br/><br/>
 <TABLE class="bm-tb" cellSpacing=0 cellPadding=0 width="98%" align="center"
 border=0><!--class="bm-tb"控制着表格样式-->
   <TBODY>
@@ -29,7 +31,7 @@ border=0><!--class="bm-tb"控制着表格样式-->
   <s:property value='number'/>
   </td>
   <td align="left" valign="middle" width="410px" >
-  <div style="float:left; width:<s:property value='length'/>px; margin:2px; background-color:#0000FF; "></div>
+  <div style="float:left; width:<s:property value='length'/>px; margin:2px; background-color:#0000FF; ">&nbsp;</div>
   </td>
   </tr>
   </s:iterator>
