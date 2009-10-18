@@ -88,4 +88,11 @@
 			</bean>
 		</property>
 	</bean>
+	<bean id="statService" parent="baseTransactionProxy">
+		<property name="target">
+			<bean class="com.cma.intervideo.service.impl.StatServiceImpl">
+				<property name="statDao" ref="statDao"/>
+			</bean>
+		</property>
+	</bean>
 </beans>
