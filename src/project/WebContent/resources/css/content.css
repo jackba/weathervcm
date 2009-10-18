@@ -177,3 +177,15 @@ textarea{ padding:2px;}
 .Step ul li{display:block; width:81px; height:21px; background:url(../img/Step_button.gif) no-repeat; float: left; line-height:21px; text-align:center; color:#000000}
 .Step ul li a{ color:#000000;text-decoration:none;}
 .Step ul li a:hover{display: block;  background:url(../img/Step_button_over.gif) no-repeat; color:#FFFFFF}
+
+/*bm*/
+.bm-tb{ border:2px solid #a3cbf4;font-size:12px; margin:6px 0 1px 0;*margin:4px 0 1px 0; }
+.bm-tb img{vertical-align:middle;margin-bottom:4px;*margin-bottom:1px; margin-left:4px;}
+.bm-tb td{text-align:center;border:1px solid #EAEFF3; font-family:Arial, Helvetica, sans-serif;}
+.bm-tb td input{ margin-bottom:0px;*margin-bottom:4px;}
+.bm-tb td .down-list{ color:#3062A1;}
+.bm-tb .pad td{padding:8px 4px; line-height:18px;}
+.b-tb{ color:#3362a1; font-weight:bold; border-bottom:0;}
+.b-tb td{ padding:1px 1px 0 1px;border-bottom:0;}
+.b-tb th{ padding:1px 1px 0 1px;border-bottom:0;background:#eaeff5; line-height:30px;font-weight:bold;text-align:center;}
+.b-tb td .bm-tb-hd{background:#eaeff5; line-height:30px;}

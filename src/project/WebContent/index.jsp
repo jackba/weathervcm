@@ -120,7 +120,7 @@ a:hover{}
 	<div id="statisticsMenus">
 		<ul class="menuList">
 			<li>
-				<span id="userSort" href="#">用户使用次数排行</span>
+				<span id="userSort" href="<%=request.getContextPath()%>/stat_userReserveStat.do" onClick="onClickMenuItem(this)">用户使用次数排行</span>
 			</li>
 			<li>
 				<span id="confSort" href="#">用户会议召开次数排行</span>
