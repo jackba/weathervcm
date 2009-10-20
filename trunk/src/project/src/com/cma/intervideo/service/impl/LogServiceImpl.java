@@ -11,5 +11,13 @@ public class LogServiceImpl implements ILogService{
 	public void setLogDao(ILogDao logDao) {
 		this.logDao = logDao;
 	}
-	
+	/**
+	 * 增加日志
+	 * @param userId
+	 * @param logType
+	 * @param description
+	 */
+	public void addLog(String userId, short logType, String description){
+		this.addLog(userId, logType, description);
+	}
 }

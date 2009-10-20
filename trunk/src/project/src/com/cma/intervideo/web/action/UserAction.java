@@ -25,6 +25,7 @@ import com.cma.intervideo.pojo.BulletinBoard;
 import com.cma.intervideo.pojo.Role;
 import com.cma.intervideo.pojo.User;
 import com.cma.intervideo.service.IBulletinService;
+import com.cma.intervideo.service.ILogService;
 import com.cma.intervideo.service.IUserService;
 import com.cma.intervideo.util.AbstractBaseAction;
 import com.cma.intervideo.util.PageHolder;
@@ -36,6 +37,11 @@ public class UserAction extends AbstractBaseAction{
 	private static Log logger = LogFactory.getLog(UserAction.class);
 	private IUserService userService;
 	private IBulletinService bulletinService;
+	private ILogService logService;
+	
+	public void setLogService(ILogService logService) {
+		this.logService = logService;
+	}
 	private User user;
 	
 	public User getUser() {
@@ -118,6 +124,7 @@ public class UserAction extends AbstractBaseAction{
 				up.setUserId(user.getUserId());
 				up.setUserName(user.getLoginId());
 				session.put("userPrivilege", up);
+				logService.addLog(user.getUserId(), logService.type_login, "用户登陆");
 				pw.print("{success:true,msg:'ok'}");
 			}
 			pw.flush();

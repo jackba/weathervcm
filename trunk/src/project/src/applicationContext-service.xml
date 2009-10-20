@@ -3,15 +3,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	<bean id="userService" parent="baseTransactionProxy">
-		<property name="transactionAttributes">
-			<props>
-				<prop key="userLogin">PROPAGATION_REQUIRED</prop>
-			</props>
-		</property>
 		<property name="target">
 			<bean class="com.cma.intervideo.service.impl.UserServiceImpl">
 				<property name="userDao" ref="userDao" />
-				<property name="logDao" ref="logDao"></property>
 			</bean>
 		</property>
 	</bean>
