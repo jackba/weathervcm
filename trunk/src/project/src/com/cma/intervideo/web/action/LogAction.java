@@ -36,7 +36,7 @@ public class LogAction extends AbstractBaseAction{
 		}
 		List<ParamVo> params = new ArrayList<ParamVo>();
 		String userName = request.getParameter("userName");
-		String logType = request.getParameter("userType");
+		String logType = request.getParameter("logType");
 		String startTime = request.getParameter("startTime");
 		String endTime = request.getParameter("endTime");
 		if(userName!=null && !userName.equals("")){
