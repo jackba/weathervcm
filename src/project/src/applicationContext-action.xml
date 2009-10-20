@@ -57,4 +57,8 @@
 		  scope="prototype" autowire="byName">
 		<property name="statService" ref="statService"></property>
 	</bean>
+	<bean id="logAction" class="com.cma.intervideo.web.action.LogAction"
+		  scope="prototype" autowire="byName">
+		<property name="logService" ref="logService"></property>
+	</bean>
 </beans>

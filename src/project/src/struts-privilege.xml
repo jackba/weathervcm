@@ -22,5 +22,8 @@
 			<result name="roleModify">/sysmgr/roleModify.jsp</result>
 			<result name="detail">/sysmgr/roleDetail.jsp</result>
 		</action>
+		<action name="log_*" method="{1}" class="logAction">
+			<result name="list">/sysmgr/logList.jsp</result>
+		</action>
 	</package>
 </struts>
