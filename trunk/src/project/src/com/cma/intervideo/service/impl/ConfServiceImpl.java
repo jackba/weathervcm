@@ -3,10 +3,15 @@ package com.cma.intervideo.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.directwebremoting.WebContext;
+import org.directwebremoting.WebContextFactory;
 
 import com.cma.intervideo.dao.IConfDao;
+import com.cma.intervideo.dao.ILogDao;
 import com.cma.intervideo.dao.IServiceDao;
 import com.cma.intervideo.dao.IUnitDao;
 import com.cma.intervideo.pojo.Conference;
@@ -15,6 +20,7 @@ import com.cma.intervideo.pojo.Unit;
 import com.cma.intervideo.service.IConfService;
 import com.cma.intervideo.util.PageHolder;
 import com.cma.intervideo.util.ParamVo;
+import com.cma.intervideo.util.UserPrivilege;
 import com.radvision.icm.service.ScheduleResult;
 import com.radvision.icm.service.vcm.ICMService;
 
@@ -22,8 +28,13 @@ public class ConfServiceImpl implements IConfService {
 	private static final Log logger = LogFactory.getLog(ConfServiceImpl.class);
 	private IConfDao confDao;
 	private IUnitDao unitDao;
+	private ILogDao logDao;
 	private IServiceDao serviceDao;
 	
+	public void setLogDao(ILogDao logDao) {
+		this.logDao = logDao;
+	}
+
 	public void setConfDao(IConfDao confDao) {
 		this.confDao = confDao;
 	}
@@ -50,6 +61,9 @@ public class ConfServiceImpl implements IConfService {
 	}
 
 	public void deleteReserve(String reserve) {
+		WebContext ctx = WebContextFactory.get();
+		HttpSession s = ctx.getSession();
+		UserPrivilege up = (UserPrivilege)s.getAttribute("userPrivilege");
 		String[] ids = reserve.split(",");
 		if (ids == null)
 			return;
@@ -67,6 +81,7 @@ public class ConfServiceImpl implements IConfService {
 			conf.setStatus(Conference.status_history);
 			confDao.deleteConfUnitsByConfId(Integer.parseInt(confId));
 			confDao.saveOrUpdate(conf);
+			logDao.addLog(up.getUserId(), logDao.type_delete_conf, "删除会议"+conf.getRadConferenceId());
 		} catch (Exception e) {
 			logger
 					.info("Exception on deleting Conference from VCM - conferenceId: "

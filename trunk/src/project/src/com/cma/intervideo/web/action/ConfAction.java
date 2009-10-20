@@ -31,6 +31,7 @@ import com.cma.intervideo.pojo.Conference;
 import com.cma.intervideo.pojo.Unit;
 import com.cma.intervideo.pojo.VirtualRoom;
 import com.cma.intervideo.service.IConfService;
+import com.cma.intervideo.service.ILogService;
 import com.cma.intervideo.service.IRoomService;
 import com.cma.intervideo.util.AbstractBaseAction;
 import com.cma.intervideo.util.PageHolder;
@@ -50,9 +51,14 @@ public class ConfAction extends AbstractBaseAction {
 	private static Log logger = LogFactory.getLog(AbstractBaseAction.class);
 	private IConfService confService;
 	private IRoomService roomService;
+	private ILogService logService;
 	private Conference conf;
 	private Integer conferenceId;
 	
+	public void setLogService(ILogService logService) {
+		this.logService = logService;
+	}
+
 	public Integer getConferenceId() {
 		return conferenceId;
 	}
@@ -404,6 +410,7 @@ public class ConfAction extends AbstractBaseAction {
 		try {
 			conf.setStatus(Conference.status_upcoming);
 			confService.createConf(conf, unitList);
+			logService.addLog(up.getUserId(), logService.type_reserve_conf, "预约会议"+conf.getRadConferenceId());
 			outJson("{success:true, msg:'预约会议成功!'}");
 		} catch (Exception e) {
 			outJson("{success:true, msg:'预约会议失败'}");
@@ -447,6 +454,7 @@ public class ConfAction extends AbstractBaseAction {
 	}
 
 	public String update() throws Exception {
+		UserPrivilege up = (UserPrivilege)session.get("userPrivilege");
 		Conference oldConf = confService.getConfById(conf.getConferenceId()
 				.toString());
 		Date d = Calendar.getInstance().getTime();
@@ -479,6 +487,7 @@ public class ConfAction extends AbstractBaseAction {
 
 		try {
 			confService.modifyConf(oldConf, unitList);
+			logService.addLog(up.getUserId(), logService.type_modify_conf, "修改会议"+oldConf.getRadConferenceId());
 			outJson("{success:true, msg:'预约会议修改成功!'}");
 		} catch (Exception e) {
 			outJson("{success:true, msg:'预约会议修改失败!'}");

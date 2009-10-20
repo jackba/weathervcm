@@ -136,6 +136,8 @@ public class UserAction extends AbstractBaseAction{
 	}
 	public String logout(){
 		HttpSession s = request.getSession(false);
+		UserPrivilege up = (UserPrivilege)session.get("userPrivilege");
+		logService.addLog(up.getUserId(), logService.type_logout, "用户退出");
 		if(s!=null){
 			s.invalidate();
 		}
@@ -324,6 +326,7 @@ public class UserAction extends AbstractBaseAction{
 		return null;
 	}
 	public String update() throws IOException{
+		UserPrivilege up = (UserPrivilege)session.get("userPrivilege");
 		response.setContentType("text/html;charset=utf-8");
 		String roles = request.getParameter("roles");
 		String[] roleList = null;
@@ -335,6 +338,7 @@ public class UserAction extends AbstractBaseAction{
 		}
 		try{
 			userService.updateUser(user, roleList);
+			logService.addLog(up.getUserId(), logService.type_modify_user, "修改用户"+user.getLoginId());
 			outJson("{success:true, msg:'操作员修改成功!'}");
 		}catch(UserExistsException ue) {
 			outJson("{success:false, msg:'操作员修改失败!'}");
@@ -342,7 +346,7 @@ public class UserAction extends AbstractBaseAction{
 		return null;	
 	}
 	public String save() throws IOException{
-		
+		UserPrivilege up = (UserPrivilege)session.get("userPrivilege");
 		//user.setPassword(new MD5().getMD5ofStr(user.getPassword()));
 		user.setStatus((short)0);
 		Date d = Calendar.getInstance().getTime();
@@ -360,6 +364,7 @@ public class UserAction extends AbstractBaseAction{
 		}
 		try{
 			userService.addUser(user, roleList);
+			logService.addLog(up.getUserId(), logService.type_create_user, "创建用户"+user.getLoginId());
 				outJson("{success:true, msg:'操作员添加成功!'}");
 			}catch(UserExistsException ue) {
 				outJson("{success:false, msg:'操作员重复!'}");

@@ -15,7 +15,8 @@ public class Log implements java.io.Serializable {
 	private Short logType;
 	private Date createTime;
 	private String description;
-
+	private String loginId;
+	private String userName;
 	public Log() {
 	}
 
@@ -71,4 +72,20 @@ public class Log implements java.io.Serializable {
 		this.description = description;
 	}
 
+	public String getLoginId() {
+		return loginId;
+	}
+
+	public void setLoginId(String loginId) {
+		this.loginId = loginId;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	
 }
