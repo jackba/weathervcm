@@ -28,7 +28,7 @@
 </head>
 <body>
 <div class="wrap">
-	<h1>当前位置：系统管理&nbsp;&gt;&nbsp;<span class="position_current"> 查看日志</span></h1>
+	<h1>当前位置：系统管理&nbsp;&gt;&nbsp;<span class="position_current">日志管理</span></h1>
 		<div id="searchArea" class="search">
 			
 			<form name="form1" id="form1" method="post" action="<%=request.getContextPath()%>/log_search.do">
