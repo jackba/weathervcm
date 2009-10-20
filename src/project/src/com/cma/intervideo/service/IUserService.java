@@ -36,8 +36,6 @@ public interface IUserService {
 	public int getPrivilegesByUserName(String userName, UserPrivilege up);
 	public void updateUser(User user) throws UserExistsException ;
 	public void updateUser(User user, String[] roles)throws UserExistsException;
-	public void updateUser(User user, String[] roles, String[] customerGroups,
-			String[] positionGroups, String oldUsername) throws UserExistsException;
 	public void updateRole(Role role, List privileges);
 	public void updateStatus(String id, short status);
 	/**

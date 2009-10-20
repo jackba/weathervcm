@@ -4,8 +4,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.directwebremoting.WebContext;
+import org.directwebremoting.WebContextFactory;
 
 import com.cma.intervideo.constant.DataDictStatus;
 import com.cma.intervideo.dao.ILogDao;
@@ -25,6 +29,12 @@ import com.radvision.icm.service.vcm.ICMService;
 public class UserServiceImpl implements IUserService {
 	private static Log logger = LogFactory.getLog(UserServiceImpl.class);
 	private IUserDao userDao;
+	private ILogDao logDao;
+	
+	public void setLogDao(ILogDao logDao) {
+		this.logDao = logDao;
+	}
+
 	public void setUserDao(IUserDao userDao) {
 		this.userDao = userDao;
 	}
@@ -206,31 +216,7 @@ public class UserServiceImpl implements IUserService {
 		}
 	}
 
-	public void updateUser(User user, String[] roles, String[] customerGroups,
-			String[] positionGroups, String oldUsername)
-			throws UserExistsException {
-		try {
-			if (!user.getLoginId().equals(oldUsername)) {
-				User tmp = userDao.findUserByLoginId(user.getLoginId());
-				if (tmp != null)
-					throw new UserExistsException("用户 " + user.getLoginId()
-							+ " 已经存在!");
-			}
-			userDao.updateUser(user);
-			userDao.deleteUserRoleByUserId(user.getUserId());
-			if (roles != null) {
-				for (int i = 0; i < roles.length; i++) {
-					userDao
-							.addUserRole(user.getUserId(),
-									new Integer(roles[i]));
-				}
-			}
-		} catch (Exception e) {
-			logger.error(e.toString());
-			throw new UserExistsException("用户 " + user.getLoginId() + " 已经存在!");
-		}
-	}
-
+	
 	public void stopUser(String userId) {
 		User user = userDao.getUser(userId);
 		user.setStatus(DataDictStatus.pauseStatus);
@@ -343,6 +329,9 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	public void deleteUser(String userId) {
+		WebContext ctx = WebContextFactory.get();
+		HttpSession s = ctx.getSession();
+		UserPrivilege up = (UserPrivilege)s.getAttribute("userPrivilege");
 		// first delete user from ICM
 		UserResult ur = ICMService.deleteUser(userId);
 		if (ur == null || !ur.isSuccess())
@@ -353,6 +342,7 @@ public class UserServiceImpl implements IUserService {
 		user.setStatus(DataDictStatus.invalidateStatus);
 		userDao.deleteUserRoleByUserId(userId);
 		userDao.updateUser(user);
+		logDao.addLog(up.getUserId(), logDao.type_delete_user, "删除用户"+user.getLoginId());
 	}
 
 	public int deleteUsers(List<String> users) {
