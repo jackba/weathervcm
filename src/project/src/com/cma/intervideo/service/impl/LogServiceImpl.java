@@ -18,6 +18,6 @@ public class LogServiceImpl implements ILogService{
 	 * @param description
 	 */
 	public void addLog(String userId, short logType, String description){
-		this.addLog(userId, logType, description);
+		logDao.addLog(userId, logType, description);
 	}
 }
