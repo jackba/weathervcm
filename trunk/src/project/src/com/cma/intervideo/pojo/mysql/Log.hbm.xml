@@ -6,7 +6,7 @@
     <class name="com.cma.intervideo.pojo.Log" table="log">
         <id name="logId" type="java.lang.Integer">
             <column name="log_id" />
-            <generator class="identity" />
+            <generator class="native" />
         </id>
         <property name="userId" type="string">
             <column name="user_id" length="128" />
