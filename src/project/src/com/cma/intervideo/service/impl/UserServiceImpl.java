@@ -25,13 +25,8 @@ import com.radvision.icm.service.vcm.ICMService;
 public class UserServiceImpl implements IUserService {
 	private static Log logger = LogFactory.getLog(UserServiceImpl.class);
 	private IUserDao userDao;
-	private ILogDao logDao;
 	public void setUserDao(IUserDao userDao) {
 		this.userDao = userDao;
-	}
-	
-	public void setLogDao(ILogDao logDao) {
-		this.logDao = logDao;
 	}
 
 	/**
@@ -61,7 +56,6 @@ public class UserServiceImpl implements IUserService {
 					|| (user.getPassword().equals(password))) {
 				up.setUserName(user.getUserName());
 				up.setUserId(user.getUserId());
-				logDao.addLog(user.getUserId(), logDao.type_login, "用户登陆");
 				return SUCCESS;
 			} else {
 				return INVALID_PASSWORD;
