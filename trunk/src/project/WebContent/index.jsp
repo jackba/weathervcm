@@ -55,7 +55,7 @@ a:hover{}
 				<span id="role" href="<%=request.getContextPath()%>/role_list.do" onClick="onClickMenuItem(this)">角色管理</span>
 			</li>
 			<li>
-				<span id="log" href="#">日志管理</span>
+				<span id="log" href="<%=request.getContextPath()%>/log_list.do" onClick="onClickMenuItem(this)">日志管理</span>
 			</li>
 		</ul>
 	</div>
