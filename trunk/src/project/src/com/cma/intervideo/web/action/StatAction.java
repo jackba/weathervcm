@@ -1,5 +1,9 @@
 package com.cma.intervideo.web.action;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -21,5 +25,17 @@ public class StatAction extends AbstractBaseAction{
 		List<UserReserveStatVo> l = statService.statUserReserve();
 		request.setAttribute("statList", l);
 		return "userReserveStat";
+	}
+	
+	public String userDayReserveStat(){
+		String currDate = (String)request.getAttribute("currDate");
+		if (currDate == null || currDate.length() ==0) {
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			Date d = Calendar.getInstance().getTime();
+			currDate = df.format(d);
+		}
+		List<UserReserveStatVo> l = statService.statDayUserReserve(currDate);
+		request.setAttribute("statList", l);
+		return "userDayReserveStat";
 	}
 }

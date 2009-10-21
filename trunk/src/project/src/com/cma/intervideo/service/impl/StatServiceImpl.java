@@ -25,4 +25,8 @@ public class StatServiceImpl implements IStatService{
 	public List<UserReserveStatVo> statUserReserve(){
 		return statDao.statUserReserve();
 	}
+	
+	public List<UserReserveStatVo> statDayUserReserve(String currDate){
+		return statDao.statDayUserReserve(currDate);
+	}
 }
