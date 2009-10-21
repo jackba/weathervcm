@@ -10,4 +10,6 @@ public interface IStatDao {
 	 * @return
 	 */
 	public List<UserReserveStatVo> statUserReserve();
+	
+	public List<UserReserveStatVo> statDayUserReserve(String currDate);
 }

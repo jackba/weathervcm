@@ -58,7 +58,6 @@
 						<td>
 						<input type="text" class="Wdate" id="startTime" name="startTime" onFocus="WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
 						</td>
-						</td>
 						<th>结束时间：</th>
 						<td>
 						<input type="text" class="Wdate" id="endTime" name="endTime" onFocus="WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>

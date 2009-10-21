@@ -6,6 +6,7 @@
 	<package name="stat" namespace="/"	extends="struts-base">
 		<action name="stat_*" method="{1}" class="statAction">
 			<result name="userReserveStat">/stat/userReserveStat.jsp</result>
+			<result name="userDayReserveStat">/stat/userDayReserveStat.jsp</result>
 		</action>
 	</package>
 </struts>
