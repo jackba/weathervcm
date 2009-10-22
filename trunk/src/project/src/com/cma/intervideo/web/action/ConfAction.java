@@ -341,20 +341,24 @@ public class ConfAction extends AbstractBaseAction {
 		String subject = request.getParameter("subject");
 		String serviceTemplate = request.getParameter("serviceTemplate");
 		String personal = request.getParameter("personal");
+		ParamVo vo = new ParamVo();
+		vo.setParamName("status");
+		vo.setParamValue(Conference.status_ongoing);
+		params.add(vo);
 		if(personal.equals("true")){
 			UserPrivilege up = (UserPrivilege)session.get("userPrivilege");
-			ParamVo vo = new ParamVo();
+			vo = new ParamVo();
 			vo.setParamName("userId");
 			vo.setParamValue(up.getUserId());
 		}
 		if (subject != null && !subject.equals("")) {
-			ParamVo vo = new ParamVo();
+			vo = new ParamVo();
 			vo.setParamName("subject");
 			vo.setParamValue(subject);
 			params.add(vo);
 		}
 		if (serviceTemplate != null && serviceTemplate.length() > 0) {
-			ParamVo vo = new ParamVo();
+			vo = new ParamVo();
 			vo.setParamName("serviceTemplate");
 			vo.setParamValue(serviceTemplate);
 			params.add(vo);
