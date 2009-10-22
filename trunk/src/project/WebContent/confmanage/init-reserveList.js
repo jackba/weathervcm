@@ -174,7 +174,7 @@ function initGrid() {
 		//viewConfig : {forceFit : true},
 		tbar : ['<b>&nbsp;&nbsp;&nbsp;&nbsp;<font color=#990000>预约会议列表</font></b>','->',{
 			id : 'btnAdd',
-			text : '添加',
+			text : '预约',
 			pressed : true,
 			tooltip : '预约会议',
 			iconCls : 'add16',

@@ -49,6 +49,7 @@ public abstract class AbstractConfDao extends AbstractDAO<Conference, Integer> i
 				}
 			}
 		}
+		hql += " order by conference.startTime DESC";
 		if(ph.isGetCount()){
 			ph.setResultSize(this.getCount(hql));
 		}
