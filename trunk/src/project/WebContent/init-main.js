@@ -179,7 +179,7 @@ function onClickMenuItem(node){
 	var n = contentPanel.getComponent(node.id);
 	if(!n){
 		n = contentPanel.add({
-			//'id':node.id,
+			'id':node.id,
 			'title':node.innerHTML,
 			closable:true,
 			autoLoad:{
