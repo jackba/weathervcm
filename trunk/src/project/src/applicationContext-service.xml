@@ -47,6 +47,11 @@
 		</property>
 	</bean>
 	<bean id="confService" parent="baseTransactionProxy">
+		<property name="transactionAttributes">
+			<props>
+				<prop key="checkConfs">PROPAGATION_NEVER</prop>
+			</props>
+		</property>
 		<property name="target">
 			<bean class="com.cma.intervideo.service.impl.ConfServiceImpl">
 				<property name="confDao" ref="confDao"></property>

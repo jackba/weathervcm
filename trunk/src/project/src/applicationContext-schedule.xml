@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	<bean id="scheduleConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="/WEB-INF/classes/vcm.properties"/>
+	</bean>
+	<bean id="checkConfJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+	  	<property name="targetObject" ref="confService" />
+	  	<property name="targetMethod" value="checkConfs" />
+	</bean>
+	<bean id="checkConfTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+	    <property name="jobDetail" ref="checkConfJob" />
+	    <!-- 10 seconds -->
+	    <property name="startDelay" value="10000"/>
+	    <!-- repeat every 30 minutes -->
+	    <property name="repeatInterval" value="${vcm.icm.checkConfInterval}"/>
+	</bean>
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+	    <property name="triggers">
+	        <list>
+	            <ref bean="checkConfTrigger"/>
+	        </list>
+	    </property>
+	</bean>
+</beans>

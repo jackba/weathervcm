@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -158,5 +159,25 @@ public abstract class AbstractConfDao extends AbstractDAO<Conference, Integer> i
 			return (Conference)l.get(0);
 		}else
 			return null;
+	}
+	/**
+	 * 查询直到预约的会议结束时间仍然未收到会议开始和结束消息的会议
+	 * @return
+	 */
+	public List<Conference> findAbnormalConfs(){
+		String hql = "from Conference c where c.status="+Conference.status_upcoming;
+		hql += " and c.startTime+c.timeLong*60000<"+Calendar.getInstance().getTimeInMillis();
+		return this.getHibernateTemplate().find(hql);
+	}
+	/**
+	 * 查询超长的会议
+	 * @param maxConfPeriod
+	 * @return
+	 */
+	public List<Conference> findTooLongConf(int maxConfPeriod){
+		String hql = "from Conference c where c.status="+Conference.status_ongoing;
+		hql += " and c.startTime+c.timeLong*60000<"+Calendar.getInstance().getTimeInMillis();
+		hql += " and c.startTime+"+maxConfPeriod*60*60000+"<"+Calendar.getInstance().getTimeInMillis();
+		return this.getHibernateTemplate().find(hql);
 	}
 }

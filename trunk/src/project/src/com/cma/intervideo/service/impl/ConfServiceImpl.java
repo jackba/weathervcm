@@ -1,6 +1,7 @@
 package com.cma.intervideo.service.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -21,6 +22,7 @@ import com.cma.intervideo.service.IConfService;
 import com.cma.intervideo.util.PageHolder;
 import com.cma.intervideo.util.ParamVo;
 import com.cma.intervideo.util.UserPrivilege;
+import com.cma.intervideo.util.VcmProperties;
 import com.radvision.icm.service.ScheduleResult;
 import com.radvision.icm.service.vcm.ICMService;
 
@@ -246,5 +248,32 @@ public class ConfServiceImpl implements IConfService {
 		updateUnitInfo(conf);
 		updateMainUnitInfo(conf);
 		updateServiceTemplateInfo(conf);
+	}
+	/**
+	 * 供定时器调用定时检查会议状态，对不正常的状态进行处理
+	 */
+	public void checkConfs(){
+		logger.info("开始检查会议状态，当前时间是"+Calendar.getInstance().getTime().toString());
+		int maxConfPeriod = VcmProperties.getPropertyByInt("vcm.icm.maxConfPeriod", 24);
+		List<Conference> abnormalConfs = confDao.findAbnormalConfs();
+		logger.info("共有"+abnormalConfs.size()+"个非正常状态会议");
+		for(int i=0;i<abnormalConfs.size();i++){
+			Conference c = abnormalConfs.get(i);
+			c.setStatus(Conference.status_history);
+			c.setUpdateTime(Calendar.getInstance().getTime());
+			confDao.updateObject(c);
+			//TODO call api to terminate conference
+			
+		}
+		List<Conference> tooLongConfs = confDao.findTooLongConf(maxConfPeriod);
+		logger.info("共有"+tooLongConfs.size()+"个超长会议");
+		for(int i=0;i<tooLongConfs.size();i++){
+			Conference c = tooLongConfs.get(i);
+			c.setStatus(Conference.status_history);
+			c.setUpdateTime(Calendar.getInstance().getTime());
+			confDao.updateObject(c);
+			//TODO call api to terminate conference
+			
+		}
 	}
 }
