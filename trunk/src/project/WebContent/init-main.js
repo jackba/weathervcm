@@ -176,8 +176,8 @@ Ext.onReady(function(){
     });
 });
 function onClickMenuItem(node){
-	//var n = contentPanel.getComponent(node.id);
-	//if(!n){
+	var n = contentPanel.getComponent(node.id);
+	if(!n){
 		n = contentPanel.add({
 			//'id':node.id,
 			'title':node.innerHTML,
@@ -189,7 +189,7 @@ function onClickMenuItem(node){
 				scripts:true
 			}
 		});
-	//}
+	}
 	contentPanel.setActiveTab(n);
 }
 function query() {
