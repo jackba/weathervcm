@@ -343,7 +343,7 @@ public class ConfAction extends AbstractBaseAction {
 		String personal = request.getParameter("personal");
 		ParamVo vo = new ParamVo();
 		vo.setParamName("status");
-		vo.setParamValue(Conference.status_ongoing);
+		vo.setParamValue(Conference.status_upcoming);
 		params.add(vo);
 		if(personal.equals("true")){
 			UserPrivilege up = (UserPrivilege)session.get("userPrivilege");
