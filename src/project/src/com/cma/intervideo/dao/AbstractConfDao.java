@@ -40,7 +40,18 @@ public abstract class AbstractConfDao extends AbstractDAO<Conference, Integer> i
 					hql += " and conference.dialableNumber='"+vo.getParamValue()+"'";
 				}
 				if(vo.getParamName().equals("status")){
-					hql += " and conference.status="+vo.getParamValue();
+					String tmp = (String)vo.getParamValue();
+					String[] values = tmp.split(",");
+					if (values != null) {
+						if (values.length == 1)
+							hql += " and conference.status="+vo.getParamValue();
+						else {
+							hql += " and (conference.status=" + values[0];
+							for (int ii = 1; ii < values.length; ii++)
+								hql += " or conference.status=" + values[ii];
+							hql += ")";
+						}
+					}
 				}
 				if(vo.getParamName().equals("startTime")){
 					hql += " and conference.startTime>="+((Date)vo.getParamValue()).getTime();
