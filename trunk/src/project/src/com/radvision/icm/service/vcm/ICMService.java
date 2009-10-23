@@ -14,6 +14,7 @@ import com.cma.intervideo.pojo.User;
 import com.cma.intervideo.pojo.VirtualRoom;
 import com.cma.intervideo.util.PropertiesHelper;
 import com.radvision.icm.service.ConferenceInfo;
+import com.radvision.icm.service.ControlResult;
 import com.radvision.icm.service.ControlService;
 import com.radvision.icm.service.ControlServicePortType;
 import com.radvision.icm.service.LicenseService;
@@ -169,14 +170,19 @@ public class ICMService {
 		}
 		return mts;
 	}
-	
-	public static McuResourceResult getResourceInfos(List<String> serviceTemplateIds,long startTime,long endTime,int interval){
+
+	public static McuResourceResult getResourceInfos(
+			List<String> serviceTemplateIds, long startTime, long endTime,
+			int interval) {
 		McuResourceResult mrr = null;
-		try{
-			mrr = getResourceServicePortType().getResourceInfos(serviceTemplateIds, startTime, endTime, interval);
-			logger.info((mrr.isSuccess() ? "success" : "fail")+" to get resource infos from iCM platform");
-		}catch(Exception e){
-			logger.info("Exception on get resource infos from iCM platform - " + e.getMessage());
+		try {
+			mrr = getResourceServicePortType().getResourceInfos(
+					serviceTemplateIds, startTime, endTime, interval);
+			logger.info((mrr.isSuccess() ? "success" : "fail")
+					+ " to get resource infos from iCM platform");
+		} catch (Exception e) {
+			logger.info("Exception on get resource infos from iCM platform - "
+					+ e.getMessage());
 			e.printStackTrace();
 		}
 		return mrr;
@@ -252,10 +258,12 @@ public class ICMService {
 		return trs;
 	}
 
-	public static ScheduleResult createConference(Conference conf, List<String> listTerminalId) {
+	public static ScheduleResult createConference(Conference conf,
+			List<String> listTerminalId) {
 		ScheduleResult sr = null;
 		try {
-			ConferenceInfo info = convertToConferenceInfo(conf, listTerminalId, true);
+			ConferenceInfo info = convertToConferenceInfo(conf, listTerminalId,
+					true);
 			sr = getScheduleServicePortType().createConference(info);
 			logger
 					.info((sr != null && sr.isSuccess() ? "success" : "fail")
@@ -270,10 +278,12 @@ public class ICMService {
 		return sr;
 	}
 
-	public static ScheduleResult modifyConference(Conference conf, List<String> listTerminalId) {
+	public static ScheduleResult modifyConference(Conference conf,
+			List<String> listTerminalId) {
 		ScheduleResult sr = null;
 		try {
-			ConferenceInfo info = convertToConferenceInfo(conf, listTerminalId, false);
+			ConferenceInfo info = convertToConferenceInfo(conf, listTerminalId,
+					false);
 			sr = getScheduleServicePortType().modifyConference(info);
 			logger
 					.info((sr != null && sr.isSuccess() ? "success" : "fail")
@@ -310,8 +320,20 @@ public class ICMService {
 		return b;
 	}
 
-	private static ConferenceInfo convertToConferenceInfo(Conference conf, List<String> listTerminalId, 
-			boolean isCreating) {
+	public static ControlResult terminateLiveConference(String confId) {
+		if (confId == null || confId.length() == 0)
+			return null;
+		ControlResult ret = null;
+		try {
+			ret = getControlServicePortType().terminateLiveConference(confId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ret;
+	}
+
+	private static ConferenceInfo convertToConferenceInfo(Conference conf,
+			List<String> listTerminalId, boolean isCreating) {
 		ConferenceInfo info = new ConferenceInfo();
 		info.setConferenceId(isCreating ? null : conf.getRadConferenceId());
 		info.setUserID(conf.getUserId());

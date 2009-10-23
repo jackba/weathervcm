@@ -23,6 +23,7 @@ import com.cma.intervideo.util.PageHolder;
 import com.cma.intervideo.util.ParamVo;
 import com.cma.intervideo.util.UserPrivilege;
 import com.cma.intervideo.util.VcmProperties;
+import com.radvision.icm.service.ControlResult;
 import com.radvision.icm.service.ScheduleResult;
 import com.radvision.icm.service.vcm.ICMService;
 
@@ -262,8 +263,12 @@ public class ConfServiceImpl implements IConfService {
 			c.setStatus(Conference.status_history);
 			c.setUpdateTime(Calendar.getInstance().getTime());
 			confDao.updateObject(c);
-			//TODO call api to terminate conference
-			
+			// call platform API to terminate conference
+			ControlResult r = ICMService.terminateLiveConference(c.getRadConferenceId());
+			boolean b = r!=null && r.isSuccess();
+			logger.info("the innormal conference - confId:" + c.getConferenceId() + 
+					"; rad confId:" + c.getRadConferenceId() + 
+					" was changed to history status, and try to be terminated:" + b);
 		}
 		List<Conference> tooLongConfs = confDao.findTooLongConf(maxConfPeriod);
 		logger.info("共有"+tooLongConfs.size()+"个超长会议");
@@ -272,8 +277,12 @@ public class ConfServiceImpl implements IConfService {
 			c.setStatus(Conference.status_history);
 			c.setUpdateTime(Calendar.getInstance().getTime());
 			confDao.updateObject(c);
-			//TODO call api to terminate conference
-			
+			// call platform API to terminate conference
+			ControlResult r = ICMService.terminateLiveConference(c.getRadConferenceId());
+			boolean b = r!=null && r.isSuccess();
+			logger.info("the conference with too long duration - confId:" + c.getConferenceId() + 
+					"; rad confId:" + c.getRadConferenceId() + 
+					" was changed to history status, and try to be terminated:" + b);
 		}
 	}
 }
