@@ -30,6 +30,8 @@ function deleteMessage(messageId, personal){
 }
 </script>
 <h1>留言板&nbsp;&gt;&nbsp;<span class="position_current">查看个人留言</span></h1>
+<div class="wrap">
+<div class="search">
 <form name="form1" action="<%=request.getContextPath()%>/bbs_search.do" method="post">
 <input type="hidden" name="personal" value="<s:property value='#request.personal'/>"/>
 <table width="100%" cellspacing="10px"><tr><td>
@@ -52,5 +54,7 @@ function deleteMessage(messageId, personal){
 </table></td></tr></table>
 <jsp:include page="../common/page.jsp"/>
 </form>
+</div>
+</div>
 </body>
 </html>
