@@ -44,7 +44,9 @@ function initGrid() {
 		sortable : true,
 		dataIndex : 'serviceTemplateName',
 		renderer : function(value, p , record){
-			return String.format('<a href="service_detail.do?serviceTemplateId={0}" target="_blank">{1}</a>',record.data.serviceTemplateId,value);
+			//return String.format('<a href="service_detail.do?serviceTemplateId={0}" target="_blank">{1}</a>',record.data.serviceTemplateId,value);
+			var action = "window.parent.createNewPanel('serviceDetail_{0}','service','会议模板详情','service_detail.do?serviceTemplateId={1}');";
+			return String.format('<a href="#" onclick='+action+'>{2}</a>',record.data.serviceTemplateId,record.data.serviceTemplateId,value);
 		}
 	}, {
 		header : "模板前缀",
