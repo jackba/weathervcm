@@ -55,7 +55,7 @@ body{font-size:12px;}
 <script language="javascript">
 Ext.onReady(function(){
 	Ext.BLANK_IMAGE_URL="resources/images/default/s.gif";
-	window.parent.contentPanel.getActiveTab().setTitle("新留言");
+	//window.parent.contentPanel.getActiveTab().setTitle("新留言");
     Ext.QuickTips.init();
     Ext.form.Field.prototype.msgTarget = 'side';
 });
@@ -70,7 +70,8 @@ if ( checkForm()){
 				if(resp.success == true){	
 					Ext.Msg.alert('成功',resp.msg, function(button){
 						if(button == 'ok'){
-							location.href= '<%=request.getContextPath() %>/bbs_listPersonal.do' ;
+							//location.href= '<%=request.getContextPath() %>/bbs_listPersonal.do' ;
+							window.parent.closeAndRefreshPanel('messageList');
 						}
 					});
 				} else {
