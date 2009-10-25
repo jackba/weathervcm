@@ -62,7 +62,7 @@ body{font-size:12px;}
 	</table>
 	<div class="dotLine"></div>
 	<div class="query_btn">
-		<input name="button" type="button"  onclick="window.close()" class="butt_bg1" onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" value="返回"/>
+		<input name="button" type="button"  onclick="window.parent.closePanel('roleDetail_<s:property value="role.roleId"/>');" class="butt_bg1" onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" value="关闭"/>
 	</div>
 </div><!--end of search-->
 <br/>
