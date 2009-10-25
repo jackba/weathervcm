@@ -84,7 +84,7 @@ body{font-size:12px;}
 var formItemSelector;
 Ext.onReady(function(){
 	Ext.BLANK_IMAGE_URL="resources/images/default/s.gif";
-	window.parent.contentPanel.getActiveTab().setTitle("修改虚拟房间");
+	//window.parent.contentPanel.getActiveTab().setTitle("修改虚拟房间");
     Ext.QuickTips.init();
     Ext.form.Field.prototype.msgTarget = 'side';
 
@@ -148,7 +148,8 @@ if ( checkForm()){
 				if(resp.success == true){	
 					Ext.Msg.alert('成功',resp.msg, function(button){
 						if(button == 'ok'){
-							location.href= '<%=request.getContextPath() %>/room_list.do' ;
+							//location.href= '<%=request.getContextPath() %>/room_list.do' ;
+							window.parent.closeAndRefreshPanel("roomModify_<s:property value='room.roomId'/>");
 						}
 					});
 				} else {

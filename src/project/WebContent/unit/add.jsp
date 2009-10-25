@@ -62,7 +62,7 @@ body{font-size:12px;}
 var formItemSelector;
 Ext.onReady(function(){
 	Ext.BLANK_IMAGE_URL="resources/images/default/s.gif";
-	window.parent.contentPanel.getActiveTab().setTitle("新增单位");
+	//window.parent.contentPanel.getActiveTab().setTitle("新增单位");
     Ext.QuickTips.init();
     Ext.form.Field.prototype.msgTarget = 'side';
 
@@ -125,7 +125,8 @@ if ( checkForm()){
 				if(resp.success == true){	
 					Ext.Msg.alert('成功',resp.msg, function(button){
 						if(button == 'ok'){
-							location.href= '<%=request.getContextPath() %>/unit_list.do' ;
+							//location.href= '<%=request.getContextPath() %>/unit_list.do' ;
+							window.parent.closeAndRefreshPanel('unitAdd');
 						}
 					});
 				} else {

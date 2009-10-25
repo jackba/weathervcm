@@ -85,7 +85,9 @@ function initGrid() {
 		sortable : true,
 		dataIndex : 'unitName',
 		renderer : function(value, p , record){
-			return String.format('<a href="unit_detail.do?unitId={0}" target="_blank">{1}</a>',record.data.unitId,value);
+			//return String.format('<a href="unit_detail.do?unitId={0}" target="_blank">{1}</a>',record.data.unitId,value);
+			var action="window.parent.createNewPanel('unitDetail_{0}','siteinfo','单位详情','unit_detail.do?unitId={1}');";
+			return String.format('<a href="#" onclick='+action+'>{2}</a>',record.data.unitId,record.data.unitId,value);
 		}
 	}, {
 		header : "终端",
@@ -137,7 +139,8 @@ function initGrid() {
 			tooltip : '添加新单位',
 			iconCls : 'add16',
 			onClick : function() {
-				location.href = "unit_add.do";
+				//location.href = "unit_add.do";
+				window.parent.createNewPanel('unitAdd','siteinfo','添加新单位','unit_add.do');
 			}
 		}, {
 			id : 'btnEdit',
@@ -177,7 +180,8 @@ function initGrid() {
 	function edit() {
 		var list = sm.getSelections();
 		var id = list[0].data["unitId"];
-		location.href = "unit_modify.do?unitId="+id;
+		//location.href = "unit_modify.do?unitId="+id;
+		window.parent.createNewPanel('unitModify_'+id,'siteinfo','修改单位','unit_modify.do?unitId='+id);
 	}
 	
 	function del() {

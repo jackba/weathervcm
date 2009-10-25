@@ -52,9 +52,9 @@ body {
 </table>
 <div class="dotLine"></div>
 <div class="query_btn"><input name="button" type="button"
-	onclick="window.close()" class="butt_bg1"
+	onclick="window.parent.closePanel('terminalDetail_<s:property value='terminal.terminalId' />')" class="butt_bg1"
 	onMouseOver="this.className='butt_bg1_over'"
-	onMouseOut="this.className='butt_bg1'" value="返回" />
+	onMouseOut="this.className='butt_bg1'" value="关闭" />
 </div>
 </div><!--end of search--> 
 <br />

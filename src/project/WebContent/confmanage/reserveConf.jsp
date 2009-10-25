@@ -298,10 +298,12 @@ if ( checkForm()){
 					Ext.Msg.alert('成功',resp.msg, function(button){
 						if(button == 'ok'){
 							<s:if test="#request.personal == 'true'">
-							location.href = '<%=request.getContextPath() %>/conf_listReserve.do' ;
+							//location.href = '<%=request.getContextPath() %>/conf_listReserve.do' ;
+							window.parent.closeAndRefreshPanel('confReserve');
 							</s:if>
 							<s:else>
-							location.href = '<%=request.getContextPath()%>/conf_manageReserve.do';
+							//location.href = '<%=request.getContextPath()%>/conf_manageReserve.do';
+							window.parent.closeAndRefreshPanel('confReserve');
 							</s:else>
 						}
 					});

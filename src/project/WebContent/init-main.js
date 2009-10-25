@@ -193,12 +193,13 @@ function onClickMenuItem(node){
 	}
 	contentPanel.setActiveTab(n);
 }
-function createNewPanel(id,title,href){
+function createNewPanel(id,initId,title,href){
 	var n = contentPanel.getComponent(id);
 	if(!n){
 		n = contentPanel.add({
 			'id' : id,
 			'title' : title,
+			'initId' : initId,
 			closable:true,
 			autoLoad:{
 				url:'tabFrame.jsp?url='+href,
@@ -208,6 +209,30 @@ function createNewPanel(id,title,href){
 		});
 	}
 	contentPanel.setActiveTab(n);
+}
+function closePanel(id){
+	var n = contentPanel.getComponent(id);
+	if(n){
+		var initId = n.initId;
+		contentPanel.remove(n);
+		if(n.initId){
+			initN = contentPanel.getComponent(initId);
+			contentPanel.setActiveTab(initN);
+			//initN.load(initN.autoLoad);
+		}
+	}
+}
+function closeAndRefreshPanel(id){
+	var n = contentPanel.getComponent(id);
+	if(n){
+		var initId = n.initId;
+		contentPanel.remove(n);
+		if(n.initId){
+			initN = contentPanel.getComponent(initId);
+			contentPanel.setActiveTab(initN);
+			initN.load(initN.autoLoad);
+		}
+	}
 }
 function query() {
 	loadStore();
