@@ -256,7 +256,8 @@ public class ConfAction extends AbstractBaseAction {
 			if("running".equals(listType)){
 				ParamVo vo = new ParamVo();
 				vo.setParamName("status");
-				vo.setParamValue(Conference.status_ongoing);
+				//vo.setParamValue(Conference.status_ongoing);
+				vo.setParamValue(String.valueOf(Conference.status_ongoing));
 				params.add(vo);
 			}else if("currentDay".equals(listType)){
 				Calendar c = Calendar.getInstance();
