@@ -146,7 +146,9 @@ public class UserAction extends AbstractBaseAction{
 	public String logout(){
 		HttpSession s = request.getSession(false);
 		UserPrivilege up = (UserPrivilege)session.get("userPrivilege");
-		logService.addLog(up.getUserId(), logService.type_logout, "用户退出");
+		if(up!=null){
+			logService.addLog(up.getUserId(), logService.type_logout, "用户退出");
+		}
 		if(s!=null){
 			s.invalidate();
 		}
