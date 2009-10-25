@@ -61,7 +61,7 @@
 <script language="javascript">
 Ext.onReady(function(){
 	Ext.BLANK_IMAGE_URL="resources/images/default/s.gif";
-	window.parent.contentPanel.getActiveTab().setTitle("增加角色");
+	//window.parent.contentPanel.getActiveTab().setTitle("增加角色");
 });
 function reload(){
 	location.href = "<%=request.getContextPath()%>/role_list.do";

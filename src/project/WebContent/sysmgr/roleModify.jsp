@@ -115,7 +115,7 @@ function submitForm(){
 var formItemSelector;
 Ext.onReady(function(){
 	Ext.BLANK_IMAGE_URL="resources/images/default/s.gif";
-	window.parent.contentPanel.getActiveTab().setTitle("修改角色");
+	//window.parent.contentPanel.getActiveTab().setTitle("修改角色");
     Ext.QuickTips.init();
     Ext.form.Field.prototype.msgTarget = 'side';
     var ds = new Ext.data.Store({

@@ -52,7 +52,9 @@ function initGrid() {
 		sortable : true,
 		dataIndex : 'name',
 		renderer : function(value, p , record){
-			return String.format('<a href="role_detail.do?roleId={0}" target="_blank">{1}</a>',record.data.id,value);
+			//return String.format('<a href="role_detail.do?roleId={0}" target="_blank">{1}</a>',record.data.id,value);
+			var action = "window.parent.createNewPanel('roleDetail_{0}','角色详情','role_detail.do?roleId={1}');";
+			return String.format('<a href="#" onclick='+action+'>{2}</a>',record.data.id,record.data.id,value);
 		}
 	}, {
 		header : "角色描述",
@@ -139,7 +141,8 @@ function initGrid() {
 			tooltip : '添加新角色',
 			iconCls : 'add16',
 			onClick : function() {
-				location.href = "role_add.do";
+//				location.href = "role_add.do";
+				window.parent.createNewPanel('roleAdd','增加角色','role_add.do');
 			}
 		}, {
 			id : 'btnEdit',
@@ -181,7 +184,8 @@ function initGrid() {
 		Ext.MessageBox.confirm('提示', '修改角色信息?', function(button) {
 			if (button == 'yes') {
 				var list = sm.getSelections();
-				location.href = "role_modify.do?roleId="+list[0].data["id"];
+//				location.href = "role_modify.do?roleId="+list[0].data["id"];
+				window.parent.createNewPanel('modifyRole_'+list[0].data["id"],'修改角色','role_modify.do?roleId='+list[0].data["id"]);
 			}
 		});
 		

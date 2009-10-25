@@ -128,7 +128,7 @@ var formItemSelector;
 Ext.onReady(
 	function(){
 		Ext.BLANK_IMAGE_URL="resources/images/default/s.gif";
-		window.parent.contentPanel.getActiveTab().setTitle("增加用户");
+		//window.parent.contentPanel.getActiveTab().setTitle("增加用户");
 	    Ext.QuickTips.init();
 	    Ext.form.Field.prototype.msgTarget = 'side';
 	    var ds = new Ext.data.Store({
