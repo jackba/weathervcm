@@ -71,7 +71,8 @@ if ( checkForm()){
 					Ext.Msg.alert('成功',resp.msg, function(button){
 						if(button == 'ok'){
 							//location.href= '<%=request.getContextPath() %>/bbs_listPersonal.do' ;
-							window.parent.closeAndRefreshPanel('messageList');
+							window.parent.closeAndCreatePanel('messageAdd','messageList');
+							//window.parent.closeAndRefreshPanel('messageAdd');
 						}
 					});
 				} else {

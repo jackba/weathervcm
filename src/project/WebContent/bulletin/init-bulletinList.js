@@ -119,7 +119,7 @@ function initGrid() {
 			iconCls : 'add16',
 			onClick : function() {
 //				location.href = "bulletin_add.do";
-				window.parent.createNewPanel('bulletinAdd','bulletinManage','添加新公告','bulletin_add.do');
+				window.parent.createNewPanel('bulletinIssue','bulletinManage','添加新公告','bulletin_add.do');
 			}
 		}, {
 			id : 'btnEdit',

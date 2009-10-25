@@ -234,6 +234,19 @@ function closeAndRefreshPanel(id){
 		}
 	}
 }
+function closeAndCreatePanel(oldId,newId){
+	var n = contentPanel.getComponent(oldId);
+	if(n){
+		contentPanel.remove(n);
+		var nn = contentPanel.getComponent(newId);
+		if(nn){
+			contentPanel.setActiveTab(nn);
+			nn.load(nn.autoLoad);
+		}else{
+			onClickMenuItem(Ext.getDom(newId));
+		}
+	}
+}
 function query() {
 	loadStore();
 }

@@ -84,7 +84,7 @@ if ( checkForm()){
 					Ext.Msg.alert('成功',resp.msg, function(button){
 						if(button == 'ok'){
 							//location.href= '<%=request.getContextPath() %>/bulletin_manage.do' ;
-							window.parent.closeAndRefreshPanel('bulletinManage');
+							window.parent.closeAndCreatePanel('bulletinIssue','bulletinManage');
 						}
 					});
 				} else {
