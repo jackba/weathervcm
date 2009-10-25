@@ -60,7 +60,7 @@ function initGrid() {
 		dataIndex : 'title',
 		renderer : function(value, p, record){
 			//return String.format('<a href="bulletin_detail.do?bulletinId={0}" target="_blank">{1}</a>',record.data.bulletinId,value);
-			var action = "window.parent.createNewWindow('bulletinDetail_{0}','bulletinManage','公告详情','bulletin_detail.do?bulletinId={1}');";
+			var action = "window.parent.createNewPanel('bulletinDetail_{0}','bulletinManage','公告详情','bulletin_detail.do?bulletinId={1}');";
 			return String.format('<a href="#" onclick='+action+'>{2}</a>',record.data.bulletinId,record.data.bulletinId,value);
 		}
 	}, {
