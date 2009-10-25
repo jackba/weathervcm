@@ -10,6 +10,7 @@ var thisId;
 // 页面加载后执行的代码
 Ext.onReady(function() {
 	Ext.BLANK_IMAGE_URL="resources/images/default/s.gif";
+	window.parent.contentPanel.getActiveTab().setTitle("会议预约列表");
 	personal = Ext.getDom('personal').value;
 	thisId = "";
 	if(personal=='true'){
