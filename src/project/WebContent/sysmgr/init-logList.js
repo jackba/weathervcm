@@ -63,7 +63,9 @@ function initGrid() {
 		sortable : true,
 		dataIndex : 'userName',
 		renderer : function(value, p , record){
-			return String.format('<a href="user_detail.do?userId={0}" target="_blank">{1}</a>',record.data.userId,value);
+			//return String.format('<a href="user_detail.do?userId={0}" target="_blank">{1}</a>',record.data.userId,value);
+			var action = "window.parent.createNewPanel('userDetail_{0}','log','用户详情','user_detail.do?userId={1}');";
+			return String.format('<a href="#" onclick='+action+'>{2}</a>',record.data.userId,record.data.userId,value);
 		}
 	}, {
 		header : "创建时间",
