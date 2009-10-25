@@ -56,7 +56,9 @@ function initGrid() {
     	   sortable : true,
     	   dataIndex : 'loginId',
     	   renderer : function(value, p , record){
-    	   		return String.format('<a href="user_detail.do?userId={0}" target="_blank">{1}</a>',record.data.userId,value);
+//    	   		return String.format('<a href="user_detail.do?userId={0}" target="_blank">{1}</a>',record.data.userId,value);
+    	   		var action = "window.parent.createNewPanel('userDetail_{0}','用户详情','user_detail.do?userId={1}');"
+    	   		return String.format('<a href="#" onclick='+action+'>{2}</a>',record.data.userId,record.data.userId,value);
     	   }
        }, {
     	   header : "操作员姓名",
@@ -125,7 +127,8 @@ function initGrid() {
 			tooltip : '添加新操作员',
 			iconCls : 'add16',
 			onClick : function() {
-				location.href = "user_add.do";
+				window.parent.createNewPanel('addNewUser','增加用户','user_add.do');
+//				location.href = "user_add.do";
 			}
 		}, {
 			id : 'btnEdit',
@@ -230,7 +233,8 @@ function initGrid() {
 		});*/
 		var list = sm.getSelections();
 		var id = list[0].data["userId"];
-		location.href = "user_modify.do?userId="+id;
+		//location.href = "user_modify.do?userId="+id;
+		window.parent.createNewPanel('modifyUser_'+id,'修改用户',"user_modify.do?userId="+id);
 	}
 	
 	function resetPassword(){

@@ -184,7 +184,24 @@ function onClickMenuItem(node){
 			closable:true,
 			autoLoad:{
 				url:'tabFrame.jsp?url='+node.attributes.href.value,
-				callback:this.initSearch,
+				//url: node.attributes.href.value,
+				//callback:this.initSearch,
+				scope:this,
+				scripts:true
+			}
+		});
+	}
+	contentPanel.setActiveTab(n);
+}
+function createNewPanel(id,title,href){
+	var n = contentPanel.getComponent(id);
+	if(!n){
+		n = contentPanel.add({
+			'id' : id,
+			'title' : title,
+			closable:true,
+			autoLoad:{
+				url:'tabFrame.jsp?url='+href,
 				scope:this,
 				scripts:true
 			}
