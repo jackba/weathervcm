@@ -114,11 +114,20 @@ public class UserAction extends AbstractBaseAction{
 //			System.out.println("login success!");
 //			return "index";
 //		}
+		String rand = (String)session.get("rand");
+		String validateCode = request.getParameter("validateCode");
 		try{
+			response.setCharacterEncoding("utf-8");
 			PrintWriter pw = response.getWriter();
-			if(user==null || !user.getPassword().equals(request.getParameter("password"))){
+			
+			if(validateCode==null || validateCode.equals("")){
+				pw.print("{success:true,msg:'验证码不能为空!'}");
+			}else if(!validateCode.equals(rand)){
+				pw.print("{success:true,msg:'验证码不正确!'}");
+			}
+			else if(user==null || !user.getPassword().equals(request.getParameter("password"))){
 				
-				pw.print("{success:false,msg:'user not exist!'}");
+				pw.print("{success:true,msg:'user not exist!'}");
 			}else{
 				UserPrivilege up = new UserPrivilege();
 				up.setUserId(user.getUserId());
