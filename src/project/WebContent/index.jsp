@@ -75,7 +75,7 @@ a:hover{}
 	<div id="confMenus">
 		<ul class="menuList">
 			<li>
-				<span id="scheduleConf" href="<%=request.getContextPath()%>/conf_listReserve.do" onClick="onClickMenuItem(this)">会议预约列表</span>
+				<span id="scheduleConf" href="<%=request.getContextPath()%>/conf_listReserve.do" onClick="onClickMenuItem(this)">预约会议</span>
 			</li>
 			<li>
 				<span id="manageConf" href="<%=request.getContextPath()%>/conf_manageReserve.do" onClick="onClickMenuItem(this)">预约管理</span>
