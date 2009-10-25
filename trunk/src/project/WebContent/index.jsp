@@ -62,7 +62,7 @@ a:hover{}
 	<div id="resourceMenus">
 		<ul class="menuList">
 			<li>
-				<span id="role" href="<%=request.getContextPath()%>/service_list.do" onClick="onClickMenuItem(this)">会议模板</span>
+				<span id="service" href="<%=request.getContextPath()%>/service_list.do" onClick="onClickMenuItem(this)">会议模板</span>
 			</li>
 			<li>
 				<span id="occupation" href="<%=request.getContextPath()%>/res_occupy.do" onClick="onClickMenuItem(this)">资源占用情况</span>
