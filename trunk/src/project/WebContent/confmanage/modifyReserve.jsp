@@ -295,9 +295,11 @@ if ( checkForm()){
 						if(button == 'ok'){
 							<s:if test="#request.personal == 'true'">
 							location.href = '<%=request.getContextPath() %>/conf_listReserve.do' ;
+							window.parent.closeAndRefreshPanel("confModifyReserve_<s:property value='conf.conferenceId'/>");
 							</s:if>
 							<s:else>
 							location.href = '<%=request.getContextPath()%>/conf_manageReserve.do';
+							window.parent.closeAndRefreshPanel("confModifyReserve_<s:property value='conf.conferenceId'/>");
 							</s:else>
 						}
 					});

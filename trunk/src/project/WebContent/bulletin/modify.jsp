@@ -56,7 +56,7 @@ body{font-size:12px;}
 <script language="javascript">
 Ext.onReady(function(){
 	Ext.BLANK_IMAGE_URL="resources/images/default/s.gif";
-	window.parent.contentPanel.getActiveTab().setTitle("公告修改");
+	//window.parent.contentPanel.getActiveTab().setTitle("公告修改");
     Ext.QuickTips.init();
     Ext.form.Field.prototype.msgTarget = 'side';
 });
@@ -71,7 +71,8 @@ if ( checkForm()){
 				if(resp.success == true){	
 					Ext.Msg.alert('成功',resp.msg, function(button){
 						if(button == 'ok'){
-							location.href= '<%=request.getContextPath() %>/bulletin_manage.do' ;
+							//location.href= '<%=request.getContextPath() %>/bulletin_manage.do' ;
+							window.parent.closeAndRefreshPanel('bulletinModify_<s:property value='bulletinBoard.bulletinId'/>');
 						}
 					});
 				} else {

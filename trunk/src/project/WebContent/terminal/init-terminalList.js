@@ -59,7 +59,9 @@ function initGrid() {
 		sortable : true,
 		dataIndex : 'terminalName',
 		renderer : function(value, p , record){
-			return String.format('<a href="terminal_detail.do?terminalId={0}" target="_blank">{1}</a>',record.data.terminalId,value);
+			//return String.format('<a href="terminal_detail.do?terminalId={0}" target="_blank">{1}</a>',record.data.terminalId,value);
+			var action="window.parent.createNewPanel('terminalDetail_{0}','terminalinfo','终端详清','terminal_detail.do?terminalId={1}');";
+			return String.format('<a href="#" onclick='+action+'>{2}</a>',record.data.terminalId,record.data.terminalId,value);
 		}
 	}, {
 		header : "呼叫号码",

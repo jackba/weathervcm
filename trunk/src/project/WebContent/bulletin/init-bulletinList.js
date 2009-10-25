@@ -59,7 +59,9 @@ function initGrid() {
 		sortable : true,
 		dataIndex : 'title',
 		renderer : function(value, p, record){
-			return String.format('<a href="bulletin_detail.do?bulletinId={0}" target="_blank">{1}</a>',record.data.bulletinId,value);
+			//return String.format('<a href="bulletin_detail.do?bulletinId={0}" target="_blank">{1}</a>',record.data.bulletinId,value);
+			var action = "window.parent.createNewWindow('bulletinDetail_{0}','bulletinManage','公告详情','bulletin_detail.do?bulletinId={1}');";
+			return String.format('<a href="#" onclick='+action+'>{2}</a>',record.data.bulletinId,record.data.bulletinId,value);
 		}
 	}, {
 		header : "操作员名称",
@@ -116,7 +118,8 @@ function initGrid() {
 			tooltip : '添加新公告',
 			iconCls : 'add16',
 			onClick : function() {
-				location.href = "bulletin_add.do";
+//				location.href = "bulletin_add.do";
+				window.parent.createNewPanel('bulletinAdd','bulletinManage','添加新公告','bulletin_add.do');
 			}
 		}, {
 			id : 'btnEdit',
@@ -160,7 +163,8 @@ function initGrid() {
 	function edit() {
 		var list = sm.getSelections();
 		var id = list[0].data["bulletinId"];
-		location.href = "bulletin_modify.do?bulletinId="+id;
+//		location.href = "bulletin_modify.do?bulletinId="+id;
+		window.parent.createNewPanel('bulletinModify_'+id,'bulletinManage','修改公告','bulletin_modify.do?bulletinId='+id);
 	}
 	
 	function del() {

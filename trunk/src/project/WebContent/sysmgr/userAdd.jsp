@@ -200,7 +200,8 @@ function submitForm(){
 				if(resp.success == true){	
 					Ext.Msg.alert('成功',resp.msg, function(button){
 						if(button == 'ok'){
-							location.href= '<%=request.getContextPath() %>/user_list.do' ;
+							//location.href= '<%=request.getContextPath() %>/user_list.do' ;
+							window.parent.closeAndRefreshPanel('userAdd');
 						}
 					});
 				} else {

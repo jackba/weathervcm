@@ -89,7 +89,9 @@ function initGrid() {
 		sortable : true,
 		dataIndex : 'templateName',
 		renderer : function(value, p , record){
-			return String.format('<a href="room_detail.do?roomId={0}" target="_blank">{1}</a>',record.data.roomId,value);
+			//return String.format('<a href="room_detail.do?roomId={0}" target="_blank">{1}</a>',record.data.roomId,value);
+			var action = "window.parent.createNewPanel('roomDetail_{0}','virtualRoom','虚拟房间详情','room_detail.do?roomId={1}');";
+			return String.format('<a href="#" onclick='+action+'>{2}</a>',record.data.roomId,record.data.roomId,value);
 		}
 	}, {
 		header : "虚拟房间号",
@@ -147,7 +149,8 @@ function initGrid() {
 			tooltip : '添加新虚拟房间',
 			iconCls : 'add16',
 			onClick : function() {
-				location.href = "room_add.do";
+				//location.href = "room_add.do";
+				window.parent.createNewPanel('roomAdd','virtualRoom','添加新虚拟房间','room_add.do');
 			}
 		}, {
 			id : 'btnEdit',
@@ -193,7 +196,8 @@ function initGrid() {
 		});*/
 		var list = sm.getSelections();
 		var id = list[0].data["roomId"];
-		location.href = "room_modify.do?roomId="+id;
+//		location.href = "room_modify.do?roomId="+id;
+		window.parent.createNewPanel('roomModify_'+id,'virtualRoom','修改虚拟房间','room_modify.do?roomId'+id);
 	}
 	
 	function del() {

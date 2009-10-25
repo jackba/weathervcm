@@ -104,7 +104,8 @@ function submitForm(){
 				if(resp.success == true){	
 					Ext.Msg.alert('成功',resp.msg, function(button){
 						if(button == 'ok'){
-							location.href= '<%=request.getContextPath() %>/role_list.do' ;
+							//location.href= '<%=request.getContextPath() %>/role_list.do' ;
+							window.parent.closeAndRefreshPanel('roleAdd');
 						}
 					});
 				} else {

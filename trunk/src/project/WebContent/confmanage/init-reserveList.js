@@ -4,10 +4,19 @@ var grid;// 数据显示表格
 var searchForm;// 查询表单
 var limit = 5;// 每页显示的记录数
 var ptb;// 分页控件
+var personal;
+var thisId;
 
 // 页面加载后执行的代码
 Ext.onReady(function() {
 	Ext.BLANK_IMAGE_URL="resources/images/default/s.gif";
+	personal = Ext.getDom('personal').value;
+	thisId = "";
+	if(personal=='true'){
+		thisId = 'scheduleConf';
+	}else{
+		thisId = 'manageConf';
+	}
 	initData();
 });
 
@@ -102,7 +111,9 @@ function initGrid() {
 		sortable : true,
 		dataIndex : 'subject',
 		renderer : function(value, p , record){
-			return String.format('<a href="conf_reserveDetail.do?personal='+Ext.getDom('personal').value+'&conferenceId={0}" target="_blank">{1}</a>',record.data.conferenceId,value);
+			//return String.format('<a href="conf_reserveDetail.do?personal='+Ext.getDom('personal').value+'&conferenceId={0}" target="_blank">{1}</a>',record.data.conferenceId,value);
+			var action="window.parent.createNewPanel('confReserveDetail_{0}','"+thisId+"','预约详情','conf_reserveDetail.do?personal="+personal+"&conferenceId={1}');";
+			return String.format('<a href="#" onclick='+action+'>{2}</a>',record.data.conferenceId,record.data.conferenceId,value);
 		}
 	}, {
 		header : "预约时间",
@@ -179,7 +190,8 @@ function initGrid() {
 			tooltip : '预约会议',
 			iconCls : 'add16',
 			onClick : function() {
-				location.href = "conf_reserveConf.do?personal="+Ext.getDom("personal").value;
+				//location.href = "conf_reserveConf.do?personal="+Ext.getDom("personal").value;
+				window.parent.createNewPanel('confReserve',thisId,'预约会议',"conf_reserveConf.do?personal="+Ext.getDom("personal").value);
 			}
 		}, {
 			id : 'btnEdit',
@@ -228,7 +240,8 @@ function initGrid() {
 		});*/
 		var list = sm.getSelections();
 		var id = list[0].data["conferenceId"];
-		location.href = "conf_modifyReserve.do?personal="+Ext.getDom('personal').value+"&conferenceId="+id;
+		//location.href = "conf_modifyReserve.do?personal="+Ext.getDom('personal').value+"&conferenceId="+id;
+		window.parent.createNewPanel('confModifyReserve_'+id,thisId,'修改预约',"conf_modifyReserve.do?personal="+Ext.getDom('personal').value+"&conferenceId="+id);
 	}
 	
 	function del() {

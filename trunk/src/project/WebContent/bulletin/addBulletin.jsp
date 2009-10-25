@@ -83,7 +83,8 @@ if ( checkForm()){
 				if(resp.success == true){	
 					Ext.Msg.alert('成功',resp.msg, function(button){
 						if(button == 'ok'){
-							location.href= '<%=request.getContextPath() %>/bulletin_manage.do' ;
+							//location.href= '<%=request.getContextPath() %>/bulletin_manage.do' ;
+							window.parent.closeAndRefreshPanel('bulletinAdd');
 						}
 					});
 				} else {

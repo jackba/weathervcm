@@ -201,6 +201,7 @@ function submitForm(){
 						if(button == 'ok'){
 							//location.href= '<%=request.getContextPath() %>/user_list.do' ;
 							//history.go(-1);
+							window.parent.closeAndRefreshPanel("userModify_<s:property value='user.userId'/>");
 						}
 					});
 				} else {
