@@ -113,7 +113,7 @@ function initGrid() {
 		dataIndex : 'subject',
 		renderer : function(value, p , record){
 			//return String.format('<a href="conf_reserveDetail.do?personal='+Ext.getDom('personal').value+'&conferenceId={0}" target="_blank">{1}</a>',record.data.conferenceId,value);
-			var action="window.parent.createNewPanel('confReserveDetail_{0}','"+thisId+"','预约详情','conf_reserveDetail.do?personal="+personal+"&conferenceId={1}');";
+			var action="window.parent.createNewPanel('confReserveDetail_{0}','"+thisId+"','预约详情','conf_reserveDetail.do?personal="+personal+"%26conferenceId={1}');";
 			return String.format('<a href="#" onclick='+action+'>{2}</a>',record.data.conferenceId,record.data.conferenceId,value);
 		}
 	}, {
@@ -242,7 +242,7 @@ function initGrid() {
 		var list = sm.getSelections();
 		var id = list[0].data["conferenceId"];
 		//location.href = "conf_modifyReserve.do?personal="+Ext.getDom('personal').value+"&conferenceId="+id;
-		window.parent.createNewPanel('confModifyReserve_'+id,thisId,'修改预约',"conf_modifyReserve.do?personal="+Ext.getDom('personal').value+"&conferenceId="+id);
+		window.parent.createNewPanel('confModifyReserve_'+id,thisId,'修改预约',"conf_modifyReserve.do?personal="+Ext.getDom('personal').value+"%26conferenceId="+id);
 	}
 	
 	function del() {

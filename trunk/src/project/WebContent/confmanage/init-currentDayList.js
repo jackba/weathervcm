@@ -75,7 +75,7 @@ function initGrid() {
 		dataIndex : 'subject',
 		renderer : function(value, p , record){
 			//return String.format('<a href="conf_reserveDetail.do?personal=false&conferenceId={0}" target="_blank">{1}</a>',record.data.conferenceId,value);
-			var action = "window.parent.createNewPanel('confReserveDetail_{0}','currentDayConf','会议详情','conf_reserveDetail.do?personal=false&conferenceId={1}');";
+			var action = "window.parent.createNewPanel('confReserveDetail_{0}','currentDayConf','会议详情','conf_reserveDetail.do?personal=false%26conferenceId={1}');";
 			return String.format('<a href="#" onclick='+action+'>{2}</a>',record.data.conferenceId,record.data.conferenceId,value);
 		}
 	}, {
