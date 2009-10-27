@@ -80,5 +80,10 @@
 				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
 			</props>
 		</property>
+		<property name="preInterceptors">
+			<list>
+				<ref bean="defaultAdvisor"/>
+			</list>
+		</property>
 	</bean>
 </beans>

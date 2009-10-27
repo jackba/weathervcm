@@ -2,65 +2,104 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-	<bean id="userAction"
-		class="com.cma.intervideo.web.action.UserAction"
-		scope="prototype" autowire="byName">
-		<property name="userService" ref="userService"></property>
-		<property name="logService" ref="logService"></property>
+	<bean id="userAction" parent="proxyFactoryBean">
+		<property name="target">
+			<bean class="com.cma.intervideo.web.action.UserAction" scope="prototype"
+				autowire="byName">
+				<property name="userService" ref="userService"></property>
+				<property name="logService" ref="logService"></property>
+			</bean>
+		</property>
 	</bean>
-	<bean id="roleAction"
-		  class="com.cma.intervideo.web.action.RoleAction"
-		  scope="prototype" autowire="byName">
-		<property name="roleService" ref="roleService"></property>
+	<bean id="roleAction" parent="proxyFactoryBean">
+		<property name="target">
+			<bean class="com.cma.intervideo.web.action.RoleAction" scope="prototype"
+				autowire="byName">
+				<property name="roleService" ref="roleService"></property>
+			</bean>
+		</property>
 	</bean>
-	<bean id="bbsAction"
-		  class="com.cma.intervideo.web.action.BBSAction"
-		  scope="prototype" autowire="byName">
-		<property name="bbsService" ref="bbsService"></property>
+	<bean id="bbsAction" parent="proxyFactoryBean">
+		<property name="target">
+			<bean class="com.cma.intervideo.web.action.BBSAction" scope="prototype"
+				autowire="byName">
+				<property name="bbsService" ref="bbsService"></property>
+			</bean>
+		</property>
 	</bean>
-	<bean id="bulletinAction"
-		  class="com.cma.intervideo.web.action.BulletinAction"
-		  scope="prototype" autowire="byName">
-		<property name="bulletinService" ref="bulletinService"></property>
+	<bean id="bulletinAction" parent="proxyFactoryBean">
+		<property name="target">
+			<bean class="com.cma.intervideo.web.action.BulletinAction"
+				scope="prototype" autowire="byName">
+				<property name="bulletinService" ref="bulletinService"></property>
+			</bean>
+		</property>
 	</bean>
-	<bean id="roomAction"
-		  class="com.cma.intervideo.web.action.RoomAction"
-		  scope="prototype" autowire="byName">
-		<property name="roomService" ref="roomService"></property>
+	<bean id="roomAction" parent="proxyFactoryBean">
+		<property name="target">
+			<bean class="com.cma.intervideo.web.action.RoomAction" scope="prototype"
+				autowire="byName">
+				<property name="roomService" ref="roomService"></property>
+			</bean>
+		</property>
 	</bean>
-	<bean id="serviceAction"
-		  class="com.cma.intervideo.web.action.ServiceAction"
-		  scope="prototype" autowire="byName">
-		<property name="serviceService" ref="serviceService"></property>
+	<bean id="serviceAction" parent="proxyFactoryBean">
+		<property name="target">
+			<bean class="com.cma.intervideo.web.action.ServiceAction" scope="prototype"
+				autowire="byName">
+				<property name="serviceService" ref="serviceService"></property>
+			</bean>
+		</property>
 	</bean>
-	<bean id="confAction" class="com.cma.intervideo.web.action.ConfAction"
-		  scope="prototype" autowire="byName">
-		<property name="confService" ref="confService"></property>
-		<property name="roomService" ref="roomService"></property>
-		<property name="logService" ref="logService"></property>
+	<bean id="confAction" parent="proxyFactoryBean">
+		<property name="target">
+			<bean class="com.cma.intervideo.web.action.ConfAction" scope="prototype"
+				autowire="byName">
+				<property name="confService" ref="confService"></property>
+				<property name="roomService" ref="roomService"></property>
+				<property name="logService" ref="logService"></property>
+			</bean>
+		</property>
 	</bean>
-	<bean id="terminalAction"
-		  class="com.cma.intervideo.web.action.TerminalAction"
-		  scope="prototype" autowire="byName">
-		<property name="terminalService" ref="terminalService"></property>
+	<bean id="terminalAction" parent="proxyFactoryBean">
+		<property name="target">
+			<bean class="com.cma.intervideo.web.action.TerminalAction"
+				scope="prototype" autowire="byName">
+				<property name="terminalService" ref="terminalService"></property>
+			</bean>
+		</property>
 	</bean>
-	<bean id="unitAction"
-		  class="com.cma.intervideo.web.action.UnitAction"
-		  scope="prototype" autowire="byName">
-		<property name="unitService" ref="unitService"></property>
+	<bean id="unitAction" parent="proxyFactoryBean">
+		<property name="target">
+			<bean class="com.cma.intervideo.web.action.UnitAction" scope="prototype"
+				autowire="byName">
+				<property name="unitService" ref="unitService"></property>
+			</bean>
+		</property>
 	</bean>
-	<bean id="resourceAction"
-		  class="com.cma.intervideo.web.action.ResourceAction"
-		  scope="prototype" autowire="byName">
-		<property name="resourceService" ref="resourceService"></property>
-		<property name="serviceService" ref="serviceService"></property>
+	<bean id="resourceAction" parent="proxyFactoryBean">
+		<property name="target">
+			<bean class="com.cma.intervideo.web.action.ResourceAction"
+				scope="prototype" autowire="byName">
+				<property name="resourceService" ref="resourceService"></property>
+				<property name="serviceService" ref="serviceService"></property>
+			</bean>
+		</property>
 	</bean>
-	<bean id="statAction" class="com.cma.intervideo.web.action.StatAction"
-		  scope="prototype" autowire="byName">
-		<property name="statService" ref="statService"></property>
+	<bean id="statAction" parent="proxyFactoryBean">
+		<property name="target">
+			<bean class="com.cma.intervideo.web.action.StatAction" scope="prototype"
+				autowire="byName">
+				<property name="statService" ref="statService"></property>
+			</bean>
+		</property>
 	</bean>
-	<bean id="logAction" class="com.cma.intervideo.web.action.LogAction"
-		  scope="prototype" autowire="byName">
-		<property name="logService" ref="logService"></property>
+	<bean id="logAction" parent="proxyFactoryBean">
+		<property name="target">
+			<bean class="com.cma.intervideo.web.action.LogAction" scope="prototype"
+				autowire="byName">
+				<property name="logService" ref="logService"></property>
+			</bean>
+		</property>
 	</bean>
 </beans>

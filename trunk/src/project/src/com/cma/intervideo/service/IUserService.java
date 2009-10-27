@@ -5,6 +5,7 @@ import java.util.List;
 import com.cma.intervideo.exception.RoleExistsException;
 import com.cma.intervideo.exception.RoleNotEmptyException;
 import com.cma.intervideo.exception.UserExistsException;
+import com.cma.intervideo.pojo.Privilege;
 import com.cma.intervideo.pojo.Role;
 import com.cma.intervideo.pojo.User;
 import com.cma.intervideo.util.PageHolder;
@@ -24,7 +25,18 @@ public interface IUserService {
 	 * @return
 	 */
 	public User findUserByLoginId(String loginId);
-	
+	/**
+	 * 根据用户号查找用户拥有哪些url的权限
+	 * @param userId
+	 * @return
+	 */
+	public List<Privilege> findPrivilegesByUserId(String userId);
+	/**
+	 * 根据用户号查找用户拥有哪些url的权限
+	 * @param userid
+	 * @return
+	 */
+	public List findUrlsByUserId(String userid);
 	public int userLogin(String userName, String password, UserPrivilege up);
 	public List findAllUsers(PageHolder ph);
 	public void addUser(User user, String[] roles) throws UserExistsException;
@@ -33,7 +45,6 @@ public interface IUserService {
 	public void addRole(Role role, List privileges) throws RoleExistsException;
 	public List findAllRoles();
 	public List findAllPrivileges(PageHolder ph);
-	public int getPrivilegesByUserName(String userName, UserPrivilege up);
 	public void updateUser(User user) throws UserExistsException ;
 	public void updateUser(User user, String[] roles)throws UserExistsException;
 	public void updateRole(Role role, List privileges);

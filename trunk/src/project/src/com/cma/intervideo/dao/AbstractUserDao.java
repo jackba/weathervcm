@@ -74,7 +74,7 @@ public class AbstractUserDao extends AbstractDAO<User, String> implements IUserD
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try{
-			pstmt = conn.prepareStatement("select url from privilege where status=0 and privilege_id in (select privilege_id from role_privilege where role_id in (select role_id from user_role where user_id=?))");
+			pstmt = conn.prepareStatement("select url from privilege where privilege_id in (select privilege_id from role_privilege where role_id in (select role_id from user_role where user_id=?))");
 			pstmt.setString(1, userid);
 			rs = pstmt.executeQuery();
 			String url = null;
@@ -83,13 +83,13 @@ public class AbstractUserDao extends AbstractDAO<User, String> implements IUserD
 				String[] urls = url.split(";");
 				for(int i=0;i<urls.length;i++){
 					if(urls[i].startsWith("action:")){
-						urls[i] = "action:com.asiainfo.adms.web.action."+urls[i].substring(7);
+						urls[i] = "action:com.cma.intervideo.web.action."+urls[i].substring(7);
 						result.add(urls[i]);
 					}else if(urls[i].startsWith("json:")){
-						urls[i] = "json:com.asiainfo.adms.web.action."+urls[i].substring(5);
+						urls[i] = "json:com.cma.intervideo.web.action."+urls[i].substring(5);
 						result.add(urls[i]);
 					}else if(urls[i].startsWith("dwr:")){
-						urls[i] = "dwr:com.asiainfo.adms.service.impl."+urls[i].substring(4);
+						urls[i] = "dwr:com.cma.intervideo.service.impl."+urls[i].substring(4);
 						result.add(urls[i]);
 					}
 				}
@@ -167,13 +167,13 @@ public class AbstractUserDao extends AbstractDAO<User, String> implements IUserD
 		return this.find(sb.toString(), ph);
 	}
 	public List findAllPrivileges(){
-		return this.getHibernateTemplate().find("from Privilege privilege where privilege.status=0");
+		return this.getHibernateTemplate().find("from Privilege privilege");
 	}
 	public List findAllPrivileges(PageHolder ph){
 		if(ph.isGetCount()){
-			ph.setResultSize(this.getCount("from Privilege privilege where privilege.status=0"));
+			ph.setResultSize(this.getCount("from Privilege privilege"));
 		}
-		List privileges = this.find("from Privilege privilege where privilege.status=0", ph);
+		List privileges = this.find("from Privilege privilege", ph);
 		return privileges;
 	}
 	public void addRole(Role role){
@@ -190,12 +190,6 @@ public class AbstractUserDao extends AbstractDAO<User, String> implements IUserD
 	
 	public List findAllRoles(){
 		return this.getHibernateTemplate().find("from Role role where role.status=0");
-	}
-	public List findAllCustomerGroups(){
-		return this.getHibernateTemplate().find("from CustomerGroup customerGroup where customerGroup.status=0");
-	}
-	public List findAllPositionGroups(){
-		return this.getHibernateTemplate().find("from PositionGroup positionGroup where positionGroup.status=0");
 	}
 	public void addUserRole(String userId, Integer roleId){
 		UserRoleId userRoleId = new UserRoleId();
