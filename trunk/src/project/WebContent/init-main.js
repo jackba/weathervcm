@@ -222,6 +222,9 @@ function closePanel(id){
 		}
 	}
 }
+function closeActivePanel(){
+	contentPanel.remove(contentPanel.getActiveTab());
+}
 function closeAndRefreshPanel(id){
 	var n = contentPanel.getComponent(id);
 	if(n){
