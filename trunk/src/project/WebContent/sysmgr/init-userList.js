@@ -7,14 +7,28 @@ var ptb;// 分页控件
 // 页面加载后执行的代码
 Ext.onReady(function() {
 	Ext.BLANK_IMAGE_URL="resources/images/default/s.gif";
+	DWREngine.setErrorHandler(dwrErrorHandler);
 	initData();
 });
-
+function dwrErrorHandler(msg,exception){
+	Ext.Msg.confirm("警告",msg,function(btn){
+		if(btn=='yes'){
+			window.top.location.href="login.jsp";
+		}
+	});
+}
 // 初始化数据
 function initData() {
 	ds = new Ext.data.Store({
 		proxy : new Ext.data.HttpProxy({
-			url : 'user_search.do'
+			url : 'user_search.do',
+			failure : function(response, options){
+				Ext.Msg.confirm("警告",response.responseText,function(btn){
+					if(btn=='yes'){
+						window.top.location.href="login.jsp";
+					}
+				});
+			}
 		}),
 		reader : new Ext.data.JsonReader({
 			totalProperty : 'totalProperty',
