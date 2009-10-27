@@ -9,7 +9,7 @@
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/content.css"/>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/edgrid.css"/>
 <script language="javascript">
-var loginId = "<s:property value='#session.userPrivilege.userName'/>";
+var loginId = "<s:property value='#session.userPrivilege.loginId'/>";
 </script>
 <script type="text/javascript" src="resources/js/ext-base.js"></script>
 <script type="text/javascript" src="resources/js/ext-all.js"></script>
