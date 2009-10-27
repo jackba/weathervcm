@@ -16,7 +16,8 @@ Ext.Msg.confirm("警告","您没有该操作的权限，是否重新登陆",func
 	if(btn=='yes'){
 		window.top.location.href="<%=request.getContextPath()%>/user_logout.do";
 	}else{
-		history.go(-1);
+		//history.go(-1);
+		window.parent.closeActivePanel();
 	}
 });
 </script>
