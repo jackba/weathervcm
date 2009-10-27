@@ -160,6 +160,7 @@ create table privilege
    name                           varchar(40)                    not null,
    url                            varchar(255),
    description                    varchar(200),
+   code				  varchar(4)                     not null,
    primary key (privilege_id)
 )
 type = InnoDB;
