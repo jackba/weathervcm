@@ -11,6 +11,7 @@ public class Privilege implements java.io.Serializable {
 	private String name;
 	private String url;
 	private String description;
+	private String code;
 
 	public Privilege() {
 	}
@@ -19,10 +20,11 @@ public class Privilege implements java.io.Serializable {
 		this.name = name;
 	}
 
-	public Privilege(String name, String url, String description) {
+	public Privilege(String name, String url, String description, String code) {
 		this.name = name;
 		this.url = url;
 		this.description = description;
+		this.code = code;
 	}
 
 	public Integer getPrivilegeId() {
@@ -56,5 +58,15 @@ public class Privilege implements java.io.Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+	
+	
 
 }

@@ -22,6 +22,7 @@ import org.apache.commons.logging.LogFactory;
 
 import com.cma.intervideo.exception.UserExistsException;
 import com.cma.intervideo.pojo.BulletinBoard;
+import com.cma.intervideo.pojo.Privilege;
 import com.cma.intervideo.pojo.Role;
 import com.cma.intervideo.pojo.User;
 import com.cma.intervideo.service.IBulletinService;
@@ -131,7 +132,11 @@ public class UserAction extends AbstractBaseAction{
 			}else{
 				UserPrivilege up = new UserPrivilege();
 				up.setUserId(user.getUserId());
-				up.setUserName(user.getLoginId());
+				up.setUserName(user.getUserName());
+				up.setLoginId(user.getLoginId());
+				
+				up.setOwnPrivileges(userService.findPrivilegesByUserId(user.getUserId()));
+				up.setUrls(userService.findUrlsByUserId(user.getUserId()));
 				session.put("userPrivilege", up);
 				logService.addLog(user.getUserId(), logService.type_login, "用户登陆");
 				pw.print("{success:true,msg:'ok'}");

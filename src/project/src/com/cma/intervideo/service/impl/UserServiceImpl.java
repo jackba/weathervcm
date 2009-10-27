@@ -17,6 +17,7 @@ import com.cma.intervideo.dao.IUserDao;
 import com.cma.intervideo.exception.RoleExistsException;
 import com.cma.intervideo.exception.RoleNotEmptyException;
 import com.cma.intervideo.exception.UserExistsException;
+import com.cma.intervideo.pojo.Privilege;
 import com.cma.intervideo.pojo.Role;
 import com.cma.intervideo.pojo.User;
 import com.cma.intervideo.service.IUserService;
@@ -30,6 +31,24 @@ public class UserServiceImpl implements IUserService {
 	private static Log logger = LogFactory.getLog(UserServiceImpl.class);
 	private IUserDao userDao;
 	private ILogDao logDao;
+	
+	/**
+	 * 根据用户号查找用户拥有哪些url的权限
+	 * @param userId
+	 * @return
+	 */
+	public List<Privilege> findPrivilegesByUserId(String userId){
+		return userDao.findPrivilegesByUserId(userId);
+	}
+	
+	/**
+	 * 根据用户号查找用户拥有哪些url的权限
+	 * @param userid
+	 * @return
+	 */
+	public List findUrlsByUserId(String userid){
+		return userDao.findUrlsByUserId(userid);
+	}
 	
 	public void setLogDao(ILogDao logDao) {
 		this.logDao = logDao;
@@ -71,13 +90,6 @@ public class UserServiceImpl implements IUserService {
 				return INVALID_PASSWORD;
 			}
 		}
-	}
-
-	public int getPrivilegesByUserName(String userName, UserPrivilege up) {
-		User user = userDao.findUserByName(userName);
-		// up.setUrls(userDao.findUrlsByUserId(user.getUserId()));
-		// up.setOwnPrivileges(userDao.findPrivilegesByUserId(user.getUserId()));
-		return SUCCESS;
 	}
 
 	public List findAllUsers(PageHolder ph) {
