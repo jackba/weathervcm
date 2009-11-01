@@ -35,8 +35,7 @@ body{font-size:12px;}
   	  <tr>
 	    <th class="row1"><font color="red">&nbsp;*</font>内容</th>
 	    <td class="row2">
-		  <textarea name="messageBoard.content" id="content" rows="6" cols="100" style="width:auto">
-		  </textarea></td>
+		  <textarea name="messageBoard.content" id="content" rows="6" cols="100" style="width:auto"></textarea></td>
 	  </tr>
   </table>
 	  
