@@ -126,9 +126,11 @@ public class UserAction extends AbstractBaseAction{
 			}else if(!validateCode.equals(rand)){
 				pw.print("{success:true,msg:'验证码不正确!'}");
 			}
-			else if(user==null || !user.getPassword().equals(request.getParameter("password"))){
+			else if(user==null){
+				pw.print("{success:true,msg:'用户不存在!'}");
+			}else if (!user.getPassword().equals(request.getParameter("password"))){
 				
-				pw.print("{success:true,msg:'user not exist!'}");
+				pw.print("{success:true,msg:'密码不正确!'}");
 			}else{
 				UserPrivilege up = new UserPrivilege();
 				up.setUserId(user.getUserId());
