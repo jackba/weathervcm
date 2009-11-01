@@ -61,9 +61,7 @@ body{font-size:12px;}
 	  <tr>
 	    <th  class="row1">描述：</th>
 	    <td class="row2"><label>
-	      <textarea name="room.description" cols="40" rows="5" id="description" class="w600" style="width: 450px;">
-		  <s:property value='room.description'/>
-		  </textarea>
+	      <textarea name="room.description" cols="40" rows="5" id="description" class="w600" style="width: 450px;"><s:property value='room.description'/></textarea>
 	    </label></td>
 	  </tr>
   </table>

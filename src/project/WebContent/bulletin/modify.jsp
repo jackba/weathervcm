@@ -35,9 +35,7 @@ body{font-size:12px;}
 			<tr>
 				<th width="20%">内容：</th>
 				<td>
-					<textarea name="bulletinBoard.content" id="content" rows="10" cols="100" style="width:auto">
-						<s:property value='bulletinBoard.content'/>
-		  			</textarea>
+					<textarea name="bulletinBoard.content" id="content" rows="10" cols="100" style="width:auto"><s:property value='bulletinBoard.content'/></textarea>
 				</td>
 			</tr>
 			

@@ -36,8 +36,7 @@ body{font-size:12px;}
   	  <tr>
 	    <th class="row1"><font color="red">&nbsp;*</font>公告内容</th>
 	    <td class="row2">
-		  <textarea name="bulletinBoard.content" id="content" rows="10" cols="100" style="width:auto">
-		  </textarea></td>
+		  <textarea name="bulletinBoard.content" id="content" rows="10" cols="100" style="width:auto;"></textarea></td>
 	  </tr>
 	  <tr>
 	    <th class="row1">生效时间</th>
