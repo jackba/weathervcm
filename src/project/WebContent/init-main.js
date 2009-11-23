@@ -20,14 +20,6 @@ var contentPanel=new Ext.TabPanel({
 Ext.onReady(function(){
 	Ext.BLANK_IMAGE_URL="resources/images/default/s.gif";
 	
-	var menu = new Ext.menu.Menu({
-		id:'basicMenu',
-		items:[{
-			text:'系统管理'
-		},{
-			text:'测试菜单2'
-		}]
-	});
 	var northToolbar = new Ext.Toolbar({
 		id:'tb',
 		height:30,
@@ -35,9 +27,6 @@ Ext.onReady(function(){
 			text:"欢迎"+loginId+"进入全国天气预报电视会商系统"
 		},{
 			xtype:'tbfill'
-		},{
-			text:"导航菜单",
-			menu:menu
 		},{
 			xtype:'tbseparator'
 		},{
