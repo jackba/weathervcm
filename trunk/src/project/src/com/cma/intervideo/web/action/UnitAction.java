@@ -113,9 +113,9 @@ public class UnitAction extends AbstractBaseAction {
 		try {
 			response.setContentType("text/html;charset=utf-8");
 			unitService.saveOrUpdate(unit);
-			outJson("{success:true, msg:'终端添加成功!'}");
+			outJson("{success:true, msg:'单位添加成功!'}");
 		} catch (Exception e) {
-			outJson("{success:true, msg:'终端添加失败'}");
+			outJson("{success:true, msg:'单位添加失败'}");
 		}
 		return null;
 	}
