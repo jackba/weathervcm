@@ -27,7 +27,7 @@ insert into privilege (name,url,description,code) values("预约会议","action:Conf
 insert into privilege (name,url,description,code) values("查看正在召开的会议","action:ConfAction.listRunning;json:ConfAction.searchRunnings;action:ConfAction.reserveDetail","查看正在召开的会议","0017");
 insert into privilege (name,url,description,code) values("查看当日会议安排","action:ConfAction.listCurrentDay;json:ConfAction.searchCurrentDays;action:ConfAction.reserveDetail","查看当日会议安排","0018");
 insert into privilege (name,url,description,code) values("查看本周会议安排","action:ConfAction.listCurrentWeek;json:ConfAction.searchCurrentWeeks;action:ConfAction.reserveDetail","查看本周会议安排","0019");
-insert into privilege (name,url,description,code) values("查看本月会议安排","action:ConfAction.listCurrentMonth;json:ConfAction.searchCurrentMonths;action:ConfAction.reserveDetail"'有会议安排","0021");
+insert into privilege (name,url,description,code) values("查看本月会议安排","action:ConfAction.listCurrentMonth;json:ConfAction.searchCurrentMonths;action:ConfAction.reserveDetail","有会议安排","0021");
 
 insert into privilege (name,url,description,code) values("增加虚拟房间","action:RoomAction.add;json:RoomAction.save","增加虚拟房间","0022");
 insert into privilege (name,url,description,code) values("修改虚拟房间","action:RoomAction.modify;json:RoomAction.update","修改虚拟房间","0023");
