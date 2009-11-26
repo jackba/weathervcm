@@ -1,20 +1,14 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 4.0                                    */
-/* Created on:     2009-6-6 18:02:16                            */
+/* Created on:     2009-11-26 23:11:33                          */
 /*==============================================================*/
 
-
-drop index Relationship_12_FK on conf_party;
-
-drop index Relationship_3_FK on role_privilege;
-
-drop index Relationship_4_FK on role_privilege;
-
-drop index Relationship_2_FK on user_role;
 
 drop table if exists bulletin_board;
 
 drop table if exists conf_party;
+
+drop table if exists conf_unit;
 
 drop table if exists conference;
 
@@ -32,17 +26,17 @@ drop table if exists role_privilege;
 
 drop table if exists room_party;
 
+drop table if exists service_template;
+
+drop table if exists terminal;
+
+drop table if exists unit;
+
 drop table if exists user;
 
 drop table if exists user_role;
 
 drop table if exists virtual_room;
-
-drop table if exists service_template;
-
-drop table if exists terminal;
-
-drop table unit;
 
 /*==============================================================*/
 /* Table: bulletin_board                                        */
@@ -57,7 +51,7 @@ create table bulletin_board
    expired_time                   datetime,
    create_time                    datetime                       not null,
    update_time                    datetime                       not null,
-   status                         tinyint                       not null,
+   status                         tinyint                        not null,
    primary key (bulletin_id)
 )
 type = InnoDB;
@@ -83,6 +77,19 @@ create index Relationship_12_FK on conf_party
 );
 
 /*==============================================================*/
+/* Table: conf_unit                                             */
+/*==============================================================*/
+create table conf_unit
+(
+   conf_unit_id                   int                            not null AUTO_INCREMENT,
+   conference_id                  int                            not null,
+   unit_id                        int                            not null,
+   primary key (conf_unit_id)
+)
+comment = "会议与参会单位的对应关系"
+type = InnoDB;
+
+/*==============================================================*/
 /* Table: conference                                            */
 /*==============================================================*/
 create table conference
@@ -94,7 +101,7 @@ create table conference
    dialable_number                varchar(20),
    virtual_conf_id                varchar(20),
    start_time                     decimal(15,0),
-   end_time                       decimal(15,0),
+   time_long                      int,
    service_template               varchar(32),
    member_id                      varchar(32),
    description                    text,
@@ -107,6 +114,13 @@ create table conference
    cancel_time                    datetime,
    update_time                    datetime                       not null,
    cancel_reason                  varchar(200),
+   init_unit                      varchar(200),
+   main_unit                      int,
+   presider                       varchar(40),
+   principal_mobile               varchar(15),
+   reserve_code                   varchar(10),
+   contact_method                 varchar(200),
+   principal                      varchar(40),
    primary key (conference_id)
 )
 type = InnoDB;
@@ -132,7 +146,7 @@ create table log
    user_id                        varchar(128),
    log_type                       tinyint                        not null,
    create_time                    datetime                       not null,
-   description                    varchar(255),
+   description                    varchar(256),
    primary key (log_id)
 )
 type = InnoDB;
@@ -145,8 +159,9 @@ create table message_board
    message_id                     int                            not null AUTO_INCREMENT,
    user_id                        varchar(128),
    title                          varchar(100),
-   content                        varchar(255),
+   content                        varchar(512),
    status                         tinyint                        not null,
+   create_time                    datetime                       not null,
    primary key (message_id)
 )
 type = InnoDB;
@@ -158,9 +173,9 @@ create table privilege
 (
    privilege_id                   int                            not null AUTO_INCREMENT,
    name                           varchar(40)                    not null,
-   url                            varchar(255),
+   url                            varchar(400),
    description                    varchar(200),
-   code				  varchar(4)                     not null,
+   code                           varchar(4)                     not null,
    primary key (privilege_id)
 )
 type = InnoDB;
@@ -216,74 +231,6 @@ create table room_party
    primary key (room_party_id)
 )
 type = InnoDB;
-
-/*==============================================================*/
-/* Table: user                                                  */
-/*==============================================================*/
-create table user
-(
-   user_id                        varchar(128)                   not null,
-   login_id                       varchar(100)                   not null,
-   user_type                      tinyint,
-   user_name                      varchar(64)                    not null,
-   company                        tinyint,
-   email                          varchar(40),
-   home_telephone                 varchar(20),
-   office_telephone               varchar(20),
-   mobile                         varchar(15),
-   sex                            tinyint                        not null,
-   address                        varchar(128),
-   description                    varchar(255),
-   status                         tinyint                        not null,
-   create_time                    datetime                       not null,
-   update_time                    datetime                       not null,
-   password                       varchar(28),
-   primary key (user_id)
-)
-type = InnoDB;
-
-/*==============================================================*/
-/* Table: user_role                                             */
-/*==============================================================*/
-create table user_role
-(
-   role_id                        int                            not null,
-   user_id                        varchar(128)                   not null
-)
-type = InnoDB;
-
-/*==============================================================*/
-/* Index: Relationship_2_FK                                     */
-/*==============================================================*/
-create index Relationship_2_FK on user_role
-(
-   role_id
-);
-
-/*==============================================================*/
-/* Table: virtual_room                                          */
-/*==============================================================*/
-create table virtual_room
-(
-   room_id                        varchar(20)                    not null,
-   user_id                        varchar(128)                   not null,
-   start_time                     decimal(15,0),
-   duration                       decimal(9,0),
-   subject                        varchar(80),
-   service_template               varchar(32)                    not null,
-   member_id                      varchar(32)                    not null,
-   template_name                  varchar(80)                    not null,
-   vitual_conf_id                 varchar(32)                    not null,
-   description                    text,
-   password                       varchar(255),
-   control_pin                    varchar(255),
-   status                         tinyint                        not null,
-   create_time                    datetime                       not null,
-   update_time                    datetime                       not null,
-   primary key (room_id)
-)
-type = InnoDB;
-
 
 /*==============================================================*/
 /* Table: service_template                                      */
@@ -344,14 +291,82 @@ create table terminal
 )
 type = InnoDB;
 
+/*==============================================================*/
+/* Table: unit                                                  */
+/*==============================================================*/
 create table unit
 (
-   unit_id                        int                            not null 
-AUTO_INCREMENT,
-   unit_name                       varchar(40)                            not null,
+   unit_id                        int                            not null AUTO_INCREMENT,
+   unit_name                      varchar(40)                    not null,
    party_id                       varchar(20),
-   description                         varchar(200),
+   description                    varchar(200),
    primary key (unit_id)
 )
 type = InnoDB;
 
+/*==============================================================*/
+/* Table: user                                                  */
+/*==============================================================*/
+create table user
+(
+   user_id                        varchar(128)                   not null,
+   login_id                       varchar(100)                   not null,
+   user_type                      tinyint,
+   user_name                      varchar(64)                    not null,
+   company                        tinyint,
+   email                          varchar(40),
+   home_telephone                 varchar(20),
+   office_telephone               varchar(20),
+   mobile                         varchar(15),
+   sex                            tinyint                        not null,
+   address                        varchar(128),
+   description                    varchar(400),
+   status                         tinyint                        not null,
+   create_time                    datetime                       not null,
+   update_time                    datetime                       not null,
+   password                       varchar(28),
+   primary key (user_id)
+)
+type = InnoDB;
+
+/*==============================================================*/
+/* Table: user_role                                             */
+/*==============================================================*/
+create table user_role
+(
+   role_id                        int                            not null,
+   user_id                        varchar(128)                   not null
+)
+type = InnoDB;
+
+/*==============================================================*/
+/* Index: Relationship_2_FK                                     */
+/*==============================================================*/
+create index Relationship_2_FK on user_role
+(
+   role_id
+);
+
+/*==============================================================*/
+/* Table: virtual_room                                          */
+/*==============================================================*/
+create table virtual_room
+(
+   room_id                        varchar(20)                    not null,
+   user_id                        varchar(128)                   not null,
+   start_time                     decimal(15,0),
+   duration                       decimal(9,0),
+   subject                        varchar(80),
+   service_template               varchar(32)                    not null,
+   member_id                      varchar(32)                    not null,
+   template_name                  varchar(80)                    not null,
+   vitual_conf_id                 varchar(32)                    not null,
+   description                    text,
+   password                       varchar(255),
+   control_pin                    varchar(255),
+   status                         tinyint                        not null,
+   create_time                    datetime                       not null,
+   update_time                    datetime                       not null,
+   primary key (room_id)
+)
+type = InnoDB;
