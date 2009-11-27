@@ -1,0 +1,6 @@
+1. Install Tomcat
+2. Install mysql V4 or V5
+3. Executing Database action
+   3.1 create database vcm default character set utf8
+   3.2 source c:\weathervcm.sql
+   3.3 source c:\init.sql
