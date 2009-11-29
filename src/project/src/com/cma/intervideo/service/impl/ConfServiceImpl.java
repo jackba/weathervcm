@@ -109,13 +109,15 @@ public class ConfServiceImpl implements IConfService {
 
 	public void createConf(Conference conf, String[] units) throws Exception {
 		logger
-				.info("to create conference to iCM platform...... - conference subject: "
-						+ conf.getSubject());
+				.info("to create conference to iCM platform......" + conf);
 		conf.setRadConferenceId(null);
 		List<String> listTerminalId = getTerminalIdList(units);
 		ScheduleResult sr = ICMService.createConference(conf, listTerminalId);
-		if (sr == null || !sr.isSuccess())
+		if (sr == null || !sr.isSuccess()) 
+		{
+			logger.warn("Platform failed to schedule the conference - " + conf.getSubject());
 			throw new Exception("平台预约会议" + conf.getSubject() + " 失败!");
+		}
 		try {
 			logger.info("to create conference to VCM......");
 			conf.setRadConferenceId(sr.getConferenceId());
@@ -134,10 +136,11 @@ public class ConfServiceImpl implements IConfService {
 				}
 			}
 		} catch (Exception e) {
-			logger.error(e.toString());
+			logger.warn("ConfServiceImpl::createConf Excepton - " + e.toString());
 			logger
 					.info("if fail to save user to VCM, need to delete the user from iCM platform that was saved just now!!");
 			ICMService.cancelConference(sr.getConferenceId());
+			logger.warn("VCM failed to save the conference - " + conf.getSubject());
 			throw new Exception("系统保存会议失败 - conference subject: "
 					+ conf.getSubject());
 		}
@@ -156,13 +159,14 @@ public class ConfServiceImpl implements IConfService {
 	}
 
 	public void modifyConf(Conference conf, String[] units) throws Exception {
-		logger
-				.info("to modify conference to iCM platform...... - rad conference id: "
-						+ conf.getRadConferenceId());
+		logger.info("to modify conference to iCM platform......" + conf);
 		List<String> listTerminalId = getTerminalIdList(units);
 		ScheduleResult sr = ICMService.modifyConference(conf, listTerminalId);
 		if (sr == null || !sr.isSuccess())
+		{
+			logger.warn("Platform failed to modify the conference - " + conf.getSubject());
 			throw new Exception("平台修改会议" + conf.getRadConferenceId() + "失败!");
+		}
 		try {
 			logger.info("to create conference to VCM......");
 			conf.setRadConferenceId(sr.getConferenceId());
@@ -183,9 +187,8 @@ public class ConfServiceImpl implements IConfService {
 				}
 			}
 		} catch (Exception e) {
-			logger.error(e.toString());
-			logger
-					.info("if fail to save user to VCM, need to delete the user from iCM platform that was saved just now!!");
+			logger.warn("ConfServiceImpl::modifyConf Excepton - " + e.toString());
+			logger.info("if fail to save user to VCM, need to delete the user from iCM platform that was saved just now!!");
 			Conference oldConf = getConfById(conf.getConferenceId().toString());
 			List<Unit> oldUnits = findUnitsByConfId(conf.getConferenceId().toString(), true);
 			List<String> oldListTerminalId = null;
@@ -197,6 +200,7 @@ public class ConfServiceImpl implements IConfService {
 				}
 			}
 			ICMService.modifyConference(oldConf, oldListTerminalId);
+			logger.warn("VCM failed to modify the conference - " + conf.getSubject());
 			throw new Exception("系统修改会议" + conf.getConferenceId() + "失败 !");
 		}
 	}
@@ -254,10 +258,10 @@ public class ConfServiceImpl implements IConfService {
 	 * 供定时器调用定时检查会议状态，对不正常的状态进行处理
 	 */
 	public void checkConfs(){
-		logger.info("开始检查会议状态，当前时间是"+Calendar.getInstance().getTime().toString());
+		logger.info("Start to check conferences status..., current time is " + Calendar.getInstance().getTime().toString());
 		int maxConfPeriod = VcmProperties.getPropertyByInt("vcm.icm.maxConfPeriod", 24);
 		List<Conference> abnormalConfs = confDao.findAbnormalConfs();
-		logger.info("共有"+abnormalConfs.size()+"个非正常状态会议");
+		logger.info(abnormalConfs.size()+" conferences with abnormal status!!");
 		for(int i=0;i<abnormalConfs.size();i++){
 			Conference c = abnormalConfs.get(i);
 			c.setStatus(Conference.status_history);
@@ -271,7 +275,7 @@ public class ConfServiceImpl implements IConfService {
 					" was changed to history status, and try to be terminated:" + b);
 		}
 		List<Conference> tooLongConfs = confDao.findTooLongConf(maxConfPeriod);
-		logger.info("共有"+tooLongConfs.size()+"个超长会议");
+		logger.info(tooLongConfs.size()+" conferences duration is too long!!");
 		for(int i=0;i<tooLongConfs.size();i++){
 			Conference c = tooLongConfs.get(i);
 			c.setStatus(Conference.status_history);

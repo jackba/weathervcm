@@ -46,6 +46,33 @@ public class Conference implements java.io.Serializable {
 	private String confUnitNames; //added additional
 	private String mainUnitName; //added additional
 
+	public String toString() {
+		StringBuilder sb = new StringBuilder("Conference Infomation: ");
+		sb.append("conferenceId="+conferenceId);
+		sb.append(";roomId="+roomId);
+		sb.append(";userId="+userId);
+		sb.append(";radConferenceId="+radConferenceId);
+		sb.append(";dialableNumber="+dialableNumber);
+		sb.append(";timeLong="+timeLong);
+		sb.append(";serviceTemplate="+serviceTemplate);
+		sb.append(";serviceTemplateName="+serviceTemplateName);
+		sb.append(";serviceTemplateDesc="+serviceTemplateDesc);
+		sb.append(";memberId="+memberId);
+		sb.append(";description="+description);
+		sb.append(";status="+status);
+		sb.append(";subject="+subject);
+		sb.append(";createTime="+createTime);
+		sb.append(";cancelTime="+cancelTime);
+		sb.append(";updateTime="+updateTime);
+		sb.append(";initUnit="+initUnit);
+		sb.append(";mainUnit="+mainUnit);
+		sb.append(";presider="+presider);
+		sb.append(";principalMobile="+principalMobile);
+		sb.append(";contactMethod="+contactMethod);
+		sb.append(";principal="+principal);
+		return sb.toString();
+	}
+	
 	public Conference() {
 	}
 
