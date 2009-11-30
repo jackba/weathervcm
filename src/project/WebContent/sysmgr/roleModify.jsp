@@ -51,7 +51,6 @@
 				</table>
 				<div class="query_btn">
 					<input type="button" value="修改" class="butt_bg1" onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" onClick="submitForm();"/>&nbsp;&nbsp;
-					<input type="button" value="返回" class="butt_bg1" onClick="history.back()" onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" tabindex="15"  >			
 				</div>
 			</form>
 		</div><!--end of search-->

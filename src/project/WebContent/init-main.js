@@ -204,7 +204,8 @@ function closePanel(id){
 	if(n){
 		var initId = n.initId;
 		contentPanel.remove(n);
-		if(n.initId){
+		n.destroy();
+		if(initId){
 			initN = contentPanel.getComponent(initId);
 			contentPanel.setActiveTab(initN);
 			//initN.load(initN.autoLoad);
@@ -212,14 +213,17 @@ function closePanel(id){
 	}
 }
 function closeActivePanel(){
-	contentPanel.remove(contentPanel.getActiveTab());
+	var n = contentPanel.getActiveTab();
+	contentPanel.remove();
+	n.destroy();
 }
 function closeAndRefreshPanel(id){
 	var n = contentPanel.getComponent(id);
 	if(n){
 		var initId = n.initId;
 		contentPanel.remove(n);
-		if(n.initId){
+		n.destroy();
+		if(initId){
 			initN = contentPanel.getComponent(initId);
 			contentPanel.setActiveTab(initN);
 			initN.load(initN.autoLoad);
@@ -230,6 +234,7 @@ function closeAndCreatePanel(oldId,newId){
 	var n = contentPanel.getComponent(oldId);
 	if(n){
 		contentPanel.remove(n);
+		n.destroy();
 		var nn = contentPanel.getComponent(newId);
 		if(nn){
 			contentPanel.setActiveTab(nn);
