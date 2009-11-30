@@ -35,6 +35,8 @@ var ds;// 数据源
 var mychart; //图表
 Ext.onReady(function() {
 	Ext.BLANK_IMAGE_URL="resources/images/default/s.gif";
+	Ext.FlashComponent.EXPRESS_INSTALL_URL = "resources/images/default/expressInstall.swf";
+	Ext.chart.Chart.CHART_URL = "resources/images/default/charts.swf";
 	ds = new Ext.data.Store({
 		proxy : new Ext.data.HttpProxy({
 			url : 'res_searchOccupy.do'

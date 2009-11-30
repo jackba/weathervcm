@@ -66,6 +66,8 @@ var mychart; //图表
 var day;
 Ext.onReady(function() {
 	Ext.BLANK_IMAGE_URL="resources/images/default/s.gif";
+	Ext.FlashComponent.EXPRESS_INSTALL_URL = "resources/images/default/expressInstall.swf";
+	Ext.chart.Chart.CHART_URL = "resources/images/default/charts.swf";
 	day = new Ext.form.DateField({
 		name:'day',
 		id:'day',
