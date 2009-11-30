@@ -59,7 +59,6 @@ body{font-size:12px;}
 	  <br/>
 	  <div class="query_btn">
 			<input type="button" class="butt_bg1" value="提交" onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" onClick="submitForm1()" name="post"/>
-			<input type="reset"  class="butt_bg1" value="返回" onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" onClick="history.go(-1)"/>
 	  </div>
   </form>
 </div>

@@ -53,7 +53,6 @@
 				<div class="query_btn">
 					<input type="button" value="保存" class="butt_bg1" onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" onClick="submitForm();"/>&nbsp;&nbsp;
 					<input type="reset"  value="重置" class="butt_bg1" onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" tabindex="15"  >			
-					<input type="button" value="返回" class="butt_bg1" onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'"  onClick="history.go(-1)"  />
 				</div>
 			</form>
 		</div><!--end of search-->
