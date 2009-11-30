@@ -19,7 +19,8 @@ var contentPanel=new Ext.TabPanel({
 });
 Ext.onReady(function(){
 	Ext.BLANK_IMAGE_URL="resources/images/default/s.gif";
-	
+	Ext.FlashComponent.EXPRESS_INSTALL_URL = "resources/images/default/expressInstall.swf";
+	Ext.chart.Chart.CHART_URL = "resources/images/default/charts.swf";
 	var northToolbar = new Ext.Toolbar({
 		id:'tb',
 		height:30,
