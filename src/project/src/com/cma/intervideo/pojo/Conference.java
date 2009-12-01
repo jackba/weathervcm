@@ -47,30 +47,23 @@ public class Conference implements java.io.Serializable {
 	private String mainUnitName; //added additional
 
 	public String toString() {
-		StringBuilder sb = new StringBuilder("Conference Infomation: ");
-		sb.append("conferenceId="+conferenceId);
-		sb.append(";roomId="+roomId);
-		sb.append(";userId="+userId);
-		sb.append(";radConferenceId="+radConferenceId);
-		sb.append(";dialableNumber="+dialableNumber);
-		sb.append(";timeLong="+timeLong);
-		sb.append(";serviceTemplate="+serviceTemplate);
-		sb.append(";serviceTemplateName="+serviceTemplateName);
-		sb.append(";serviceTemplateDesc="+serviceTemplateDesc);
-		sb.append(";memberId="+memberId);
-		sb.append(";description="+description);
-		sb.append(";status="+status);
-		sb.append(";subject="+subject);
-		sb.append(";createTime="+createTime);
-		sb.append(";cancelTime="+cancelTime);
-		sb.append(";updateTime="+updateTime);
-		sb.append(";initUnit="+initUnit);
-		sb.append(";mainUnit="+mainUnit);
-		sb.append(";presider="+presider);
-		sb.append(";principalMobile="+principalMobile);
-		sb.append(";contactMethod="+contactMethod);
-		sb.append(";principal="+principal);
-		return sb.toString();
+		StringBuilder buf = new StringBuilder();
+		
+		String line = System.getProperty("line.separator");
+		buf.append(line + "[Conference:( @" + hashCode() + ")" + line);
+		buf.append(" conferenceId = " + conferenceId + ", roomId = " + roomId + line);
+		buf.append(" userId = " + userId + ", radConferenceId = " + radConferenceId + line);
+		buf.append(" conferenceId = " + conferenceId + ", roomId = " + roomId + line);
+		buf.append(" dialableNumber = " + dialableNumber + ", timeLong = " + timeLong + line);
+		buf.append(" serviceTemplate = " + serviceTemplate + ", serviceTemplateName = " + serviceTemplateName + ", serviceTemplateDesc = " + serviceTemplateDesc + line);
+		buf.append(" memberId = " + memberId + ", description = " + description + line);
+		buf.append(" status = " + status + ", subject = " + subject + line);
+		buf.append(" createTime = " + createTime + ", updateTime = " + updateTime + ", cancelTime = " + cancelTime + line);
+		buf.append(" initUnit = " + initUnit + ", mainUnit = " + mainUnit + line);
+		buf.append(" presider = " + presider + ", principalMobile = " + principalMobile + line);
+		buf.append(" contactMethod = " + contactMethod + ", principal = " + principal + line);
+		buf.append("]." + line);
+		return buf.toString();
 	}
 	
 	public Conference() {
