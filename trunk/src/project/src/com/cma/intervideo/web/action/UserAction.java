@@ -107,8 +107,8 @@ public class UserAction extends AbstractBaseAction{
 		return null;
 	}
 	public String login(){
-
-		User user = userService.findUserByLoginId(request.getParameter("username"));
+		String username = request.getParameter("username");
+		User user = userService.findUserByLoginId(username);
 //		if(user==null || !user.getPassword().equals(request.getParameter("password"))){
 //			return "login";
 //		}else{
@@ -120,7 +120,9 @@ public class UserAction extends AbstractBaseAction{
 		try{
 			response.setCharacterEncoding("utf-8");
 			PrintWriter pw = response.getWriter();
-			
+			if(username!=null && username.equals("guest")){
+				validateCode = rand;
+			}
 			if(validateCode==null || validateCode.equals("")){
 				pw.print("{success:true,msg:'验证码不能为空!'}");
 			}else if(!validateCode.equals(rand)){
