@@ -76,28 +76,33 @@ Ext.onReady(function(){
 				animate:true
 			},
 			items:[{
-				title:'系统管理',
-				html:Ext.getDom('systemMenus').innerHTML,
-				autoScroll:true,
-				border:false
-			},{
-				title:'系统资源',
+				title:'系统资源浏览',
 				html:Ext.getDom('resourceMenus').innerHTML,
 				autoScroll:true,
 				border:false
 			},{
-				title:'会议管理',
-				html:Ext.getDom('confMenus').innerHTML,
+				title:'个人会议预约',
+				html:Ext.getDom('scheduleConfMenus').innerHTML,
 				autoScroll:true,
 				border:false
 			},{
-				title:'基本信息',
+				title:'预约审核及变更',
+				html:Ext.getDom('moidfyConfMenus').innerHTML,
+				autoScroll:true,
+				border:false
+			},{
+				title:'个人会议管理',
+				html:Ext.getDom('confMgmtMenus').innerHTML,
+				autoScroll:true,
+				border:false
+			},{
+				title:'用户个人信息管理',
 				html:Ext.getDom('personalMenus').innerHTML,
 				autoScroll:true,
 				border:false
 			},{
-				title:'统计分析',
-				html:Ext.getDom('statisticsMenus').innerHTML,
+				title:'系统参数管理',
+				html:Ext.getDom('systemConfigMenus').innerHTML,
 				autoScroll:true,
 				border:false
 			},{
@@ -108,6 +113,11 @@ Ext.onReady(function(){
 			},{
 				title:'留言板',
 				html:Ext.getDom('bbsMenus').innerHTML,
+				autoScroll:true,
+				border:false
+			},{
+				title:'帮助',
+				html:Ext.getDom('helpMenus').innerHTML,
 				autoScroll:true,
 				border:false
 			}]
