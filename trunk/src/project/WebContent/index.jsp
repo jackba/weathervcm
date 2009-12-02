@@ -46,21 +46,15 @@ a:hover{}
 <table border="0" width="100%" cellpadding="0" cellspacing="0"><tr><td background="images/head1_01.jpg" height="76" width="777">&nbsp;</td><td background="images/head1_02.jpg">&nbsp;</td><td background="images/head1_04.jpg" width="233">&nbsp;</td></tr></table>
 </div>
 <div id="menus" style="display:none">
-	<div id="systemMenus">
-		<ul class="menuList">
-			<li>
-				<span id="user" href="<%=request.getContextPath()%>/user_list.do" onClick="onClickMenuItem(this)">用户管理</span>
-			</li>
-			<li>
-				<span id="role" href="<%=request.getContextPath()%>/role_list.do" onClick="onClickMenuItem(this)">角色管理</span>
-			</li>
-			<li>
-				<span id="log" href="<%=request.getContextPath()%>/log_list.do" onClick="onClickMenuItem(this)">日志管理</span>
-			</li>
-		</ul>
-	</div>
 	<div id="resourceMenus">
 		<ul class="menuList">
+			<li>
+				<span id="siteinfo" href="<%=request.getContextPath()%>/unit_list.do" onClick="onClickMenuItem(this)">参会单位</span>
+			</li>
+			<li>
+				<span id="terminalinfo" href="<%=request.getContextPath()%>/terminal_list.do" onClick="onClickMenuItem(this)">终端列表</span>
+			</li>
+			
 			<li>
 				<span id="service" href="<%=request.getContextPath()%>/service_list.do" onClick="onClickMenuItem(this)">会议模板</span>
 			</li>
@@ -70,16 +64,37 @@ a:hover{}
 			<li>
 				<span id="available" href="<%=request.getContextPath()%>/res_available.do" onClick="onClickMenuItem(this)">可用资源</span>
 			</li>
+			
+			<li>
+				<span id="userSort" href="<%=request.getContextPath()%>/stat_userReserveStat.do" onClick="onClickMenuItem(this)">用户使用次数排行</span>
+			</li>
+			<li>
+				<span id="confSort" href="<%=request.getContextPath()%>/stat_userReserveStat.do" onClick="onClickMenuItem(this)">用户会议召开次数排行</span>
+			</li>
+			<li>
+				<span id="dayConfSort" href="<%=request.getContextPath()%>/stat_userDayReserveStat.do" onClick="onClickMenuItem(this)">用户单日会议召开次数排行</span>
+			</li>
 		</ul>
 	</div>
-	<div id="confMenus">
+	
+	<div id="scheduleConfMenus">
 		<ul class="menuList">
 			<li>
 				<span id="scheduleConf" href="<%=request.getContextPath()%>/conf_listReserve.do" onClick="onClickMenuItem(this)">预约会议</span>
 			</li>
+		</ul>
+	</div>
+	
+	<div id="moidfyConfMenus">
+		<ul class="menuList">
 			<li>
 				<span id="manageConf" href="<%=request.getContextPath()%>/conf_manageReserve.do" onClick="onClickMenuItem(this)">预约管理</span>
 			</li>
+		</ul>
+	</div>
+	
+	<div id="confMgmtMenus">
+		<ul class="menuList">
 			<li>
 				<span id="currentConf" href="<%=request.getContextPath()%>/conf_listRunning.do" onClick="onClickMenuItem(this)">正在召开的会议</span>
 			</li>
@@ -109,24 +124,19 @@ a:hover{}
 			<li>
 				<span id="virtualRoom" href="<%=request.getContextPath()%>/room_list.do" onClick="onClickMenuItem(this)">虚拟房间</span>
 			</li>
-			<li>
-				<span id="terminalinfo" href="<%=request.getContextPath()%>/terminal_list.do" onClick="onClickMenuItem(this)">终端列表</span>
-			</li>
-			<li>
-				<span id="siteinfo" href="<%=request.getContextPath()%>/unit_list.do" onClick="onClickMenuItem(this)">参会单位</span>
-			</li>
 		</ul>
 	</div>
-	<div id="statisticsMenus">
+	
+	<div id="systemConfigMenus">
 		<ul class="menuList">
 			<li>
-				<span id="userSort" href="<%=request.getContextPath()%>/stat_userReserveStat.do" onClick="onClickMenuItem(this)">用户使用次数排行</span>
+				<span id="user" href="<%=request.getContextPath()%>/user_list.do" onClick="onClickMenuItem(this)">用户管理</span>
 			</li>
 			<li>
-				<span id="confSort" href="<%=request.getContextPath()%>/stat_userReserveStat.do" onClick="onClickMenuItem(this)">用户会议召开次数排行</span>
+				<span id="role" href="<%=request.getContextPath()%>/role_list.do" onClick="onClickMenuItem(this)">角色管理</span>
 			</li>
 			<li>
-				<span id="dayConfSort" href="<%=request.getContextPath()%>/stat_userDayReserveStat.do" onClick="onClickMenuItem(this)">用户单日会议召开次数排行</span>
+				<span id="log" href="<%=request.getContextPath()%>/log_list.do" onClick="onClickMenuItem(this)">日志管理</span>
 			</li>
 		</ul>
 	</div>
@@ -140,7 +150,8 @@ a:hover{}
 				<span id="bulletinIssue" href="<%=request.getContextPath()%>/bulletin_add.do" onClick="onClickMenuItem(this)">公告发布</span>
 			</li>
 		</ul>
-	</div>	
+	</div>
+	
 	<div id="bbsMenus">
 		<ul class="menuList">
 			<li>
@@ -152,6 +163,12 @@ a:hover{}
 			<li>
 				<span id="messageAdd" href="<%=request.getContextPath()%>/bbs_add.do" onClick="onClickMenuItem(this)">留言</span>
 			</li>
+		</ul>
+	</div>
+	
+	<div id="helpMenus">
+		<ul class="menuList">
+	
 		</ul>
 	</div>
 </div>
