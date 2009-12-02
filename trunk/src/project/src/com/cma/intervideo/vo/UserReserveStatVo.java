@@ -5,6 +5,18 @@ public class UserReserveStatVo {
 	private String userName;
 	private int number;
 	private int length;
+	
+	public String toString() {
+		StringBuilder buf = new StringBuilder();
+		
+		String line = System.getProperty("line.separator");
+		buf.append(line + "[UserReserveStatVo:( @" + hashCode() + ")" + line);
+		buf.append(" index = " + index + ", userName = " + userName + line);
+		buf.append(" number = " + number + ", length = " + length + line);
+		buf.append("]." + line);
+		return buf.toString();
+	}
+	
 	public int getIndex() {
 		return index;
 	}

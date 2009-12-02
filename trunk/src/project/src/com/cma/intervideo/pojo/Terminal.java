@@ -27,6 +27,24 @@ public class Terminal implements java.io.Serializable {
 	private String countryCode;
 	private String areaCode;
 
+	public String toString() {
+		StringBuilder buf = new StringBuilder();
+		
+		String line = System.getProperty("line.separator");
+		buf.append(line + "[Terminal:( @" + hashCode() + ")" + line);
+		buf.append(" terminalId = " + terminalId + ", terminalName = " + terminalName + line);
+		buf.append(" terminalNumber = " + terminalNumber + ", terminalProtocol = " + terminalProtocol + line);
+		buf.append(" timeZoneId = " + timeZoneId + ", zonePrefix = " + zonePrefix + line);
+		buf.append(" terminalEmail = " + terminalEmail + ", statusId = " + statusId + line);
+		buf.append(" registerGkid = " + registerGkid + ", nodeId = " + nodeId + line);
+		buf.append(" maxBandwidth = " + maxBandwidth + ", isdnMaxBandwidth = " + isdnMaxBandwidth + line);
+		buf.append(" isVoiceOnly = " + isVoiceOnly + ", ip = " + ip + line);
+		buf.append(" e164 = " + e164 + ", detailProtocol = " + detailProtocol + line);
+		buf.append(" defaultRoomId = " + defaultRoomId + ", countryCode = " + countryCode + ", areaCode = " + areaCode + line);
+		buf.append("]." + line);
+		return buf.toString();
+	}
+	
 	public Terminal() {
 	}
 

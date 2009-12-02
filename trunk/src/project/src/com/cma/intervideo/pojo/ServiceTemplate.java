@@ -30,6 +30,26 @@ public class ServiceTemplate implements java.io.Serializable {
 	private Integer isHdCapable;
 	private String ivrPrefix;
 
+	public String toString() {
+		StringBuilder buf = new StringBuilder();
+		
+		String line = System.getProperty("line.separator");
+		buf.append(line + "[ServiceTemplate:( @" + hashCode() + ")" + line);
+		buf.append(" serviceTemplateId = " + serviceTemplateId + ", servicePrefix = " + servicePrefix + line);
+		buf.append(" serviceTemplateName = " + serviceTemplateName + ", activeFlag = " + activeFlag + line);
+		buf.append(" audioOnly = " + audioOnly + ", slave = " + slave + line);
+		buf.append(" matchingRate = " + matchingRate + ", hasSymmetric = " + hasSymmetric + line);
+		buf.append(" isUploaded = " + isUploaded + ", isFromDevice = " + isFromDevice + line);
+		buf.append(" isUploadable = " + isUploadable + ", serviceTemplateDesc = " + serviceTemplateDesc + line);
+		buf.append(" deviceString = " + deviceString + ", updateTime = " + backup1 + ", cancelTime = " + backup1 + line);
+		buf.append(" backup2 = " + backup2 + ", lectureModeSign = " + lectureModeSign + line);
+		buf.append(" builtInToken = " + builtInToken + ", serviceType = " + serviceType + line);
+		buf.append(" switchingMode = " + switchingMode + ", isHdGuaranteed = " + isHdGuaranteed + line);
+		buf.append(" isHdCapable = " + isHdCapable + ", ivrPrefix = " + ivrPrefix + line);
+		buf.append("]." + line);
+		return buf.toString();
+	}
+	
 	public ServiceTemplate() {
 	}
 

@@ -12,14 +12,11 @@ import net.sf.json.JSONObject;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.cma.intervideo.pojo.ServiceTemplate;
 import com.cma.intervideo.pojo.Terminal;
-import com.cma.intervideo.pojo.VirtualRoom;
 import com.cma.intervideo.service.ITerminalService;
 import com.cma.intervideo.util.AbstractBaseAction;
 import com.cma.intervideo.util.PageHolder;
 import com.cma.intervideo.util.ParamVo;
-import com.radvision.icm.service.MeetingType;
 import com.radvision.icm.service.TerminalResource;
 import com.radvision.icm.service.vcm.ICMService;
 
@@ -117,7 +114,7 @@ public class TerminalAction extends AbstractBaseAction {
 
 	public String update() throws IOException, ParseException, Exception {
 		terminalService.deleteAllTerminals();
-		
+		int count = 0;
 		List<TerminalResource> trs = ICMService.getTerminals();
 		for (int i = 0; trs != null && i < trs.size(); i++) {
 			TerminalResource tr = trs.get(i);
@@ -142,7 +139,10 @@ public class TerminalAction extends AbstractBaseAction {
 			t.setCountryCode(tr.getCountryCode());
 			t.setAreaCode(tr.getAreaCode());
 			terminalService.saveOrUpdate(t);
+			logger.info("Terminal was downloaded from Platform and saved to VCM: " + t);
+			count++;
 		}
+		logger.info(count + "Service Template were downloaded from Platform and saved to VCM!");
 		return list();
 	}
 

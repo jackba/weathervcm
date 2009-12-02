@@ -22,7 +22,6 @@ import org.apache.commons.logging.LogFactory;
 
 import com.cma.intervideo.exception.UserExistsException;
 import com.cma.intervideo.pojo.BulletinBoard;
-import com.cma.intervideo.pojo.Privilege;
 import com.cma.intervideo.pojo.Role;
 import com.cma.intervideo.pojo.User;
 import com.cma.intervideo.service.IBulletinService;
