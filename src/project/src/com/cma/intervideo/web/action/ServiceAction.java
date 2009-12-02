@@ -53,6 +53,7 @@ public class ServiceAction extends AbstractBaseAction{
 	public String update() {
 		serviceService.deleteAllServices();
 		List<MeetingType> mts = ICMService.getMeetingTypes();
+		int count = 0;
 		for (int i = 0; mts != null && i < mts.size(); i++) {
 			MeetingType mt = mts.get(i);
 			if ("EMBEDDED".equals(mt.getBuiltInToken()) || "N/A".equals(mt.getServicePrefix()))
@@ -66,7 +67,10 @@ public class ServiceAction extends AbstractBaseAction{
 			service.setBuiltInToken(mt.getBuiltInToken());
 			service.setSwitchingMode(mt.getSwitchingMode());
 			serviceService.saveOrUpdate(service);
+			logger.info("Service Template was downloaded from Platform and saved to VCM: " + service);
+			count++;
 		}
+		logger.info(count + "Service Template were downloaded from Platform and saved to VCM!");
 		return list();
 	}
 	public String detail(){

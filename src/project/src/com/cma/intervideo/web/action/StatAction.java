@@ -35,6 +35,9 @@ public class StatAction extends AbstractBaseAction{
 			currDate = df.format(d);
 		}
 		List<UserReserveStatVo> l = statService.statDayUserReserve(currDate);
+		for (int i = 0; i < l.size(); i++)
+			logger.info("***************" + i + l.get(i));
+		logger.info("StatAction::userDayReserveStat " + ((l == null ) ? 0 : l.size()) + " were retrieved!");
 		request.setAttribute("statList", l);
 		return "userDayReserveStat";
 	}
