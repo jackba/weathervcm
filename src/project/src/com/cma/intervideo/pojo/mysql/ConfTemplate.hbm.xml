@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 3, 2009 12:43:06 AM by Hibernate Tools 3.2.4.GA -->
+<hibernate-mapping>
+    <class name="com.cma.intervideo.pojo.ConfTemplate" table="conf_template" >
+        <id name="confTemplateId" type="int">
+            <column name="conf_template_id" />
+            <generator class="assigned" />
+        </id>
+        <property name="confTemplateName" type="string">
+            <column name="conf_template_name" length="40" not-null="true" />
+        </property>
+        <property name="userId" type="string">
+            <column name="user_id" length="128" not-null="true" />
+        </property>
+        <property name="serviceTemplateId" type="string">
+            <column name="service_template_id" length="32" />
+        </property>
+        <property name="virtualConfId" type="string">
+            <column name="virtual_conf_id" length="20" />
+        </property>
+        <property name="timeLong" type="java.lang.Integer">
+            <column name="time_long" />
+        </property>
+        <property name="memberId" type="string">
+            <column name="member_id" length="32" not-null="true" />
+        </property>
+        <property name="description" type="string">
+            <column name="description" length="65535" />
+        </property>
+        <property name="password" type="string">
+            <column name="password" />
+        </property>
+        <property name="controlPin" type="string">
+            <column name="control_pin" />
+        </property>
+        <property name="status" type="java.lang.Byte">
+            <column name="status" />
+        </property>
+        <property name="portsNum" type="java.lang.Integer">
+            <column name="ports_num" />
+        </property>
+        <property name="subject" type="string">
+            <column name="subject" length="40" />
+        </property>
+        <property name="createTime" type="timestamp">
+            <column name="create_time" length="0" />
+        </property>
+        <property name="deleteTime" type="timestamp">
+            <column name="delete_time" length="0" />
+        </property>
+        <property name="initUnit" type="string">
+            <column name="init_unit" length="200" />
+        </property>
+        <property name="mainUnit" type="java.lang.Integer">
+            <column name="main_unit" />
+        </property>
+        <property name="presider" type="string">
+            <column name="presider" length="40" />
+        </property>
+        <property name="principalMobile" type="string">
+            <column name="principal_mobile" length="15" />
+        </property>
+        <property name="reserveCode" type="string">
+            <column name="reserve_code" length="10" />
+        </property>
+        <property name="contactMethod" type="string">
+            <column name="contact_method" length="200" />
+        </property>
+        <property name="principal" type="string">
+            <column name="principal" length="40" />
+        </property>
+        <property name="isDefault" type="java.lang.Boolean">
+            <column name="is_default" precision="1" scale="0" />
+        </property>
+    </class>
+</hibernate-mapping>

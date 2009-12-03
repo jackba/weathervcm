@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 3, 2009 12:43:06 AM by Hibernate Tools 3.2.4.GA -->
+<hibernate-mapping>
+    <class name="com.cma.intervideo.pojo.ConfTemplateXUnit" table="conf_template_x_unit" >
+        <id name="confTemplateUnitId" type="java.lang.Integer">
+            <column name="conf_template_unit_id" />
+            <generator class="identity" />
+        </id>
+        <property name="conConfTemplateId" type="java.lang.Integer">
+            <column name="con_conf_template_id" />
+        </property>
+        <property name="uniUnitId" type="java.lang.Integer">
+            <column name="uni_unit_id" />
+        </property>
+    </class>
+</hibernate-mapping>

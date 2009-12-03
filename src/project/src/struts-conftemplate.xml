@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC 
+	"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+	"http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="conftemplate" namespace="/"	extends="struts-base">
+		<action name="conftemplate_*" method="{1}" class="confTemplateAction">
+			<result name="list">/virtualroom/list.jsp</result>
+			<result name="add">/virtualroom/add.jsp</result>
+			<result name="modify">/virtualroom/modify.jsp</result>
+			<result name="detail">/virtualroom/detail.jsp</result>
+		</action>
+	</package>
+</struts>
