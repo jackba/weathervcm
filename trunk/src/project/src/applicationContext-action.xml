@@ -38,6 +38,13 @@
 			</bean>
 		</property>
 	</bean>
+	<bean id="confTemplateAction" parent="proxyFactoryBean" scope="prototype">
+		<property name="target">
+			<bean class="com.cma.intervideo.web.action.ConfTemplateAction" autowire="byName">
+				<property name="confTemplateService" ref="confTemplateService"></property>
+			</bean>
+		</property>
+	</bean>
 	<bean id="serviceAction" parent="proxyFactoryBean" scope="prototype">
 		<property name="target">
 			<bean class="com.cma.intervideo.web.action.ServiceAction" autowire="byName">

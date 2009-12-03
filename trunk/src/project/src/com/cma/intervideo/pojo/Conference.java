@@ -14,14 +14,14 @@ public class Conference implements java.io.Serializable {
 	public static final short status_history = 2;
 
 	private Integer conferenceId;
-	private String roomId;
 	private String userId;
+	private String serviceTemplateId;
+	private Integer confTemplateId;
 	private String radConferenceId;
 	private String dialableNumber;
 	private String virtualConfId;
 	private Long startTime;
 	private Integer timeLong;
-	private String serviceTemplate;
 	private String memberId;
 	private String description;
 	private String password;
@@ -51,12 +51,11 @@ public class Conference implements java.io.Serializable {
 		
 		String line = System.getProperty("line.separator");
 		buf.append(line + "[Conference:( @" + hashCode() + ")" + line);
-		buf.append(" conferenceId = " + conferenceId + ", roomId = " + roomId + line);
+		buf.append(" conferenceId = " + conferenceId + ", confTemplateId = " + confTemplateId + line);
 		buf.append(" userId = " + userId + ", radConferenceId = " + radConferenceId + line);
-		buf.append(" conferenceId = " + conferenceId + ", roomId = " + roomId + line);
 		buf.append(" dialableNumber = " + dialableNumber + ", timeLong = " + timeLong + line);
-		buf.append(" serviceTemplate = " + serviceTemplate + ", serviceTemplateName = " + serviceTemplateName + ", serviceTemplateDesc = " + serviceTemplateDesc + line);
-		buf.append(" memberId = " + memberId + ", description = " + description + line);
+		buf.append(" serviceTemplateId = " + serviceTemplateId + ", serviceTemplateName = " + serviceTemplateName + ", serviceTemplateDesc = " + serviceTemplateDesc + line);
+		buf.append(" memberId = " + memberId + ", userId = " + userId + ", description = " + description + line);
 		buf.append(" status = " + status + ", subject = " + subject + line);
 		buf.append(" createTime = " + createTime + ", updateTime = " + updateTime + ", cancelTime = " + cancelTime + line);
 		buf.append(" initUnit = " + initUnit + ", mainUnit = " + mainUnit + line);
@@ -77,20 +76,28 @@ public class Conference implements java.io.Serializable {
 		this.conferenceId = conferenceId;
 	}
 
-	public String getRoomId() {
-		return this.roomId;
-	}
-
-	public void setRoomId(String roomId) {
-		this.roomId = roomId;
-	}
-
 	public String getUserId() {
 		return this.userId;
 	}
 
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	public String getServiceTemplateId() {
+		return this.serviceTemplateId;
+	}
+
+	public void setServiceTemplateId(String serviceTemplateId) {
+		this.serviceTemplateId = serviceTemplateId;
+	}
+
+	public Integer getConfTemplateId() {
+		return this.confTemplateId;
+	}
+
+	public void setConfTemplateId(Integer confTemplateId) {
+		this.confTemplateId = confTemplateId;
 	}
 
 	public String getRadConferenceId() {
@@ -125,22 +132,12 @@ public class Conference implements java.io.Serializable {
 		this.startTime = startTime;
 	}
 
-	
-
 	public Integer getTimeLong() {
-		return timeLong;
+		return this.timeLong;
 	}
 
 	public void setTimeLong(Integer timeLong) {
 		this.timeLong = timeLong;
-	}
-
-	public String getServiceTemplate() {
-		return this.serviceTemplate;
-	}
-
-	public void setServiceTemplate(String serviceTemplate) {
-		this.serviceTemplate = serviceTemplate;
 	}
 
 	public String getMemberId() {
@@ -306,7 +303,7 @@ public class Conference implements java.io.Serializable {
 		}else if (status == status_history){
 			return "已结束";
 		} else
-			return "待预约";
+			return "待预定";
 	}
 
 	public String getConfUnitNames() {

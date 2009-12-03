@@ -1,18 +1,21 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 2009-8-20 4:02:54 by Hibernate Tools 3.2.4.GA -->
+<!-- Generated Dec 3, 2009 12:43:06 AM by Hibernate Tools 3.2.4.GA -->
 <hibernate-mapping>
     <class name="com.cma.intervideo.pojo.Conference" table="conference">
         <id name="conferenceId" type="java.lang.Integer">
             <column name="conference_id" />
             <generator class="identity" />
         </id>
-        <property name="roomId" type="string">
-            <column name="room_id" length="20" />
-        </property>
         <property name="userId" type="string">
             <column name="user_id" length="128" />
+        </property>
+        <property name="serviceTemplateId" type="string">
+            <column name="service_template_id" length="32" />
+        </property>
+        <property name="confTemplateId" type="java.lang.Integer">
+            <column name="conf_template_id" />
         </property>
         <property name="radConferenceId" type="string">
             <column name="rad_conference_id" length="20" />
@@ -28,9 +31,6 @@
         </property>
         <property name="timeLong" type="java.lang.Integer">
             <column name="time_long" />
-        </property>
-        <property name="serviceTemplate" type="string">
-            <column name="service_template" length="32" />
         </property>
         <property name="memberId" type="string">
             <column name="member_id" length="32" />

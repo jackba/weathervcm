@@ -447,7 +447,7 @@ public class ConfAction extends AbstractBaseAction {
 			conf = new Conference();
 			// conf.setSubject(room.getSubject());
 			conf.setSubject(room.getTemplateName());
-			conf.setServiceTemplate(room.getServiceTemplate());
+			conf.setServiceTemplateId(room.getServiceTemplate());
 			conf.setServiceTemplateName(room.getServiceTemplateName());
 			conf.setServiceTemplateDesc(room.getServiceTemplateDesc());
 			conf.setDescription(room.getDescription());
@@ -470,7 +470,7 @@ public class ConfAction extends AbstractBaseAction {
 			oldConf.setStartTime(df.parse(startTime).getTime());
 		}
 		oldConf.setContactMethod(conf.getContactMethod());
-		oldConf.setServiceTemplate(conf.getServiceTemplate());
+		oldConf.setServiceTemplateId(conf.getServiceTemplateId());
 		oldConf.setSubject(conf.getSubject());
 		oldConf.setControlPin(conf.getControlPin());
 		oldConf.setPassword(conf.getPassword());
