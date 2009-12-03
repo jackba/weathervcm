@@ -174,6 +174,9 @@ Ext.onReady(function(){
         selectOnFocus: true,
         renderTo: 'service_template'
     });
+    var iTop = (window.screen.availHeight-30-400)/2;
+    var iLeft = (window.screen.availWidth-10-800)/2;
+    window.open('bulletin_list.do','最新公告','height=400,width=800,status=no,menubar=no,location=no,toolbar=no,top='+iTop+',left='+iLeft);
 });
 function onClickMenuItem(node){
 	var n = contentPanel.getComponent(node.id);
