@@ -22,9 +22,9 @@ a:link,a:visited{font-size:12px;text-decoration:none;}
 a:hover{}
 #north{margin:0;padding:0;}
 #center{margin:0; padding:0}
-#left{ position:absolute; height:100%;top:0px; left:0px; margin:0px;padding:0px; width:70%; text-align:left; border:0;}
+/*#left{ position:absolute; height:100%;top:0px; left:0px; margin:0px;padding:0px; width:70%; text-align:left; border:0;}
 #right{ position:absolute; height:100%;top:0px; right:0px; margin:0px;padding:0px; width:30%; background: #FFFFCC; border:1px solid; border-color:#6593cf; text-align:left;}
-.bulletinBoardTitle{ color:#FF0000;}
+.bulletinBoardTitle{ color:#FF0000;}*/
 .menuList {
 	list-style: square;
 	padding-left: 30px;
@@ -33,6 +33,7 @@ a:hover{}
 	font-size: 12px;
 	text-decoration: underline;
 	cursor: pointer;
+	text-align:left;
 }
 .menuList span:hover {
 	text-decoration: underline;
@@ -144,6 +145,9 @@ a:hover{}
 	<div id="bulletinMenus">
 		<ul class="menuList">
 			<li>
+				<span id="bulletinList" href="<%=request.getContextPath()%>/bulletin_list.do" onClick="onClickMenuItem(this)">最新公告</span>
+			</li>
+			<li>
 				<span id="bulletinManage" href="<%=request.getContextPath()%>/bulletin_manage.do" onClick="onClickMenuItem(this)">公告管理</span>
 			</li>
 			<li>
@@ -173,7 +177,7 @@ a:hover{}
 	</div>
 </div>
 <div id="center">
-<div id="left">
+<!--div id="left"-->
 <div class="wrap">
 		<div id="searchArea" class="search">
 			
@@ -206,7 +210,8 @@ a:hover{}
 			</form>
 		</div><!--end of searchArea-->
 	</div><!--end of wrap-->
-</div>
+<!--/div-->
+<!--
 <div id="right">
 <h1 class="bulletinBoardTitle">>>最新公告</h1>
 <div class="search">
@@ -218,6 +223,7 @@ a:hover{}
 <p align="right"><a href="<%=request.getContextPath()%>/bulletin_list.do" target="_blank">>>more</a></p>
 </div>
 </div>
+-->
 </div>
 </body>
 </html>
