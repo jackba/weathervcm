@@ -43,7 +43,7 @@
 		<property name="target">
 			<bean class="com.cma.intervideo.service.impl.ConfTemplateServiceImpl">
 				<property name="confTemplateDao" ref="confTemplateDao"/>
-				<property name="confTemplateDao" ref="confTemplateeDao"/>
+				<property name="serviceDao" ref="serviceDao"/>
 			</bean>
 		</property>
 	</bean>
