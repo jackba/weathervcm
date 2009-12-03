@@ -17,6 +17,9 @@
 	<bean id="roomDao" class="com.cma.intervideo.dao.mysql.RoomDaoImpl">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
+	<bean id="confTemplateDao" class="com.cma.intervideo.dao.mysql.ConfTemplateDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
 	<bean id="serviceDao" class="com.cma.intervideo.dao.mysql.ServiceDaoImpl">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>

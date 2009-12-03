@@ -343,7 +343,7 @@ public class ICMService {
 		long endTime = startTime + conf.getTimeLong() * 60000;
 		info.setStartTime(startTime);
 		info.setEndTime(endTime);
-		info.setMeetingTypeId(conf.getServiceTemplate());
+		info.setMeetingTypeId(conf.getServiceTemplateId());
 		info.setDescription(conf.getDescription());
 		info.setPassword(conf.getPassword());
 		info.setFullControlPassword(conf.getControlPin());

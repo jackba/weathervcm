@@ -1,12 +1,16 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 4.0                                    */
-/* Created on:     2009-11-26 23:11:33                          */
+/* Created on:     12/3/2009 12:27:14 AM                        */
 /*==============================================================*/
 
 
 drop table if exists bulletin_board;
 
 drop table if exists conf_party;
+
+drop table if exists conf_template;
+
+drop table if exists conf_template_x_unit;
 
 drop table if exists conf_unit;
 
@@ -24,8 +28,6 @@ drop table if exists role;
 
 drop table if exists role_privilege;
 
-drop table if exists room_party;
-
 drop table if exists service_template;
 
 drop table if exists terminal;
@@ -35,8 +37,6 @@ drop table if exists unit;
 drop table if exists user;
 
 drop table if exists user_role;
-
-drop table if exists virtual_room;
 
 /*==============================================================*/
 /* Table: bulletin_board                                        */
@@ -69,12 +69,50 @@ create table conf_party
 type = InnoDB;
 
 /*==============================================================*/
-/* Index: Relationship_12_FK                                    */
+/* Table: conf_template                                         */
 /*==============================================================*/
-create index Relationship_12_FK on conf_party
+create table conf_template
 (
-   conference_id
-);
+   conf_template_id               int                            not null,
+   conf_template_name             varchar(40)                    not null,
+   user_id                        varchar(128)                   not null,
+   service_template_id            varchar(32),
+   virtual_conf_id                varchar(20),
+   time_long                      int,
+   member_id                      varchar(32)                    not null,
+   description                    text,
+   password                       varchar(255),
+   control_pin                    varchar(255),
+   status                         tinyint,
+   ports_num                      int,
+   subject                        varchar(40),
+   create_time                    datetime,
+   delete_time                    datetime,
+   init_unit                      varchar(200),
+   main_unit                      int,
+   presider                       varchar(40),
+   principal_mobile               varchar(15),
+   reserve_code                   varchar(10),
+   contact_method                 varchar(200),
+   principal                      varchar(40),
+   is_default                     decimal(1,0),
+   primary key (conf_template_id)
+)
+comment = "会议表单模板"
+type = InnoDB;
+
+/*==============================================================*/
+/* Table: conf_template_x_unit                                  */
+/*==============================================================*/
+create table conf_template_x_unit
+(
+   conf_template_unit_id          int                            not null AUTO_INCREMENT,
+   con_conf_template_id           int,
+   uni_unit_id                    int,
+   primary key (conf_template_unit_id)
+)
+comment = "会议表单模板与参会单位的对应关系"
+type = InnoDB;
 
 /*==============================================================*/
 /* Table: conf_unit                                             */
@@ -95,14 +133,14 @@ type = InnoDB;
 create table conference
 (
    conference_id                  int                            not null AUTO_INCREMENT,
-   room_id                        varchar(20),
    user_id                        varchar(128),
+   service_template_id            varchar(32),
+   conf_template_id               int,
    rad_conference_id              varchar(20),
    dialable_number                varchar(20),
    virtual_conf_id                varchar(20),
    start_time                     decimal(15,0),
    time_long                      int,
-   service_template               varchar(32),
    member_id                      varchar(32),
    description                    text,
    password                       varchar(255),
@@ -201,34 +239,6 @@ create table role_privilege
    role_id                        int                            not null,
    privilege_id                   int                            not null,
    primary key (role_id, privilege_id)
-)
-type = InnoDB;
-
-/*==============================================================*/
-/* Index: Relationship_3_FK                                     */
-/*==============================================================*/
-create index Relationship_3_FK on role_privilege
-(
-   role_id
-);
-
-/*==============================================================*/
-/* Index: Relationship_4_FK                                     */
-/*==============================================================*/
-create index Relationship_4_FK on role_privilege
-(
-   privilege_id
-);
-
-/*==============================================================*/
-/* Table: room_party                                            */
-/*==============================================================*/
-create table room_party
-(
-   room_party_id                  int                            not null AUTO_INCREMENT,
-   room_id                        varchar(20),
-   party_id                       varchar(20)                    not null,
-   primary key (room_party_id)
 )
 type = InnoDB;
 
@@ -336,37 +346,5 @@ create table user_role
 (
    role_id                        int                            not null,
    user_id                        varchar(128)                   not null
-)
-type = InnoDB;
-
-/*==============================================================*/
-/* Index: Relationship_2_FK                                     */
-/*==============================================================*/
-create index Relationship_2_FK on user_role
-(
-   role_id
-);
-
-/*==============================================================*/
-/* Table: virtual_room                                          */
-/*==============================================================*/
-create table virtual_room
-(
-   room_id                        varchar(20)                    not null,
-   user_id                        varchar(128)                   not null,
-   start_time                     decimal(15,0),
-   duration                       decimal(9,0),
-   subject                        varchar(80),
-   service_template               varchar(32)                    not null,
-   member_id                      varchar(32)                    not null,
-   template_name                  varchar(80)                    not null,
-   vitual_conf_id                 varchar(32)                    not null,
-   description                    text,
-   password                       varchar(255),
-   control_pin                    varchar(255),
-   status                         tinyint                        not null,
-   create_time                    datetime                       not null,
-   update_time                    datetime                       not null,
-   primary key (room_id)
 )
 type = InnoDB;

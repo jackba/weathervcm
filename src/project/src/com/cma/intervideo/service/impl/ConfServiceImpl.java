@@ -234,9 +234,9 @@ public class ConfServiceImpl implements IConfService {
 	}
 	
 	private void updateServiceTemplateInfo(Conference conf) {
-		if (conf == null || conf.getServiceTemplate() == null || conf.getServiceTemplate().length() == 0)
+		if (conf == null || conf.getServiceTemplateId() == null || conf.getServiceTemplateId().length() == 0)
 			return;
-		ServiceTemplate st = serviceDao.getServiceTemplate(conf.getServiceTemplate());
+		ServiceTemplate st = serviceDao.getServiceTemplate(conf.getServiceTemplateId());
 		if (st == null)
 			return;
 		conf.setServiceTemplateDesc(st.getServiceTemplateDesc());
