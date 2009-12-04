@@ -15,6 +15,7 @@ var loginId = "<s:property value='#session.userPrivilege.loginId'/>";
 <script type="text/javascript" src="resources/js/ext-all.js"></script>
 <script type="text/javascript" src="resources/js/ext-lang-zh_CN.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/validate.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/pager.js"></script>
 <script type="text/javascript" src="init-main.js"></script>
 <style type="text/css">
 body{font:12px Tahoma;margin:0px; padding:0px;text-align:center;background:#FF;}
