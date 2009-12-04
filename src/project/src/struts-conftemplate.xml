@@ -5,10 +5,10 @@
 <struts>
 	<package name="conftemplate" namespace="/"	extends="struts-base">
 		<action name="conftemplate_*" method="{1}" class="confTemplateAction">
-			<result name="list">/virtualroom/list.jsp</result>
-			<result name="add">/virtualroom/add.jsp</result>
-			<result name="modify">/virtualroom/modify.jsp</result>
-			<result name="detail">/virtualroom/detail.jsp</result>
+			<result name="list">/conftemplate/list.jsp</result>
+			<result name="add">/conftemplate/add.jsp</result>
+			<result name="modify">/conftemplate/modify.jsp</result>
+			<result name="detail">/conftemplate/detail.jsp</result>
 		</action>
 	</package>
 </struts>

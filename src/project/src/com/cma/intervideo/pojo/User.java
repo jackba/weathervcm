@@ -25,6 +25,23 @@ public class User implements java.io.Serializable {
 	private Date createTime;
 	private Date updateTime;
 	private String password;
+	
+	public String toString() {
+		StringBuilder buf = new StringBuilder();
+		
+		String line = System.getProperty("line.separator");
+		buf.append(line + "[User:( @" + hashCode() + ")" + line);
+		buf.append(" userId = " + userId + ", loginId = " + loginId + line);
+		buf.append(" userType = " + userType + ", userName = " + userName + line);
+		buf.append(" company = " + company + ", email = " + email + line);
+		buf.append(" homeTelephone = " + homeTelephone + ", officeTelephone = " + officeTelephone + line);
+		buf.append(" mobile= " + mobile + ", sex = " + sex + line);
+		buf.append(" address = " + address + ", description = " + description + line);
+		buf.append(" status = " + status + ", password = " + password + line);
+		buf.append(" createTime = " + createTime + ", updateTime = " + updateTime + line);
+		buf.append("]." + line);
+		return buf.toString();
+	}
 
 	public User() {
 	}

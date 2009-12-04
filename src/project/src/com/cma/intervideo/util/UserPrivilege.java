@@ -15,6 +15,24 @@ public class UserPrivilege {
 	private List urls;
 	private Hashtable urlsTable;
 	private Hashtable codeTable;
+	
+	public String toString() {
+		StringBuilder buf = new StringBuilder();
+		
+		String line = System.getProperty("line.separator");
+		buf.append(line + "[UserPrivilege:( @" + hashCode() + ")" + line);
+		buf.append(" userId = " + userId + ", loginId = " + loginId + line);
+		buf.append(" userName = " + userName + ", ownPrivileges = " + ownPrivileges + line);
+		buf.append(" urls = [" + line);
+		for (int i = 0; urls != null && i < urls.size(); i++)
+		{
+			buf.append("    " + urls.get(i) + line);
+		}
+		buf.append(" ]" + line);
+		buf.append("]." + line);
+		return buf.toString();
+	}
+	
 	public String getUserId() {
 		return userId;
 	}
