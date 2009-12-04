@@ -107,6 +107,10 @@ public class UserAction extends AbstractBaseAction{
 	}
 	public String login(){
 		String username = request.getParameter("username");
+		logger.info("***********************************************************************");
+		logger.info("***********************************************************************");
+		logger.info("***********************************************************************");
+		logger.info("User trying to login VCM, username: " + username);
 		User user = userService.findUserByLoginId(username);
 //		if(user==null || !user.getPassword().equals(request.getParameter("password"))){
 //			return "login";
@@ -128,9 +132,10 @@ public class UserAction extends AbstractBaseAction{
 				pw.print("{success:true,msg:'验证码不正确!'}");
 			}
 			else if(user==null){
+				logger.warn("Failed to login due to username " + username + " does not exist!!!!!");
 				pw.print("{success:true,msg:'用户不存在!'}");
 			}else if (!user.getPassword().equals(request.getParameter("password"))){
-				
+				logger.warn("Failed to login due to incorrect password!!!!!");
 				pw.print("{success:true,msg:'密码不正确!'}");
 			}else{
 				UserPrivilege up = new UserPrivilege();
@@ -143,6 +148,8 @@ public class UserAction extends AbstractBaseAction{
 				session.put("userPrivilege", up);
 				logService.addLog(user.getUserId(), logService.type_login, "用户登陆");
 				pw.print("{success:true,msg:'ok'}");
+				
+				logger.info("Successed to login VCM: " + up);
 			}
 			pw.flush();
 			pw.close();

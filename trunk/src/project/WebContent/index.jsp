@@ -126,6 +126,9 @@ a:hover{}
 			<li>
 				<span id="virtualRoom" href="<%=request.getContextPath()%>/room_list.do" onClick="onClickMenuItem(this)">虚拟房间</span>
 			</li>
+			<li>
+				<span id="conftemplate" href="<%=request.getContextPath()%>/conftemplate_list.do" onClick="onClickMenuItem(this)">表单模板</span>
+			</li>
 		</ul>
 	</div>
 	

@@ -100,38 +100,38 @@ public class UserServiceImpl implements IUserService {
 		return userDao.queryUsers(username, name, ph);
 	}
 
-	public List queryUsersAndStatus(String username, String name, Short status,
-			PageHolder ph) {
+	public List queryUsersAndStatus(String username, String name, Short status, PageHolder ph) {
 		return userDao.queryUsersAndStatus(username, name, status, ph);
 	}
 
-	public void addUser(User user, String[] roles) throws UserExistsException {
+	public void addUser(User user, String[] roles) throws UserExistsException
+	{
 		User tmp = userDao.findUserByLoginId(user.getLoginId());
-		if (tmp != null) {
+		if (tmp != null)
 			throw new UserExistsException("用户 " + user.getUserName() + " 已经存在!");
-		}
+		
 		// save user to ICM
-		logger.info("to save user to iCM platform......");
+		logger.info("First Adding user to iCM platform: " + user);
 		user.setUserId(null);
 		UserResult ur = ICMService.setUser(user);
 		if (ur == null || !ur.isSuccess())
 			throw new UserExistsException("平台保存用户" + user.getLoginId() + " 失败!");
+		
 		// save user to VCM
 		try {
-			logger.info("to save user to VCM......");
-			user.setUserId(ur.getUserInfos().get(0).getUserId());
+			String userId = ur.getUserInfos().get(0).getUserId(); 
+			logger.info("Then Adding user to VCM, userId in platform: " + userId);
+			user.setUserId(userId);
 			userDao.addUser(user);
-			if (roles != null) {
-				for (int i = 0; i < roles.length; i++) {
-					userDao
-							.addUserRole(user.getUserId(),
-									new Integer(roles[i]));
-				}
+			if (roles != null)
+			{
+				for (int i = 0; i < roles.length; i++)
+					userDao.addUserRole(user.getUserId(), new Integer(roles[i]));
 			}
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			logger.error(e.toString());
-			logger
-					.info("if fail to save user to VCM, need to delete the user from iCM platform that was saved just now!!");
+			logger.info("if fail to save user to VCM, need to delete the user from iCM platform that was saved just now!!");
 			ICMService.deleteUser(ur.getUserInfos().get(0).getUserId());
 			throw new UserExistsException("用户 " + user.getLoginId() + " 已经存在!");
 		}
@@ -172,13 +172,14 @@ public class UserServiceImpl implements IUserService {
 
 	public void updateUser(User user) throws UserExistsException {
 		try {
+			logger.info("First Updating platform user: " + user);
 			// save user to ICM
 			UserResult ur = ICMService.setUser(user);
-			;
 			if (ur == null || !ur.isSuccess())
 				throw new UserExistsException("平台更新用户" + user.getLoginId()
 						+ " 失败!");
 
+			logger.info("Then Updating VCM user...");
 			// save user to VCM
 			userDao.saveOrUpdateUser(user);
 		} catch (Exception e) {
@@ -190,7 +191,9 @@ public class UserServiceImpl implements IUserService {
 	public void updateUser(User user, String[] roles)
 			throws UserExistsException {
 		try {
+			logger.info("Starting to update user...");
 			User u = userDao.getUser(user.getUserId());
+			logger.info("User before updating: " + u);
 			u.setAddress(user.getAddress());
 			u.setCompany(user.getCompany());
 			u.setDescription(user.getDescription());
@@ -206,13 +209,18 @@ public class UserServiceImpl implements IUserService {
 			u.setUpdateTime(d);
 
 			// save user to ICM
+			logger.info("User who will be after updating: " + u);
+			
+			logger.info("First updating platform user...");
 			UserResult ur = ICMService.setUser(u);
-			;
 			if (ur == null || !ur.isSuccess())
+			{
 				throw new UserExistsException("平台更新用户" + user.getLoginId()
 						+ " 失败!");
-
+			}
+			
 			// save user to VCM
+			logger.info("Then updating VCM user...");
 			userDao.deleteUserRoleByUserId(user.getUserId());
 			if (roles != null) {
 				for (int i = 0; i < roles.length; i++) {

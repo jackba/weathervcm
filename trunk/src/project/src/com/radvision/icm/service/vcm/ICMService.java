@@ -130,12 +130,10 @@ public class ICMService {
 			List<UserInfo> uis = new ArrayList<UserInfo>();
 			uis.add(convertToUserInfo(user));
 			ur = getUserServicePortType().setUsers(uis);
-			logger.info((ur != null && ur.isSuccess() ? "success" : "fail")
-					+ " to save user to iCM platform - loginid: "
-					+ user.getLoginId());
+			logger.info((ur != null && ur.isSuccess() ? "Successed" : "Failed")
+					+ " to save user to iCM platform, loginId: " + user.getLoginId());
 		} catch (Exception e) {
-			logger.info("Exception on saving user to iCM platform - "
-					+ e.getMessage());
+			logger.warn("Exception on saving user to iCM platform - " + e.getMessage());
 			e.printStackTrace();
 		}
 		return ur;
@@ -147,11 +145,10 @@ public class ICMService {
 			List<String> ids = new ArrayList<String>();
 			ids.add(userId);
 			ur = getUserServicePortType().deleteUsers(ids);
-			logger.info((ur.isSuccess() ? "success" : "fail")
+			logger.info((ur.isSuccess() ? "Successed" : "Failed")
 					+ " to delete user from iCM platform - userId: " + userId);
 		} catch (Exception e) {
-			logger.info("Exception on deleting user from iCM platform - "
-					+ e.getMessage());
+			logger.warn("Exception on deleting user from iCM platform - " + e.getMessage());
 			e.printStackTrace();
 		}
 		return ur;
@@ -161,11 +158,9 @@ public class ICMService {
 		List<MeetingType> mts = null;
 		try {
 			mts = getResourceServicePortType().getMeetingTypes();
-			logger.info("get " + (mts == null ? "0" : mts.size())
-					+ " meeting types from iCM platform");
+			logger.info("get " + (mts == null ? "0" : mts.size()) + " meeting types from iCM platform");
 		} catch (Exception e) {
-			logger.info("Exception on get meeting types from iCM platform - "
-					+ e.getMessage());
+			logger.warn("Exception on get meeting types from iCM platform - " + e.getMessage());
 			e.printStackTrace();
 		}
 		return mts;
@@ -173,16 +168,14 @@ public class ICMService {
 
 	public static McuResourceResult getResourceInfos(
 			List<String> serviceTemplateIds, long startTime, long endTime,
-			int interval) {
+			int interval)
+	{
 		McuResourceResult mrr = null;
 		try {
-			mrr = getResourceServicePortType().getResourceInfos(
-					serviceTemplateIds, startTime, endTime, interval);
-			logger.info((mrr.isSuccess() ? "success" : "fail")
-					+ " to get resource infos from iCM platform");
+			mrr = getResourceServicePortType().getResourceInfos(serviceTemplateIds, startTime, endTime, interval);
+			logger.info((mrr.isSuccess() ? "success" : "fail") + " to get resource infos from iCM platform");
 		} catch (Exception e) {
-			logger.info("Exception on get resource infos from iCM platform - "
-					+ e.getMessage());
+			logger.info("Exception on get resource infos from iCM platform - " + e.getMessage());
 			e.printStackTrace();
 		}
 		return mrr;
@@ -193,14 +186,12 @@ public class ICMService {
 		try {
 			VirtualRoomInfoEx virtualRoo = converToVirtualRoomInfoEx(room);
 			vrr = getScheduleServicePortType().createVirtualRoom(virtualRoo);
-			logger
-					.info((vrr != null && vrr.isSuccess() ? "success" : "fail")
+			logger.info((vrr != null && vrr.isSuccess() ? "success" : "fail")
 							+ " to add virtual room to iCM platform - virtual room number: "
 							+ room.getVitualConfId() + ", room id: "
 							+ vrr.getVirtualRoomID());
 		} catch (Exception e) {
-			logger.info("Exception on adding virtual room to iCM platform - "
-					+ e.getMessage());
+			logger.info("Exception on adding virtual room to iCM platform - " + e.getMessage());
 			e.printStackTrace();
 		}
 		return vrr;
@@ -211,15 +202,12 @@ public class ICMService {
 		try {
 			VirtualRoomInfoEx virtualRoo = converToVirtualRoomInfoEx(room);
 			vrr = getScheduleServicePortType().modifyVirtualRoom(virtualRoo);
-			logger
-					.info((vrr != null && vrr.isSuccess() ? "success" : "fail")
+			logger.info((vrr != null && vrr.isSuccess() ? "success" : "fail")
 							+ " to modify virtual room to iCM platform - virtual room number: "
 							+ room.getVitualConfId() + ", room id: "
 							+ vrr.getVirtualRoomID());
 		} catch (Exception e) {
-			logger
-					.info("Exception on modifying virtual room to iCM platform - "
-							+ e.getMessage());
+			logger.info("Exception on modifying virtual room to iCM platform - " + e.getMessage());
 			e.printStackTrace();
 		}
 		return vrr;
@@ -228,15 +216,12 @@ public class ICMService {
 	public static boolean deleteVirtualRoom(String virtualRoomNumber) {
 		boolean ret = false;
 		try {
-			ret = getScheduleServicePortType().deleteVirtualRoom(
-					virtualRoomNumber);
-			logger
-					.info((ret ? "success" : "fail")
+			ret = getScheduleServicePortType().deleteVirtualRoom(virtualRoomNumber);
+			logger.info((ret ? "success" : "fail")
 							+ " to delete virtual room from iCM platform - virtual room number: "
 							+ virtualRoomNumber);
 		} catch (Exception e) {
-			logger
-					.info("Exception on deleting virtual room from iCM platform - virtual room number: "
+			logger.info("Exception on deleting virtual room from iCM platform - virtual room number: "
 							+ virtualRoomNumber + " - " + e.getMessage());
 			e.printStackTrace();
 		}
@@ -246,13 +231,10 @@ public class ICMService {
 	public static List<TerminalResource> getTerminals() {
 		List<TerminalResource> trs = null;
 		try {
-			trs = getResourceServicePortType().getTerminals(
-					ALL_CLASSIFICATIONID);
-			logger.info("get " + (trs == null ? "0" : trs.size())
-					+ " Terminals from iCM platform");
+			trs = getResourceServicePortType().getTerminals(ALL_CLASSIFICATIONID);
+			logger.info("get " + (trs == null ? "0" : trs.size()) + " Terminals from iCM platform");
 		} catch (Exception e) {
-			logger.info("Exception on getting Terminals from iCM platform - "
-					+ e.getMessage());
+			logger.info("Exception on getting Terminals from iCM platform - " + e.getMessage());
 			e.printStackTrace();
 		}
 		return trs;
@@ -262,16 +244,13 @@ public class ICMService {
 			List<String> listTerminalId) {
 		ScheduleResult sr = null;
 		try {
-			ConferenceInfo info = convertToConferenceInfo(conf, listTerminalId,
-					true);
+			ConferenceInfo info = convertToConferenceInfo(conf, listTerminalId, true);
 			sr = getScheduleServicePortType().createConference(info);
-			logger
-					.info((sr != null && sr.isSuccess() ? "success" : "fail")
+			logger.info((sr != null && sr.isSuccess() ? "success" : "fail")
 							+ " to schedule conference to iCM platform - conference subject: "
 							+ conf.getSubject());
 		} catch (Exception e) {
-			logger
-					.info("Exception on creating confernece to iCM platform - conference subject: "
+			logger.info("Exception on creating confernece to iCM platform - conference subject: "
 							+ conf.getSubject() + " - " + e.getMessage());
 			e.printStackTrace();
 		}
@@ -282,16 +261,13 @@ public class ICMService {
 			List<String> listTerminalId) {
 		ScheduleResult sr = null;
 		try {
-			ConferenceInfo info = convertToConferenceInfo(conf, listTerminalId,
-					false);
+			ConferenceInfo info = convertToConferenceInfo(conf, listTerminalId, false);
 			sr = getScheduleServicePortType().modifyConference(info);
-			logger
-					.info((sr != null && sr.isSuccess() ? "success" : "fail")
+			logger.info((sr != null && sr.isSuccess() ? "success" : "fail")
 							+ " to modify conference to iCM platform - rad conference id : "
 							+ conf.getRadConferenceId());
 		} catch (Exception e) {
-			logger
-					.info("Exception on modifying confernece to iCM platform - rad conference id: "
+			logger.info("Exception on modifying confernece to iCM platform - rad conference id: "
 							+ conf.getRadConferenceId()
 							+ " - "
 							+ e.getMessage());
@@ -300,20 +276,19 @@ public class ICMService {
 		return sr;
 	}
 
-	public static boolean cancelConference(String confId) {
+	public static boolean cancelConference(String confId)
+	{
 		if (confId == null || confId.length() == 0)
 			return false;
 
 		boolean b = false;
 		try {
 			b = getScheduleServicePortType().cancelConference(confId);
-			logger
-					.info((b ? "success" : "fail")
+			logger.info((b ? "success" : "fail")
 							+ " to cancel conference to iCM platform - rad conference id: "
 							+ confId);
 		} catch (Exception e) {
-			logger
-					.info("Exception on creating confernece to iCM platform - - rad conference id: "
+			logger.info("Exception on creating confernece to iCM platform - - rad conference id: "
 							+ confId + " - - " + e.getMessage());
 			e.printStackTrace();
 		}
@@ -323,6 +298,7 @@ public class ICMService {
 	public static ControlResult terminateLiveConference(String confId) {
 		if (confId == null || confId.length() == 0)
 			return null;
+		
 		ControlResult ret = null;
 		try {
 			ret = getControlServicePortType().terminateLiveConference(confId);
@@ -389,4 +365,5 @@ public class ICMService {
 		virtualRoo.setServiceID(room.getServiceTemplate());
 		return virtualRoo;
 	}
+	
 }
