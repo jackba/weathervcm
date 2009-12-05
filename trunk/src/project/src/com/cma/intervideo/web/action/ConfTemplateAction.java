@@ -134,7 +134,7 @@ public class ConfTemplateAction extends AbstractBaseAction {
 				List<ConfTemplate> lst = confTemplateService.findConfTemplatesByVirtualConfId(virtualConfId);
 				if (lst != null && lst.size() > 0)
 				{
-					outJson("{success:false, msg:'会议号码冲突!");
+					outJson("{success:false, msg:'会议号冲突!'}");
 					return null;
 				}
 			}
