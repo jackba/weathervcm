@@ -344,9 +344,8 @@ public class ICMService {
 		info.setEmamil(user.getEmail());
 		info.setRoleId(2); // TODO: handle role
 		info.setUserLoginId(user.getLoginId());
-		info.setUserFirstName(user.getUserName());
-		info.setUserLastName(user.getUserName()); // TODO: handle first name,
-		// last name
+		// user name (VCM) < -- > last name(platform)me());
+		info.setUserLastName(user.getUserName()); 
 		info.setPassword(user.getPassword());
 		info.setOfficePhoneNumber(user.getOfficeTelephone());
 		return info;

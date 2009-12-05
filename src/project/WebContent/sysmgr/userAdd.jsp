@@ -34,7 +34,7 @@ body{font-size:12px;}
 		<th colspan="2" class="t">新增操作员</th>
 	  </tr>
 	  <tr>
-	    <th width="20%"><font color="red">&nbsp;*</font>操作员名称：</th>
+	    <th width="20%"><font color="red">&nbsp;*</font>登录名：</th>
 	    <td><label>
 	      <input name="user.loginId" id="loginId" type="text" class="put200" maxlength="15">
 	    </label></td>

@@ -26,6 +26,10 @@
 			<param name="beanName" value="roomService"></param>
 			<include method="deleteRooms"></include>
 		</create>
+		<create javascript="confTemplateService" creator="spring">
+			<param name="beanName" value="confTemplateService"></param>
+			<include method="deleteConfTemplates"></include>
+		</create>
 		<create javascript="serviceService" creator="spring">
 			<param name="beanName" value="serviceService"></param>
 			<include method="deleteServices"></include>

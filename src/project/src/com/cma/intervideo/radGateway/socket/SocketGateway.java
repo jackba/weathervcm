@@ -56,11 +56,11 @@ public class SocketGateway extends HttpServlet {
 			GetServicesResponse rsp = (GetServicesResponse)sg.call(req);
 			//logger.info(req.getXml());
 			if(rsp == null){
-				logger.info("test MCU connection failed, begin to reconnect...");
+				logger.warn("Test MCU connection failed, begin to reconnect...");
 				sg.reconnect();
 			}else{
 				//logger.info(rsp.getXml());
-				logger.debug("test MCU connection success");
+				logger.info("Test MCU connection successfully!");
 			}
 		}
 	}
@@ -70,12 +70,17 @@ public class SocketGateway extends HttpServlet {
 	 *
 	 */
 	class HandleThread extends Thread{
+		
 		private int tindex;
+		
 		public HandleThread(int tindex){
 			this.tindex = tindex;
 		}
+		
 		public void run(){
-			logger.info("handle thread "+tindex+" begin to run...");
+			
+//			logger.info("Handle thread " + tindex + " begin to run...");
+			
 			//获取消息处理类
 			NotificationHandleService service = (NotificationHandleService)ctx.getBean("notificationHandleService");
 			
@@ -85,10 +90,11 @@ public class SocketGateway extends HttpServlet {
 					notification = queue[tindex].take();
 					service.handle(notification);
 				}catch(Exception e){
-					logger.error("handle notification exception. confGID:" + notification.getConfGID(), e);
+					logger.error("Handle notification exception. confGID:" + notification.getConfGID(), e);
 					continue;
 				}
 			}
+			
 		}
 	}
 	/**
@@ -105,7 +111,7 @@ public class SocketGateway extends HttpServlet {
 			byte[] bs = new byte[10240];
 			// bs数组的偏移量，当一次从socket读取的消息不是完整的一条xml消息后，就需要从数组偏移位置开始继续读取
 			int offset = 0;
-			logger.info("began to receive...");
+			logger.info("SocketGateway: receive thread began to receive...");
 			while (flag) {
 				try {
 					// 从socket读到的字节数
@@ -249,7 +255,7 @@ public class SocketGateway extends HttpServlet {
 			os.close();
 			is.close();
 			mcuSocket.close();
-			logger.info("disconnect from radvision proxy gateway");
+			logger.info("Disconnect from radvision proxy gateway");
 		}catch(UnknownHostException e){
 			logger.error(e.toString());
 		}catch(IOException e){
@@ -322,22 +328,22 @@ public class SocketGateway extends HttpServlet {
 	 */
 	public void init() throws ServletException {
 //		if (true) return;
-		// Put your code here
+//		Put your code here
 		if(ctx==null){
 			ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
 		}
 		boolean startMcuProxySocket = PropertiesHelper.startMcuProxySocket();
 		if(!startMcuProxySocket){
-			logger.info("socket gateway are setuped to not start");
+			logger.info("Socket gateway are not setuped to start!");
 			return;
 		}
-		logger.info("begin to start socket gateway...");
+		logger.info("Begin to start socket gateway...");
 		String mcuIp = PropertiesHelper.getMcuProxyIp();
 		int mcuPort = PropertiesHelper.getMcuProxyPort();
 		try{
 			mcuSocket = new Socket();
 			mcuSocket.connect(new InetSocketAddress(mcuIp,mcuPort),5*1000);
-			logger.info("connected to radvision proxy gateway");
+			logger.info("Connected to radvision proxy gateway");
 			os = new DataOutputStream(mcuSocket.getOutputStream());
 			pw = new PrintWriter(os,true);
 			is = mcuSocket.getInputStream();
@@ -347,6 +353,7 @@ public class SocketGateway extends HttpServlet {
 				queue[i] = new LinkedBlockingQueue();
 				new HandleThread(i).start();
 			}
+			logger.info("SocketGateway: " + queueNum + " Handle threads began to run!");
 			new ReceiveThread().start();
 			instance = this;
 			//启动定时测试
@@ -359,7 +366,7 @@ public class SocketGateway extends HttpServlet {
 			GetConferenceListRequest request = new GetConferenceListRequest();
 			GetConferenceListResponse response = (GetConferenceListResponse)this.call(request);
 			if(response == null){
-				logger.error("GetConferenceListResponse响应为空！");
+				logger.error("GetConferenceListResponse is null!");
 				return;
 			}
 			List<Conf> confs = response.getConfList();
@@ -369,7 +376,7 @@ public class SocketGateway extends HttpServlet {
 				prequest.setConfGID(conf.getConfGID());
 				GetParticipantListResponse presponse = (GetParticipantListResponse)this.call(prequest);
 				if(presponse == null){
-					logger.error("GetParticipantListReponse响应为空！");
+					logger.error("GetParticipantListReponse is null!");
 					return;
 				}
 				conf.setParts(presponse.getPartList());
@@ -401,7 +408,7 @@ public class SocketGateway extends HttpServlet {
 			int mcuPort = PropertiesHelper.getMcuProxyPort();
 			mcuSocket = new Socket();
 			mcuSocket.connect(new InetSocketAddress(mcuIp,mcuPort),5*1000);
-			logger.info("reconnected to radvision proxy gateway");
+			logger.info("Reconnected to radvision proxy gateway");
 			os = new DataOutputStream(mcuSocket.getOutputStream());
 			pw = new PrintWriter(os,true);
 			is = mcuSocket.getInputStream();

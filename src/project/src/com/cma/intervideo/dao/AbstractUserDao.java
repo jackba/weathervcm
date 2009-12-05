@@ -288,6 +288,7 @@ public class AbstractUserDao extends AbstractDAO<User, String> implements IUserD
 			pstmt = conn.prepareStatement("delete from user_role where user_id=?");
 			pstmt.setString(1, userId);
 			pstmt.executeUpdate();
+			logger.info("Deleted successfully the role the user - userId: " + userId + " from VCM physically!");
 		}catch(Exception e){
 			logger.error(e.toString());
 		}finally{

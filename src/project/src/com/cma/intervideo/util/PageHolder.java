@@ -1,9 +1,9 @@
 package com.cma.intervideo.util;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -91,7 +91,7 @@ public class PageHolder {
 		} else {
 			totalPage = resultSize / pageSize + 1;
 		}
-		logger.debug("TotalPage :" + totalPage);
+//		logger.debug("TotalPage :" + totalPage);
 	}
 	//获取每页显示记录数
 	public int getPageSize() {
@@ -125,7 +125,7 @@ public class PageHolder {
 	//是否已经查询过总记录数，如果没有查询过则返回true，否则返回false
 	public boolean isGetCount() {
 		if (resultSize == -1) {
-			logger.debug("Need To Get Total Result Amount");
+//			logger.debug("Need To Get Total Result Amount");
 			getCount = true;
 		}
 		if(simpleMode == 1){
@@ -211,18 +211,18 @@ public class PageHolder {
 	//初始化当前页和记录索引
 	private void initPageParameter(int currentPage) {
 		this.currentPage = currentPage;
-		logger.debug("Current Page :" + currentPage);
+//		logger.debug("Current Page :" + currentPage);
 		firstIndex = (currentPage - 1) * pageSize;
-		logger.debug("FirstIndex :" + firstIndex);
+//		logger.debug("FirstIndex :" + firstIndex);
 
 	}
 	
 	//初始化当前页，记录索引和总记录数
 	private void initPageParameter(int currentPage, int resultSize) {
 		this.currentPage = currentPage;
-		logger.debug("Current Page :" + currentPage);
+//		logger.debug("Current Page :" + currentPage);
 		firstIndex = (currentPage - 1) * pageSize;
-		logger.debug("FirstIndex :" + firstIndex);
+//		logger.debug("FirstIndex :" + firstIndex);
 		if(simpleMode==0)
 			setResultSize(resultSize);
 

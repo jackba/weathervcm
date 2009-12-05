@@ -348,33 +348,42 @@ public class UserServiceImpl implements IUserService {
 		}
 	}
 
-	public void deleteUser(String userId) {
+	public boolean deleteUser(String userId) {
+		logger.info("Deleting user - userId: " + userId);
 		WebContext ctx = WebContextFactory.get();
 		HttpSession s = ctx.getSession();
 		UserPrivilege up = (UserPrivilege)s.getAttribute("userPrivilege");
 		// first delete user from ICM
+		logger.info("First Deleting platform user - userId: " + userId);
 		UserResult ur = ICMService.deleteUser(userId);
 		if (ur == null || !ur.isSuccess())
-			return;
-
+		{
+			logger.warn("Failed to delete user - userId: " + userId + " due to fail to delete this user from platform!");
+			return false;
+		}
+		
 		// then delete user from VCM
+		logger.info("Then Deleting VCM user - userId: " + userId + ", only set to invalid status and do not remove it physically.");
 		User user = userDao.getUser(userId);
 		user.setStatus(DataDictStatus.invalidateStatus);
 		userDao.deleteUserRoleByUserId(userId);
 		userDao.updateUser(user);
-		logDao.addLog(up.getUserId(), logDao.type_delete_user, "删除用户"+user.getLoginId());
+		logDao.addLog(up.getUserId(), ILogDao.type_delete_user, "删除用户"+user.getLoginId());
+		
+		logger.info("user - userId: " + userId + " is deleted from both platform and VCM.");
+		
+		return true;
+		
 	}
 
-	public int deleteUsers(List<String> users) {
-		for (int i = 0; i < users.size(); i++) {
-			// userDao.removeObjectByID(Integer.parseInt(users.get(i)));
-			try {
-				deleteUser(users.get(i));
-				userDao.removeObjectByID(users.get(i));
-
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
-			}
+	public int deleteUsers(List<String> users)
+	{
+		for (int i = 0; i < users.size(); i++)
+		{
+			boolean b = deleteUser(users.get(i));
+			if (!b)
+				continue;
+//			userDao.removeObjectByID(users.get(i));
 		}
 		return users.size();
 	}
@@ -383,5 +392,6 @@ public class UserServiceImpl implements IUserService {
 		User user = userDao.getObjectByID(id);
 		user.setStatus(status);
 		userDao.updateObject(user);
+		logger.info("Updated successfully user status - new status: " + status + "; " + user);
 	}
 }

@@ -146,7 +146,7 @@ public class UserAction extends AbstractBaseAction{
 				up.setOwnPrivileges(userService.findPrivilegesByUserId(user.getUserId()));
 				up.setUrls(userService.findUrlsByUserId(user.getUserId()));
 				session.put("userPrivilege", up);
-				logService.addLog(user.getUserId(), logService.type_login, "用户登陆");
+				logService.addLog(user.getUserId(), ILogService.type_login, "用户登陆");
 				pw.print("{success:true,msg:'ok'}");
 				
 				logger.info("Successed to login VCM: " + up);
@@ -159,40 +159,49 @@ public class UserAction extends AbstractBaseAction{
 		return null;
 	}
 	public String logout(){
-		HttpSession s = request.getSession(false);
 		UserPrivilege up = (UserPrivilege)session.get("userPrivilege");
-		if(up!=null){
-			logService.addLog(up.getUserId(), logService.type_logout, "用户退出");
-		}
-		if(s!=null){
+		if (up != null)
+			logService.addLog(up.getUserId(), ILogService.type_logout, "用户退出");
+
+		HttpSession s = request.getSession(false);
+		if (s != null)
 			s.invalidate();
-		}
+		
+		logger.info("User logout: " 
+				+ (up == null ? "None UserPrivilege" : up));
+		
 		return "login";
 	}
+	
 	public String list(){
 		return "userList";
 	}
+	
 	public String detail(){
 		String id = request.getParameter("userId");
 		user = userService.getUser(id);
 		return "detail";
 	}
+	
 	public String modify(){
 		String id = request.getParameter("userId");
 		user = userService.getUser(id);
 		return "modifyEdit";
 	}
+	
 	public String personalModify(){
 		UserPrivilege up = (UserPrivilege)session.get("userPrivilege");
 		String id = up.getUserId();
 		user = userService.getUser(id);
 		return "modifyEdit";
 	}
+	
 	public String beforResetPassword(){
 		String id = request.getParameter("userId");
 		user = userService.getUser(id);
 		return "resetPassword";
 	}
+	
 	public String resetPassword() throws IOException, UserExistsException{
 		User u = userService.getUser(user.getUserId());
 //		u.setPassword(new MD5().getMD5ofStr(user.getPassword()));
@@ -206,6 +215,7 @@ public class UserAction extends AbstractBaseAction{
 	public String beforChangePassword(){
 		return "changePassword";
 	}
+	
 	public String changePassword() throws IOException, UserExistsException{
 		String passwordPage = request.getParameter("passwordPage");
 		UserPrivilege up = (UserPrivilege)session.get("userPrivilege");
@@ -364,7 +374,7 @@ public class UserAction extends AbstractBaseAction{
 		}
 		try{
 			userService.updateUser(user, roleList);
-			logService.addLog(up.getUserId(), logService.type_modify_user, "修改用户"+user.getLoginId());
+			logService.addLog(up.getUserId(), ILogService.type_modify_user, "修改用户"+user.getLoginId());
 			outJson("{success:true, msg:'操作员修改成功!'}");
 		}catch(UserExistsException ue) {
 			outJson("{success:false, msg:'操作员修改失败!'}");
@@ -390,7 +400,7 @@ public class UserAction extends AbstractBaseAction{
 		}
 		try{
 			userService.addUser(user, roleList);
-			logService.addLog(up.getUserId(), logService.type_create_user, "创建用户"+user.getLoginId());
+			logService.addLog(up.getUserId(), ILogService.type_create_user, "创建用户"+user.getLoginId());
 				outJson("{success:true, msg:'操作员添加成功!'}");
 			}catch(UserExistsException ue) {
 				outJson("{success:false, msg:'操作员重复!'}");
