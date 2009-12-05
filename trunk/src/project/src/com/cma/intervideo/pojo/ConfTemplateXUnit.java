@@ -8,15 +8,26 @@ package com.cma.intervideo.pojo;
 public class ConfTemplateXUnit implements java.io.Serializable {
 
 	private Integer confTemplateUnitId;
-	private Integer conConfTemplateId;
-	private Integer uniUnitId;
+	private Integer confTemplateId;
+	private Integer unitId;
 
+	public String toString()
+	{
+		StringBuilder buf = new StringBuilder();
+		
+		String line = System.getProperty("line.separator");
+		buf.append(line + "[ConfTemplateXUnit:( @" + hashCode() + ")" + line);
+		buf.append(" confTemplateUnitId = " + confTemplateUnitId + ", confTemplateId = " + confTemplateId + ", unitId = " + unitId + line);
+		buf.append("]." + line);
+		return buf.toString();
+	}
+	
 	public ConfTemplateXUnit() {
 	}
 
-	public ConfTemplateXUnit(Integer conConfTemplateId, Integer uniUnitId) {
-		this.conConfTemplateId = conConfTemplateId;
-		this.uniUnitId = uniUnitId;
+	public ConfTemplateXUnit(Integer confTemplateId, Integer uniId) {
+		this.confTemplateId = confTemplateId;
+		this.unitId = uniId;
 	}
 
 	public Integer getConfTemplateUnitId() {
@@ -27,20 +38,20 @@ public class ConfTemplateXUnit implements java.io.Serializable {
 		this.confTemplateUnitId = confTemplateUnitId;
 	}
 
-	public Integer getConConfTemplateId() {
-		return this.conConfTemplateId;
+	public Integer getConfTemplateId() {
+		return this.confTemplateId;
 	}
 
-	public void setConConfTemplateId(Integer conConfTemplateId) {
-		this.conConfTemplateId = conConfTemplateId;
+	public void setConfTemplateId(Integer confTemplateId) {
+		this.confTemplateId = confTemplateId;
 	}
 
-	public Integer getUniUnitId() {
-		return this.uniUnitId;
+	public Integer getUnitId() {
+		return this.unitId;
 	}
 
-	public void setUniUnitId(Integer uniUnitId) {
-		this.uniUnitId = uniUnitId;
+	public void setUnitId(Integer unitId) {
+		this.unitId = unitId;
 	}
 
 }

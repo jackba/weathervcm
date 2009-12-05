@@ -31,12 +31,12 @@
 <div class="wrap">
 	<h1>当前位置：用户个人信息管理&nbsp;&gt;&nbsp;<span class="position_current"> 表单模板设置</span></h1>
 		<div id="searchArea" class="search">
-			<form name="form1" id="form1" method="post" action="<%=request.getContextPath()%>/room_search.do">
+			<form name="form1" id="form1" method="post" action="<%=request.getContextPath()%>/conftemplate_search.do">
 				<table border="1" width="800" class="query">
 					<tr>
 						<th>表单模板名称：</th>
 						<td>
-							<input name="templateName" type="text" id="confTemplateName" class="put200" maxlength="15"/>
+							<input name="confTemplateName" type="text" id="confTemplateName" class="put200" maxlength="15"/>
 						</td>
 						<th>会议类型：</th>
 						<td>

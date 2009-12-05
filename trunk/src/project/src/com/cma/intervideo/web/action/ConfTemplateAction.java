@@ -48,24 +48,6 @@ public class ConfTemplateAction extends AbstractBaseAction {
 		return "add";
 	}
 
-	public String save() throws IOException, ParseException, Exception {
-		confTemplate.setStatus(DataDictStatus.normalStatus);
-		UserPrivilege up = (UserPrivilege) session.get("userPrivilege");
-		String userId = up != null ? up.getUserId() : PropertiesHelper.getIcmDefaultUserId();
-		confTemplate.setUserId(userId);
-		confTemplate.setMemberId(PropertiesHelper.getIcmDefaultMemberId());
-		Date d = Calendar.getInstance().getTime();
-		confTemplate.setCreateTime(d);
-		response.setContentType("text/html;charset=utf-8");
-		confTemplateService.saveOrUpdate(confTemplate);
-		try {
-			outJson("{success:true, msg:'虚拟房间添加成功!'}");
-		} catch (Exception e) {
-			outJson("{success:true, msg:'虚拟房间添加失败'}");
-		}
-		return null;
-	}
-
 	public String search() {
 		String start = request.getParameter("start");
 		String limit = request.getParameter("limit");
@@ -113,7 +95,7 @@ public class ConfTemplateAction extends AbstractBaseAction {
 	public String getConfTemplatesByUser() {
 		UserPrivilege up = (UserPrivilege) session.get("userPrivilege");
 		String userId = up != null ? up.getUserId() : PropertiesHelper.getIcmDefaultUserId();
-		List<ConfTemplate> list = confTemplateService.findConfTemplates(userId);
+		List<ConfTemplate> list = confTemplateService.findConfTemplatesByUserId(userId);
 		try {
 			JSONObject json = new JSONObject();
 			JSONArray arr = JSONArray.fromObject(list);
@@ -137,28 +119,47 @@ public class ConfTemplateAction extends AbstractBaseAction {
 		return "modify";
 	}
 	
-	public String update() throws IOException, ParseException, Exception {
-		ConfTemplate ct = confTemplateService.getConfTemplateById(confTemplate.getServiceTemplateId());
-		ct.setControlPin(confTemplate.getControlPin());
-		ct.setPassword(confTemplate.getPassword());
-		ct.setDescription(confTemplate.getDescription());
-		ct.setSubject(confTemplate.getSubject());
-		ct.setConfTemplateName(confTemplate.getConfTemplateName());
-		ct.setServiceTemplateId(confTemplate.getServiceTemplateId());
-		response.setContentType("text/html;charset=utf-8");
-		confTemplateService.saveOrUpdate(ct);
-		try {
-			outJson("{success:true, msg:'会议模板修改成功!'}");
-		} catch (Exception e) {
-			outJson("{success:true, msg:'会议模板修改失败'}");
-		}
-		return null;
-	}
-
 	public String detail() {
 		String confTemplateId = request.getParameter("confTemplateId");
 		confTemplate = confTemplateService.getConfTemplateById(confTemplateId);
 		return "detail";
 	}
 
+	public String save() throws IOException, ParseException {
+		try
+		{
+			String virtualConfId = confTemplate.getVirtualConfId();
+			if (virtualConfId != null && virtualConfId.trim().length() > 0)
+			{
+				List<ConfTemplate> lst = confTemplateService.findConfTemplatesByVirtualConfId(virtualConfId);
+				if (lst != null && lst.size() > 0)
+				{
+					outJson("{success:false, msg:'会议号码冲突!");
+					return null;
+				}
+			}
+			
+			confTemplate.setStatus(DataDictStatus.normalStatus);
+			UserPrivilege up = (UserPrivilege) session.get("userPrivilege");
+			String userId = up != null ? up.getUserId() : PropertiesHelper.getIcmDefaultUserId();
+			confTemplate.setUserId(userId);
+			confTemplate.setMemberId(PropertiesHelper.getIcmDefaultMemberId());
+			Date d = Calendar.getInstance().getTime();
+			confTemplate.setCreateTime(d);
+			response.setContentType("text/html;charset=utf-8");
+
+			String units = request.getParameter("confUnits");
+			String[] unitList = null;
+			if (units != null && !units.equals(""))
+				unitList = units.split(",");
+
+			confTemplateService.createConfTemplate(confTemplate, unitList);
+			outJson("{success:true, msg:'创建表单模板成功!'}");
+		} catch (Exception e)
+		{
+			logger.warn("Failed to create new ConfTemplate to VCM due to exception: " + e.toString());
+			outJson("{success:false, msg:'创建表单模板失败'}");
+		}
+		return null;
+	}
 }

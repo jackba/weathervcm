@@ -191,4 +191,5 @@ public abstract class AbstractConfDao extends AbstractDAO<Conference, Integer> i
 		hql += " and c.startTime+"+maxConfPeriod*60*60000+"<"+Calendar.getInstance().getTimeInMillis();
 		return this.getHibernateTemplate().find(hql);
 	}
+	
 }

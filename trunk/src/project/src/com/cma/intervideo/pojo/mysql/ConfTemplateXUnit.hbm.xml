@@ -8,11 +8,11 @@
             <column name="conf_template_unit_id" />
             <generator class="identity" />
         </id>
-        <property name="conConfTemplateId" type="java.lang.Integer">
-            <column name="con_conf_template_id" />
+        <property name="confTemplateId" type="java.lang.Integer">
+            <column name="conf_template_id" />
         </property>
-        <property name="uniUnitId" type="java.lang.Integer">
-            <column name="uni_unit_id" />
+        <property name="unitId" type="java.lang.Integer">
+            <column name="unit_id" />
         </property>
     </class>
 </hibernate-mapping>

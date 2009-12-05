@@ -4,9 +4,9 @@
 <!-- Generated Dec 3, 2009 12:43:06 AM by Hibernate Tools 3.2.4.GA -->
 <hibernate-mapping>
     <class name="com.cma.intervideo.pojo.ConfTemplate" table="conf_template" >
-        <id name="confTemplateId" type="int">
+        <id name="confTemplateId" type="java.lang.Integer">
             <column name="conf_template_id" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
         <property name="confTemplateName" type="string">
             <column name="conf_template_name" length="40" not-null="true" />
@@ -35,8 +35,8 @@
         <property name="controlPin" type="string">
             <column name="control_pin" />
         </property>
-        <property name="status" type="java.lang.Byte">
-            <column name="status" />
+        <property name="status" type="java.lang.Short">
+            <column name="status" not-null="true" />
         </property>
         <property name="portsNum" type="java.lang.Integer">
             <column name="ports_num" />

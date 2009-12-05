@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.cma.intervideo.pojo.Conference;
 import com.cma.intervideo.pojo.Unit;
-import com.cma.intervideo.pojo.VirtualRoom;
 import com.cma.intervideo.util.PageHolder;
 import com.cma.intervideo.util.ParamVo;
 
