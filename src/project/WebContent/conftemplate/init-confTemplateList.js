@@ -24,12 +24,13 @@ function initData() {
 		}, {
 			name : 'confTemplateName'
 		}, {
+			name : 'virtualConfId'
+		}, {
 			name : 'subject'
 		}, {
-			name : 'createTime',
-			type : 'date',
-			mapping : 'createTime.time',
-			dateFormat : 'time'
+			name : 'initUnit'
+		}, {
+			name : 'serviceTemplateId'
 		}, {
 			name : 'serviceTemplateDesc'
 		}])
@@ -40,6 +41,37 @@ function initData() {
 			limit : limit,
 		}
 	});
+
+	serviceds = new Ext.data.Store({
+		proxy : new Ext.data.HttpProxy({
+			url : 'service_search.do'
+		}),
+		reader : new Ext.data.JsonReader({
+			root : 'root'
+		}, [{
+			name : 'serviceTemplateId'
+		}, {
+			name : 'serviceTemplateName'
+		}, {
+			name : 'serviceTemplateDesc'
+		}])
+	});
+	serviceds.load();
+	var serviceComboWithTooltip = new Ext.form.ComboBox({
+		store: serviceds,
+		hiddenId: 'serviceTemplateId',
+        hiddenName: 'serviceTemplateId',
+        valueField: 'serviceTemplateId',
+        displayField: 'serviceTemplateDesc',
+        typeAhead: true,
+        forceSelection: false,
+        mode: 'local',
+        triggerAction: 'all',
+        emptyText: '请选择会议模板...',
+        selectOnFocus: true,
+        renderTo: 'service_template'
+    });
+	
 	initGrid();
 }
 // 初始化显示表格
@@ -69,7 +101,7 @@ function initGrid() {
 		header : "会议类型",
 		width: Ext.get("searchArea").getWidth()*0.25,
 		sortable : true,
-		dataIndex : 'serviceTemplateId'
+		dataIndex : 'serviceTemplateDesc'
 	}, {
 		header : "组织单位",
 		width : Ext.get("searchArea").getWidth()*0.25,

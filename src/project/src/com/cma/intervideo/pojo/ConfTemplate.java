@@ -37,6 +37,24 @@ public class ConfTemplate implements java.io.Serializable {
 	private String confUnitNames; //added additional
 	private String mainUnitName; //added additional
 
+	public String toString() {
+		StringBuilder buf = new StringBuilder();
+		
+		String line = System.getProperty("line.separator");
+		buf.append(line + "[ConfTemplate:( @" + hashCode() + ")" + line);
+		buf.append(" confTemplateId = " + confTemplateId + ", confTemplateName = " + confTemplateName + line);
+		buf.append(" virtualConfId = " + virtualConfId + ", timeLong = " + timeLong + line);
+		buf.append(" serviceTemplateId = " + serviceTemplateId + ", serviceTemplateName = " + serviceTemplateName + ", serviceTemplateDesc = " + serviceTemplateDesc + line);
+		buf.append(" memberId = " + memberId + ", userId = " + userId + ", description = " + description + line);
+		buf.append(" status = " + status + ", subject = " + subject + line);
+		buf.append(" createTime = " + createTime + ", deleteTime = " + deleteTime + line);
+		buf.append(" initUnit = " + initUnit + ", mainUnit = " + mainUnit + line);
+		buf.append(" presider = " + presider + ", principalMobile = " + principalMobile + line);
+		buf.append(" contactMethod = " + contactMethod + ", principal = " + principal + line);
+		buf.append("]." + line);
+		return buf.toString();
+	}
+	
 	public ConfTemplate() {
 	}
 

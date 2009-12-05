@@ -73,7 +73,7 @@ type = InnoDB;
 /*==============================================================*/
 create table conf_template
 (
-   conf_template_id               int                            not null,
+   conf_template_id               int                            not null AUTO_INCREMENT,
    conf_template_name             varchar(40)                    not null,
    user_id                        varchar(128)                   not null,
    service_template_id            varchar(32),
@@ -107,8 +107,8 @@ type = InnoDB;
 create table conf_template_x_unit
 (
    conf_template_unit_id          int                            not null AUTO_INCREMENT,
-   con_conf_template_id           int,
-   uni_unit_id                    int,
+   conf_template_id           int,
+   unit_id                    int,
    primary key (conf_template_unit_id)
 )
 comment = "会议表单模板与参会单位的对应关系"

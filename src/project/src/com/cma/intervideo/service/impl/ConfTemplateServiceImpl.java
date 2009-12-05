@@ -7,16 +7,20 @@ import org.apache.commons.logging.LogFactory;
 
 import com.cma.intervideo.dao.IConfTemplateDao;
 import com.cma.intervideo.dao.IServiceDao;
+import com.cma.intervideo.dao.IUnitDao;
 import com.cma.intervideo.pojo.ConfTemplate;
 import com.cma.intervideo.pojo.ServiceTemplate;
+import com.cma.intervideo.pojo.Unit;
 import com.cma.intervideo.service.IConfTemplateService;
 import com.cma.intervideo.util.PageHolder;
 import com.cma.intervideo.util.ParamVo;
 
 public class ConfTemplateServiceImpl implements IConfTemplateService {
+	
 	private final static Log logger = LogFactory.getLog(ConfTemplateServiceImpl.class);
 	private IConfTemplateDao confTemplateDao;
 	private IServiceDao serviceDao;
+	private IUnitDao unitDao;
 
 	public void setConfTemplateDao(IConfTemplateDao confTemplateDao) {
 		this.confTemplateDao = confTemplateDao;
@@ -25,64 +29,129 @@ public class ConfTemplateServiceImpl implements IConfTemplateService {
 	public void setServiceDao(IServiceDao serviceDao) {
 		this.serviceDao = serviceDao;
 	}
+	
+	public void setUnitDao(IUnitDao unitDao) {
+		this.unitDao = unitDao;
+	}
+
+	public void createConfTemplate(ConfTemplate confTemplate, String[] units)
+			throws Exception
+	{
+		logger.info("Creating new ConfTemplate to VCM: " + confTemplate);
+		Integer id = confTemplateDao.addObject(confTemplate);
+		
+		if (units != null)
+		{
+			for (int i = 0; i < units.length; i++)
+			{
+				confTemplateDao.addConfTemplateUnit(id, new Integer(units[i]));
+			}
+		}
+		logger.info("Created successfully new ConfTemplate to VCM, " +
+				"confTemplateId: " + id + 
+				"; confTemplateName" + confTemplate.getConfTemplateName() + 
+				"; unit size: " + (units==null ? 0 : units.length));
+	}
+
+	public List<Unit> findAllUnits() {
+		return confTemplateDao.findAllUnits();
+	}
 
 	public List<ConfTemplate> findConfTemplates(List<ParamVo> params, PageHolder ph) {
-		List<ConfTemplate> listConfTemplate = confTemplateDao.findConfTemplates(params, ph);
-		for (int i = 0; i < listConfTemplate.size(); i++)
-			updateServiceTemplateInfo(listConfTemplate.get(i));
-		return listConfTemplate;
+		List<ConfTemplate> lst = confTemplateDao.findConfTemplates(params, ph);
+		if (lst != null)
+		{
+			int size = lst.size();
+			for (int i = 0; i < size; i++)
+				updateAdditionalInfo(lst.get(i));
+		}
+		return lst;
 	}
 	
-	public List<ConfTemplate> findConfTemplates(String userId) {
-		List<ConfTemplate> listConfTemplate = confTemplateDao.findConfTemplates(userId);
-		for (int i = 0; i < listConfTemplate.size(); i++)
-			updateServiceTemplateInfo(listConfTemplate.get(i));
-		return listConfTemplate;
+	private void updateAdditionalInfo(ConfTemplate conf) {
+		updateUnitInfo(conf);
+		updateMainUnitInfo(conf);
+		updateServiceTemplateInfo(conf);
 	}
 	
-	private void updateServiceTemplateInfo(ConfTemplate confTemplate) {
-		if (confTemplate == null || confTemplate.getServiceTemplateId() == null 
-				|| confTemplate.getServiceTemplateId().length() == 0)
+	private void updateUnitInfo(ConfTemplate conf) {
+		if (conf == null)
 			return;
 		
-		ServiceTemplate st = serviceDao.getServiceTemplate(confTemplate.getServiceTemplateId());
+		List<Unit> listUnit = findUnitsByConfTemplateId(conf.getConfTemplateId()+"", true);
+		if (listUnit == null || listUnit.size() == 0)
+			return;
+		
+		String names = "";
+		int unitSize = listUnit.size();
+		for (int j = 0; j < unitSize-1; j++) {
+			names += listUnit.get(j).getUnitName() + ", ";
+		}
+		names += listUnit.get(unitSize-1).getUnitName();
+		conf.setConfUnitNames(names);
+	}
+	
+	private void updateMainUnitInfo(ConfTemplate conf) {
+		if (conf == null || conf.getMainUnit() == null)
+			return;
+		
+		Unit unit = unitDao.getObjectByID(conf.getMainUnit());
+		if (unit == null)
+			return;
+		
+		conf.setMainUnitName(unit.getUnitName());
+	}
+	
+	private void updateServiceTemplateInfo(ConfTemplate conf) {
+		if (conf == null || conf.getServiceTemplateId() == null || conf.getServiceTemplateId().length() == 0)
+			return;
+		
+		ServiceTemplate st = serviceDao.getServiceTemplate(conf.getServiceTemplateId());
 		if (st == null)
 			return;
 		
-		confTemplate.setServiceTemplateDesc(st.getServiceTemplateDesc());
-		confTemplate.setServiceTemplateName(st.getServiceTemplateName());
+		conf.setServiceTemplateDesc(st.getServiceTemplateDesc());
+		conf.setServiceTemplateName(st.getServiceTemplateName());
 	}
 
-	public int deleteConfTemplates(List<String> lst) {
-		int deleted = 0;
-		for (int i = 0; i < lst.size(); i++) {
-			String confTemplateId = lst.get(i);
-			logger.info("to delete Conference Template from VCM - roomId: " + confTemplateId);
-			try {
-				confTemplateDao.removeObjectByID(confTemplateId);
-			} catch (Exception e) {
-				logger.error("Exception on deleting Virtual Room from VCM - roomId: " 
-						+ confTemplateId + " - " + e.getMessage());
-				continue;
-			}
-			deleted++;
-		}
-		return deleted;
-	}
-
-	public void saveOrUpdate(ConfTemplate ct) throws Exception {
-		try {
-			logger.info("to save Virtual Room to VCM......");
-			confTemplateDao.saveOrUpdate(ct);
-		} catch (Exception e) {
-			logger.info("Exception on saving Virtual Room to VCM......");
-			throw new Exception("系统保存虚拟房间" + ct.getConfTemplateId() + " 失败!");
-		}
+	public List<Unit> findUnitsByConfTemplateId(String confTemplateId, boolean selected) {
+		return confTemplateDao.findUnitsByConfTemplateId(Integer.parseInt(confTemplateId), selected);
 	}
 
 	public ConfTemplate getConfTemplateById(String confTemplateId) {
-		ConfTemplate ct = confTemplateDao.getObjectByID(confTemplateId);
-		updateServiceTemplateInfo(ct);
-		return ct;
+		ConfTemplate conf = confTemplateDao.getObjectByID(new Integer(confTemplateId));
+		updateAdditionalInfo(conf);
+		return conf;
 	}
+	
+	public List<ConfTemplate> findConfTemplatesByVirtualConfId(String virtualConfId)
+	{
+		return confTemplateDao.findConfTemplatesByVirtualConfId(virtualConfId);
+	}
+
+	public void modifyConfTemplate(ConfTemplate confTemplate, String[] units) throws Exception {
+		logger.info("Modifying ConfTemplate in VCM: " + confTemplate);
+		confTemplateDao.saveOrUpdate(confTemplate);
+		logger.info("Deleting Units for ConfTemplate: " + confTemplate.getConfTemplateName());
+		confTemplateDao.deleteConfTemplateUnitsByConfTemplateId(confTemplate.getConfTemplateId());
+		if (units != null)
+		{
+			for (int i = 0; i < units.length; i++) {
+				confTemplateDao.addConfTemplateUnit(confTemplate.getConfTemplateId(), new Integer(units[i]));
+			}
+		}
+		logger.info("Created successfully new ConfTemplate to VCM, " +
+				"confTemplateId: " + confTemplate.getConfTemplateId() + 
+				"; confTemplateName" + confTemplate.getConfTemplateName() + 
+				"; unit size: " + (units==null ? 0 : units.length));
+//		} catch (Exception e) {
+//			logger.warn("Failed to modify ConfTemplate due to excepton: " + e.toString());
+//			throw new Exception("系统修改表单模板" + confTemplate.getConfTemplateId() + "失败 !");
+//		}
+	}
+
+	public List<ConfTemplate> findConfTemplatesByUserId(String userId) {
+		return confTemplateDao.findConfTemplatesByUserId(userId);
+	}
+	
 }

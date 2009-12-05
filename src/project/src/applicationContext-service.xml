@@ -44,6 +44,7 @@
 			<bean class="com.cma.intervideo.service.impl.ConfTemplateServiceImpl">
 				<property name="confTemplateDao" ref="confTemplateDao"/>
 				<property name="serviceDao" ref="serviceDao"/>
+				<property name="unitDao" ref="unitDao"/>
 			</bean>
 		</property>
 	</bean>
