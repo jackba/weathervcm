@@ -34,6 +34,8 @@ public class ConfTemplate implements java.io.Serializable {
 	private Boolean isDefault;
 	private String serviceTemplateName; // additional property
 	private String serviceTemplateDesc; //additional property
+	private String confUnitNames; //added additional
+	private String mainUnitName; //added additional
 
 	public ConfTemplate() {
 	}
@@ -277,6 +279,22 @@ public class ConfTemplate implements java.io.Serializable {
 
 	public void setServiceTemplateDesc(String serviceTemplateDesc) {
 		this.serviceTemplateDesc = serviceTemplateDesc;
+	}
+
+	public String getConfUnitNames() {
+		return confUnitNames;
+	}
+
+	public void setConfUnitNames(String confUnitNames) {
+		this.confUnitNames = confUnitNames;
+	}
+	
+	public String getMainUnitName() {
+		return mainUnitName;
+	}
+
+	public void setMainUnitName(String mainUnitName) {
+		this.mainUnitName = mainUnitName;
 	}
 
 }

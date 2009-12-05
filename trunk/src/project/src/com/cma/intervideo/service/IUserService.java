@@ -63,7 +63,7 @@ public interface IUserService {
 	public List findPrivilegesByRoleId(Integer roleId);
 	public User getUser(String userId);
 	public Role getRole(Integer roleId);
-	public void deleteUser(String userId);
+	public boolean deleteUser(String userId);
 	public int  deleteUsers(List<String> users);
 	public void deleteRole(Integer roleId) throws RoleNotEmptyException;
 	public void stopUser(String userId);

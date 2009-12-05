@@ -415,7 +415,7 @@ public class ConfAction extends AbstractBaseAction {
 		try {
 			conf.setStatus(Conference.status_upcoming);
 			confService.createConf(conf, unitList);
-			logService.addLog(up.getUserId(), logService.type_reserve_conf, "预约会议"+conf.getRadConferenceId());
+			logService.addLog(up.getUserId(), ILogService.type_reserve_conf, "预约会议"+conf.getRadConferenceId());
 			outJson("{success:true, msg:'预约会议成功!'}");
 		} catch (Exception e) {
 			outJson("{success:true, msg:'预约会议失败'}");
@@ -492,7 +492,7 @@ public class ConfAction extends AbstractBaseAction {
 
 		try {
 			confService.modifyConf(oldConf, unitList);
-			logService.addLog(up.getUserId(), logService.type_modify_conf, "修改会议"+oldConf.getRadConferenceId());
+			logService.addLog(up.getUserId(), ILogService.type_modify_conf, "修改会议"+oldConf.getRadConferenceId());
 			outJson("{success:true, msg:'预约会议修改成功!'}");
 		} catch (Exception e) {
 			outJson("{success:true, msg:'预约会议修改失败!'}");
