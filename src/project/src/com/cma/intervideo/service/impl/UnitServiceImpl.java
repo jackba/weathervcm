@@ -57,23 +57,28 @@ public class UnitServiceImpl implements IUnitService {
 
 	public void saveOrUpdate(Unit unit) throws Exception {
 		try {
-			logger.info("to save Unit to VCM......");
 			unitDao.saveOrUpdate(unit);
+			logger.info("Save/Update Unit successfully: " + unit);
 		} catch (Exception e) {
-			logger.info("Exception on saving Unit to VCM......");
+			logger.error("Exception on save/update Unit: " + e.getMessage());
+			logger.error("Failed to save/update Unit: " + unit);
 			throw new Exception("系统保存终端" + unit.getUnitName() + " 失败!");
 		}
 	}
 
 	public int deleteUnits(List<String> units) {
 		int deleted = 0;
-		for (int i = 0; i < units.size(); i++) {
-			logger.info("to delete Unit from VCM - unitId: " + units.get(i));
-			try {
-				unitDao.removeObjectByID(new Integer(units.get(i)));
-			} catch (Exception e) {
-				logger.info("Exception on deleting Unit from VCM - unitId: "
-						+ units.get(i) + " - " + e.getMessage());
+		for (int i = 0; i < units.size(); i++)
+		{
+			String unitId = units.get(i);
+			try
+			{
+				unitDao.removeObjectByID(new Integer(unitId));
+				logger.info("Delete Unit successfully, unitId: " + unitId);
+			} catch (Exception e)
+			{
+				logger.error("Exception on delete Unit: " + e.getMessage());
+				logger.error("Failed to delete Unit, unitId: " + unitId);
 				continue;
 			}
 			deleted++;

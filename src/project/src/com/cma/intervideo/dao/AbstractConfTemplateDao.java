@@ -47,7 +47,7 @@ public class AbstractConfTemplateDao extends AbstractDAO<ConfTemplate, Integer>
 
 		hql += " order by r.createTime";
 		List<ConfTemplate> cts = this.getHibernateTemplate().find(hql);
-		logger.info("Found " + (cts == null ? "0" : cts.size()) + " ConfTemplates for HQL: " + hql);
+		logger.info("Found " + (cts == null ? "0" : cts.size()) + " ConfTemplates, HQL: " + hql);
 		return cts;
 	}
 
@@ -97,7 +97,7 @@ public class AbstractConfTemplateDao extends AbstractDAO<ConfTemplate, Integer>
 				logger.error(ex.toString());
 			}
 		}
-		logger.info("Found " + lst.size() + " Units for ConfTemplate id: " + confTemplateId);
+		logger.info("Found " + lst.size() + " Units, confTemplateId: " + confTemplateId);
 		return lst;
 	}
 
@@ -115,7 +115,7 @@ public class AbstractConfTemplateDao extends AbstractDAO<ConfTemplate, Integer>
 			pstmt = conn.prepareStatement("delete from conf_template_x_unit where conf_template_id=?");
 			pstmt.setInt(1, confTemplateId);
 			pstmt.executeUpdate();
-			logger.info("Deleted ConfTemplate with confTemplateId: " + confTemplateId);
+			logger.info("Deleted ConfTemplate, confTemplateId: " + confTemplateId);
 		}catch(Exception e){
 			logger.error(e.toString());
 		}finally{
