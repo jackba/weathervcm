@@ -25,8 +25,11 @@ import com.cma.intervideo.util.PropertiesHelper;
 import com.cma.intervideo.util.UserPrivilege;
 
 public class ConfTemplateAction extends AbstractBaseAction {
+	
 	private static Log logger = LogFactory.getLog(ConfTemplateAction.class);
+	
 	private IConfTemplateService confTemplateService;
+	
 	private ConfTemplate confTemplate;
 
 	public ConfTemplate getConfTemplate() {
@@ -48,8 +51,22 @@ public class ConfTemplateAction extends AbstractBaseAction {
 	public String add() {
 		return "add";
 	}
+	
+	public String modify() {
+		String confTemplateId = request.getParameter("confTemplateId");
+		confTemplate = confTemplateService.getConfTemplateById(confTemplateId);
+		return "modify";
+	}
+	
+	public String detail() {
+		String confTemplateId = request.getParameter("confTemplateId");
+		confTemplate = confTemplateService.getConfTemplateById(confTemplateId);
+		logger.info("ConfTemplate detail information, confTemplateId: " + confTemplateId + "; detail: " + confTemplate);
+		return "detail";
+	}
 
 	public String search() {
+		logger.info("search...");
 		String start = request.getParameter("start");
 		String limit = request.getParameter("limit");
 		String totalProperty = request.getParameter("totalProperty");
@@ -59,23 +76,27 @@ public class ConfTemplateAction extends AbstractBaseAction {
 		if (totalProperty != null && !totalProperty.equals("")) {
 			ph.setResultSize(Integer.parseInt(totalProperty));
 		}
+		
 		List<ParamVo> params = new ArrayList<ParamVo>();
+		
 		String templateName = request.getParameter("confTemplateName");
-		String serviceTemplate = request.getParameter("serviceTemplateId");
 		if (templateName != null && !templateName.equals("")) {
 			ParamVo vo = new ParamVo();
 			vo.setParamName("confTemplateName");
 			vo.setParamValue(templateName);
 			params.add(vo);
 		}
+		
+		String serviceTemplate = request.getParameter("serviceTemplateId");
 		if (serviceTemplate != null && serviceTemplate.length() > 0) {
 			ParamVo vo = new ParamVo();
 			vo.setParamName("serviceTemplateId");
 			vo.setParamValue(serviceTemplate);
 			params.add(vo);
 		}
-		List<ConfTemplate> lst = confTemplateService.findConfTemplates(params, ph);
+		
 		try {
+			List<ConfTemplate> lst = confTemplateService.findConfTemplates(params, ph);
 			JSONObject json = new JSONObject();
 			json.put("totalProperty", ph.getResultSize());
 			JSONArray arr = JSONArray.fromObject(lst);
@@ -87,8 +108,9 @@ public class ConfTemplateAction extends AbstractBaseAction {
 			out.print(json);
 			out.flush();
 			out.close();
-		} catch (Exception e) {
-			logger.error(e.toString());
+		} catch (Exception e)
+		{
+			logger.error("Exception on search ConfTemplate(s): " + e.getMessage());
 		}
 		return null;
 	}
@@ -97,6 +119,7 @@ public class ConfTemplateAction extends AbstractBaseAction {
 	{
 		try
 		{
+			logger.info("getConfTemplatesByUser...");
 			UserPrivilege up = (UserPrivilege) session.get("userPrivilege");
 			String userId = up != null ? up.getUserId() : PropertiesHelper.getIcmDefaultUserId();
 			
@@ -118,26 +141,15 @@ public class ConfTemplateAction extends AbstractBaseAction {
 			out.flush();
 			out.close();
 		} catch (Exception e) {
-			logger.error(e.toString());
+			logger.error("Exception on getConfTemplatesByUser: " + e.getMessage());
 		}
 		return null;
-	}
-
-	public String modify() {
-		String confTemplateId = request.getParameter("confTemplateId");
-		confTemplate = confTemplateService.getConfTemplateById(confTemplateId);
-		return "modify";
-	}
-	
-	public String detail() {
-		String confTemplateId = request.getParameter("confTemplateId");
-		confTemplate = confTemplateService.getConfTemplateById(confTemplateId);
-		return "detail";
 	}
 
 	public String save() throws IOException, ParseException {
 		try
 		{
+			logger.info("save...");
 			String confTemplateName = confTemplate.getConfTemplateName();
 			if (confTemplateName != null && confTemplateName.trim().length() > 0)
 			{
@@ -195,6 +207,7 @@ public class ConfTemplateAction extends AbstractBaseAction {
 	}
 	
 	public String getUnitsByConfTemplateId() {
+		logger.info("getUnitsByConfTemplateId...");
 		String id = request.getParameter("confTemplateId");
 		boolean selected = "true".equalsIgnoreCase(request
 				.getParameter("selected"));
@@ -211,7 +224,7 @@ public class ConfTemplateAction extends AbstractBaseAction {
 			out.flush();
 			out.close();
 		} catch (Exception e) {
-			logger.error(e.toString());
+			logger.error("Exception on getUnitsByConfTemplateId: " + e.getMessage());
 		}
 		return null;
 	}

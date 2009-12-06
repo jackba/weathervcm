@@ -60,7 +60,7 @@ public class AbstractConfTemplateDao extends AbstractDAO<ConfTemplate, Integer>
 		confTemplateUnit.setConfTemplateId(confTemplateId);
 		confTemplateUnit.setUnitId(unitId);
 		this.getHibernateTemplate().save(confTemplateUnit);
-		logger.info("Creating new ConfTemplateXUnit: " + confTemplateUnit);
+//		logger.info("Creating new ConfTemplateXUnit: " + confTemplateUnit);
 	}
 	
 	public List<Unit> findUnitsByConfTemplateId(Integer confTemplateId, boolean selected){
@@ -97,34 +97,41 @@ public class AbstractConfTemplateDao extends AbstractDAO<ConfTemplate, Integer>
 				logger.error(ex.toString());
 			}
 		}
-		logger.info("Found " + lst.size() + " Units, confTemplateId: " + confTemplateId);
+		logger.info("Found " + lst.size() + " Unit(s), confTemplateId: " + confTemplateId);
 		return lst;
 	}
 
 	public List<Unit> findAllUnits(){
 		List<Unit> lst = this.getHibernateTemplate().find("from Unit unit");
-		logger.info("Found totally " + ((lst==null) ? 0 : lst.size()) + " Units!");
+		logger.info("Found totally " + ((lst==null) ? 0 : lst.size()) + " Unit(s)!");
 		return lst;
 	}
 
-	public void deleteConfTemplateUnitsByConfTemplateId(Integer confTemplateId) {
+	public void deleteConfTemplateUnitsByConfTemplateId(Integer confTemplateId)
+	{
 		Session s = this.getSession();
 		Connection conn = s.connection();
 		PreparedStatement pstmt = null;
-		try{
+		try
+		{
 			pstmt = conn.prepareStatement("delete from conf_template_x_unit where conf_template_id=?");
 			pstmt.setInt(1, confTemplateId);
 			pstmt.executeUpdate();
 			logger.info("Deleted ConfTemplate, confTemplateId: " + confTemplateId);
-		}catch(Exception e){
-			logger.error(e.toString());
-		}finally{
-			try{
+		}catch(Exception e)
+		{
+			logger.error("Fail to on delete Units for ConfTemplate, confTemplateId: " + confTemplateId + " due to Exception: " + e.getMessage());
+		}finally
+		{
+			try
+			{
 				if(pstmt!=null)
 					pstmt.close();
-			}catch(Exception ex){
+			}catch(Exception ex)
+			{
 				logger.error(ex.toString());
 			}
 		}
 	}
+	
 }

@@ -35,9 +35,31 @@ public class UnitAction extends AbstractBaseAction {
 		this.unit = unit;
 	}
 
+	public String list() {
+		return "list";
+	}
+
+	public String add() {
+		return "add";
+	}
+	
+	public String modify() {
+		String unitId = request.getParameter("unitId");
+		unit = unitService.getUnitById(unitId);
+		return "modify";
+	}
+	
+	public String detail() {
+		String unitId = request.getParameter("unitId");
+		unit = unitService.getUnitById(unitId);
+		logger.info("Unit detail information, unitId: " + unitId + "; detail: " + unit);
+		return "detail";
+	}
+	
 	public String getAll() {
-		List<Unit> unitList = unitService.findAllUnits();
+		logger.info("getAll...");
 		try {
+			List<Unit> unitList = unitService.findAllUnits();
 			JSONObject json = new JSONObject();
 			JSONArray arr = JSONArray.fromObject(unitList);
 			json.put("root", arr);
@@ -54,15 +76,8 @@ public class UnitAction extends AbstractBaseAction {
 		return null;
 	}
 
-	public String list() {
-		return "list";
-	}
-
-	public String add() {
-		return "add";
-	}
-
 	public String search() {
+		logger.info("search...");
 		String start = request.getParameter("start");
 		String limit = request.getParameter("limit");
 		String totalProperty = request.getParameter("totalProperty");
@@ -108,35 +123,32 @@ public class UnitAction extends AbstractBaseAction {
 
 	public String save() throws IOException, ParseException, Exception {
 		try {
+			logger.info("save...");
 			response.setContentType("text/html;charset=utf-8");
 			unitService.saveOrUpdate(unit);
+			logger.info("Created Unit successfully: " + unit);
 			outJson("{success:true, msg:'单位添加成功!'}");
 		} catch (Exception e) {
+			logger.error("Exception on save Unit: " + e.getMessage());
+			logger.error("Failed to create Unit: " + unit);
 			outJson("{success:true, msg:'单位添加失败'}");
 		}
 		return null;
 	}
-
-	public String detail() {
-		String unitId = request.getParameter("unitId");
-		unit = unitService.getUnitById(unitId);
-		return "detail";
-	}
-
+	
 	public String update() throws IOException, ParseException, Exception {
 		try {
+			logger.info("update...");
 			response.setContentType("text/html;charset=utf-8");
 			unitService.saveOrUpdate(unit);
+			logger.info("Updated Unit successfully: " + unit);
 			outJson("{success:true, msg:'单位修改成功!'}");
 		} catch (Exception e) {
+			logger.error("Exception on update Unit: " + e.getMessage());
+			logger.error("Failed to update Unit: " + unit);
 			outJson("{success:true, msg:'单位修改失败'}");
 		}
 		return null;
 	}
-	
-	public String modify() {
-		String unitId = request.getParameter("unitId");
-		unit = unitService.getUnitById(unitId);
-		return "modify";
-	}
+
 }

@@ -34,6 +34,7 @@ public class UnitServiceImpl implements IUnitService {
 	}
 	
 	private void updatePartyInfo(Unit unit) {
+		
 		if (unit == null || unit.getPartyId() == null || unit.getPartyId().length() == 0)
 			return;
 		Terminal t = terminalDao.getTerminal(unit.getPartyId());
@@ -56,14 +57,7 @@ public class UnitServiceImpl implements IUnitService {
 	}
 
 	public void saveOrUpdate(Unit unit) throws Exception {
-		try {
-			unitDao.saveOrUpdate(unit);
-			logger.info("Save/Update Unit successfully: " + unit);
-		} catch (Exception e) {
-			logger.error("Exception on save/update Unit: " + e.getMessage());
-			logger.error("Failed to save/update Unit: " + unit);
-			throw new Exception("系统保存终端" + unit.getUnitName() + " 失败!");
-		}
+		unitDao.saveOrUpdate(unit);
 	}
 
 	public int deleteUnits(List<String> units) {
@@ -74,7 +68,7 @@ public class UnitServiceImpl implements IUnitService {
 			try
 			{
 				unitDao.removeObjectByID(new Integer(unitId));
-				logger.info("Delete Unit successfully, unitId: " + unitId);
+				logger.info("Deleted Unit successfully, unitId: " + unitId);
 			} catch (Exception e)
 			{
 				logger.error("Exception on delete Unit: " + e.getMessage());

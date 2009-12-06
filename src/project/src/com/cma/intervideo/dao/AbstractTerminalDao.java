@@ -39,13 +39,16 @@ public class AbstractTerminalDao extends AbstractDAO<Terminal, String>
 			ph.setResultSize(this.getCount(hql));
 		}
 		List<Terminal> lst = getHibernateTemplate().find(hql);
-		logger.info("Found " + (lst == null ? 0 : lst.size()) + " Terminals, HQL: " + hql);
+		logger.info("Found " + (lst == null ? 0 : lst.size()) + " Terminal(s), HQL: " + hql);
 		return lst;
 	}
 
 	public Terminal getTerminal(String terminalId) {
 		Terminal t = (Terminal) getHibernateTemplate().get(Terminal.class, terminalId);
-		logger.info("Got Terminal, terminalId: " + terminalId + ", Terminal: " + t);
+		if (t == null)
+			logger.info("Didn't found Terminal, terminalId: " + terminalId);
+		else
+			logger.info("Found Terminal, terminalId: " + terminalId + "; terminalName: " + t.getTerminalName());
 		return t;
 	}
 }

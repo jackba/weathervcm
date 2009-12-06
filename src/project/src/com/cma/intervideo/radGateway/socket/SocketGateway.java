@@ -338,7 +338,7 @@ public class SocketGateway extends HttpServlet {
 			return;
 		}
 		logger.info("Begin to start socket gateway...");
-		String mcuIp = PropertiesHelper.getMcuProxyIp();
+		String mcuIp = PropertiesHelper.getIcmHost();
 		int mcuPort = PropertiesHelper.getMcuProxyPort();
 		try{
 			mcuSocket = new Socket();
@@ -404,7 +404,7 @@ public class SocketGateway extends HttpServlet {
 		}
 		//建立新的连接
 		try{
-			String mcuIp = PropertiesHelper.getMcuProxyIp();
+			String mcuIp = PropertiesHelper.getIcmHost();
 			int mcuPort = PropertiesHelper.getMcuProxyPort();
 			mcuSocket = new Socket();
 			mcuSocket.connect(new InetSocketAddress(mcuIp,mcuPort),5*1000);

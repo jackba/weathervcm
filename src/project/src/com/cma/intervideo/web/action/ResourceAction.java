@@ -44,6 +44,7 @@ public class ResourceAction extends AbstractBaseAction{
 	}
 	public String searchOccupy(){
 		try{
+			logger.info("searchOccupy...");
 			Calendar c = Calendar.getInstance();
 			long startTime = c.getTimeInMillis();
 			long endTime = startTime + 60*1000;
@@ -56,6 +57,12 @@ public class ResourceAction extends AbstractBaseAction{
 				serviceMap.put(serviceList.get(i).getServiceTemplateId(), serviceList.get(i).getServiceTemplateName());
 			}
 			McuResourceResult mrr = ICMService.getResourceInfos(serviceTemplateIds, startTime, endTime, interval);
+			if (mrr == null || mrr.getInfos().size() == 0)
+			{
+				outJson("{success:false, msg:'从平台获取资源失败,请检查连接和配置!'}");
+				return null;
+			}
+			
 			int totalConfs = mrr.getConfNums().get(1) - (int)Math.round(mrr.getConfNums().get(0)*mrr.getConfNums().get(1)/100.0);
 			List<McuResourceInfo> infoList = mrr.getInfos();
 			List<ResourceVo> voList = new ArrayList<ResourceVo>();
@@ -89,6 +96,7 @@ public class ResourceAction extends AbstractBaseAction{
 		return null;
 	}
 	public String searchAvailable(){
+		logger.info("searchAvailable...");
 		String serviceTemplateId = request.getParameter("serviceTemplate");
 		String day = request.getParameter("day");
 		int interval = Integer.parseInt(request.getParameter("interval"));
@@ -100,6 +108,12 @@ public class ResourceAction extends AbstractBaseAction{
 			List<String> serviceTemplateIds = new ArrayList<String>();
 			serviceTemplateIds.add(serviceTemplateId);
 			McuResourceResult mrr = ICMService.getResourceInfos(serviceTemplateIds, startTime, endTime, interval);
+			if (mrr == null || !mrr.isSuccess() || mrr.getInfos().size() == 0)
+			{
+				outJson("{success:false, msg:'从平台获取资源失败,请检查连接和配置!'}");
+				return null;
+			}
+			
 			List<Integer> portNums = mrr.getInfos().get(0).getPortNums();
 			int total = portNums.get(portNums.size()-1);
 			int minutes = 0;
@@ -128,11 +142,13 @@ public class ResourceAction extends AbstractBaseAction{
 		}
 		return null;
 	}
+	
 	private String getHourMinutes(int minutes){
 		int hour = minutes/60;
 		int m = minutes%60;
 		return getTwoChar(hour)+":"+getTwoChar(m);
 	}
+	
 	private String getTwoChar(int i){
 		if(i<10){
 			return "0"+i;
@@ -140,4 +156,5 @@ public class ResourceAction extends AbstractBaseAction{
 			return ""+i;
 		}
 	}
+	
 }
