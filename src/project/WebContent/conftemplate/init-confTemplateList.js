@@ -88,8 +88,11 @@ function initGrid() {
 		sortable : true,
 		dataIndex : 'confTemplateName',
 		renderer : function(value, p , record){
-			//return String.format('<a href="conf_reserveDetail.do?personal=false&conferenceId={0}" target="_blank">{1}</a>',record.data.conferenceId,value);
 			var action = "window.parent.createNewPanel('confTemplateDetail_{0}','confTemplate','模板详情','conftemplate_detail.do?confTemplateId={1}');";
+//			alert("record.data.confTemplateId=" + record.data.confTemplateId);
+//			alert("valud=" + value);
+//			var format = String.format('<a href="#" onclick='+action+'>{2}</a>',record.data.confTemplateId,record.data.confTemplateId,value);
+//			alert("format=" + format);
 			return String.format('<a href="#" onclick='+action+'>{2}</a>',record.data.confTemplateId,record.data.confTemplateId,value);
 		}
 	}, {
@@ -185,6 +188,44 @@ function initGrid() {
 		autoHeight : true,
 		renderTo : 'searchArea'
 	});
+	
+	function edit()
+	{
+		var list = sm.getSelections();
+		var id = list[0].data["confTemplateId"];
+		window.parent.createNewPanel('confTemplateModify_'+id,'confTemplate','修改表单模板','conftemplate_modify.do?confTemplateId'+id);
+	}
+	
+	function del()
+	{
+		Ext.MessageBox.confirm('提示', '确定要删除表单模板吗?', function(button) {
+			if (button == 'yes')
+			{
+				var list = sm.getSelections();
+				var ids = [];
+				for (var i = 0; i < list.length; i++)
+				{
+					ids[i] = list[i].data["confTemplateId"];
+				}
+				confTemplateService.deleteConfTemplates(ids, function(data)
+				{
+					if (data > 0) {
+						Ext.MessageBox.alert('提示', "删除" + data + '条数据成功!');
+						// 如果把当页数据删除完毕，则跳转到上一页！
+						if (data == ptb.store.getTotalCount() - ptb.cursor) {
+							if(ptb.cursor!=0){
+								ptb.cursor = ptb.cursor - ptb.pageSize;
+							}
+						}
+						loadStore(ptb.cursor);
+					} else
+					{
+						Ext.MessageBox.alert('提示', "删除数据失败!");
+					}
+				});
+			}
+		});
+	}
 }
 
 function query() {

@@ -124,11 +124,6 @@ public class ConfTemplateServiceImpl implements IConfTemplateService {
 		return conf;
 	}
 	
-	public List<ConfTemplate> findConfTemplatesByVirtualConfId(String virtualConfId)
-	{
-		return confTemplateDao.findConfTemplatesByVirtualConfId(virtualConfId);
-	}
-
 	public void modifyConfTemplate(ConfTemplate confTemplate, String[] units) throws Exception {
 		logger.info("Modifying ConfTemplate in VCM: " + confTemplate);
 		confTemplateDao.saveOrUpdate(confTemplate);
@@ -150,8 +145,31 @@ public class ConfTemplateServiceImpl implements IConfTemplateService {
 //		}
 	}
 
-	public List<ConfTemplate> findConfTemplatesByUserId(String userId) {
-		return confTemplateDao.findConfTemplatesByUserId(userId);
+	public int deleteConfTemplates(List<String> confTemplates)
+	{
+		int deleted = 0;
+		for (int i = 0; i < confTemplates.size(); i++)
+		{
+			boolean b = deleteConfTemplate(confTemplates.get(i));
+			if (b)
+				deleted++;
+		}
+		logger.info(deleted + " ConfTemplates were deleted successfully!");
+		return deleted;
+	}
+
+	public boolean deleteConfTemplate(String confTemplateId)
+	{
+		try
+		{
+			confTemplateDao.removeObjectByID(Integer.parseInt(confTemplateId));
+			logger.info("Deleted successfully ConfTemplate with confTemplateId:" + confTemplateId);
+			return true;
+		} catch (Exception e)
+		{
+			logger.error("Failed to delete ConfTemplate with confTemplateId:" + confTemplateId + " due to exception: " + e.getMessage());
+			return false;
+		}
 	}
 	
 }

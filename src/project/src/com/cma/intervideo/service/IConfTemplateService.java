@@ -12,8 +12,6 @@ public interface IConfTemplateService {
 	public void createConfTemplate(ConfTemplate confTemplate, String[] units) throws Exception;
 	public void modifyConfTemplate(ConfTemplate confTemplate, String[] units) throws Exception;
 	public ConfTemplate getConfTemplateById(String ConfTemplateId);
-	public List<ConfTemplate> findConfTemplatesByVirtualConfId(String virtualConfId);
-	public List<ConfTemplate> findConfTemplatesByUserId(String userId);
 	public List<Unit> findUnitsByConfTemplateId(String confTempateId, boolean selected);
 	public List<Unit> findAllUnits();
 }
