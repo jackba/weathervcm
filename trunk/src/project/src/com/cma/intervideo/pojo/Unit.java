@@ -13,6 +13,17 @@ public class Unit implements java.io.Serializable {
 	private String description;
 	private String partyName; //additional property
 
+	public String toString() {
+		StringBuilder buf = new StringBuilder();
+		String line = System.getProperty("line.separator");
+		buf.append(line + "[Unit:( @" + hashCode() + ")" + line);
+		buf.append(" unitId = " + unitId + ", unitName = " + unitName + line);
+		buf.append(" partyId = " + partyId + ", partyName = " + partyName + line);
+		buf.append(" description = " + description + line);
+		buf.append("]." + line);
+		return buf.toString();
+	}
+	
 	public Unit() {
 	}
 

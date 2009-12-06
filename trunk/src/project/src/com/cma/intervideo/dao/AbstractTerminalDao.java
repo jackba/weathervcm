@@ -18,8 +18,7 @@ public class AbstractTerminalDao extends AbstractDAO<Terminal, String>
 	public List<Terminal> findTerminals() {
 		String hql = "from Terminal t order by t.terminalId";
 		List<Terminal> lst = getHibernateTemplate().find(hql);
-		logger.info("AbstractServiceDao.findTerminals return " + lst.size()
-				+ " Terminal(s), hql = " + hql);
+		logger.info("Found " + (lst == null ? 0 : lst.size()) + " Terminals, HQL: " + hql);
 		return lst;
 	}
 	
@@ -40,13 +39,13 @@ public class AbstractTerminalDao extends AbstractDAO<Terminal, String>
 			ph.setResultSize(this.getCount(hql));
 		}
 		List<Terminal> lst = getHibernateTemplate().find(hql);
-		logger.info("AbstractTerminalDao.findTerminals return " + lst.size()
-				+ " Terminal(s), hql = " + hql);
+		logger.info("Found " + (lst == null ? 0 : lst.size()) + " Terminals, HQL: " + hql);
 		return lst;
 	}
 
 	public Terminal getTerminal(String terminalId) {
-		return (Terminal) getHibernateTemplate().get(
-				Terminal.class, terminalId);
+		Terminal t = (Terminal) getHibernateTemplate().get(Terminal.class, terminalId);
+		logger.info("Got Terminal, terminalId: " + terminalId + ", Terminal: " + t);
+		return t;
 	}
 }

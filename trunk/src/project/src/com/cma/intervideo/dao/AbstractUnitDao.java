@@ -31,11 +31,15 @@ public class AbstractUnitDao extends AbstractDAO<Unit, Integer> implements
 		if (ph != null && ph.isGetCount()) {
 			ph.setResultSize(this.getCount(hql));
 		}
-		return this.getHibernateTemplate()
-				.find(hql + " order by unit.unitName");
+		hql += " order by unit.unitName";
+		List<Unit> lst = this.getHibernateTemplate().find(hql);
+		logger.info("Found " + (lst == null ? 0 : lst.size()) + " Units, HQL: " + hql);
+		return lst;
 	}
 
 	public List<Unit> findAllUnits() {
-		return this.getHibernateTemplate().find("from Unit unit");
+		List<Unit> lst = this.getHibernateTemplate().find("from Unit unit");
+		logger.info("Found totally " + ((lst==null) ? 0 : lst.size()) + " Units!");
+		return lst;
 	}
 }

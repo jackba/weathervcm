@@ -16,13 +16,14 @@ public class AbstractServiceDao extends AbstractDAO<ServiceTemplate, String>
 	public List<ServiceTemplate> findServices() {
 		String hql = "from ServiceTemplate s order by s.serviceTemplateId";
 		List<ServiceTemplate> lst = getHibernateTemplate().find(hql);
-		logger.info("AbstractServiceDao.findServices return " + lst.size()
-				+ " ServiceTemplate, hql = " + hql);
+		logger.info("Found " + (lst == null ? 0 : lst.size()) + " ServiceTemplates, HQL: " + hql);
 		return lst;
 	}
 
-	public ServiceTemplate getServiceTemplate(String serviceTemplateId) {
-		return (ServiceTemplate) getHibernateTemplate().get(
-				ServiceTemplate.class, serviceTemplateId);
+	public ServiceTemplate getServiceTemplate(String serviceTemplateId) 
+	{
+		ServiceTemplate st =(ServiceTemplate) getHibernateTemplate().get(ServiceTemplate.class, serviceTemplateId);
+		logger.info("Got ServiceTemplate, serviceTemplateId: " + serviceTemplateId + ", ServiceTemplate: " + st);
+		return st;
 	}
 }

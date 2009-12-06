@@ -107,9 +107,9 @@ public class UserAction extends AbstractBaseAction{
 	}
 	public String login(){
 		String username = request.getParameter("username");
-		logger.info("***********************************************************************");
-		logger.info("***********************************************************************");
-		logger.info("***********************************************************************");
+		logger.info("*********************************************************************************");
+		logger.info("*********************************************************************************");
+		logger.info("*********************************************************************************");
 		logger.info("User trying to login VCM, username: " + username);
 		User user = userService.findUserByLoginId(username);
 //		if(user==null || !user.getPassword().equals(request.getParameter("password"))){
@@ -169,6 +169,9 @@ public class UserAction extends AbstractBaseAction{
 		
 		logger.info("User logout: " 
 				+ (up == null ? "None UserPrivilege" : up));
+		logger.info("*********************************************************************************");
+		logger.info("*********************************************************************************");
+		logger.info("*********************************************************************************");
 		
 		return "login";
 	}
