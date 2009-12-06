@@ -27,6 +27,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.cma.intervideo.service.NotificationHandleService;
 import com.cma.intervideo.util.PropertiesHelper;
+import com.radvision.icm.service.vcm.ICMService;
 
 public class SocketGateway extends HttpServlet {
 	private static Log logger = LogFactory.getLog(SocketGateway.class);
@@ -57,13 +58,27 @@ public class SocketGateway extends HttpServlet {
 			//logger.info(req.getXml());
 			if(rsp == null){
 				logger.warn("Test MCU connection failed, begin to reconnect...");
+				PropertiesHelper.setMcuProxyConnected(false);
 				sg.reconnect();
 			}else{
 				//logger.info(rsp.getXml());
+				PropertiesHelper.setMcuProxyConnected(true);
 				logger.info("Test MCU connection successfully!");
 			}
 		}
 	}
+	
+	class TestTask4IcmService extends TimerTask{
+		public void run(){
+			boolean b = ICMService.isConnected();
+			PropertiesHelper.setIcmServiceConnected(b);
+			if (!b)
+				logger.warn("Test RADVISION iCM Service connection failed, please check the connnection and configuration!");
+			else
+				logger.info("Test RADVISION iCM Service connection successfully");
+		}
+	}
+	
 	/**
 	 * 处理消息线程,从消息队列中取出消息进行处理,同一个会议的消息在同一个队列,因而由同一个线程进行处理
 	 * @author lihw2
@@ -341,6 +356,17 @@ public class SocketGateway extends HttpServlet {
 		String mcuIp = PropertiesHelper.getIcmHost();
 		int mcuPort = PropertiesHelper.getMcuProxyPort();
 		try{
+			/**
+			 * 启动定时测试iCM Service, 每testPeriod秒钟进行一次测试
+			 */
+			Timer timer1 = new Timer();
+			TestTask4IcmService tt1 = new TestTask4IcmService();
+			int testPeriod = PropertiesHelper.getMcuConnectionTestPeriod();
+			timer1.schedule(tt1, Calendar.getInstance().getTime(), testPeriod);
+			
+			/**
+			 * 创建到MCUProxy的Socket连接, 收发处理器
+			 */
 			mcuSocket = new Socket();
 			mcuSocket.connect(new InetSocketAddress(mcuIp,mcuPort),5*1000);
 			logger.info("Connected to radvision proxy gateway");
@@ -356,12 +382,14 @@ public class SocketGateway extends HttpServlet {
 			logger.info("SocketGateway: " + queueNum + " Handle threads began to run!");
 			new ReceiveThread().start();
 			instance = this;
-			//启动定时测试
-			Timer timer = new Timer();
-			TestTask tt = new TestTask(this);
-			//每testPeriod秒钟进行一次测试
-			int testPeriod = PropertiesHelper.getMcuConnectionTestPeriod();
-			timer.schedule(tt, Calendar.getInstance().getTime(), testPeriod);
+			
+			/**
+			 * 启动定时测试MCUProxy, 每testPeriod秒钟进行一次测试
+			 */
+			Timer timer2 = new Timer();
+			TestTask tt2 = new TestTask(this);
+			timer2.schedule(tt2, Calendar.getInstance().getTime(), testPeriod);
+
 			NotificationHandleService service = (NotificationHandleService)ctx.getBean("notificationHandleService");
 			GetConferenceListRequest request = new GetConferenceListRequest();
 			GetConferenceListResponse response = (GetConferenceListResponse)this.call(request);
