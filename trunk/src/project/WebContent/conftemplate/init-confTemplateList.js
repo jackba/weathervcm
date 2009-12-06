@@ -38,7 +38,7 @@ function initData() {
 	ds.load({
 		params : {
 			start : 0,
-			limit : limit,
+			limit : limit
 		}
 	});
 
