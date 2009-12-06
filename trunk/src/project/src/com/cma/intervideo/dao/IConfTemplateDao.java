@@ -10,8 +10,6 @@ import com.cma.intervideo.util.ParamVo;
 
 public interface IConfTemplateDao extends DAO<ConfTemplate, Integer>{
 	public List<ConfTemplate> findConfTemplates(List<ParamVo> params, PageHolder ph);
-	public List<ConfTemplate> findConfTemplatesByUserId(String userId);
-	public List<ConfTemplate> findConfTemplatesByVirtualConfId(String virtualConfId);
 	public void merge(ConfTemplate confTemplate);
 	public void addConfTemplateUnit(Integer confTemplateId, Integer unitId);
 	public List<Unit> findUnitsByConfTemplateId(Integer confTemplateId, boolean selected);

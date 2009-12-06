@@ -16,6 +16,7 @@ import org.apache.commons.logging.LogFactory;
 
 import com.cma.intervideo.constant.DataDictStatus;
 import com.cma.intervideo.pojo.ConfTemplate;
+import com.cma.intervideo.pojo.Unit;
 import com.cma.intervideo.service.IConfTemplateService;
 import com.cma.intervideo.util.AbstractBaseAction;
 import com.cma.intervideo.util.PageHolder;
@@ -92,11 +93,20 @@ public class ConfTemplateAction extends AbstractBaseAction {
 		return null;
 	}
 	
-	public String getConfTemplatesByUser() {
-		UserPrivilege up = (UserPrivilege) session.get("userPrivilege");
-		String userId = up != null ? up.getUserId() : PropertiesHelper.getIcmDefaultUserId();
-		List<ConfTemplate> list = confTemplateService.findConfTemplatesByUserId(userId);
-		try {
+	public String getConfTemplatesByUser()
+	{
+		try
+		{
+			UserPrivilege up = (UserPrivilege) session.get("userPrivilege");
+			String userId = up != null ? up.getUserId() : PropertiesHelper.getIcmDefaultUserId();
+			
+			List<ParamVo> params = new ArrayList<ParamVo>();
+			ParamVo vo = new ParamVo();
+			vo.setParamName("userId");
+			vo.setParamValue(userId);
+			params.add(vo);
+			List<ConfTemplate> list = confTemplateService.findConfTemplates(params, null);
+			
 			JSONObject json = new JSONObject();
 			JSONArray arr = JSONArray.fromObject(list);
 			json.put("root", arr);
@@ -128,10 +138,31 @@ public class ConfTemplateAction extends AbstractBaseAction {
 	public String save() throws IOException, ParseException {
 		try
 		{
+			String confTemplateName = confTemplate.getConfTemplateName();
+			if (confTemplateName != null && confTemplateName.trim().length() > 0)
+			{
+				List<ParamVo> params = new ArrayList<ParamVo>();
+				ParamVo vo = new ParamVo();
+				vo.setParamName("confTemplateName");
+				vo.setParamValue(confTemplateName);
+				params.add(vo);
+				List<ConfTemplate> lst = confTemplateService.findConfTemplates(params, null);
+				if (lst != null && lst.size() > 0)
+				{
+					outJson("{success:false, msg:'表单模板名冲突!'}");
+					return null;
+				}
+			}
+			
 			String virtualConfId = confTemplate.getVirtualConfId();
 			if (virtualConfId != null && virtualConfId.trim().length() > 0)
 			{
-				List<ConfTemplate> lst = confTemplateService.findConfTemplatesByVirtualConfId(virtualConfId);
+				List<ParamVo> params = new ArrayList<ParamVo>();
+				ParamVo vo = new ParamVo();
+				vo.setParamName("virtualConfId");
+				vo.setParamValue(virtualConfId);
+				params.add(vo);
+				List<ConfTemplate> lst = confTemplateService.findConfTemplates(params, null);
 				if (lst != null && lst.size() > 0)
 				{
 					outJson("{success:false, msg:'会议号冲突!'}");
@@ -162,4 +193,27 @@ public class ConfTemplateAction extends AbstractBaseAction {
 		}
 		return null;
 	}
+	
+	public String getUnitsByConfTemplateId() {
+		String id = request.getParameter("confTemplateId");
+		boolean selected = "true".equalsIgnoreCase(request
+				.getParameter("selected"));
+		List<Unit> units = confTemplateService.findUnitsByConfTemplateId(id, selected);
+		JSONObject json = new JSONObject();
+		JSONArray arr = JSONArray.fromObject(units);
+		json.put("root", arr);
+		try {
+			System.out.println(json);
+			response.setCharacterEncoding("utf-8");
+
+			PrintWriter out = response.getWriter();
+			out.print(json);
+			out.flush();
+			out.close();
+		} catch (Exception e) {
+			logger.error(e.toString());
+		}
+		return null;
+	}
+
 }

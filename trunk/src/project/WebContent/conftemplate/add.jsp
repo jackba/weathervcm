@@ -116,7 +116,7 @@ body{font-size:12px;}
 	    </label></td>
 	  </tr>
 	  <tr>
-	    <th  class="row1">主要议题：</th>
+	    <th  class="row1">会议描述：</th>
 	    <td class="row2"><label>
 	      <textarea name="confTemplate.description" cols="40" rows="5" id="description" class="w600" style="width: 450px;"><s:property value='confTemplate.description'/></textarea>
 	    </label></td>

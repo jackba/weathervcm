@@ -18,13 +18,12 @@ import com.cma.intervideo.pojo.Unit;
 import com.cma.intervideo.util.PageHolder;
 import com.cma.intervideo.util.ParamVo;
 
-public class AbstractConfTemplateDao extends AbstractDAO<ConfTemplate, Integer> implements
-		IConfTemplateDao {
+public class AbstractConfTemplateDao extends AbstractDAO<ConfTemplate, Integer> 
+									 implements IConfTemplateDao {
 	private final static Log logger = LogFactory.getLog(AbstractConfTemplateDao.class);
 
 	public List<ConfTemplate> findConfTemplates(List<ParamVo> params, PageHolder ph) {
-		String hql = "from ConfTemplate r where r.status="
-				+ DataDictStatus.normalStatus;
+		String hql = "from ConfTemplate r where r.status=" + DataDictStatus.normalStatus;
 		if (params != null)
 		{
 			for (int i = 0; i < params.size(); i++)
@@ -35,6 +34,12 @@ public class AbstractConfTemplateDao extends AbstractDAO<ConfTemplate, Integer> 
 
 				if (vo.getParamName().equals("serviceTemplateId"))
 					hql += " and r.serviceTemplateId='" + vo.getParamValue() + "'";
+				
+				if (vo.getParamName().equals("userId"))
+					hql += " and r.userId='" + vo.getParamValue() + "'";
+				
+				if (vo.getParamName().equals("virtualConfId"))
+					hql += " and r.virtualConfId='" + vo.getParamValue() + "'";
 			}
 		}
 		if (ph != null && ph.isGetCount())
@@ -42,41 +47,10 @@ public class AbstractConfTemplateDao extends AbstractDAO<ConfTemplate, Integer> 
 
 		hql += " order by r.createTime";
 		List<ConfTemplate> cts = this.getHibernateTemplate().find(hql);
-		logger.info("AbstractConftemplateDao.findConfTemplates(List<ParamVo> params, PageHolder ph) - return "
-						+ (cts == null ? "0" : cts.size())
-						+ " ConfTemplates for HQL: " + hql);
+		logger.info("Found " + (cts == null ? "0" : cts.size()) + " ConfTemplates for HQL: " + hql);
 		return cts;
 	}
 
-	public List<ConfTemplate> findConfTemplatesByUserId(String userId) {
-		if (userId == null)
-			return null;
-		
-		String hql = "from ConfTemplate r where r.status = " + DataDictStatus.normalStatus;
-		hql += " and r.userId = '" + userId + "'";
-		hql += " order by r.createTime";
-		List<ConfTemplate> cts = this.getHibernateTemplate().find(hql);
-		logger.info("AbstractRoomDao.findRooms(String userId) - return "
-				+ (cts == null ? "0" : cts.size())
-				+ " Virtual Rooms for HQL: " + hql);
-		return cts;
-	}
-	
-	public List<ConfTemplate> findConfTemplatesByVirtualConfId(String virtualConfId)
-	{
-		if (virtualConfId == null)
-			return null;
-		
-		String hql = "from ConfTemplate r where r.status = " + DataDictStatus.normalStatus;
-		hql += " and r.virtualConfId = '" + virtualConfId + "'";
-		hql += " order by r.createTime";
-		List<ConfTemplate> cts = this.getHibernateTemplate().find(hql);
-		logger.info("AbstractRoomDao.findRooms(String userId) - return "
-				+ (cts == null ? "0" : cts.size())
-				+ " Virtual Rooms for HQL: " + hql);
-		return cts;
-	}
-	
 	public void merge(ConfTemplate confTemplate) {
 		getHibernateTemplate().merge(confTemplate);	
 	}
@@ -92,7 +66,7 @@ public class AbstractConfTemplateDao extends AbstractDAO<ConfTemplate, Integer> 
 	public List<Unit> findUnitsByConfTemplateId(Integer confTemplateId, boolean selected){
 		Session s = this.getSession();
 		Connection conn = s.connection();
-		List<Unit> result = new ArrayList<Unit>();
+		List<Unit> lst = new ArrayList<Unit>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try{
@@ -108,7 +82,7 @@ public class AbstractConfTemplateDao extends AbstractDAO<ConfTemplate, Integer> 
 				unit.setUnitName(rs.getString("unit_name"));
 				unit.setPartyId(rs.getString("party_id"));
 				unit.setDescription(rs.getString("description"));
-				result.add(unit);
+				lst.add(unit);
 			}
 		}catch(Exception e){
 			logger.error(e.toString());
@@ -123,11 +97,14 @@ public class AbstractConfTemplateDao extends AbstractDAO<ConfTemplate, Integer> 
 				logger.error(ex.toString());
 			}
 		}
-		return result;
+		logger.info("Found " + lst.size() + " Units for ConfTemplate id: " + confTemplateId);
+		return lst;
 	}
 
 	public List<Unit> findAllUnits(){
-		return this.getHibernateTemplate().find("from Unit unit");
+		List<Unit> lst = this.getHibernateTemplate().find("from Unit unit");
+		logger.info("Found totally " + ((lst==null) ? 0 : lst.size()) + " Units!");
+		return lst;
 	}
 
 	public void deleteConfTemplateUnitsByConfTemplateId(Integer confTemplateId) {
@@ -138,6 +115,7 @@ public class AbstractConfTemplateDao extends AbstractDAO<ConfTemplate, Integer> 
 			pstmt = conn.prepareStatement("delete from conf_template_x_unit where conf_template_id=?");
 			pstmt.setInt(1, confTemplateId);
 			pstmt.executeUpdate();
+			logger.info("Deleted ConfTemplate with confTemplateId: " + confTemplateId);
 		}catch(Exception e){
 			logger.error(e.toString());
 		}finally{

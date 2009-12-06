@@ -79,7 +79,7 @@ public class SocketGateway extends HttpServlet {
 		
 		public void run(){
 			
-//			logger.info("Handle thread " + tindex + " begin to run...");
+			logger.debug("Handle thread " + tindex + " begin to run...");
 			
 			//获取消息处理类
 			NotificationHandleService service = (NotificationHandleService)ctx.getBean("notificationHandleService");

@@ -125,9 +125,6 @@ a:hover{}
 				<span id="updatePassword" href="<%=request.getContextPath()%>/user_beforChangePassword.do" onClick="onClickMenuItem(this)">修改密码</span>
 			</li>
 			<li>
-				<span id="virtualRoom" href="<%=request.getContextPath()%>/room_list.do" onClick="onClickMenuItem(this)">虚拟房间</span>
-			</li>
-			<li>
 				<span id="conftemplate" href="<%=request.getContextPath()%>/conftemplate_list.do" onClick="onClickMenuItem(this)">表单模板</span>
 			</li>
 		</ul>
