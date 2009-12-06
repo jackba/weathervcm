@@ -277,6 +277,26 @@ public class ConfAction extends AbstractBaseAction {
 				}catch(Exception e){
 					logger.error(e.toString());
 				}
+			} else if("specialDay".equals(listType)){
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+				String day = request.getParameter("day");
+				Calendar c = Calendar.getInstance();
+				try{
+					c.setTime(df.parse(day));
+					Date startTime = c.getTime();
+					c.add(Calendar.DATE, 1);
+					Date endTime = c.getTime();
+					ParamVo vo = new ParamVo();
+					vo.setParamName("startTime");
+					vo.setParamValue(startTime);
+					params.add(vo);
+					vo = new ParamVo();
+					vo.setParamName("endTime");
+					vo.setParamValue(endTime);
+					params.add(vo);
+				}catch(Exception e){
+					logger.error(e.toString());
+				}
 			} else if ("currentWeek".equals(listType)) {
 				Calendar c = Calendar.getInstance();
 				DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
