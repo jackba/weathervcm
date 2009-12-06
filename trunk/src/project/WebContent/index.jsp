@@ -16,6 +16,7 @@ var loginId = "<s:property value='#session.userPrivilege.loginId'/>";
 <script type="text/javascript" src="resources/js/ext-lang-zh_CN.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/validate.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/pager.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/calendar/WdatePicker.js"></script>
 <script type="text/javascript" src="init-main.js"></script>
 <style type="text/css">
 body{font:12px Tahoma;margin:0px; padding:0px;text-align:center;background:#FF;}
@@ -213,6 +214,30 @@ a:hover{}
 				</div>
 			</form>
 		</div><!--end of searchArea-->
+		<div id="runningArea" class="search"></div>
+		<div id="agendaArea" class="search">
+			<form name="form2" id="form2" method="post" action="#">
+				<table border="1" class="query">
+					<tr>
+						<th>日期：</th>
+						<td>
+						<input type="text" class="Wdate" id="day2" name="day2" onFocus="WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd'})"/>
+						</td>
+						<th>显示方式：</th>
+						<td>
+						<select name="displayType" id="displayType">
+						<option value="1" selected="selected">按周显示</option>
+						<option value="2">按天显示</option>
+						</select>
+						</td>
+					</tr>
+				</table>
+				<div align="center" class="query_btn">
+						<input type="button" value="查询" id="btnQuery"	class="butt_bg1" onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" onClick="query2()" /> &nbsp;&nbsp;
+						<input type="button" value="重置" id="btnReset"	class="butt_bg1" onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" onClick="reset2()" />
+				</div>
+			</form>
+		</div>
 	</div><!--end of wrap-->
 <!--/div-->
 <!--
