@@ -137,6 +137,19 @@ public class ICMService {
 		return ((ControlService) getService(ServiceType.ControlService))
 				.getControlServicePort();
 	}
+	
+	public static boolean isConnected()
+	{	
+		String version;
+		try {
+			ScheduleServicePortType portType = getScheduleServicePortType();
+			version = portType.getVersion();
+		} catch (Exception e) {
+			logger.warn("Exception on getting Schedule Service port type: " + e.getMessage());
+			return false;
+		}
+		return version != null && version.trim().length() > 0;
+	}
 
 	public static UserResult setUser(User user) {
 		UserResult ur = null;
