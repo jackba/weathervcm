@@ -205,6 +205,22 @@ function createWeekPanel(){
     	cdayofweek = 7;
     }
     var sday = cday.add(Date.DAY,1-cdayofweek);
+//	var title = "星期一"
+//	if(cdayofweek == 7){
+//		title = "星期日"
+//	}else if(cdayofweek == 1){
+//		title = "星期一";
+//	}else if(cdayofweek == 2){
+//		title = "星期二";
+//	}else if(cdayofweek == 3){
+//		title = "星期三";
+//	}else if(cdayofweek == 4){
+//		title = "星期四";
+//	}else if(cdayofweek == 5){
+//		title = "星期五";
+//	}else if(cdayofweek == 6){
+//		title = "星期六";
+//	}
     weekPanel = new Ext.TabPanel({
 		renderTo:'agendaArea',
 		id:'weekPanel',
@@ -213,13 +229,13 @@ function createWeekPanel(){
 		deferredRender:false,
 		minTabWidth:115,
 		activeTab:cdayofweek-1,
-		items:[getDayConf(sday.format('Y-m-d')),
-			getDayConf(sday.add(Date.DAY,1).format('Y-m-d')),
-			getDayConf(sday.add(Date.DAY,2).format('Y-m-d')),
-			getDayConf(sday.add(Date.DAY,3).format('Y-m-d')),
-			getDayConf(sday.add(Date.DAY,4).format('Y-m-d')),
-			getDayConf(sday.add(Date.DAY,5).format('Y-m-d')),
-			getDayConf(sday.add(Date.DAY,6).format('Y-m-d'))
+		items:[Ext.applyIf(getDayConf(sday.format('Y-m-d')),{title:'星期一'}),
+			Ext.applyIf(getDayConf(sday.add(Date.DAY,1).format('Y-m-d')),{title:'星期二'}),
+			Ext.applyIf(getDayConf(sday.add(Date.DAY,2).format('Y-m-d')),{title:'星期三'}),
+			Ext.applyIf(getDayConf(sday.add(Date.DAY,3).format('Y-m-d')),{title:'星期四'}),
+			Ext.applyIf(getDayConf(sday.add(Date.DAY,4).format('Y-m-d')),{title:'星期五'}),
+			Ext.applyIf(getDayConf(sday.add(Date.DAY,5).format('Y-m-d')),{title:'星期六'}),
+			Ext.applyIf(getDayConf(sday.add(Date.DAY,6).format('Y-m-d')),{title:'星期日'})
 		]
 	});
 }
@@ -466,13 +482,17 @@ function query() {
 function query2(){
 	var type = Ext.getDom('displayType').options[Ext.getDom('displayType').selectedIndex].value;
 	if(type=='2'){
-		destroyWeekPanel();
+		if(weekPanel!=null){
+			destroyWeekPanel();
+		}
 		if(dayGrid!=null){
 			dayGrid.destroy();
 		}
 		createDayGrid();
 	}else{
-		destroyDayGrid();
+		if(dayGrid!=null){
+			destroyDayGrid();
+		}
 		if(weekPanel!=null){
 			destroyWeekPanel();
 		}
@@ -621,24 +641,6 @@ function reset2(){
 	Ext.get("form2").reset();
 }
 function getDayConf(day){
-	var cday = Date.parseDate(day,'Y-m-d');
-	var cdayofweek = cday.getDay();
-	var title = "星期一"
-	if(cdayofweek == 0){
-		title = "星期日"
-	}else if(cdayofweek == 1){
-		title = "星期一";
-	}else if(cdayofweek == 2){
-		title = "星期二";
-	}else if(cdayofweek == 3){
-		title = "星期三";
-	}else if(cdayofweek == 4){
-		title = "星期四";
-	}else if(cdayofweek == 5){
-		title = "星期五";
-	}else if(cdayofweek == 6){
-		title = "星期六";
-	}
 	var ds2 = new Ext.data.Store({
 		proxy : new Ext.data.HttpProxy({
 			url : 'conf_searchCurrentDays.do'
@@ -773,9 +775,9 @@ function getDayConf(day){
 		bbar : ptb2,
 		width: Ext.get("agendaArea").getWidth()*0.98,
 		height:Ext.get("agendaArea").getHeight()*0.98,
-		autoHeight : true,
+		autoHeight : true
 		//cls:vline-on,
-		title : title
+		//title : title
 		//iconCls : 'icon-grid',
 		//renderTo : 'agendaArea'
 	});
