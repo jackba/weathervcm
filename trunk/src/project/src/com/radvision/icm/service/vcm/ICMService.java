@@ -19,6 +19,7 @@ import com.radvision.icm.service.ControlService;
 import com.radvision.icm.service.ControlServicePortType;
 import com.radvision.icm.service.LicenseService;
 import com.radvision.icm.service.LicenseServicePortType;
+import com.radvision.icm.service.McuResourceInfo;
 import com.radvision.icm.service.McuResourceResult;
 import com.radvision.icm.service.MeetingType;
 import com.radvision.icm.service.ResourceService;
@@ -36,20 +37,29 @@ import com.radvision.icm.service.VirtualRoomInfoEx;
 import com.radvision.icm.service.VirtualRoomResult;
 
 public class ICMService {
+
 	private static Log logger = LogFactory.getLog(ICMService.class);
-	protected static String m_ipPort = PropertiesHelper.getIcmIpPort();
+	
 	private final static QName CONTROL_SERVICE = new QName(
-			"http://radvision.com/icm/service/controlservice", "ControlService");
+			"http://radvision.com/icm/service/controlservice", 
+			"ControlService");
+	
 	private final static QName RESOURCE_SERVICE = new QName(
 			"http://radvision.com/icm/service/resourceservice",
 			"ResourceService");
+	
 	private final static QName SCHEDULE_SERVICE = new QName(
 			"http://radvision.com/icm/service/scheduleservice",
 			"ScheduleService");
+	
 	private final static QName LICENSE_SERVICE = new QName(
-			"http://radvision.com/icm/service/licenseservice", "LicenseService");
+			"http://radvision.com/icm/service/licenseservice", 
+			"LicenseService");
+	
 	private final static QName USER_SERVICE = new QName(
-			"http://radvision.com/icm/service/userservice", "UserService");
+			"http://radvision.com/icm/service/userservice",
+			"UserService");
+	
 	public final static String ALL_CLASSIFICATIONID = "all";
 
 	protected static Service getService(ServiceType type) throws Exception {
@@ -75,7 +85,7 @@ public class ICMService {
 			} else {
 				throw new Exception("Not supported service type.");
 			}
-			String url = "http://" + m_ipPort + "/icmservice/1.0/" + name
+			String url = "http://" + getIcmIPPort() + "/icmservice/1.0/" + name
 					+ "?wsdl";
 			if (type == ServiceType.LicenseService)
 				svr = new LicenseService(new java.net.URL(url), qn);
@@ -95,6 +105,10 @@ public class ICMService {
 		return svr;
 	}
 
+	private static String getIcmIPPort() {
+		return PropertiesHelper.getIcmHost() + ":" + PropertiesHelper.getIcmPort();
+	}
+	
 	public static UserServicePortType getUserServicePortType() throws Exception {
 		return ((UserService) getService(ServiceType.UserService))
 				.getUserServicePort();
@@ -170,12 +184,36 @@ public class ICMService {
 			List<String> serviceTemplateIds, long startTime, long endTime,
 			int interval)
 	{
+		logger.info("Getting Resource Infomation from platform: startTime = " + startTime + ", endTime = " + endTime + ", interval = " + interval);
 		McuResourceResult mrr = null;
 		try {
 			mrr = getResourceServicePortType().getResourceInfos(serviceTemplateIds, startTime, endTime, interval);
-			logger.info((mrr.isSuccess() ? "success" : "fail") + " to get resource infos from iCM platform");
-		} catch (Exception e) {
-			logger.info("Exception on get resource infos from iCM platform - " + e.getMessage());
+			if (mrr == null || !mrr.isSuccess() || mrr.getInfos().size() == 0)
+			{
+				logger.warn("Failed to get Resource Information from platform, result check the connection and configuration!");
+				if (mrr == null)
+					logger.warn("result is null!");
+				else if (!mrr.isSuccess())
+					logger.warn("Error code: " + mrr.getErrorCode() + "; Error info: " + mrr.getErrorInfo());
+				else if (mrr.getInfos().size() == 0)
+					logger.warn("McuResourceInfo size is 0!");
+				return mrr;
+			}
+			
+			List<McuResourceInfo> lst = mrr.getInfos();
+			for (McuResourceInfo mri : lst) 
+			{
+				String portNums = "{";
+				List<Integer> ports = mri.getPortNums();
+				for (int i = 0; i < ports.size(); i++)
+					portNums += ("[" + i + "]=" + ports.get(i));
+				portNums += "}";
+				logger.info("McuResourceInfo was gotten: serviceTemplateId = " + mri.getServiceTemplateId() + ", portNums = " + portNums);
+			}
+		
+		} catch (Exception e)
+		{
+			logger.info("Exception on get resource information from platform: " + e.getMessage());
 			e.printStackTrace();
 		}
 		return mrr;
@@ -191,7 +229,7 @@ public class ICMService {
 							+ room.getVitualConfId() + ", room id: "
 							+ vrr.getVirtualRoomID());
 		} catch (Exception e) {
-			logger.info("Exception on adding virtual room to iCM platform - " + e.getMessage());
+			logger.info("Exception on adding virtual room to platform: " + e.getMessage());
 			e.printStackTrace();
 		}
 		return vrr;
@@ -207,7 +245,7 @@ public class ICMService {
 							+ room.getVitualConfId() + ", room id: "
 							+ vrr.getVirtualRoomID());
 		} catch (Exception e) {
-			logger.info("Exception on modifying virtual room to iCM platform - " + e.getMessage());
+			logger.info("Exception on modifying virtual room to platform: " + e.getMessage());
 			e.printStackTrace();
 		}
 		return vrr;
@@ -221,8 +259,8 @@ public class ICMService {
 							+ " to delete virtual room from iCM platform - virtual room number: "
 							+ virtualRoomNumber);
 		} catch (Exception e) {
-			logger.info("Exception on deleting virtual room from iCM platform - virtual room number: "
-							+ virtualRoomNumber + " - " + e.getMessage());
+			logger.info("Exception on deleting virtual room from platform: virtual room number = "
+							+ virtualRoomNumber + ", Exception = " + e.getMessage());
 			e.printStackTrace();
 		}
 		return ret;
@@ -234,7 +272,7 @@ public class ICMService {
 			trs = getResourceServicePortType().getTerminals(ALL_CLASSIFICATIONID);
 			logger.info("get " + (trs == null ? "0" : trs.size()) + " Terminals from iCM platform");
 		} catch (Exception e) {
-			logger.info("Exception on getting Terminals from iCM platform - " + e.getMessage());
+			logger.info("Exception on getting Terminals from platform: " + e.getMessage());
 			e.printStackTrace();
 		}
 		return trs;
@@ -247,11 +285,11 @@ public class ICMService {
 			ConferenceInfo info = convertToConferenceInfo(conf, listTerminalId, true);
 			sr = getScheduleServicePortType().createConference(info);
 			logger.info((sr != null && sr.isSuccess() ? "success" : "fail")
-							+ " to schedule conference to iCM platform - conference subject: "
+							+ " to schedule conference to platform - conference subject: "
 							+ conf.getSubject());
 		} catch (Exception e) {
-			logger.info("Exception on creating confernece to iCM platform - conference subject: "
-							+ conf.getSubject() + " - " + e.getMessage());
+			logger.info("Exception on creating confernece to platform: conference subject = "
+							+ conf.getSubject() + ", Exception = " + e.getMessage());
 			e.printStackTrace();
 		}
 		return sr;

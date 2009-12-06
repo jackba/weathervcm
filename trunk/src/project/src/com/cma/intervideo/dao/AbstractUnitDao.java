@@ -12,7 +12,7 @@ import com.cma.intervideo.util.ParamVo;
 
 public class AbstractUnitDao extends AbstractDAO<Unit, Integer> implements
 		IUnitDao {
-	private final static Log logger = LogFactory.getLog(AbstractRoomDao.class);
+	private final static Log logger = LogFactory.getLog(AbstractUnitDao.class);
 
 	public List<Unit> findUnits(List<ParamVo> params, PageHolder ph) {
 		String hql = "from Unit unit where 1=1 ";
@@ -33,13 +33,13 @@ public class AbstractUnitDao extends AbstractDAO<Unit, Integer> implements
 		}
 		hql += " order by unit.unitName";
 		List<Unit> lst = this.getHibernateTemplate().find(hql);
-		logger.info("Found " + (lst == null ? 0 : lst.size()) + " Units, HQL: " + hql);
+		logger.info("Found " + (lst == null ? 0 : lst.size()) + " Unit(s), HQL: " + hql);
 		return lst;
 	}
 
 	public List<Unit> findAllUnits() {
 		List<Unit> lst = this.getHibernateTemplate().find("from Unit unit");
-		logger.info("Found totally " + ((lst==null) ? 0 : lst.size()) + " Units!");
+		logger.info("Found totally " + ((lst==null) ? 0 : lst.size()) + " Unit(s)!");
 		return lst;
 	}
 }

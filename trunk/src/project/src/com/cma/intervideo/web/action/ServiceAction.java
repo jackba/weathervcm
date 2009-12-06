@@ -16,25 +16,40 @@ import com.radvision.icm.service.MeetingType;
 import com.radvision.icm.service.vcm.ICMService;
 
 public class ServiceAction extends AbstractBaseAction{
+	
 	private static Log logger = LogFactory.getLog(ServiceAction.class);
+	
 	private IServiceService serviceService ;
+	
 	private ServiceTemplate serviceTemplate;
 	
 	public ServiceTemplate getServiceTemplate() {
 		return serviceTemplate;
 	}
+
 	public void setServiceTemplate(ServiceTemplate serviceTemplate) {
 		this.serviceTemplate = serviceTemplate;
 	}
+	
 	public void setServiceService(IServiceService serviceService) {
 		this.serviceService = serviceService;
 	}
+	
 	public String list(){
 		return "list";
 	}
+	
+	public String detail(){
+		String id = request.getParameter("serviceTemplateId");
+		serviceTemplate = serviceService.getServiceTemplate(id);
+		logger.info("ServiceTemplate detail information, serviceTemplateId: " + id + "; detail: " + serviceTemplate);
+		return "detail";
+	}
+	
 	public String search(){
-		List<ServiceTemplate> serviceList = serviceService.findServices();
 		try{
+			logger.info("search...");
+			List<ServiceTemplate> serviceList = serviceService.findServices();
 			JSONObject json = new JSONObject();
 			JSONArray arr = JSONArray.fromObject(serviceList);
 			json.put("root", arr);
@@ -50,7 +65,9 @@ public class ServiceAction extends AbstractBaseAction{
 		}
 		return null;
 	}
+	
 	public String update() {
+		logger.info("update...");
 		serviceService.deleteAllServices();
 		List<MeetingType> mts = ICMService.getMeetingTypes();
 		int count = 0;
@@ -73,9 +90,5 @@ public class ServiceAction extends AbstractBaseAction{
 		logger.info(count + "Service Template were downloaded from Platform and saved to VCM!");
 		return list();
 	}
-	public String detail(){
-		String id = request.getParameter("serviceTemplateId");
-		serviceTemplate = serviceService.getServiceTemplate(id);
-		return "detail";
-	}
+
 }

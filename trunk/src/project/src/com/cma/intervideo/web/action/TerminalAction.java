@@ -44,12 +44,20 @@ public class TerminalAction extends AbstractBaseAction {
 	public String add() {
 		return "add";
 	}
+	
+	public String detail() {
+		String id = request.getParameter("terminalId");
+		terminal = terminalService.getTerminal(id);
+		logger.info("Terminal detail information, terminalId: " + id + "; detail: " + terminal);
+		return "detail";
+	}
 
 	public String save() throws IOException, ParseException, Exception {
 		return null;
 	}
 
 	public String search() {
+		logger.info("search...");
 		String start = request.getParameter("start");
 		String limit = request.getParameter("limit");
 		String totalProperty = request.getParameter("totalProperty");
@@ -94,8 +102,9 @@ public class TerminalAction extends AbstractBaseAction {
 	}
 	
 	public String searchAll() {
-		List<Terminal> terminalList = terminalService.findTerminals();
 		try {
+			logger.info("searchAll...");
+			List<Terminal> terminalList = terminalService.findTerminals();
 			JSONObject json = new JSONObject();
 			JSONArray arr = JSONArray.fromObject(terminalList);
 			json.put("root", arr);
@@ -113,6 +122,7 @@ public class TerminalAction extends AbstractBaseAction {
 	}
 
 	public String update() throws IOException, ParseException, Exception {
+		logger.info("update...");
 		terminalService.deleteAllTerminals();
 		int count = 0;
 		List<TerminalResource> trs = ICMService.getTerminals();
@@ -146,9 +156,4 @@ public class TerminalAction extends AbstractBaseAction {
 		return list();
 	}
 
-	public String detail() {
-		String id = request.getParameter("terminalId");
-		terminal = terminalService.getTerminal(id);
-		return "detail";
-	}
 }
