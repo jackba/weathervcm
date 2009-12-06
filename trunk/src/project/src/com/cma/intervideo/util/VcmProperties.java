@@ -62,6 +62,12 @@ public class VcmProperties {
 	}
 	
 	public synchronized static void setProperties(String key,String value){
+		if (properties == null)
+			new VcmProperties();
+		properties.setProperty(key, value);
+	}
+	
+	public synchronized static void setAndStoreProperties(String key,String value){
 		if (properties == null) {
 			new VcmProperties();
 		}
