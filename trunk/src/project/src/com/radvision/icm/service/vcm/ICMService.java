@@ -197,6 +197,7 @@ public class ICMService {
 			List<String> serviceTemplateIds, long startTime, long endTime,
 			int interval)
 	{
+//		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm"); 
 		logger.info("Getting Resource Infomation from platform: startTime = " + startTime + ", endTime = " + endTime + ", interval = " + interval);
 		McuResourceResult mrr = null;
 		try {

@@ -57,13 +57,13 @@ public class SocketGateway extends HttpServlet {
 			GetServicesResponse rsp = (GetServicesResponse)sg.call(req);
 			//logger.info(req.getXml());
 			if(rsp == null){
-				logger.warn("Test MCU connection failed, begin to reconnect...");
+				logger.warn("Test MCU Proxy connection failed, begin to reconnect...");
 				PropertiesHelper.setMcuProxyConnected(false);
 				sg.reconnect();
 			}else{
 				//logger.info(rsp.getXml());
 				PropertiesHelper.setMcuProxyConnected(true);
-				logger.info("Test MCU connection successfully!");
+				logger.info("Test MCU Proxy connection successfully!");
 			}
 		}
 	}

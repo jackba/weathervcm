@@ -37,16 +37,7 @@ body{font-size:12px;}
 	    </label></td>
   	  </tr>
   	  <tr>
-	    <th class="row1"><font color="red">&nbsp;*</font>虚拟房间：</th>
-	    <td class="row2">
-	    <label>
-	    	<div id="virtual_room"></div>
-	    </label>
-	    <input type="button" class="butt_bg1"  onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" value="加载" onClick="loadvmex()" ></input>
-	  	</td>
-	  </tr>
-  	  <tr>
-	    <th width="20%"><font color="red">&nbsp;*</font>会议号：</th>
+	    <th width="20%">会议号：</th>
 	    <td><label>
 	      <input name="conf.dialableNumber" value="<s:property value='conf.dialableNumber'/>" id="dialableNumber" type="text" class="put200" maxlength="40"></input>
 	    </label></td>
@@ -156,6 +147,7 @@ Ext.onReady(function(){
     Ext.QuickTips.init();
     Ext.form.Field.prototype.msgTarget = 'side';
 
+    /*
     var vmds = new Ext.data.Store({
 		proxy : new Ext.data.HttpProxy({
 			url : 'room_getRoomsByUser.do'
@@ -183,6 +175,7 @@ Ext.onReady(function(){
         selectOnFocus: true,
         renderTo: 'virtual_room'
     });
+    */
     
     var serviceds = new Ext.data.Store({
 		proxy : new Ext.data.HttpProxy({
@@ -202,8 +195,8 @@ Ext.onReady(function(){
 	var serviceComboWithTooltip = new Ext.form.ComboBox({
 		store: serviceds,
 		value: "<s:property value='conf.serviceTemplateDesc'/>",
-		hiddenId: 'serviceTemplate',
-        hiddenName: 'conf.serviceTemplate',
+		hiddenId: 'serviceTemplateId',
+        hiddenName: 'conf.serviceTemplateId',
         valueField: 'serviceTemplateId',
         displayField: 'serviceTemplateDesc',
         typeAhead: true,
@@ -318,12 +311,11 @@ if ( checkForm()){
 }
 function checkForm(){
 	if (validateRequired('subject','名称')
-			&& validateRequired('dialableNumber','会议号')
 			&& validateRequired('initUnit','组织单位')
 			&& validateRequired('startTime','开始时间')
 			&& validateRequired('timeLong','时长')
 			&& validateRequired('mainUnit','主会场')
-			&& validateRequired('serviceTemplate','会议类型')
+			&& validateRequired('serviceTemplateId','会议类型')
 			) {		
 		return true;
 	}else {
