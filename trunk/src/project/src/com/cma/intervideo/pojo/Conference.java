@@ -51,11 +51,12 @@ public class Conference implements java.io.Serializable {
 		
 		String line = System.getProperty("line.separator");
 		buf.append(line + "[Conference:( @" + hashCode() + ")" + line);
-		buf.append(" conferenceId = " + conferenceId + ", confTemplateId = " + confTemplateId + line);
-		buf.append(" userId = " + userId + ", radConferenceId = " + radConferenceId + line);
-		buf.append(" dialableNumber = " + dialableNumber + ", timeLong = " + timeLong + line);
+		buf.append(" conferenceId = " + conferenceId + ", radConferenceId = " + radConferenceId + line);
+		buf.append(" virtualConfId = " + virtualConfId + ", dialableNumber = " + dialableNumber + line);
+		buf.append(" description = " + description + ", confTemplateId = " + confTemplateId + line);
+		buf.append(" startTime = " + startTime + ", timeLong = " + timeLong + line);
 		buf.append(" serviceTemplateId = " + serviceTemplateId + ", serviceTemplateName = " + serviceTemplateName + ", serviceTemplateDesc = " + serviceTemplateDesc + line);
-		buf.append(" memberId = " + memberId + ", userId = " + userId + ", description = " + description + line);
+		buf.append(" memberId = " + memberId + ", userId = " + userId + line);
 		buf.append(" status = " + status + ", subject = " + subject + line);
 		buf.append(" createTime = " + createTime + ", updateTime = " + updateTime + ", cancelTime = " + cancelTime + line);
 		buf.append(" initUnit = " + initUnit + ", mainUnit = " + mainUnit + line);
