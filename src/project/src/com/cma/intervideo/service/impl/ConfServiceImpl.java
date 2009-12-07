@@ -78,7 +78,7 @@ public class ConfServiceImpl implements IConfService {
 			confId = ids[0];
 			radConfId = ids[1];
 		}
-		logger.info("to delete Conference from VCM - conferenceId: " + confId);
+		logger.info("Deleting the Conference from VCM: conferenceId = " + confId);
 		try {
 			Conference conf = confDao.getObjectByID(Integer.parseInt(confId));
 			conf.setStatus(Conference.status_history);
@@ -86,14 +86,11 @@ public class ConfServiceImpl implements IConfService {
 			confDao.saveOrUpdate(conf);
 			logDao.addLog(up.getUserId(), logDao.type_delete_conf, "删除会议"+conf.getRadConferenceId());
 		} catch (Exception e) {
-			logger
-					.info("Exception on deleting Conference from VCM - conferenceId: "
-							+ confId + " - " + e.getMessage());
+			logger.info("Exception on deleting the conference from VCM: conferenceId = " + confId + " - " + e.getMessage());
 			return;
 		}
 
-		logger.info("to delete Conference from iCM platform - radConfId: "
-				+ radConfId);
+		logger.info("Deleting the Conference from platform: radConfId = " + radConfId);
 		ICMService.cancelConference(radConfId);
 	}
 
@@ -108,37 +105,34 @@ public class ConfServiceImpl implements IConfService {
 	}
 
 	public void createConf(Conference conf, String[] units) throws Exception {
-		logger.info("Before Scheduling a new meeting to platform..." + conf);
+		logger.info("Before Scheduling a new meeting: " + conf);
 		conf.setRadConferenceId(null);
 		List<String> listTerminalId = getTerminalIdList(units);
 		ScheduleResult sr = ICMService.createConference(conf, listTerminalId);
 		if (sr == null || !sr.isSuccess()) 
 		{
-			logger.warn("Platform failed to schedule the conference - " + conf.getSubject());
+			logger.warn("Platform failed to schedule this new meeting!");
 			throw new Exception("平台预约会议" + conf.getSubject() + " 失败!");
 		}
 		try {
 			conf.setRadConferenceId(sr.getConferenceId());
 			conf.setVirtualConfId(sr.getConferenceInfo().getDialableConferenceId());
-			logger.info("Scheduled successfully a new meeting to platform..." + conf);
+			logger.info("Scheduled successfully a new meeting to platform: " + conf);
 			
 			logger.info("Creating a new conference to VCM...");
 			confDao.saveOrUpdate(conf);
 			if (units != null) {
-				for (int i = 0; i < units.length; i++) {
-					confDao.addConfUnit(conf.getConferenceId(), new Integer(
-							units[i]));
-				}
+				for (int i = 0; i < units.length; i++)
+					confDao.addConfUnit(conf.getConferenceId(), new Integer(units[i]));
 			}
 			if(listTerminalId!=null){
-				for(int i=0;i<listTerminalId.size();i++){
+				for(int i=0;i<listTerminalId.size();i++)
 					confDao.addConfParty(conf.getConferenceId(), listTerminalId.get(i));
-				}
 			}
-			logger.info("Created successfully a new meeting to VCM.");
+			logger.info("Created successfully a new meeting in VCM.");
 		} catch (Exception e) {
 			logger.warn("ConfServiceImpl::createConf Excepton - " + e.toString());
-			logger.info("Excepton on save user to VCM, So need to roll back to delete this conference from platform that was scheduled just now!!");
+			logger.info("Excepton on save user in VCM, So need to roll back to delete this conference from platform that was scheduled just now!!");
 			ICMService.cancelConference(sr.getConferenceId());
 			logger.warn("VCM failed to save the conference - " + conf.getSubject());
 			throw new Exception("系统保存会议失败 - conference subject: " + conf.getSubject());
@@ -158,36 +152,37 @@ public class ConfServiceImpl implements IConfService {
 	}
 
 	public void modifyConf(Conference conf, String[] units) throws Exception {
-		logger.info("to modify conference to iCM platform......" + conf);
+		logger.info("Before modifying the conference..." + conf);
 		List<String> listTerminalId = getTerminalIdList(units);
 		ScheduleResult sr = ICMService.modifyConference(conf, listTerminalId);
 		if (sr == null || !sr.isSuccess())
 		{
-			logger.warn("Platform failed to modify the conference - " + conf.getSubject());
+			logger.warn("Platform failed to modify this conference!");
 			throw new Exception("平台修改会议" + conf.getRadConferenceId() + "失败!");
 		}
 		try {
-			logger.info("to create conference to VCM......");
 			conf.setRadConferenceId(sr.getConferenceId());
-			conf.setVirtualConfId(sr.getConferenceInfo()
-					.getDialableConferenceId());
+			conf.setVirtualConfId(sr.getConferenceInfo().getDialableConferenceId());
+			logger.info("Modified successfully the conference to platform: " + conf);
+			
+			logger.info("Modifying this conference in VCM...");
 			confDao.saveOrUpdate(conf);
 			confDao.deleteConfPartiesByConfId(conf.getConferenceId());
+			logger.info("Deleted Parties for this conference.");
 			confDao.deleteConfUnitsByConfId(conf.getConferenceId());
+			logger.info("Deleted Units for this conference.");
 			if (units != null) {
-				for (int i = 0; i < units.length; i++) {
-					confDao.addConfUnit(conf.getConferenceId(), new Integer(
-							units[i]));
-				}
+				for (int i = 0; i < units.length; i++)
+					confDao.addConfUnit(conf.getConferenceId(), new Integer(units[i]));
 			}
 			if(listTerminalId!=null){
-				for(int i=0;i<listTerminalId.size();i++){
+				for(int i=0;i<listTerminalId.size();i++)
 					confDao.addConfParty(conf.getConferenceId(), listTerminalId.get(i));
-				}
 			}
+			logger.info("Modified successfully a new meeting to VCM.");
 		} catch (Exception e) {
 			logger.warn("ConfServiceImpl::modifyConf Excepton - " + e.toString());
-			logger.info("if fail to save user to VCM, need to delete the user from iCM platform that was saved just now!!");
+			logger.info("if fail to save user in VCM, need to delete the user from iCM platform that was saved just now!!");
 			Conference oldConf = getConfById(conf.getConferenceId().toString());
 			List<Unit> oldUnits = findUnitsByConfId(conf.getConferenceId().toString(), true);
 			List<String> oldListTerminalId = null;

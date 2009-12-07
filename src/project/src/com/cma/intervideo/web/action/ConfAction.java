@@ -224,6 +224,7 @@ public class ConfAction extends AbstractBaseAction {
 		return null;
 	}
 	public String generatePDF(){
+		logger.info("generatePDF...");
 		exportToPDF(getConfList(new PageHolder()));
 		return null;
 	}
@@ -345,6 +346,7 @@ public class ConfAction extends AbstractBaseAction {
 		return confList;
 	}
 	public String generateExcel(){
+		logger.info("generateExcel...");
 		exportToExcel(getConfList(new PageHolder()));
 		return null;
 	}
@@ -412,6 +414,7 @@ public class ConfAction extends AbstractBaseAction {
 	}
 
 	public String save() throws IOException, ParseException {
+		logger.info("save...");
 		conf.setStatus(Conference.status_tobescheduled);
 		UserPrivilege up = (UserPrivilege) session.get("userPrivilege");
 		String userId = up != null ? up.getUserId() : PropertiesHelper.getIcmDefaultUserId();
@@ -444,6 +447,7 @@ public class ConfAction extends AbstractBaseAction {
 	}
 
 	public String modifyReserve() {
+		logger.info("modifyReserve...");
 		String personal = request.getParameter("personal");
 		if(personal!=null && !personal.equals("")){
 			request.setAttribute("personal", personal);
@@ -479,6 +483,7 @@ public class ConfAction extends AbstractBaseAction {
 	}
 
 	public String update() throws Exception {
+		logger.info("update...");
 		UserPrivilege up = (UserPrivilege)session.get("userPrivilege");
 		Conference oldConf = confService.getConfById(conf.getConferenceId()
 				.toString());
