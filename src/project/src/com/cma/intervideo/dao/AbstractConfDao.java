@@ -23,7 +23,7 @@ import com.cma.intervideo.util.ParamVo;
 public abstract class AbstractConfDao extends AbstractDAO<Conference, Integer> implements IConfDao{
 	private static Log logger = LogFactory.getLog(AbstractConfDao.class);
 	public List<Conference> findConfs(List<ParamVo> params, PageHolder ph){
-		String hql = "from Conference conference where 1=1";
+		String hql = "from Conference conference where status!="+Conference.status_cancel;
 		if(params!=null){
 			for(int i=0;i<params.size();i++){
 				ParamVo vo = params.get(i);
