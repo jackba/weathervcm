@@ -12,7 +12,8 @@ public class Conference implements java.io.Serializable {
 	public static final short status_upcoming = 0;
 	public static final short status_ongoing = 1;
 	public static final short status_history = 2;
-
+	public static final short status_cancel = 3;
+	
 	private Integer conferenceId;
 	private String userId;
 	private String serviceTemplateId;
@@ -303,6 +304,8 @@ public class Conference implements java.io.Serializable {
 			return "召开中";
 		}else if (status == status_history){
 			return "已结束";
+		}else if (status == status_cancel){
+			return "已取消";
 		} else
 			return "待预定";
 	}

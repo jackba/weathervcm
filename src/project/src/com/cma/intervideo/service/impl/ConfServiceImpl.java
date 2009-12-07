@@ -81,7 +81,8 @@ public class ConfServiceImpl implements IConfService {
 		logger.info("Deleting the Conference from VCM: conferenceId = " + confId);
 		try {
 			Conference conf = confDao.getObjectByID(Integer.parseInt(confId));
-			conf.setStatus(Conference.status_history);
+			//conf.setStatus(Conference.status_history);
+			conf.setStatus(Conference.status_cancel);
 			confDao.deleteConfUnitsByConfId(Integer.parseInt(confId));
 			confDao.saveOrUpdate(conf);
 			logDao.addLog(up.getUserId(), logDao.type_delete_conf, "删除会议"+conf.getRadConferenceId());
