@@ -563,6 +563,7 @@ function loadStore(){
             store: ds,
             xField: 'hourMinutes',
             yAxis: new Ext.chart.NumericAxis({
+            	stackingEnabled: true,
                 title: '数量'
             }),
 			xAxis: new Ext.chart.CategoryAxis({
@@ -602,7 +603,7 @@ function loadStore(){
                 }
             },
             series: [{
-                type: 'column',
+                //type: 'column',
                 displayName: '占用',
                 yField: 'occupyNum',
                 style: {
@@ -613,7 +614,7 @@ function loadStore(){
 					color:0xFF0000
                 }
             },{
-                type:'column',
+                //type:'column',
                 displayName: '空闲',
                 yField: 'availableNum',
                 style: {
