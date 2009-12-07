@@ -52,7 +52,7 @@ function initData() {
 		}, {
 			name : 'initUnit'
 		}, {
-			name : 'serviceTemplate'
+			name : 'serviceTemplateId'
 		}, {
 			name : 'serviceTemplateDesc'
 		}])

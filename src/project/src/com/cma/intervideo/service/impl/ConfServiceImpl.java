@@ -108,8 +108,7 @@ public class ConfServiceImpl implements IConfService {
 	}
 
 	public void createConf(Conference conf, String[] units) throws Exception {
-		logger
-				.info("to create conference to iCM platform......" + conf);
+		logger.info("Creating conference to platform..." + conf);
 		conf.setRadConferenceId(null);
 		List<String> listTerminalId = getTerminalIdList(units);
 		ScheduleResult sr = ICMService.createConference(conf, listTerminalId);
@@ -119,7 +118,7 @@ public class ConfServiceImpl implements IConfService {
 			throw new Exception("平台预约会议" + conf.getSubject() + " 失败!");
 		}
 		try {
-			logger.info("to create conference to VCM......");
+			logger.info("Creating conference to VCM...");
 			conf.setRadConferenceId(sr.getConferenceId());
 			conf.setVirtualConfId(sr.getConferenceInfo()
 					.getDialableConferenceId());
@@ -137,12 +136,10 @@ public class ConfServiceImpl implements IConfService {
 			}
 		} catch (Exception e) {
 			logger.warn("ConfServiceImpl::createConf Excepton - " + e.toString());
-			logger
-					.info("if fail to save user to VCM, need to delete the user from iCM platform that was saved just now!!");
+			logger.info("Excepton on save user to VCM, So need to roll back to delete this conference from platform that was scheduled just now!!");
 			ICMService.cancelConference(sr.getConferenceId());
 			logger.warn("VCM failed to save the conference - " + conf.getSubject());
-			throw new Exception("系统保存会议失败 - conference subject: "
-					+ conf.getSubject());
+			throw new Exception("系统保存会议失败 - conference subject: " + conf.getSubject());
 		}
 	}
 	

@@ -46,7 +46,7 @@ public class AbstractTerminalDao extends AbstractDAO<Terminal, String>
 	public Terminal getTerminal(String terminalId) {
 		Terminal t = (Terminal) getHibernateTemplate().get(Terminal.class, terminalId);
 		if (t == null)
-			logger.info("Didn't found Terminal, terminalId: " + terminalId);
+			logger.info("Didn't find Terminal, terminalId: " + terminalId);
 		else
 			logger.info("Found Terminal, terminalId: " + terminalId + "; terminalName: " + t.getTerminalName());
 		return t;
