@@ -77,6 +77,7 @@ public abstract class AbstractConfDao extends AbstractDAO<Conference, Integer> i
 		confUnit.setConferenceId(confId);
 		confUnit.setUnitId(unitId);
 		this.getHibernateTemplate().save(confUnit);
+		logger.info("Added successfully Unit: unitId = " + unitId + " for the conference: conferenceId = " + confId + ".");
 	}
 	
 	public void addConfParty(Integer confId, String partyId){
