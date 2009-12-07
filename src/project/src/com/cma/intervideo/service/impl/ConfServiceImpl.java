@@ -108,7 +108,7 @@ public class ConfServiceImpl implements IConfService {
 	}
 
 	public void createConf(Conference conf, String[] units) throws Exception {
-		logger.info("Creating conference to platform..." + conf);
+		logger.info("Before Scheduling a new meeting to platform..." + conf);
 		conf.setRadConferenceId(null);
 		List<String> listTerminalId = getTerminalIdList(units);
 		ScheduleResult sr = ICMService.createConference(conf, listTerminalId);
@@ -118,10 +118,11 @@ public class ConfServiceImpl implements IConfService {
 			throw new Exception("平台预约会议" + conf.getSubject() + " 失败!");
 		}
 		try {
-			logger.info("Creating conference to VCM...");
 			conf.setRadConferenceId(sr.getConferenceId());
-			conf.setVirtualConfId(sr.getConferenceInfo()
-					.getDialableConferenceId());
+			conf.setVirtualConfId(sr.getConferenceInfo().getDialableConferenceId());
+			logger.info("Scheduled successfully a new meeting to platform..." + conf);
+			
+			logger.info("Creating a new conference to VCM...");
 			confDao.saveOrUpdate(conf);
 			if (units != null) {
 				for (int i = 0; i < units.length; i++) {
@@ -134,6 +135,7 @@ public class ConfServiceImpl implements IConfService {
 					confDao.addConfParty(conf.getConferenceId(), listTerminalId.get(i));
 				}
 			}
+			logger.info("Created successfully a new meeting to VCM.");
 		} catch (Exception e) {
 			logger.warn("ConfServiceImpl::createConf Excepton - " + e.toString());
 			logger.info("Excepton on save user to VCM, So need to roll back to delete this conference from platform that was scheduled just now!!");
