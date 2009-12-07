@@ -184,17 +184,18 @@ a:hover{}
 		<div id="searchArea" class="search">
 			
 			<form name="form1" id="form1" method="post" action="<%=request.getContextPath()%>/res_searchAvailable.do">
+			<input id="serviceTemplate" type="hidden" name="serviceTemplate" value="10002"/>
 				<table border="1" class="query">
 					<tr>
-						<th>会议类型：</th>
+						<!--<th>会议类型：</th>
 						<td>
 							<div id="service_template"></div>
-						</td>
+						</td>-->
 						<th>时间间隔（分钟）：</th>
 						<td>
 						<select name="interval" id="interval">
-						<option value="60" selected="selected">60</option>
-						<option value="30">30</option>
+						<option value="60">60</option>
+						<option value="30" selected="true">30</option>
 						<option value="15">15</option>
 						</select>
 						</td>
