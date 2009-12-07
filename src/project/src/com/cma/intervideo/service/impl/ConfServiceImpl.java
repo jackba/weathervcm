@@ -85,7 +85,7 @@ public class ConfServiceImpl implements IConfService {
 			conf.setStatus(Conference.status_cancel);
 			confDao.deleteConfUnitsByConfId(Integer.parseInt(confId));
 			confDao.saveOrUpdate(conf);
-			logDao.addLog(up.getUserId(), logDao.type_delete_conf, "删除会议"+conf.getRadConferenceId());
+			logDao.addLog(up.getUserId(), ILogDao.type_delete_conf, "删除会议"+conf.getRadConferenceId());
 		} catch (Exception e) {
 			logger.info("Exception on deleting the conference from VCM: conferenceId = " + confId + " - " + e.getMessage());
 			return;
@@ -93,6 +93,8 @@ public class ConfServiceImpl implements IConfService {
 
 		logger.info("Deleting the Conference from platform: radConfId = " + radConfId);
 		ICMService.cancelConference(radConfId);
+		
+		logger.info("Finished delete the conference: " + reserve + "!");
 	}
 
 	public List<Conference> findConfs(List<ParamVo> params, PageHolder ph) {
