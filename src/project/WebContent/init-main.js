@@ -137,6 +137,7 @@ Ext.onReady(function(){
 		format:'Y\-m\-d',
 		renderTo:'dayDiv'
 	});
+	day.setValue(new Date());
 	ds = new Ext.data.Store({
 		proxy : new Ext.data.HttpProxy({
 			url : 'res_searchAvailable.do'
@@ -152,35 +153,36 @@ Ext.onReady(function(){
 			name : 'availableNum'
 		}])
 	});
-	serviceds = new Ext.data.Store({
-		proxy : new Ext.data.HttpProxy({
-			url : 'service_search.do'
-		}),
-		reader : new Ext.data.JsonReader({
-			root : 'root'
-		}, [{
-			name : 'serviceTemplateId'
-		}, {
-			name : 'serviceTemplateName'
-		}, {
-			name : 'serviceTemplateDesc'
-		}])
-	});
-	serviceds.load();
-	var serviceComboWithTooltip = new Ext.form.ComboBox({
-		store: serviceds,
-		hiddenId: 'serviceTemplate',
-        hiddenName: 'serviceTemplate',
-        valueField: 'serviceTemplateId',
-        displayField: 'serviceTemplateDesc',
-        typeAhead: true,
-        forceSelection: false,
-        mode: 'local',
-        triggerAction: 'all',
-        emptyText: '请选择会议模板...',
-        selectOnFocus: true,
-        renderTo: 'service_template'
-    });
+//	serviceds = new Ext.data.Store({
+//		proxy : new Ext.data.HttpProxy({
+//			url : 'service_search.do'
+//		}),
+//		reader : new Ext.data.JsonReader({
+//			root : 'root'
+//		}, [{
+//			name : 'serviceTemplateId'
+//		}, {
+//			name : 'serviceTemplateName'
+//		}, {
+//			name : 'serviceTemplateDesc'
+//		}])
+//	});
+//	serviceds.load();
+//	var serviceComboWithTooltip = new Ext.form.ComboBox({
+//		store: serviceds,
+//		hiddenId: 'serviceTemplate',
+//        hiddenName: 'serviceTemplate',
+//        valueField: 'serviceTemplateId',
+//        displayField: 'serviceTemplateDesc',
+//        typeAhead: true,
+//        forceSelection: false,
+//        mode: 'local',
+//        triggerAction: 'all',
+//        emptyText: '请选择会议模板...',
+//        selectOnFocus: true,
+//        renderTo: 'service_template'
+//    });
+	loadStore();
     var iTop = (window.screen.availHeight-30-400)/2;
     var iLeft = (window.screen.availWidth-10-800)/2;
     window.open('bulletin_list.do','最新公告','height=400,width=800,status=no,menubar=no,location=no,toolbar=no,top='+iTop+',left='+iLeft);
@@ -512,8 +514,8 @@ function loadStore1(start){
 }
 function loadStore(){
 //	alert(Ext.get('status').dom.value);
-	if (validateRequired('serviceTemplate','会议类型')
-			&& validateRequired('day','日期')
+	if (/*validateRequired('serviceTemplate','会议类型')
+			&& */validateRequired('day','日期')
 			) {
 		
 	}else{
@@ -557,7 +559,7 @@ function loadStore(){
             }
         }],
         items: {
-            xtype: 'columnchart',
+            xtype: 'stackedcolumnchart',
             store: ds,
             xField: 'hourMinutes',
             yAxis: new Ext.chart.NumericAxis({
