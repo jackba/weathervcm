@@ -11,4 +11,5 @@ public interface ITerminalDao extends DAO<Terminal, String>{
 	public List<Terminal> findTerminals();
 	public List<Terminal> findTerminals(List<ParamVo> params, PageHolder ph);
 	public Terminal getTerminal(String terminalId);
+	public void deleteTerminalsByNewIds(List<String> newIds);
 }

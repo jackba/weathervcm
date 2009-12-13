@@ -123,9 +123,9 @@ public class TerminalAction extends AbstractBaseAction {
 
 	public String update() throws IOException, ParseException, Exception {
 		logger.info("update...");
-		terminalService.deleteAllTerminals();
 		int count = 0;
 		List<TerminalResource> trs = ICMService.getTerminals();
+		List<String> newIds = new ArrayList<String>();
 		for (int i = 0; trs != null && i < trs.size(); i++) {
 			TerminalResource tr = trs.get(i);
 			Terminal t = new Terminal();
@@ -149,10 +149,13 @@ public class TerminalAction extends AbstractBaseAction {
 			t.setCountryCode(tr.getCountryCode());
 			t.setAreaCode(tr.getAreaCode());
 			terminalService.saveOrUpdate(t);
-			logger.info("Terminal was downloaded from Platform and saved to VCM: " + t);
 			count++;
+			newIds.add(tr.getTerminalId());
+			logger.info("Terminal was downloaded from Platform and saved to VCM: " + t);
 		}
-		logger.info(count + "Service Template were downloaded from Platform and saved to VCM!");
+		logger.info(count + " Terminals(s) were downloaded from Platform and saved to VCM!");
+		terminalService.deleteTerminalsByNewIds(newIds);
+		logger.info("Deleted the terminal(s) that were not downloaded from Platform!");
 		return list();
 	}
 

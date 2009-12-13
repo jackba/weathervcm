@@ -25,9 +25,13 @@ import com.radvision.icm.service.McuResourceResult;
 import com.radvision.icm.service.vcm.ICMService;
 
 public class ResourceAction extends AbstractBaseAction{
+	
 	private static final Log logger = LogFactory.getLog(ResourceAction.class);
+	
 	private IResourceService resourceService;
+	
 	private IServiceService serviceService;
+	
 	public void setResourceService(IResourceService resourceService) {
 		this.resourceService = resourceService;
 	}
