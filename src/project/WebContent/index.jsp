@@ -141,6 +141,9 @@ a:hover{}
 			<li>
 				<span id="log" href="<%=request.getContextPath()%>/log_list.do" onClick="onClickMenuItem(this)">日志管理</span>
 			</li>
+			<li>
+				<span id="config" href="<%=request.getContextPath()%>/config_configModify.do" onClick="onClickMenuItem(this)">系统配置</span>
+			</li>
 		</ul>
 	</div>
 	
