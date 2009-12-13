@@ -1,10 +1,14 @@
 package com.cma.intervideo.web.action;
 
+import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -21,10 +25,36 @@ public class StatAction extends AbstractBaseAction{
 		this.statService = statService;
 	}
 
+//	public String userReserveStat(){
+//		List<UserReserveStatVo> l = statService.statUserReserve();
+//		request.setAttribute("statList", l);
+//		return "userReserveStat";
+//	}
+	
 	public String userReserveStat(){
-		List<UserReserveStatVo> l = statService.statUserReserve();
-		request.setAttribute("statList", l);
 		return "userReserveStat";
+	}
+	
+	public String searchUserReserveStat(){
+		try{
+			String startDate = request.getParameter("startDate");
+			String endDate = request.getParameter("endDate");
+			List<UserReserveStatVo> voList = statService.statUserReserve(startDate, endDate);
+			JSONObject json = new JSONObject();
+			json.put("totalProperty", voList.size());
+			JSONArray arr = JSONArray.fromObject(voList);
+			json.put("root", arr);
+			System.out.println(json);
+			response.setCharacterEncoding("utf-8");
+
+			PrintWriter out = response.getWriter();
+			out.print(json);
+			out.flush();
+			out.close();
+		}catch(Exception e){
+			logger.error(e.toString());
+		}
+		return null;
 	}
 	
 	public String userDayReserveStat(){

@@ -43,6 +43,10 @@ public class ResourceAction extends AbstractBaseAction{
 	public String occupy(){
 		return "occupy";
 	}
+	
+	public String occupywave(){
+		return "occupywave";
+	}
 	public String available(){
 		return "available";
 	}
@@ -85,6 +89,73 @@ public class ResourceAction extends AbstractBaseAction{
 			JSONObject json = new JSONObject();
 			json.put("totalProperty", voList.size());
 			json.put("totalConfs", totalConfs);
+			JSONArray arr = JSONArray.fromObject(voList);
+			json.put("root", arr);
+			System.out.println(json);
+			response.setCharacterEncoding("utf-8");
+
+			PrintWriter out = response.getWriter();
+			out.print(json);
+			out.flush();
+			out.close();
+		}catch(Exception e){
+			logger.error(e.toString());
+		}
+		return null;
+	}
+	public String searchOccupyWave(){
+		logger.info("searchOccupyWave...");
+		String serviceTemplateId = request.getParameter("serviceTemplate");
+		String day = request.getParameter("day");
+		int range = Integer.parseInt(request.getParameter("range"));
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		try{
+			Date d = df.parse(day);
+			Date startDay = d;
+			long startTime;
+			long endTime;
+			int interval;
+			if(range == 1){
+				//时间范围为一天
+				startTime = d.getTime();
+				endTime = startTime + 24*60*60*1000;
+				interval = 5;
+			}else{
+				//时间范围为一周
+				Calendar c = Calendar.getInstance();
+				c.setTime(d);
+				int weekday = c.get(Calendar.DAY_OF_WEEK);
+				weekday = (weekday+5) % 7;
+				c.add(Calendar.DATE, 0-weekday);
+				startTime = c.getTimeInMillis();
+				startDay = c.getTime();
+				c.add(Calendar.DATE, 7);
+				endTime = c.getTimeInMillis();
+				interval = 30;
+			}
+			List<String> serviceTemplateIds = new ArrayList<String>();
+			serviceTemplateIds.add(serviceTemplateId);
+			McuResourceResult mrr = ICMService.getResourceInfos(serviceTemplateIds, startTime, endTime, interval);
+			if (mrr == null || !mrr.isSuccess() || mrr.getInfos().size() == 0)
+			{
+				outJson("{success:false, msg:'从平台获取资源失败,请检查连接和配置!'}");
+				return null;
+			}
+			
+			List<Integer> portNums = mrr.getInfos().get(0).getPortNums();
+			int total = portNums.get(portNums.size()-1);
+			int minutes = 0;
+			List<ResourceVo> voList = new ArrayList<ResourceVo>();
+			for(int i=0;i<portNums.size()-1;i++){
+				ResourceVo vo = new ResourceVo();
+				vo.setHourMinutes(getDayHourMinutes(startDay, minutes));
+				vo.setAvailableNum((int)Math.round(portNums.get(i)*total/100.0));
+				vo.setOccupyNum(total-vo.getAvailableNum());
+				voList.add(vo);
+				minutes += interval;
+			}
+			JSONObject json = new JSONObject();
+			json.put("totalProperty", voList.size());
 			JSONArray arr = JSONArray.fromObject(voList);
 			json.put("root", arr);
 			System.out.println(json);
@@ -153,6 +224,16 @@ public class ResourceAction extends AbstractBaseAction{
 		return getTwoChar(hour)+":"+getTwoChar(m);
 	}
 	
+	private String getDayHourMinutes(Date d, int minutes){
+		Calendar c = Calendar.getInstance();
+		c.setTime(d);
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		int day = (minutes/60)/24;
+		int hour = (minutes/60)%24;
+		int m = minutes%60;
+		c.add(Calendar.DATE, day);
+		return df.format(c.getTime())+" "+getTwoChar(hour)+":"+getTwoChar(m);
+	}
 	private String getTwoChar(int i){
 		if(i<10){
 			return "0"+i;
