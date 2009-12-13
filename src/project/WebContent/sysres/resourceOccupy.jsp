@@ -80,6 +80,7 @@ function loadStore(){
             }
         }],
         items: {
+			id: 'mycolumnchart',
             xtype: 'columnchart',
             store: ds,
             xField: 'serviceTemplateName',
@@ -122,12 +123,21 @@ function loadStore(){
                     }
                 }
             },
+			extraStyle: {
+				legend: {
+					display: 'bottom',
+					padding: 5,
+					font: {
+						family: 'Tahoma',
+						size: 13
+					}
+				}
+			},
             series: [{
                 type: 'column',
                 displayName: '占用',
                 yField: 'occupyNum',
                 style: {
-					labelPosition: 'outside',
                     //image:'bar.gif',
                     mode: 'stretch',
                     //color:0x99BBE8
@@ -138,7 +148,6 @@ function loadStore(){
                 displayName: '空闲',
                 yField: 'availableNum',
                 style: {
-					labelPosition: 'outside',
 					//image:'bar.gif',
                     mode: 'stretch',
                     //color:0x99BBE8
