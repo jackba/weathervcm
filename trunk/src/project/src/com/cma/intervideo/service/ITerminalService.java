@@ -10,6 +10,6 @@ public interface ITerminalService {
 	public List<Terminal> findTerminals(List<ParamVo> params, PageHolder ph);
 	public List<Terminal> findTerminals();
 	public void saveOrUpdate(Terminal terminal);
-	public int deleteAllTerminals();
+	public void deleteTerminalsByNewIds(List<String> newIds);
 	public Terminal getTerminal(String terminalId);
 }

@@ -34,4 +34,8 @@ public abstract class DataDictStatus {
 		messageStatusMap.put(messageNormalStatus, "正常");
 		messageStatusMap.put(messageInvalidStatus, "无效");
 	}
+	
+	public static final Short EnableStatus = new Short("1");
+	public static final Short DisableStatus = new Short("0");
+	
 }

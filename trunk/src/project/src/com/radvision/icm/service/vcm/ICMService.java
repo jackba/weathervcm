@@ -1,5 +1,6 @@
 package com.radvision.icm.service.vcm;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -143,6 +144,10 @@ public class ICMService {
 		String version;
 		try {
 			ScheduleServicePortType portType = getScheduleServicePortType();
+			if (portType == null) {
+				logger.warn("Cannot connect to icm service due to service port type is null!");
+				return false;
+			}
 			version = portType.getVersion();
 		} catch (Exception e) {
 			logger.warn("Exception on getting Schedule Service port type: " + e.getMessage());
@@ -197,8 +202,16 @@ public class ICMService {
 			List<String> serviceTemplateIds, long startTime, long endTime,
 			int interval)
 	{
-//		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm"); 
-		logger.info("Getting Resource Infomation from platform: startTime = " + startTime + ", endTime = " + endTime + ", interval = " + interval);
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		String tmp = "";
+		if (serviceTemplateIds != null) {
+			for (String s : serviceTemplateIds)
+				tmp += s + " ";
+		}
+		logger.info("Getting Resource Infomation from platform: startTime = " + 
+				df.format(startTime) + ", endTime = " + df.format(endTime) + 
+				", interval = " + interval + ", serviceTemplateIds = " + tmp);
+		
 		McuResourceResult mrr = null;
 		try {
 			mrr = getResourceServicePortType().getResourceInfos(serviceTemplateIds, startTime, endTime, interval);
@@ -220,7 +233,7 @@ public class ICMService {
 				String portNums = "{";
 				List<Integer> ports = mri.getPortNums();
 				for (int i = 0; i < ports.size(); i++)
-					portNums += ("[" + i + "]=" + ports.get(i));
+					portNums += ("[" + i + "]=" + ports.get(i)) + ";";
 				portNums += "}";
 				logger.info("McuResourceInfo was gotten: serviceTemplateId = " + mri.getServiceTemplateId() + ", portNums = " + portNums);
 			}

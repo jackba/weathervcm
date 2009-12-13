@@ -1,6 +1,7 @@
 package com.cma.intervideo.web.action;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.json.JSONArray;
@@ -68,9 +69,9 @@ public class ServiceAction extends AbstractBaseAction{
 	
 	public String update() {
 		logger.info("update...");
-		serviceService.deleteAllServices();
 		List<MeetingType> mts = ICMService.getMeetingTypes();
 		int count = 0;
+		List<String> newIds = new ArrayList<String>();
 		for (int i = 0; mts != null && i < mts.size(); i++) {
 			MeetingType mt = mts.get(i);
 			if ("EMBEDDED".equals(mt.getBuiltInToken()) || "N/A".equals(mt.getServicePrefix()))
@@ -83,11 +84,15 @@ public class ServiceAction extends AbstractBaseAction{
 			service.setServiceTemplateDesc(mt.getDescription());
 			service.setBuiltInToken(mt.getBuiltInToken());
 			service.setSwitchingMode(mt.getSwitchingMode());
+			service.setActiveFlag(true);
 			serviceService.saveOrUpdate(service);
-			logger.info("Service Template was downloaded from Platform and saved to VCM: " + service);
 			count++;
+			newIds.add(mt.getId());
+			logger.info("Service Template was downloaded from Platform and saved to VCM: " + service);
 		}
-		logger.info(count + "Service Template were downloaded from Platform and saved to VCM!");
+		logger.info(count + " Service Template were downloaded from Platform and saved to VCM!");
+		serviceService.deleteServiceTemplatesByNewIds(newIds);
+		logger.info("Deleted the Service Template(s) that were not downloaded from Platform!");
 		return list();
 	}
 
