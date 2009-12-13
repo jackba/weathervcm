@@ -24,4 +24,5 @@
 	<include file="struts-unit.xml"/>
 	<include file="struts-resource.xml"/>
 	<include file="struts-stat.xml"/>
+	<include file="struts-config.xml"/>
 </struts> 

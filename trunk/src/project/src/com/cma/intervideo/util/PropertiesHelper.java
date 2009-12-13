@@ -33,6 +33,14 @@ public class PropertiesHelper {
 		VcmProperties.setProperties(WEB_SERVICE_CONNECTED, connected ? "true" : "false");
 	}
 	
+	public static String getDefaultServiceTemplateId() {
+		return VcmProperties.getProperty("vcm.defaultServiceTemplateId", "");
+	}
+	
+	public static void setDefaultServiceTemplateId(String defaultServiceTemplateId) {
+		VcmProperties.setProperties("vcm.defaultServiceTemplateId", defaultServiceTemplateId);
+	}
+	
 	public static String getIcmHost()
 	{
 		return VcmProperties.getProperty("vcm.icm.host", "localhost");

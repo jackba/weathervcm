@@ -97,4 +97,10 @@
 			</bean>
 		</property>
 	</bean>
+	<bean id="configAction" parent="proxyFactoryBean" scope="prototype">
+		<property name="target">
+			<bean class="com.cma.intervideo.web.action.SysConfigAction" autowire="byName">
+			</bean>
+		</property>
+	</bean>
 </beans>
