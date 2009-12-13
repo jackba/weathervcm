@@ -12,4 +12,6 @@ public interface IStatDao {
 	public List<UserReserveStatVo> statUserReserve();
 	
 	public List<UserReserveStatVo> statDayUserReserve(String currDate);
+	
+	public List<UserReserveStatVo> statUserReserve(String startDate, String endDate);
 }

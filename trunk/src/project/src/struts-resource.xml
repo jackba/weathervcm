@@ -6,6 +6,7 @@
 	<package name="resource" namespace="/"	extends="struts-base">
 		<action name="res_*" method="{1}" class="resourceAction">
 			<result name="occupy">/sysres/resourceOccupy.jsp</result>
+			<result name="occupywave">/sysres/resourceOccupyWave.jsp</result>
 			<result name="available">/sysres/resourceAvailable.jsp</result>
 		</action>
 	</package>
