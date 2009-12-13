@@ -65,6 +65,9 @@ a:hover{}
 				<span id="occupation" href="<%=request.getContextPath()%>/res_occupy.do" onClick="onClickMenuItem(this)">资源占用情况</span>
 			</li>
 			<li>
+				<span id="occupationwave" href="<%=request.getContextPath()%>/res_occupywave.do" onClick="onClickMenuItem(this)">资源占用波动图</span>
+			</li>
+			<li>
 				<span id="available" href="<%=request.getContextPath()%>/res_available.do" onClick="onClickMenuItem(this)">可用资源</span>
 			</li>
 			
