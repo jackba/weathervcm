@@ -14,6 +14,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.cma.intervideo.dao.util.BaseDao;
+import com.cma.intervideo.pojo.Conference;
+import com.cma.intervideo.vo.ConfNumStatVo;
 import com.cma.intervideo.vo.UserReserveStatVo;
 
 public class AbstractStatDao extends BaseDao implements IStatDao{
@@ -87,6 +89,58 @@ public class AbstractStatDao extends BaseDao implements IStatDao{
 				vo.setUserName(rs.getString("user_name"));
 				vo.setNumber(rs.getInt("num"));
 				vo.setIndex(l.size()+1);
+				l.add(vo);
+			}
+			return l;
+		}catch(Exception e){
+			logger.error(e.toString());
+			return null;
+		}
+	}
+	
+	public List<ConfNumStatVo> statConfNum(String startDate, String endDate){
+		Connection conn = this.getSession().connection();
+		Statement stmt = null;
+		ResultSet rs = null;
+		try{
+			
+			stmt = conn.createStatement();
+			String strSQL = "select count(*) as num,u.unit_name,s.service_template_desc from conference c, service_template s, unit u" +
+				" where c.main_unit=u.unit_id and c.service_template_id=s.service_template_id and (c.status="+Conference.status_ongoing+" or c.status="+Conference.status_history+")";
+			if(startDate!=null && !"".equals(startDate)){	
+				strSQL += " and c.create_time>='" + startDate + "'";
+			}
+			if(endDate!=null && !"".equals(endDate)){
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+				Date ed = df.parse(endDate);
+				Calendar ec = Calendar.getInstance();
+				ec.setTime(ed);
+				ec.add(Calendar.DATE, 1);
+				ed = ec.getTime();
+				strSQL += " and c.create_time<='" + df.format(ed);
+			}
+			strSQL += " group by s.service_template_desc,u.unit_name order by s.service_template_desc,u.unit_name";
+			logger.info(strSQL);
+			rs = stmt.executeQuery(strSQL);
+			List<ConfNumStatVo> l = new ArrayList<ConfNumStatVo>();
+			ConfNumStatVo preVo = null;
+			while(rs.next()){
+				ConfNumStatVo vo = new ConfNumStatVo();
+				vo.setConfType(rs.getString("service_template_desc"));
+				vo.setMainUnit(rs.getString("unit_name"));
+				vo.setNum(rs.getInt("num"));
+				if(preVo == null){
+					vo.setColumnSpan(1);
+					
+				}else{
+					if(vo.getConfType().equals(preVo.getConfType())){
+						vo.setColumnSpan(0);
+						preVo.setColumnSpan(preVo.getColumnSpan()+1);
+					}else{
+						vo.setColumnSpan(1);
+					}
+				}
+				preVo = vo;
 				l.add(vo);
 			}
 			return l;

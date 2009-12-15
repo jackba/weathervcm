@@ -15,6 +15,7 @@ import org.apache.commons.logging.LogFactory;
 
 import com.cma.intervideo.service.IStatService;
 import com.cma.intervideo.util.AbstractBaseAction;
+import com.cma.intervideo.vo.ConfNumStatVo;
 import com.cma.intervideo.vo.UserReserveStatVo;
 
 public class StatAction extends AbstractBaseAction{
@@ -70,5 +71,12 @@ public class StatAction extends AbstractBaseAction{
 		logger.info("StatAction::userDayReserveStat " + ((l == null ) ? 0 : l.size()) + " were retrieved!");
 		request.setAttribute("statList", l);
 		return "userDayReserveStat";
+	}
+	public String confNumStat(){
+		String startDate = request.getParameter("startDate");
+		String endDate = request.getParameter("endDate");
+		List<ConfNumStatVo> l = statService.statConfNum(startDate, endDate);
+		request.setAttribute("statList", l);
+		return "confNumStat";
 	}
 }
