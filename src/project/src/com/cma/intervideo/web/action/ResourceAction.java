@@ -19,6 +19,7 @@ import com.cma.intervideo.pojo.ServiceTemplate;
 import com.cma.intervideo.service.IResourceService;
 import com.cma.intervideo.service.IServiceService;
 import com.cma.intervideo.util.AbstractBaseAction;
+import com.cma.intervideo.util.PropertiesHelper;
 import com.cma.intervideo.vo.ResourceVo;
 import com.radvision.icm.service.McuResourceInfo;
 import com.radvision.icm.service.McuResourceResult;
@@ -105,7 +106,12 @@ public class ResourceAction extends AbstractBaseAction{
 	}
 	public String searchOccupyWave(){
 		logger.info("searchOccupyWave...");
-		String serviceTemplateId = request.getParameter("serviceTemplate");
+//		String serviceTemplateId = request.getParameter("serviceTemplate");
+		String serviceTemplateId = PropertiesHelper.getDefaultServiceTemplateId();
+		if (serviceTemplateId == null || serviceTemplateId.length() == 0) {
+			logger.info("searchOccupyWave failed, Please specify default service template first!");
+			return null;
+		}
 		String day = request.getParameter("day");
 		int range = Integer.parseInt(request.getParameter("range"));
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -172,7 +178,12 @@ public class ResourceAction extends AbstractBaseAction{
 	}
 	public String searchAvailable(){
 		logger.info("searchAvailable...");
-		String serviceTemplateId = request.getParameter("serviceTemplate");
+//		String serviceTemplateId = request.getParameter("serviceTemplate");
+		String serviceTemplateId = PropertiesHelper.getDefaultServiceTemplateId();
+		if (serviceTemplateId == null || serviceTemplateId.length() == 0) {
+			logger.info("searchAvailable failed, Please specify default service template first!");
+			return null;
+		}
 		String day = request.getParameter("day");
 		int interval = Integer.parseInt(request.getParameter("interval"));
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");

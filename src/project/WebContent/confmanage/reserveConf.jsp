@@ -37,12 +37,6 @@ body{font-size:12px;}
 	    </label></td>
   	  </tr>
   	  <tr>
-	    <th width="20%">会议号：</th>
-	    <td><label>
-	      <input name="conf.dialableNumber" value="<s:property value='conf.dialableNumber'/>" id="dialableNumber" type="text" class="put200" maxlength="40"></input>
-	    </label></td>
-  	  </tr>
-  	  <tr>
 	    <th width="20%"><font color="red">&nbsp;*</font>组织单位：</th>
 	    <td><label>
 	      <input name="conf.initUnit" value="<s:property value='conf.initUnit'/>"  id="initUnit" type="text" class="put200" maxlength="200"/>

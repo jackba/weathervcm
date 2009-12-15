@@ -38,12 +38,6 @@ body{font-size:12px;}
 	    </label></td>
   	  </tr>
   	  <tr>
-	    <th width="20%"><font color="red">&nbsp;*</font>会议号：</th>
-	    <td><label>
-	      <input name="conf.dialableNumber" value="<s:property value='conf.dialableNumber'/>" id="dialableNumber" type="text" class="put200" maxlength="40">
-	    </label></td>
-  	  </tr>
-  	  <tr>
 	    <th width="20%"><font color="red">&nbsp;*</font>组织单位：</th>
 	    <td><label>
 	      <input name="conf.initUnit" value="<s:property value='conf.initUnit'/>"  id="initUnit" type="text" class="put200" maxlength="200"/>
@@ -314,7 +308,6 @@ if ( checkForm()){
 }
 function checkForm(){
 	if (validateRequired('subject','名称')
-			&& validateRequired('dialableNumber','会议号')
 			&& validateRequired('initUnit','组织单位')
 			&& validateRequired('startTime','开始时间')
 			&& validateRequired('timeLong','时长')
