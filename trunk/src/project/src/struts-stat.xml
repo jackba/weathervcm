@@ -7,6 +7,7 @@
 		<action name="stat_*" method="{1}" class="statAction">
 			<result name="userReserveStat">/stat/userReserveStat.jsp</result>
 			<result name="userDayReserveStat">/stat/userDayReserveStat.jsp</result>
+			<result name="confNumStat">/stat/confNumStat.jsp</result>
 		</action>
 	</package>
 </struts>
