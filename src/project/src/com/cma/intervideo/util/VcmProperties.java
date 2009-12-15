@@ -90,6 +90,25 @@ public class VcmProperties {
 		}
 	}
 	
+	public static void store() {
+		FileOutputStream opt = null;
+		try {
+			opt = new FileOutputStream(filePath);
+			properties.store(opt, null);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally{
+			try {
+				if (opt != null)
+					opt.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	/**
      * Gets a property int value by key and default value.
      */
