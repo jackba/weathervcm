@@ -6,6 +6,7 @@ import org.apache.commons.logging.LogFactory;
 import com.cma.intervideo.util.AbstractBaseAction;
 import com.cma.intervideo.util.PropertiesHelper;
 import com.cma.intervideo.util.SystemConfiguration;
+import com.cma.intervideo.util.VcmProperties;
 
 public class SysConfigAction extends AbstractBaseAction {
 
@@ -38,6 +39,7 @@ public class SysConfigAction extends AbstractBaseAction {
 		// TODO
 		logger.info("modifyConfiguration...");
 		PropertiesHelper.setDefaultServiceTemplateId(config.getDefaultServiceTemplateId());
+		VcmProperties.store();
 		return null;
 	}
 }
