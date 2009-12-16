@@ -3,6 +3,7 @@ package com.cma.intervideo.service;
 import java.util.List;
 
 import com.cma.intervideo.vo.ConfNumStatVo;
+import com.cma.intervideo.vo.UnitTimeStatVo;
 import com.cma.intervideo.vo.UserReserveStatVo;
 
 public interface IStatService {
@@ -17,4 +18,6 @@ public interface IStatService {
 	public List<UserReserveStatVo> statUserReserve(String startDate, String endDate);
 	
 	public List<ConfNumStatVo> statConfNum(String startDate, String endDate);
+	
+	public List<UnitTimeStatVo> statUnitTime(String startDate, String endDate);
 }

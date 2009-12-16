@@ -16,6 +16,7 @@ import org.apache.commons.logging.LogFactory;
 import com.cma.intervideo.service.IStatService;
 import com.cma.intervideo.util.AbstractBaseAction;
 import com.cma.intervideo.vo.ConfNumStatVo;
+import com.cma.intervideo.vo.UnitTimeStatVo;
 import com.cma.intervideo.vo.UserReserveStatVo;
 
 public class StatAction extends AbstractBaseAction{
@@ -78,5 +79,29 @@ public class StatAction extends AbstractBaseAction{
 		List<ConfNumStatVo> l = statService.statConfNum(startDate, endDate);
 		request.setAttribute("statList", l);
 		return "confNumStat";
+	}
+	public String unitTimeStat(){
+		return "unitTimeStat";
+	}
+	public String searchUnitTimeStat(){
+		try{
+			String startDate = request.getParameter("startDate");
+			String endDate = request.getParameter("endDate");
+			List<UnitTimeStatVo> voList = statService.statUnitTime(startDate, endDate);
+			JSONObject json = new JSONObject();
+			json.put("totalProperty", voList.size());
+			JSONArray arr = JSONArray.fromObject(voList);
+			json.put("root", arr);
+			System.out.println(json);
+			response.setCharacterEncoding("utf-8");
+
+			PrintWriter out = response.getWriter();
+			out.print(json);
+			out.flush();
+			out.close();
+		}catch(Exception e){
+			logger.error(e.toString());
+		}
+		return null;
 	}
 }

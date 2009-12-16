@@ -16,6 +16,7 @@ import org.apache.commons.logging.LogFactory;
 import com.cma.intervideo.dao.util.BaseDao;
 import com.cma.intervideo.pojo.Conference;
 import com.cma.intervideo.vo.ConfNumStatVo;
+import com.cma.intervideo.vo.UnitTimeStatVo;
 import com.cma.intervideo.vo.UserReserveStatVo;
 
 public class AbstractStatDao extends BaseDao implements IStatDao{
@@ -117,7 +118,7 @@ public class AbstractStatDao extends BaseDao implements IStatDao{
 				ec.setTime(ed);
 				ec.add(Calendar.DATE, 1);
 				ed = ec.getTime();
-				strSQL += " and c.create_time<='" + df.format(ed);
+				strSQL += " and c.create_time<='" + df.format(ed) + "'";
 			}
 			strSQL += " group by s.service_template_desc,u.unit_name order by s.service_template_desc,u.unit_name";
 			logger.info(strSQL);
@@ -177,6 +178,43 @@ public class AbstractStatDao extends BaseDao implements IStatDao{
 				vo.setUserName(rs.getString("user_name"));
 				vo.setNumber(rs.getInt("num"));
 				vo.setIndex(l.size()+1);
+				l.add(vo);
+			}
+			return l;
+		}catch(Exception e){
+			logger.error(e.toString());
+			return null;
+		}
+	}
+	public List<UnitTimeStatVo> statUnitTime(String startDate, String endDate){
+		Connection conn = this.getSession().connection();
+		Statement stmt = null;
+		ResultSet rs = null;
+		try{
+			
+			stmt = conn.createStatement();
+			String strSQL = "select sum(timestampdiff(SECOND,c.create_time,c.update_time)) as timeLong,u.unit_name from conference c, unit u" +
+				" where c.main_unit=u.unit_id and c.status="+Conference.status_history;
+			if(startDate!=null && !"".equals(startDate)){	
+				strSQL += " and c.create_time>='" + startDate + "'";
+			}
+			if(endDate!=null && !"".equals(endDate)){
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+				Date ed = df.parse(endDate);
+				Calendar ec = Calendar.getInstance();
+				ec.setTime(ed);
+				ec.add(Calendar.DATE, 1);
+				ed = ec.getTime();
+				strSQL += " and c.create_time<='" + df.format(ed) + "'";
+			}
+			strSQL += " group by u.unit_name";
+			logger.info(strSQL);
+			rs = stmt.executeQuery(strSQL);
+			List<UnitTimeStatVo> l = new ArrayList<UnitTimeStatVo>();
+			while(rs.next()){
+				UnitTimeStatVo vo = new UnitTimeStatVo();
+				vo.setTimeLong(rs.getInt("timeLong")/60);
+				vo.setUnitName(rs.getString("unit_name"));
 				l.add(vo);
 			}
 			return l;
