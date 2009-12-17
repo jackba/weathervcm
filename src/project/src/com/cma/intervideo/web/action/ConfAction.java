@@ -28,6 +28,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import com.cma.intervideo.pojo.Conference;
+import com.cma.intervideo.pojo.FieldDesc;
 import com.cma.intervideo.pojo.Unit;
 import com.cma.intervideo.pojo.VirtualRoom;
 import com.cma.intervideo.service.IConfService;
@@ -404,7 +405,25 @@ public class ConfAction extends AbstractBaseAction {
 		}
 		return null;
 	}
-
+	public String searchConfType(){
+		try{
+			logger.info("search...");
+			List<FieldDesc> confTypeList = confService.findConfTypes();
+			JSONObject json = new JSONObject();
+			JSONArray arr = JSONArray.fromObject(confTypeList);
+			json.put("root", arr);
+			System.out.println(json);
+			response.setCharacterEncoding("utf-8");
+		
+			PrintWriter out = response.getWriter();
+			out.print(json);
+			out.flush();
+			out.close();
+		}catch(Exception e){
+			logger.error(e.toString());
+		}
+		return null;
+	}
 	public String reserveConf() {
 		String personal = request.getParameter("psersonal");
 		if(personal!=null&&!personal.equals("")){
@@ -496,6 +515,7 @@ public class ConfAction extends AbstractBaseAction {
 		}
 		oldConf.setContactMethod(conf.getContactMethod());
 		oldConf.setServiceTemplateId(conf.getServiceTemplateId());
+		oldConf.setConfType(conf.getConfType());
 		oldConf.setSubject(conf.getSubject());
 		oldConf.setControlPin(conf.getControlPin());
 		oldConf.setPassword(conf.getPassword());

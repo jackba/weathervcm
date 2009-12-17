@@ -17,6 +17,8 @@ public class Conference implements java.io.Serializable {
 	private Integer conferenceId;
 	private String userId;
 	private String serviceTemplateId;
+	private Short confType;
+	private String confTypeDesc;
 	private Integer confTemplateId;
 	private String radConferenceId;
 	private String dialableNumber;
@@ -334,4 +336,20 @@ public class Conference implements java.io.Serializable {
 		this.mainUnitName = mainUnitName;
 	}
 
+	public Short getConfType() {
+		return confType;
+	}
+
+	public void setConfType(Short confType) {
+		this.confType = confType;
+	}
+
+	public String getConfTypeDesc() {
+		return confTypeDesc;
+	}
+
+	public void setConfTypeDesc(String confTypeDesc) {
+		this.confTypeDesc = confTypeDesc;
+	}
+	
 }

@@ -16,6 +16,7 @@ import org.apache.commons.logging.LogFactory;
 import com.cma.intervideo.dao.util.BaseDao;
 import com.cma.intervideo.pojo.Conference;
 import com.cma.intervideo.vo.ConfNumStatVo;
+import com.cma.intervideo.vo.ConfTypeTimeStatVo;
 import com.cma.intervideo.vo.UnitTimeStatVo;
 import com.cma.intervideo.vo.UserReserveStatVo;
 
@@ -106,8 +107,8 @@ public class AbstractStatDao extends BaseDao implements IStatDao{
 		try{
 			
 			stmt = conn.createStatement();
-			String strSQL = "select count(*) as num,u.unit_name,s.service_template_desc from conference c, service_template s, unit u" +
-				" where c.main_unit=u.unit_id and c.service_template_id=s.service_template_id and (c.status="+Conference.status_ongoing+" or c.status="+Conference.status_history+")";
+			String strSQL = "select count(*) as num,u.unit_name,f.field_desc from conference c, field_desc f, unit u" +
+				" where c.main_unit=u.unit_id and c.conf_type=f.field_value and (c.status="+Conference.status_ongoing+" or c.status="+Conference.status_history+")";
 			if(startDate!=null && !"".equals(startDate)){	
 				strSQL += " and c.create_time>='" + startDate + "'";
 			}
@@ -120,14 +121,14 @@ public class AbstractStatDao extends BaseDao implements IStatDao{
 				ed = ec.getTime();
 				strSQL += " and c.create_time<='" + df.format(ed) + "'";
 			}
-			strSQL += " group by s.service_template_desc,u.unit_name order by s.service_template_desc,u.unit_name";
+			strSQL += " group by f.field_desc,u.unit_name order by f.field_desc,u.unit_name";
 			logger.info(strSQL);
 			rs = stmt.executeQuery(strSQL);
 			List<ConfNumStatVo> l = new ArrayList<ConfNumStatVo>();
 			ConfNumStatVo preVo = null;
 			while(rs.next()){
 				ConfNumStatVo vo = new ConfNumStatVo();
-				vo.setConfType(rs.getString("service_template_desc"));
+				vo.setConfType(rs.getString("field_desc"));
 				vo.setMainUnit(rs.getString("unit_name"));
 				vo.setNum(rs.getInt("num"));
 				if(preVo == null){
@@ -215,6 +216,43 @@ public class AbstractStatDao extends BaseDao implements IStatDao{
 				UnitTimeStatVo vo = new UnitTimeStatVo();
 				vo.setTimeLong(rs.getInt("timeLong")/60);
 				vo.setUnitName(rs.getString("unit_name"));
+				l.add(vo);
+			}
+			return l;
+		}catch(Exception e){
+			logger.error(e.toString());
+			return null;
+		}
+	}
+	public List<ConfTypeTimeStatVo> statConfTypeTime(String startDate, String endDate){
+		Connection conn = this.getSession().connection();
+		Statement stmt = null;
+		ResultSet rs = null;
+		try{
+			
+			stmt = conn.createStatement();
+			String strSQL = "select sum(timestampdiff(SECOND,c.create_time,c.update_time)) as timeLong,f.field_desc from conference c, field_desc f" +
+				" where c.conf_type=f.field_value and c.status="+Conference.status_history;
+			if(startDate!=null && !"".equals(startDate)){	
+				strSQL += " and c.create_time>='" + startDate + "'";
+			}
+			if(endDate!=null && !"".equals(endDate)){
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+				Date ed = df.parse(endDate);
+				Calendar ec = Calendar.getInstance();
+				ec.setTime(ed);
+				ec.add(Calendar.DATE, 1);
+				ed = ec.getTime();
+				strSQL += " and c.create_time<='" + df.format(ed) + "'";
+			}
+			strSQL += " group by f.field_desc";
+			logger.info(strSQL);
+			rs = stmt.executeQuery(strSQL);
+			List<ConfTypeTimeStatVo> l = new ArrayList<ConfTypeTimeStatVo>();
+			while(rs.next()){
+				ConfTypeTimeStatVo vo = new ConfTypeTimeStatVo();
+				vo.setTimeLong(rs.getInt("timeLong")/60);
+				vo.setConfTypeDesc(rs.getString("field_desc"));
 				l.add(vo);
 			}
 			return l;

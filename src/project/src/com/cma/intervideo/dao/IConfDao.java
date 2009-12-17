@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.cma.intervideo.dao.util.DAO;
 import com.cma.intervideo.pojo.Conference;
+import com.cma.intervideo.pojo.FieldDesc;
 import com.cma.intervideo.pojo.Unit;
 import com.cma.intervideo.util.PageHolder;
 import com.cma.intervideo.util.ParamVo;
@@ -30,4 +31,11 @@ public interface IConfDao extends DAO<Conference, Integer>{
 	 * @return
 	 */
 	public List<Conference> findTooLongConf(int maxConfPeriod);
+	/**
+	 * 查找会议类型
+	 * @return
+	 */
+	public List<FieldDesc> findConfTypes();
+	
+	public FieldDesc getConfType(short fieldValue);
 }

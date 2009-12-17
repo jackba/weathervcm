@@ -3,6 +3,7 @@ package com.cma.intervideo.service;
 import java.util.List;
 
 import com.cma.intervideo.pojo.Conference;
+import com.cma.intervideo.pojo.FieldDesc;
 import com.cma.intervideo.pojo.Unit;
 import com.cma.intervideo.util.PageHolder;
 import com.cma.intervideo.util.ParamVo;
@@ -14,4 +15,9 @@ public interface IConfService {
 	public Conference getConfById(String confId);
 	public List<Unit> findUnitsByConfId(String confId, boolean selected);
 	public List<Unit> findAllUnits();
+	/**
+	 * 查找会议类型
+	 * @return
+	 */
+	public List<FieldDesc> findConfTypes();
 }
