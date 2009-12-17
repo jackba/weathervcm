@@ -53,5 +53,10 @@ insert into privilege (name,url,description,code) values("公告管理","action:Bull
 insert into privilege (name,url,description,code) values("查看全部留言","action:BBSAction.listAll;action:BBSAction.search","查看全部留言","0037");
 insert into privilege (name,url,description,code) values("删除留言","action:BBSAction.delete","删除留言","0038");
 
-
+insert into field_desc (table_name,field_name,field_value,field_desc) values ('conference','conf_type',1,'定期会商');
+insert into field_desc (table_name,field_name,field_value,field_desc) values ('conference','conf_type',2,'区域流域');
+insert into field_desc (table_name,field_name,field_value,field_desc) values ('conference','conf_type',3,'临时会商');
+insert into field_desc (table_name,field_name,field_value,field_desc) values ('conference','conf_type',4,'灾害会商');
+insert into field_desc (table_name,field_name,field_value,field_desc) values ('conference','conf_type',5,'会议');
+insert into field_desc (table_name,field_name,field_value,field_desc) values ('conference','conf_type',6,'其他');
 

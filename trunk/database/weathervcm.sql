@@ -159,6 +159,7 @@ create table conference
    reserve_code                   varchar(10),
    contact_method                 varchar(200),
    principal                      varchar(40),
+   conf_type			  tinyint			  not null,
    primary key (conference_id)
 )
 type = InnoDB;
