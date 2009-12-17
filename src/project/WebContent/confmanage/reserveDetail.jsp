@@ -66,11 +66,18 @@ body{font-size:12px;}
 	    </label></td>
 	  </tr>
 	  <tr>
-	    <th class="row1">会议类型：</th>
+	    <th class="row1">会议模板：</th>
 	    <td class="row2"><label>
 	      <s:property value='conf.serviceTemplateDesc'/>
 	    </label></td>
 	  </tr>
+	  <tr>
+	    <th class="row1">会议类型：</th>
+	    <td class="row2"><label>
+	      <s:property value='conf.confTypeDesc'/>
+	    </label></td>
+	  </tr>
+	  
 	  <tr>
 	    <th  class="row1">会议负责人：</th>
 	    <td class="row2"><label>

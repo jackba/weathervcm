@@ -68,10 +68,17 @@ body{font-size:12px;}
 		</td>
 	  </tr>
   	  <tr>
-	    <th class="row1"><font color="red">&nbsp;*</font>会议类型：</th>
+	    <th class="row1"><font color="red">&nbsp;*</font>会议模板：</th>
 	    <td class="row2"><label>
 	    	<div id="service_template"></div>
 	    </label></td>
+	  </tr>
+	  <tr>
+	  	<th class="row1"><font color="red">&nbsp;*</font>会议类型:</th>
+		<td class="row2"><label>
+			<div id="conf_type"></div>
+		</label>
+		</td>
 	  </tr>
 	  <tr>
 	  	<th class="row1">会议负责人：</th>
@@ -142,7 +149,19 @@ Ext.onReady(function(){
 	window.parent.contentPanel.getActiveTab().setTitle("修改预约会议");
     Ext.QuickTips.init();
     Ext.form.Field.prototype.msgTarget = 'side';
-
+	var conftypeds = new Ext.data.Store({
+		proxy : new Ext.data.HttpProxy({
+			url : 'conf_searchConfType.do'
+		}),
+		reader : new Ext.data.JsonReader({
+			root : 'root'
+		}, [{
+			name : 'fieldValue'
+		}, {
+			name : 'fieldDesc'
+		}])
+	});
+	conftypeds.load();
     var serviceds = new Ext.data.Store({
 		proxy : new Ext.data.HttpProxy({
 			url : 'service_search.do'
@@ -172,6 +191,21 @@ Ext.onReady(function(){
         emptyText: '请选择会议模板...',
         selectOnFocus: true,
         renderTo: 'service_template'
+    });
+	var confTypeComboWithTooltip = new Ext.form.ComboBox({
+		store: conftypeds,
+		value: "<s:property value='conf.confType'/>",
+		hiddenId: 'confType',
+        hiddenName: 'conf.confType',
+        valueField: 'fieldValue',
+        displayField: 'fieldDesc',
+        typeAhead: true,
+        forceSelection: false,
+        mode: 'local',
+        triggerAction: 'all',
+        emptyText: '请选择会议类型...',
+        selectOnFocus: true,
+        renderTo: 'conf_type'
     });
     unitds = new Ext.data.Store({
 		proxy : new Ext.data.HttpProxy({
