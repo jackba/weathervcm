@@ -6343,20 +6343,20 @@ ATT MAND</a:History>
 <o:Column Id="o277">
 <a:ObjectID>A4C4D63A-4911-4403-A351-C49D90A729C3</a:ObjectID>
 <a:Name>conf_template_id</a:Name>
-<a:Code>con_conf_template_id</a:Code>
+<a:Code>conf_template_id</a:Code>
 <a:CreationDate>1259767276</a:CreationDate>
 <a:Creator>juping</a:Creator>
-<a:ModificationDate>1259767442</a:ModificationDate>
+<a:ModificationDate>1260033899</a:ModificationDate>
 <a:Modifier>juping</a:Modifier>
 <a:DataType>int</a:DataType>
 </o:Column>
 <o:Column Id="o278">
 <a:ObjectID>B63A155E-D60A-48A1-B69B-FE92F751139B</a:ObjectID>
 <a:Name>unit_id</a:Name>
-<a:Code>uni_unit_id</a:Code>
+<a:Code>unit_id</a:Code>
 <a:CreationDate>1259767287</a:CreationDate>
 <a:Creator>juping</a:Creator>
-<a:ModificationDate>1259767442</a:ModificationDate>
+<a:ModificationDate>1260033899</a:ModificationDate>
 <a:Modifier>juping</a:Modifier>
 <a:DataType>int</a:DataType>
 </o:Column>
