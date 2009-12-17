@@ -16,6 +16,7 @@ import com.cma.intervideo.dao.util.AbstractDAO;
 import com.cma.intervideo.pojo.ConfParty;
 import com.cma.intervideo.pojo.ConfUnit;
 import com.cma.intervideo.pojo.Conference;
+import com.cma.intervideo.pojo.FieldDesc;
 import com.cma.intervideo.pojo.Unit;
 import com.cma.intervideo.util.PageHolder;
 import com.cma.intervideo.util.ParamVo;
@@ -192,6 +193,22 @@ public abstract class AbstractConfDao extends AbstractDAO<Conference, Integer> i
 		hql += " and c.startTime+c.timeLong*60000<"+Calendar.getInstance().getTimeInMillis();
 		hql += " and c.startTime+"+maxConfPeriod*60*60000+"<"+Calendar.getInstance().getTimeInMillis();
 		return this.getHibernateTemplate().find(hql);
+	}
+	/**
+	 * 查找会议类型
+	 * @return
+	 */
+	public List<FieldDesc> findConfTypes(){
+		return this.getHibernateTemplate().find("from FieldDesc f where f.id.tableName='conference' and f.id.fieldName='conf_type'");
+	}
+	
+	public FieldDesc getConfType(short fieldValue){
+		List l = this.getHibernateTemplate().find("from FieldDesc f where f.id.tableName='conference' and f.id.fieldName='conf_type' and f.id.fieldValue=?",fieldValue);
+		if(l!=null && l.size()>0){
+			return (FieldDesc)l.get(0);
+		}else{
+			return null;
+		}
 	}
 	
 }

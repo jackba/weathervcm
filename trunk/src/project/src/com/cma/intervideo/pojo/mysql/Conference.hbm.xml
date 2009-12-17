@@ -86,5 +86,8 @@
         <property name="principal" type="string">
         	<column name="principal" length="40"/>
         </property>
+        <property name="confType" type="java.lang.Short">
+        	<column name="conf_type"></column>
+        </property>
     </class>
 </hibernate-mapping>

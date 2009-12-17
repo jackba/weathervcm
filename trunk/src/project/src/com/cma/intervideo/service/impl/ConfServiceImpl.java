@@ -16,6 +16,7 @@ import com.cma.intervideo.dao.ILogDao;
 import com.cma.intervideo.dao.IServiceDao;
 import com.cma.intervideo.dao.IUnitDao;
 import com.cma.intervideo.pojo.Conference;
+import com.cma.intervideo.pojo.FieldDesc;
 import com.cma.intervideo.pojo.ServiceTemplate;
 import com.cma.intervideo.pojo.Unit;
 import com.cma.intervideo.service.IConfService;
@@ -239,6 +240,17 @@ public class ConfServiceImpl implements IConfService {
 		conf.setServiceTemplateDesc(st.getServiceTemplateDesc());
 		conf.setServiceTemplateName(st.getServiceTemplateName());
 	}
+	
+	private void updateConfTypeInfo(Conference conf){
+		if(conf == null || conf.getConfType() == null){
+			return;
+		}
+		FieldDesc fd = confDao.getConfType(conf.getConfType());
+		if(fd == null){
+			return;
+		}
+		conf.setConfTypeDesc(fd.getId().getFieldDesc());
+	}
 
 	public Conference getConfById(String confId) {
 		Conference conf = confDao.getObjectByID(new Integer(confId));
@@ -250,6 +262,7 @@ public class ConfServiceImpl implements IConfService {
 		updateUnitInfo(conf);
 		updateMainUnitInfo(conf);
 		updateServiceTemplateInfo(conf);
+		updateConfTypeInfo(conf);
 	}
 	/**
 	 * 供定时器调用定时检查会议状态，对不正常的状态进行处理
@@ -285,5 +298,12 @@ public class ConfServiceImpl implements IConfService {
 					"; rad confId:" + c.getRadConferenceId() + 
 					" was changed to history status, and try to be terminated:" + b);
 		}
+	}
+	/**
+	 * 查找会议类型
+	 * @return
+	 */
+	public List<FieldDesc> findConfTypes(){
+		return confDao.findConfTypes();
 	}
 }

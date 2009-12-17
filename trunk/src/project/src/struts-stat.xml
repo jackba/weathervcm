@@ -9,6 +9,7 @@
 			<result name="userDayReserveStat">/stat/userDayReserveStat.jsp</result>
 			<result name="confNumStat">/stat/confNumStat.jsp</result>
 			<result name="unitTimeStat">/stat/unitTimeStat.jsp</result>
+			<result name="confTypeTimeStat">/stat/confTypeTimeStat.jsp</result>
 		</action>
 	</package>
 </struts>
