@@ -203,7 +203,7 @@ public abstract class AbstractConfDao extends AbstractDAO<Conference, Integer> i
 	}
 	
 	public FieldDesc getConfType(short fieldValue){
-		List l = this.getHibernateTemplate().find("from FieldDesc f where f.id.tableName='conference' and f.id.fieldName='conf_type' and f.id.fieldValue=?",fieldValue);
+		List l = this.getHibernateTemplate().find("from FieldDesc f where f.id.tableName='conference' and f.id.fieldName='conf_type' and f.id.fieldValue=?",(int)fieldValue);
 		if(l!=null && l.size()>0){
 			return (FieldDesc)l.get(0);
 		}else{
