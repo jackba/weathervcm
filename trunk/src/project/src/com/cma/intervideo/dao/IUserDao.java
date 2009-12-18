@@ -6,6 +6,8 @@ import com.cma.intervideo.dao.util.DAO;
 import com.cma.intervideo.pojo.Privilege;
 import com.cma.intervideo.pojo.Role;
 import com.cma.intervideo.pojo.User;
+import com.cma.intervideo.pojo.UserUnit;
+import com.cma.intervideo.pojo.UserUnitId;
 import com.cma.intervideo.util.PageHolder;
 
 public interface IUserDao extends DAO<User, String>{
@@ -73,5 +75,17 @@ public interface IUserDao extends DAO<User, String>{
 	 * @return
 	 */
 	public List<Privilege> findPrivilegesByUserId(String userId);
+	/**
+	 * 根据用户号查找用户可选的主会场,返回列表的元素为Unit对象
+	 * @param userId
+	 * @return
+	 */
+	public List findUnitsByUserId(String userId);
+	/**
+	 * 删除用户的所有可选会场
+	 * @param userId
+	 */
+	public void deleteUserUnitByUserId(String userId);
+	public void addUserUnit(String userId, Integer unitId);
 	
 }

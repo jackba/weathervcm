@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2009-8-20 4:02:54 by Hibernate Tools 3.2.4.GA -->
+<hibernate-mapping>
+    <class name="com.cma.intervideo.pojo.UserUnit" table="user_unit">
+        <composite-id name="id" class="com.cma.intervideo.pojo.UserUnitId">
+            <key-property name="unitId" type="int">
+                <column name="unit_id" />
+            </key-property>
+            <key-property name="userId" type="string">
+                <column name="user_id" length="128" />
+            </key-property>
+        </composite-id>
+    </class>
+</hibernate-mapping>

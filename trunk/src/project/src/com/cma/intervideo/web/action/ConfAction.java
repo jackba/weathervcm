@@ -31,10 +31,12 @@ import com.cma.intervideo.pojo.Conference;
 import com.cma.intervideo.pojo.FieldDesc;
 import com.cma.intervideo.pojo.FieldDescId;
 import com.cma.intervideo.pojo.Unit;
+import com.cma.intervideo.pojo.User;
 import com.cma.intervideo.pojo.VirtualRoom;
 import com.cma.intervideo.service.IConfService;
 import com.cma.intervideo.service.ILogService;
 import com.cma.intervideo.service.IRoomService;
+import com.cma.intervideo.service.IUserService;
 import com.cma.intervideo.util.AbstractBaseAction;
 import com.cma.intervideo.util.PageHolder;
 import com.cma.intervideo.util.ParamVo;
@@ -54,11 +56,16 @@ public class ConfAction extends AbstractBaseAction {
 	private IConfService confService;
 	private IRoomService roomService;
 	private ILogService logService;
+	private IUserService userService;
 	private Conference conf;
 	private Integer conferenceId;
 	
 	public void setLogService(ILogService logService) {
 		this.logService = logService;
+	}
+	
+	public void setUserService(IUserService userService) {
+		this.userService = userService;
 	}
 
 	public Integer getConferenceId() {
@@ -433,6 +440,11 @@ public class ConfAction extends AbstractBaseAction {
 		String personal = request.getParameter("psersonal");
 		if(personal!=null&&!personal.equals("")){
 			request.setAttribute("personal", personal);
+		}
+		UserPrivilege up = (UserPrivilege)session.get("userPrivilege");
+		User user = userService.getUser(up.getUserId());
+		if(user!=null){
+			request.setAttribute("defaultUnitId", user.getDefaultUnitId());
 		}
 		return "reserveConf";
 	}
