@@ -38,6 +38,8 @@ drop table if exists user;
 
 drop table if exists user_role;
 
+drop table if exists user_unit;
+
 /*==============================================================*/
 /* Table: bulletin_board                                        */
 /*==============================================================*/
@@ -336,6 +338,7 @@ create table user
    create_time                    datetime                       not null,
    update_time                    datetime                       not null,
    password                       varchar(28),
+   default_unit_id		  int				 not null,
    primary key (user_id)
 )
 type = InnoDB;
@@ -348,4 +351,14 @@ create table user_role
    role_id                        int                            not null,
    user_id                        varchar(128)                   not null
 )
+type = InnoDB;
+/*==============================================================*/
+/* Table: user_unit                                             */
+/*==============================================================*/
+create table user_unit
+(
+   user_id                        varchar(128),
+   unit_id                        int
+)
+comment = "用户可选主会场"
 type = InnoDB;
