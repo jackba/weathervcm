@@ -96,10 +96,10 @@ function initGrid() {
 			return String.format('<a href="#" onclick='+action+'>{2}</a>',record.data.confTemplateId,record.data.confTemplateId,value);
 		}
 	}, {
-		header : "会议号",
+		header : "会议主题",
 		width: Ext.get("searchArea").getWidth()*0.25,
 		sortable : true,
-		dataIndex : 'virtualConfId'
+		dataIndex : 'subject'
 	}, {
 		header : "会议类型",
 		width: Ext.get("searchArea").getWidth()*0.25,

@@ -166,21 +166,21 @@ public class ConfTemplateAction extends AbstractBaseAction {
 				}
 			}
 			
-			String virtualConfId = confTemplate.getVirtualConfId();
-			if (virtualConfId != null && virtualConfId.trim().length() > 0)
-			{
-				List<ParamVo> params = new ArrayList<ParamVo>();
-				ParamVo vo = new ParamVo();
-				vo.setParamName("virtualConfId");
-				vo.setParamValue(virtualConfId);
-				params.add(vo);
-				List<ConfTemplate> lst = confTemplateService.findConfTemplates(params, null);
-				if (lst != null && lst.size() > 0)
-				{
-					outJson("{success:false, msg:'会议号冲突!'}");
-					return null;
-				}
-			}
+//			String virtualConfId = confTemplate.getVirtualConfId();
+//			if (virtualConfId != null && virtualConfId.trim().length() > 0)
+//			{
+//				List<ParamVo> params = new ArrayList<ParamVo>();
+//				ParamVo vo = new ParamVo();
+//				vo.setParamName("virtualConfId");
+//				vo.setParamValue(virtualConfId);
+//				params.add(vo);
+//				List<ConfTemplate> lst = confTemplateService.findConfTemplates(params, null);
+//				if (lst != null && lst.size() > 0)
+//				{
+//					outJson("{success:false, msg:'会议号冲突!'}");
+//					return null;
+//				}
+//			}
 			
 			confTemplate.setStatus(DataDictStatus.normalStatus);
 			UserPrivilege up = (UserPrivilege) session.get("userPrivilege");
@@ -197,6 +197,59 @@ public class ConfTemplateAction extends AbstractBaseAction {
 				unitList = units.split(",");
 
 			confTemplateService.createConfTemplate(confTemplate, unitList);
+			outJson("{success:true, msg:'创建表单模板成功!'}");
+		} catch (Exception e)
+		{
+			logger.warn("Failed to create new ConfTemplate to VCM due to exception: " + e.toString());
+			outJson("{success:false, msg:'创建表单模板失败'}");
+		}
+		return null;
+	}
+	
+	public String update() throws IOException, ParseException {
+		try
+		{
+			logger.info("update...");
+			ConfTemplate old = confTemplateService.getConfTemplateById(confTemplate.getConfTemplateId()+"");
+			String confTemplateName = confTemplate.getConfTemplateName();
+			if (confTemplateName != null && confTemplateName.trim().length() > 0)
+			{
+				List<ParamVo> params = new ArrayList<ParamVo>();
+				ParamVo vo = new ParamVo();
+				vo.setParamName("confTemplateName");
+				vo.setParamValue(confTemplateName);
+				params.add(vo);
+				List<ConfTemplate> lst = confTemplateService.findConfTemplates(params, null);
+				if (lst != null && lst.size() > 0 && confTemplate.getConfTemplateId() != lst.get(0).getConfTemplateId())
+				{
+					outJson("{success:false, msg:'表单模板名冲突!'}");
+					return null;
+				}
+			}
+			old.setConfTemplateName(confTemplateName);
+			old.setServiceTemplateId(confTemplate.getServiceTemplateId());
+			old.setVirtualConfId(confTemplate.getVirtualConfId());
+			old.setTimeLong(confTemplate.getTimeLong());
+			old.setDescription(confTemplate.getDescription());
+			old.setPassword(confTemplate.getPassword());
+			old.setControlPin(confTemplate.getControlPin());
+			old.setSubject(confTemplate.getSubject());
+			old.setInitUnit(confTemplate.getInitUnit());
+			old.setMainUnit(confTemplate.getMainUnit());
+			old.setPresider(confTemplate.getPresider());
+			old.setPrincipalMobile(confTemplate.getPrincipalMobile());
+			old.setReserveCode(confTemplate.getReserveCode());
+			old.setContactMethod(confTemplate.getContactMethod());
+			old.setPrincipal(confTemplate.getPrincipal());
+			old.setIsDefault(confTemplate.getIsDefault());
+			response.setContentType("text/html;charset=utf-8");
+
+			String units = request.getParameter("confUnits");
+			String[] unitList = null;
+			if (units != null && !units.equals(""))
+				unitList = units.split(",");
+
+			confTemplateService.modifyConfTemplate(old, unitList);
 			outJson("{success:true, msg:'创建表单模板成功!'}");
 		} catch (Exception e)
 		{
