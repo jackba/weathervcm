@@ -3,6 +3,7 @@ package com.cma.intervideo.web.action;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.cma.intervideo.service.ILogService;
 import com.cma.intervideo.util.AbstractBaseAction;
 import com.cma.intervideo.util.PropertiesHelper;
 import com.cma.intervideo.util.SystemConfiguration;
@@ -35,11 +36,16 @@ public class SysConfigAction extends AbstractBaseAction {
 		return "configDetail";
 	}
 	
-	public String modifyConfiguration() {
+	public String modifyConfiguration() throws Exception{
 		// TODO
 		logger.info("modifyConfiguration...");
 		PropertiesHelper.setDefaultServiceTemplateId(config.getDefaultServiceTemplateId());
 		VcmProperties.store();
+		try {
+			outJson("{success:true, msg:'修改配置成功!'}");
+		} catch (Exception e) {
+			outJson("{success:true, msg:'修改配置失败!'}");
+		}
 		return null;
 	}
 }
