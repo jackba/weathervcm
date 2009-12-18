@@ -16,6 +16,7 @@ import org.apache.commons.logging.LogFactory;
 import com.cma.intervideo.dao.util.BaseDao;
 import com.cma.intervideo.pojo.Conference;
 import com.cma.intervideo.vo.ConfNumStatVo;
+import com.cma.intervideo.vo.ConfTimeStatVo;
 import com.cma.intervideo.vo.ConfTypeTimeStatVo;
 import com.cma.intervideo.vo.UnitTimeStatVo;
 import com.cma.intervideo.vo.UserReserveStatVo;
@@ -253,6 +254,42 @@ public class AbstractStatDao extends BaseDao implements IStatDao{
 				ConfTypeTimeStatVo vo = new ConfTypeTimeStatVo();
 				vo.setTimeLong(rs.getInt("timeLong")/60);
 				vo.setConfTypeDesc(rs.getString("field_desc"));
+				l.add(vo);
+			}
+			return l;
+		}catch(Exception e){
+			logger.error(e.toString());
+			return null;
+		}
+	}
+	public List<ConfTimeStatVo> statConfTime(String startDate, String endDate){
+		Connection conn = this.getSession().connection();
+		Statement stmt = null;
+		ResultSet rs = null;
+		try{	
+			stmt = conn.createStatement();
+			String strSQL = "select timestampdiff(SECOND,c.create_time,c.update_time) as timeLong,c.subject from conference c" +
+				" where c.status="+Conference.status_history;
+			if(startDate!=null && !"".equals(startDate)){	
+				strSQL += " and c.create_time>='" + startDate + "'";
+			}
+			if(endDate!=null && !"".equals(endDate)){
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+				Date ed = df.parse(endDate);
+				Calendar ec = Calendar.getInstance();
+				ec.setTime(ed);
+				ec.add(Calendar.DATE, 1);
+				ed = ec.getTime();
+				strSQL += " and c.create_time<='" + df.format(ed) + "'";
+			}
+			strSQL += " order by timestampdiff(SECOND,c.create_time,c.update_time) desc limit 10";
+			logger.info(strSQL);
+			rs = stmt.executeQuery(strSQL);
+			List<ConfTimeStatVo> l = new ArrayList<ConfTimeStatVo>();
+			while(rs.next()){
+				ConfTimeStatVo vo = new ConfTimeStatVo();
+				vo.setTimeLong(rs.getInt("timeLong")/60);
+				vo.setSubject(rs.getString("subject"));
 				l.add(vo);
 			}
 			return l;
