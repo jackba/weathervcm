@@ -36,12 +36,6 @@ body{font-size:12px;}
 	      <input name="confTemplate.confTemplateName" value="<s:property value='confTemplate.confTemplateName'/>" id="subject" type="text" class="put200" maxlength="40"></input>
 	    </label></td>
   	  </tr>
-	  <tr>
-	    <th width="20%"><font color="red">&nbsp;*</font>会议号：</th>
-	    <td><label>
-	      <input name="confTemplate.virtualConfId" value="<s:property value='confTemplate.virtualConfId'/>" id="virtualConfId" type="text" class="put200" maxlength="40"></input>
-	    </label></td>
-  	  </tr>
   	  <tr>
 	    <th width="20%">会议主题：</th>
 	    <td><label>
@@ -275,8 +269,7 @@ if ( checkForm()){
 	}
 }
 function checkForm(){
-	if (validateRequired('subject','名称')
-			&& validateRequired('virtualConfId','会议号')) {		
+	if (validateRequired('subject','名称')) {		
 		return true;
 	}else {
 		return false;

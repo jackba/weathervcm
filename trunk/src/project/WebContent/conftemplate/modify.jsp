@@ -23,7 +23,7 @@ body{font-size:12px;}
 <div class="wrap">
 <h1>当前位置：用户个人信息管理&nbsp;&gt;&nbsp;表单模板设置&nbsp;&gt;&nbsp;<span class="position_current"> 修改表单模板</span></h1>
 	<div class="search">
-	<form id="form1" name="form1" method="post" action="<%=request.getContextPath()%>/conftemplate_save.do">
+	<form id="form1" name="form1" method="post" action="<%=request.getContextPath()%>/conftemplate_update.do">
 	<input type="hidden" name="personal" value="<s:property value='#request.personal'/>"/>
 	<br/>
 	<table class="query">
@@ -37,12 +37,6 @@ body{font-size:12px;}
 	    </label></td>
   	  </tr>
 	  <tr>
-	    <th width="20%"><font color="red">&nbsp;*</font>会议号：</th>
-	    <td><label>
-	      <input name="confTemplate.virtualConfId" value="<s:property value='confTemplate.virtualConfId'/>" id="virtualConfId" type="text" class="put200" maxlength="40"></input>
-	    </label></td>
-  	  </tr>
-  	  <tr>
 	    <th width="20%">会议主题：</th>
 	    <td><label>
 	      <input name="confTemplate.subject" value="<s:property value='confTemplate.subject'/>" id="subject" type="text" class="put200" maxlength="40"></input>
@@ -303,8 +297,7 @@ if ( checkForm()){
 	}
 }
 function checkForm(){
-	if (validateRequired('subject','名称')
-			&& validateRequired('virtualConfId','会议号')) {		
+	if (validateRequired('subject','名称')) {		
 		return true;
 	}else {
 		return false;
