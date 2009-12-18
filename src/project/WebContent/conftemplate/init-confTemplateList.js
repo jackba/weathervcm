@@ -193,7 +193,7 @@ function initGrid() {
 	{
 		var list = sm.getSelections();
 		var id = list[0].data["confTemplateId"];
-		window.parent.createNewPanel('confTemplateModify_'+id,'confTemplate','修改表单模板','conftemplate_modify.do?confTemplateId'+id);
+		window.parent.createNewPanel('confTemplateModify_'+id,'confTemplate','修改表单模板','conftemplate_modify.do?confTemplateId='+id);
 	}
 	
 	function del()
