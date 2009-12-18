@@ -23,9 +23,11 @@ import org.apache.commons.logging.LogFactory;
 import com.cma.intervideo.exception.UserExistsException;
 import com.cma.intervideo.pojo.BulletinBoard;
 import com.cma.intervideo.pojo.Role;
+import com.cma.intervideo.pojo.Unit;
 import com.cma.intervideo.pojo.User;
 import com.cma.intervideo.service.IBulletinService;
 import com.cma.intervideo.service.ILogService;
+import com.cma.intervideo.service.IUnitService;
 import com.cma.intervideo.service.IUserService;
 import com.cma.intervideo.util.AbstractBaseAction;
 import com.cma.intervideo.util.PageHolder;
@@ -36,12 +38,20 @@ import com.sun.image.codec.jpeg.JPEGImageEncoder;
 public class UserAction extends AbstractBaseAction{
 	private static Log logger = LogFactory.getLog(UserAction.class);
 	private IUserService userService;
+	private IUnitService unitService;
 	private IBulletinService bulletinService;
 	private ILogService logService;
 	
 	public void setLogService(ILogService logService) {
 		this.logService = logService;
 	}
+	
+	
+	public void setUnitService(IUnitService unitService) {
+		this.unitService = unitService;
+	}
+
+
 	private User user;
 	
 	public User getUser() {
@@ -189,6 +199,7 @@ public class UserAction extends AbstractBaseAction{
 	public String modify(){
 		String id = request.getParameter("userId");
 		user = userService.getUser(id);
+		request.setAttribute("personal", "false");
 		return "modifyEdit";
 	}
 	
@@ -196,6 +207,7 @@ public class UserAction extends AbstractBaseAction{
 		UserPrivilege up = (UserPrivilege)session.get("userPrivilege");
 		String id = up.getUserId();
 		user = userService.getUser(id);
+		request.setAttribute("personal", "true");
 		return "modifyEdit";
 	}
 	
@@ -290,6 +302,8 @@ public class UserAction extends AbstractBaseAction{
 
 	public String add(){
 		List roles = userService.findAllRoles();
+		List units = unitService.findAllUnits();
+		request.setAttribute("units", units);
 		request.setAttribute("roles", roles);
 		return "userAdd";
 	}
@@ -368,15 +382,23 @@ public class UserAction extends AbstractBaseAction{
 		UserPrivilege up = (UserPrivilege)session.get("userPrivilege");
 		response.setContentType("text/html;charset=utf-8");
 		String roles = request.getParameter("roles");
+		String units = request.getParameter("units");
 		String[] roleList = null;
+		String[] unitList = null;
 		if(roles!=null && !roles.equals("")){
 			roleList = roles.split(",");
 		}else {
 			outJson("{success:false, msg:'至少要为操作员选择一个角色!'}");
 			return null;
 		}
+		if(units!=null && !units.equals("")){
+			unitList = units.split(",");
+		}else {
+			outJson("{success:false, msg:'至少要为操作员选择一个主会场!'}");
+			return null;
+		}
 		try{
-			userService.updateUser(user, roleList);
+			userService.updateUser(user, roleList, unitList);
 			logService.addLog(up.getUserId(), ILogService.type_modify_user, "修改用户"+user.getLoginId());
 			outJson("{success:true, msg:'操作员修改成功!'}");
 		}catch(UserExistsException ue) {
@@ -394,15 +416,23 @@ public class UserAction extends AbstractBaseAction{
 		response.setContentType("text/html;charset=utf-8");
 		
 		String roles = request.getParameter("roles");
+		String units = request.getParameter("units");
 		String[] roleList = null;
+		String[] unitList = null;
 		if(roles!=null && !roles.equals("")){
 			roleList = roles.split(",");
 		} else {
 			outJson("{success:false, msg:'至少要为操作员选择一个角色!'}");
 			return null;
 		}
+		if(units!=null && !units.equals("")){
+			unitList = units.split(",");
+		} else {
+			outJson("{success:false, msg:'至少要为操作员选择一个主会场!'}");
+			return null;
+		}
 		try{
-			userService.addUser(user, roleList);
+			userService.addUser(user, roleList, unitList);
 			logService.addLog(up.getUserId(), ILogService.type_create_user, "创建用户"+user.getLoginId());
 				outJson("{success:true, msg:'操作员添加成功!'}");
 			}catch(UserExistsException ue) {
@@ -418,5 +448,80 @@ public class UserAction extends AbstractBaseAction{
 		List<BulletinBoard> bulletinList = bulletinService.findBulletin(null, ph);
 		request.setAttribute("bulletinList", bulletinList);
 		return "index";
+	}
+	
+	public String getAllUnits(){
+		List units = unitService.findAllUnits();
+		JSONObject json = new JSONObject();
+		JSONArray arr = JSONArray.fromObject(units);
+		json.put("root", arr);
+		try{
+			System.out.println(json);
+			response.setCharacterEncoding("utf-8");
+		
+			PrintWriter out = response.getWriter();
+			out.print(json);
+			out.flush();
+			out.close();
+		}catch(Exception e){
+			logger.error(e.toString());
+		}
+		return null;
+	}
+	public String getAllUnitsExclud(){
+		List allUnits = unitService.findAllUnits();
+		String id = request.getParameter("userId");
+		List userUnits = userService.findUnitsByUserId(id);
+		for(int i=0;i<userUnits.size();i++){
+			Unit unit = (Unit)userUnits.get(i);
+			for (int inneri=0;inneri<allUnits.size();inneri++){
+				Unit inunit = (Unit)allUnits.get(inneri);
+				if (unit.getUnitId().equals( inunit.getUnitId())){
+					allUnits.remove(inneri);
+				}
+			}
+		}
+		JSONObject json = new JSONObject();
+		JSONArray arr = JSONArray.fromObject(allUnits);
+		json.put("root", arr);
+		try{
+			System.out.println(json);
+			response.setCharacterEncoding("utf-8");
+		
+			PrintWriter out = response.getWriter();
+			out.print(json);
+			out.flush();
+			out.close();
+		}catch(Exception e){
+			logger.error(e.toString());
+		}
+		return null;
+	}
+	public String getUnitsByUserId(){
+		String id = request.getParameter("userId");
+		if(id==null || "".equals(id)){
+			UserPrivilege up = (UserPrivilege)session.get("userPrivilege");
+			id = up.getUserId();
+		}
+		User user = userService.getUser(id);
+		if(user!=null && user.getLoginId().equals("super")){
+			return getAllUnits();
+		}
+		List units = userService.findUnitsByUserId(id);
+		JSONObject json = new JSONObject();
+		JSONArray arr = JSONArray.fromObject(units);
+		json.put("root", arr);
+		try{
+			System.out.println(json);
+			response.setCharacterEncoding("utf-8");
+		
+			PrintWriter out = response.getWriter();
+			out.print(json);
+			out.flush();
+			out.close();
+		}catch(Exception e){
+			logger.error(e.toString());
+		}
+		return null;
 	}
 }

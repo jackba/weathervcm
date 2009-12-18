@@ -7,6 +7,7 @@
 			<bean class="com.cma.intervideo.web.action.UserAction" autowire="byName">
 				<property name="userService" ref="userService"></property>
 				<property name="logService" ref="logService"></property>
+				<property name="unitService" ref="unitService"></property>
 			</bean>
 		</property>
 	</bean>
@@ -58,6 +59,7 @@
 				<property name="confService" ref="confService"></property>
 				<property name="roomService" ref="roomService"></property>
 				<property name="logService" ref="logService"></property>
+				<property name="userService" ref="userService"></property>
 			</bean>
 		</property>
 	</bean>

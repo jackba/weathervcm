@@ -104,7 +104,7 @@ public class UserServiceImpl implements IUserService {
 		return userDao.queryUsersAndStatus(username, name, status, ph);
 	}
 
-	public void addUser(User user, String[] roles) throws UserExistsException
+	public void addUser(User user, String[] roles, String[] units) throws UserExistsException
 	{
 		User tmp = userDao.findUserByLoginId(user.getLoginId());
 		if (tmp != null)
@@ -127,6 +127,11 @@ public class UserServiceImpl implements IUserService {
 			{
 				for (int i = 0; i < roles.length; i++)
 					userDao.addUserRole(user.getUserId(), new Integer(roles[i]));
+			}
+			if(units!=null){
+				for(int i=0;i<units.length;i++){
+					userDao.addUserUnit(user.getUserId(), new Integer(units[i]));
+				}
 			}
 		} catch (Exception e)
 		{
@@ -188,7 +193,7 @@ public class UserServiceImpl implements IUserService {
 		}
 	}
 
-	public void updateUser(User user, String[] roles)
+	public void updateUser(User user, String[] roles, String[] units)
 			throws UserExistsException {
 		try {
 			logger.info("Starting to update user...");
@@ -205,6 +210,9 @@ public class UserServiceImpl implements IUserService {
 			u.setSex(user.getSex());
 			u.setUserName(user.getUserName());
 			u.setUserType(user.getUserType());
+			if(user.getDefaultUnitId()>0){
+				u.setDefaultUnitId(user.getDefaultUnitId());
+			}
 			Date d = Calendar.getInstance().getTime();
 			u.setUpdateTime(d);
 
@@ -222,11 +230,18 @@ public class UserServiceImpl implements IUserService {
 			// save user to VCM
 			logger.info("Then updating VCM user...");
 			userDao.deleteUserRoleByUserId(user.getUserId());
+			if(units!=null)
+				userDao.deleteUserUnitByUserId(user.getUserId());
 			if (roles != null) {
 				for (int i = 0; i < roles.length; i++) {
 					userDao
 							.addUserRole(user.getUserId(),
 									new Integer(roles[i]));
+				}
+			}
+			if (units != null){
+				for(int i=0;i<units.length;i++){
+					userDao.addUserUnit(user.getUserId(), new Integer(units[i]));
 				}
 			}
 			userDao.saveOrUpdateUser(u);
@@ -367,6 +382,7 @@ public class UserServiceImpl implements IUserService {
 		User user = userDao.getUser(userId);
 		user.setStatus(DataDictStatus.invalidateStatus);
 		userDao.deleteUserRoleByUserId(userId);
+		userDao.deleteUserUnitByUserId(userId);
 		userDao.updateUser(user);
 		logDao.addLog(up.getUserId(), ILogDao.type_delete_user, "删除用户"+user.getLoginId());
 		
@@ -393,5 +409,13 @@ public class UserServiceImpl implements IUserService {
 		user.setStatus(status);
 		userDao.updateObject(user);
 		logger.info("Updated successfully user status - new status: " + status + "; " + user);
+	}
+	/**
+	 * 根据用户号查找用户可选的主会场,返回列表的元素为Unit对象
+	 * @param userId
+	 * @return
+	 */
+	public List findUnitsByUserId(String userId){
+		return userDao.findUnitsByUserId(userId);
 	}
 }

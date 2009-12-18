@@ -39,14 +39,14 @@ public interface IUserService {
 	public List findUrlsByUserId(String userid);
 	public int userLogin(String userName, String password, UserPrivilege up);
 	public List findAllUsers(PageHolder ph);
-	public void addUser(User user, String[] roles) throws UserExistsException;
+	public void addUser(User user, String[] roles, String[] units) throws UserExistsException;
 	public List findAllRoles(PageHolder ph);
 	public List findAllPrivileges();
 	public void addRole(Role role, List privileges) throws RoleExistsException;
 	public List findAllRoles();
 	public List findAllPrivileges(PageHolder ph);
 	public void updateUser(User user) throws UserExistsException ;
-	public void updateUser(User user, String[] roles)throws UserExistsException;
+	public void updateUser(User user, String[] roles, String[] units)throws UserExistsException;
 	public void updateRole(Role role, List privileges);
 	public void updateStatus(String id, short status);
 	/**
@@ -88,5 +88,11 @@ public interface IUserService {
 	public List queryUsers(String username, String name, PageHolder ph);
 	public List queryUsersAndStatus(String username, String name, Short status, PageHolder ph);
 	public List queryRoles(String roleName, PageHolder ph);
+	/**
+	 * 根据用户号查找用户可选的主会场,返回列表的元素为Unit对象
+	 * @param userId
+	 * @return
+	 */
+	public List findUnitsByUserId(String userId);
 	
 }

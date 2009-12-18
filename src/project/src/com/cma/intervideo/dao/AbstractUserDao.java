@@ -16,9 +16,12 @@ import com.cma.intervideo.pojo.Privilege;
 import com.cma.intervideo.pojo.Role;
 import com.cma.intervideo.pojo.RolePrivilege;
 import com.cma.intervideo.pojo.RolePrivilegeId;
+import com.cma.intervideo.pojo.Unit;
 import com.cma.intervideo.pojo.User;
 import com.cma.intervideo.pojo.UserRole;
 import com.cma.intervideo.pojo.UserRoleId;
+import com.cma.intervideo.pojo.UserUnit;
+import com.cma.intervideo.pojo.UserUnitId;
 import com.cma.intervideo.util.PageHolder;
 
 public class AbstractUserDao extends AbstractDAO<User, String> implements IUserDao{
@@ -199,6 +202,14 @@ public class AbstractUserDao extends AbstractDAO<User, String> implements IUserD
 		userRole.setId(userRoleId);
 		this.getHibernateTemplate().save(userRole);
 	}
+	public void addUserUnit(String userId, Integer unitId){
+		UserUnitId userUnitId = new UserUnitId();
+		userUnitId.setUserId(userId);
+		userUnitId.setUnitId(unitId);
+		UserUnit userUnit = new UserUnit();
+		userUnit.setId(userUnitId);
+		this.getHibernateTemplate().save(userUnit);
+	}
 	/**
 	 * 根据用户号查找用户具有的角色,返回列表的元素为Role对象
 	 * @param userId
@@ -300,6 +311,31 @@ public class AbstractUserDao extends AbstractDAO<User, String> implements IUserD
 			}
 		}
 	}
+	
+	/**
+	 * 删除用户的所有可选会场
+	 * @param userId
+	 */
+	public void deleteUserUnitByUserId(String userId){
+		Session s = this.getSession();
+		Connection conn = s.connection();
+		PreparedStatement pstmt = null;
+		try{
+			pstmt = conn.prepareStatement("delete from user_unit where user_id=?");
+			pstmt.setString(1, userId);
+			pstmt.executeUpdate();
+			logger.info("Deleted successfully the unit the user - userId: " + userId + " from VCM physically!");
+		}catch(Exception e){
+			logger.error(e.toString());
+		}finally{
+			try{
+				if(pstmt!=null)
+					pstmt.close();
+			}catch(Exception ex){
+				logger.error(ex.toString());
+			}
+		}
+	}
 	/**
 	 * 删除角色的所有权限
 	 * @param roleId
@@ -352,5 +388,44 @@ public class AbstractUserDao extends AbstractDAO<User, String> implements IUserD
 	}
 	public List findUserRoleByRoleId(Integer roleId){
 		return this.getHibernateTemplate().find("from UserRole userRole where userRole.roleid=?",roleId);
+	}
+	
+	/**
+	 * 根据用户号查找用户可选的主会场,返回列表的元素为Unit对象
+	 * @param userId
+	 * @return
+	 */
+	public List findUnitsByUserId(String userId){
+		Session s = this.getSession();
+		Connection conn = s.connection();
+		List result = new ArrayList();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try{
+			pstmt = conn.prepareStatement("select * from unit where unit_id in (select unit_id from user_unit where user_id=?)");
+			pstmt.setString(1, userId);
+			rs = pstmt.executeQuery();
+			while(rs.next()){
+				Unit unit = new Unit();
+				unit.setUnitId(rs.getInt("unit_id"));
+				unit.setPartyId(rs.getString("party_id"));
+				unit.setUnitName(rs.getString("unit_name"));
+				unit.setDescription(rs.getString("description"));
+				result.add(unit);
+			}
+		}catch(Exception e){
+			logger.error(e.toString());
+			return null;
+		}finally{
+			try{
+				if(rs!=null)
+					rs.close();
+				if(pstmt!=null)
+					pstmt.close();
+			}catch(Exception ex){
+				logger.error(ex.toString());
+			}
+		}
+		return result;
 	}
 }

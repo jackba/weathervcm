@@ -25,7 +25,7 @@ public class User implements java.io.Serializable {
 	private Date createTime;
 	private Date updateTime;
 	private String password;
-	
+	private int defaultUnitId;
 	public String toString() {
 		StringBuilder buf = new StringBuilder();
 		
@@ -39,47 +39,13 @@ public class User implements java.io.Serializable {
 		buf.append(" address = " + address + ", description = " + description + line);
 		buf.append(" status = " + status + ", password = " + password + line);
 		buf.append(" createTime = " + createTime + ", updateTime = " + updateTime + line);
+		buf.append(" password = " + password + ", defaultUnitId = " + defaultUnitId + line);
 		buf.append("]." + line);
 		return buf.toString();
 	}
 
 	public User() {
 	}
-
-	public User(String userId, String loginId, String userName, Short sex,
-			Short status, Date createTime, Date updateTime) {
-		this.userId = userId;
-		this.loginId = loginId;
-		this.userName = userName;
-		this.sex = sex;
-		this.status = status;
-		this.createTime = createTime;
-		this.updateTime = updateTime;
-	}
-
-	public User(String userId, String loginId, Short userType, String userName,
-			Short company, String email, String homeTelephone,
-			String officeTelephone, String mobile, Short sex, String address,
-			String description, Short status, Date createTime, Date updateTime,
-			String password) {
-		this.userId = userId;
-		this.loginId = loginId;
-		this.userType = userType;
-		this.userName = userName;
-		this.company = company;
-		this.email = email;
-		this.homeTelephone = homeTelephone;
-		this.officeTelephone = officeTelephone;
-		this.mobile = mobile;
-		this.sex = sex;
-		this.address = address;
-		this.description = description;
-		this.status = status;
-		this.createTime = createTime;
-		this.updateTime = updateTime;
-		this.password = password;
-	}
-
 	public String getUserId() {
 		return this.userId;
 	}
@@ -207,5 +173,15 @@ public class User implements java.io.Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	public int getDefaultUnitId() {
+		return defaultUnitId;
+	}
+
+	public void setDefaultUnitId(int defaultUnitId) {
+		this.defaultUnitId = defaultUnitId;
+	}
+	
+	
 
 }

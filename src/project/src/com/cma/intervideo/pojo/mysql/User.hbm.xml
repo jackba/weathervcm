@@ -53,5 +53,8 @@
         <property name="password" type="string">
             <column name="password" length="28" />
         </property>
+        <property name="defaultUnitId" type="java.lang.Integer">
+        	<column name="default_unit_id" not-null="true" />
+        </property>
     </class>
 </hibernate-mapping>

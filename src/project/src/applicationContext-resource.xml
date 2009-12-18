@@ -53,6 +53,7 @@
         		<value>com/cma/intervideo/pojo/mysql/Terminal.hbm.xml</value>
         		<value>com/cma/intervideo/pojo/mysql/ConfTemplate.hbm.xml</value>
         		<value>com/cma/intervideo/pojo/mysql/ConfTemplateXUnit.hbm.xml</value>
+        		<value>com/cma/intervideo/pojo/mysql/UserUnit.hbm.xml</value>
 			</list>
 		</property>
 	</bean>
