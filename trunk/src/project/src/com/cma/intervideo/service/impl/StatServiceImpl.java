@@ -8,6 +8,7 @@ import org.apache.commons.logging.LogFactory;
 import com.cma.intervideo.dao.IStatDao;
 import com.cma.intervideo.service.IStatService;
 import com.cma.intervideo.vo.ConfNumStatVo;
+import com.cma.intervideo.vo.ConfTimeStatVo;
 import com.cma.intervideo.vo.ConfTypeTimeStatVo;
 import com.cma.intervideo.vo.UnitTimeStatVo;
 import com.cma.intervideo.vo.UserReserveStatVo;
@@ -47,5 +48,8 @@ public class StatServiceImpl implements IStatService{
 	
 	public List<ConfTypeTimeStatVo> statConfTypeTime(String startDate, String endDate){
 		return statDao.statConfTypeTime(startDate, endDate);
+	}
+	public List<ConfTimeStatVo> statConfTime(String startDate, String endDate){
+		return statDao.statConfTime(startDate, endDate);
 	}
 }

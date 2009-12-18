@@ -3,6 +3,7 @@ package com.cma.intervideo.dao;
 import java.util.List;
 
 import com.cma.intervideo.vo.ConfNumStatVo;
+import com.cma.intervideo.vo.ConfTimeStatVo;
 import com.cma.intervideo.vo.ConfTypeTimeStatVo;
 import com.cma.intervideo.vo.UnitTimeStatVo;
 import com.cma.intervideo.vo.UserReserveStatVo;
@@ -23,4 +24,6 @@ public interface IStatDao {
 	public List<UnitTimeStatVo> statUnitTime(String startDate, String endDate);
 	
 	public List<ConfTypeTimeStatVo> statConfTypeTime(String startDate, String endDate);
+	
+	public List<ConfTimeStatVo> statConfTime(String startDate, String endDate);
 }

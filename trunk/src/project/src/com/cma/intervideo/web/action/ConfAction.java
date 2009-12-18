@@ -29,6 +29,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import com.cma.intervideo.pojo.Conference;
 import com.cma.intervideo.pojo.FieldDesc;
+import com.cma.intervideo.pojo.FieldDescId;
 import com.cma.intervideo.pojo.Unit;
 import com.cma.intervideo.pojo.VirtualRoom;
 import com.cma.intervideo.service.IConfService;
@@ -408,7 +409,11 @@ public class ConfAction extends AbstractBaseAction {
 	public String searchConfType(){
 		try{
 			logger.info("search...");
-			List<FieldDesc> confTypeList = confService.findConfTypes();
+			List<FieldDesc> l = confService.findConfTypes();
+			List<FieldDescId> confTypeList = new ArrayList<FieldDescId>();
+			for(int i=0;i<l.size();i++){
+				confTypeList.add(l.get(i).getId());
+			}
 			JSONObject json = new JSONObject();
 			JSONArray arr = JSONArray.fromObject(confTypeList);
 			json.put("root", arr);
