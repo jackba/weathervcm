@@ -107,6 +107,17 @@ body{font-size:12px;}
 		<td class="row2" id="role"><div id="roleDiv"/>
 		</td>
 	  </tr>
+	  <tr>
+	  	<th class="row1"><font color="red">&nbsp;*</font>默认主会场：</th>
+		<td class="row2">
+		<div id="main_unit"></div>
+		</td>
+	  </tr>
+	  <tr>
+	  	<th class="row1"><font color="red">&nbsp;*</font>可选主会场：</th>
+		<td class="row2" id="role"><div id="unitDiv"/>
+		</td>
+	  </tr>
     </table>
 	  
     <br/>
@@ -166,6 +177,74 @@ Ext.onReady(
 			toLegend:"已选角色",
 			fromLegend:"可选角色"
 		});	
+		var unitds = new Ext.data.Store({
+		proxy : new Ext.data.HttpProxy({
+			url : 'unit_getAll.do'
+		}),
+		reader : new Ext.data.JsonReader({
+			root : 'root'
+		}, [{
+			name : 'unitId'
+		}, {
+			name : 'unitName'
+		}, {
+			name : 'description'
+		}])
+	});
+	unitds.load();
+	var unitComboWithTooltip = new Ext.form.ComboBox({
+		store: unitds,
+		value: "<s:property value='user.defaultUnitId'/>",
+		hiddenId: 'defaultUnitId',
+        hiddenName: 'user.defaultUnitId',
+        valueField: 'unitId',
+        displayField: 'unitName',
+        typeAhead: true,
+        forceSelection: false,
+        mode: 'local',
+        triggerAction: 'all',
+        emptyText: '请选择默认主会场...',
+        selectOnFocus: true,
+        renderTo: 'main_unit'
+    });
+	
+	var urds = new Ext.data.Store({
+			proxy : new Ext.data.HttpProxy({
+				url : 'user_getAllUnits.do'
+			}),
+			reader : new Ext.data.JsonReader({
+				root : 'root'
+			}, [{
+				name : 'unitId'
+			}, {
+				name : 'unitName'
+			}])
+		});
+		urds.load();
+	
+		/*
+		 * Ext.ux.ItemSelector Example Code
+		*/
+		var urItemSelector = new Ext.ux.ItemSelector({
+			//labelWidth: 75,
+			width:650,
+			renderTo:'unitDiv',
+			name:"units",
+			fieldLabel:"ItemSelector",
+			hideLabel:true,
+			dataFields:["unitId", "unitName"],
+			fromStore:urds,
+			toData:[],
+			msWidth:250,
+			msHeight:200,
+			valueField:"unitId",
+			displayField:"unitName",
+			imagePath:"resources/js/ItemSelector",
+			//switchToFrom:true,
+			toLegend:"已选会场",
+			fromLegend:"可选会场"
+		});	
+	
 	}
 );
 
