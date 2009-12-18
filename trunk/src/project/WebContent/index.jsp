@@ -89,6 +89,9 @@ a:hover{}
 			<li>
 				<span id="unitTimeStat" href="<%=request.getContextPath()%>/stat_unitTimeStat.do" onClick="onClickMenuItem(this)">主会场会议时长统计</span>
 			</li>
+			<li>
+				<span id="confTimeStat" href="<%=request.getContextPath()%>/stat_confTimeStat.do" onClick="onClickMenuItem(this)">会议时长排行榜</span>
+			</li>
 		</ul>
 	</div>
 	
