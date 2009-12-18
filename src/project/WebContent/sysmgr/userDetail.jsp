@@ -93,6 +93,16 @@ body{font-size:12px;}
 			  	<th class="row1">角色：</th>
 				<td class="row2"><div id="roleDiv">
 			</td>
+			<tr>
+	  			<th class="row1">默认主会场：</th>
+				<td class="row2">
+					<div id="main_unit"></div>
+				</td>
+	  		</tr>
+			<tr>
+			  	<th class="row1">可选主会场：</th>
+				<td class="row2"><div id="unitDiv">
+			</td>
 	  </tr>	 
 	</table>
 	<div class="dotLine"></div>
@@ -160,6 +170,93 @@ Ext.onReady(function(){
 				//switchToFrom:true,
 				toLegend:"已选角色",
 				fromLegend:"可选角色"/*,
+				toTBar:[{
+					text:"清空角色",
+					handler:function(){
+						formItemSelector.reset.call(formItemSelector);
+					}
+				}]*/
+			});
+			var unitds = new Ext.data.Store({
+		proxy : new Ext.data.HttpProxy({
+			url : 'unit_getAll.do'
+		}),
+		reader : new Ext.data.JsonReader({
+			root : 'root'
+		}, [{
+			name : 'unitId'
+		}, {
+			name : 'unitName'
+		}, {
+			name : 'description'
+		}])
+	});
+	unitds.load();
+	var unitComboWithTooltip = new Ext.form.ComboBox({
+		store: unitds,
+		value: "<s:property value='user.defaultUnitId'/>",
+		hiddenId: 'defaultUnitId',
+        hiddenName: 'user.defaultUnitId',
+        valueField: 'unitId',
+        displayField: 'unitName',
+        typeAhead: true,
+        forceSelection: false,
+        mode: 'local',
+        triggerAction: 'all',
+        emptyText: '请选择默认主会场...',
+        selectOnFocus: true,
+        renderTo: 'main_unit'
+    });
+	
+	var urds = new Ext.data.Store({
+		proxy : new Ext.data.HttpProxy({
+			url : 'user_getUnitsByUserId.do?userId=<%=request.getParameter("userId")%>'
+		}),
+		reader : new Ext.data.JsonReader({
+			root : 'root'
+		}, [{
+			name : 'unitId'
+		}, {
+			name : 'unitName'
+		}])
+	});
+	urds.load();
+	var dsAllUnits = new Ext.data.Store({
+		proxy : new Ext.data.HttpProxy({
+			url : 'user_getAllUnitsExclud.do?userId=<%=request.getParameter("userId")%>'
+		}),
+		reader : new Ext.data.JsonReader({
+			root : 'root'
+		}, [{
+			name : 'unitId'
+		}, {
+			name : 'unitName'
+		}])
+	});
+	dsAllUnits.load();
+	/*
+	 * Ext.ux.ItemSelector Example Code
+	 */
+	
+			var urItemSelector = new Ext.ux.ItemSelector({
+				//labelWidth: 75,
+				width:700,
+				renderTo:'unitDiv',
+				name:"units",
+				fieldLabel:"ItemSelector",
+				hideLabel:true,
+				dataFields:["unitId", "unitName"],
+				fromStore:dsAllUnits,
+				toStore:urds,
+				toData:[],
+				msWidth:250,
+				msHeight:200,
+				valueField:"unitId",
+				displayField:"unitName",
+				imagePath:"resources/js/ItemSelector",
+				//switchToFrom:true,
+				toLegend:"已选会场",
+				fromLegend:"可选会场"/*,
 				toTBar:[{
 					text:"清空角色",
 					handler:function(){

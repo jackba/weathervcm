@@ -237,7 +237,7 @@ Ext.onReady(function(){
     });
     unitds = new Ext.data.Store({
 		proxy : new Ext.data.HttpProxy({
-			url : 'unit_getAll.do'
+			url : 'user_getUnitsByUserId.do'
 		}),
 		reader : new Ext.data.JsonReader({
 			root : 'root'
@@ -252,7 +252,7 @@ Ext.onReady(function(){
 	unitds.load();
 	var unitComboWithTooltip = new Ext.form.ComboBox({
 		store: unitds,
-		value: "<s:property value='conf.mainUnitName'/>",
+		value: "<s:property value='#request.defaultUnitId'/>",
 		hiddenId: 'mainUnit',
         hiddenName: 'conf.mainUnit',
         valueField: 'unitId',
