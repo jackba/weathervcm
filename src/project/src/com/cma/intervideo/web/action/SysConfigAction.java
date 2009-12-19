@@ -3,11 +3,9 @@ package com.cma.intervideo.web.action;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.cma.intervideo.service.ILogService;
 import com.cma.intervideo.util.AbstractBaseAction;
 import com.cma.intervideo.util.PropertiesHelper;
 import com.cma.intervideo.util.SystemConfiguration;
-import com.cma.intervideo.util.VcmProperties;
 
 public class SysConfigAction extends AbstractBaseAction {
 
@@ -37,10 +35,12 @@ public class SysConfigAction extends AbstractBaseAction {
 	}
 	
 	public String modifyConfiguration() throws Exception{
-		// TODO
 		logger.info("modifyConfiguration...");
+		// TODO: confirm which properties need to be configured
 		PropertiesHelper.setDefaultServiceTemplateId(config.getDefaultServiceTemplateId());
-		VcmProperties.store();
+		PropertiesHelper.setIcmHost(config.getIcmHost());
+		PropertiesHelper.setIcmPort(config.getIcmPort());
+		PropertiesHelper.store();
 		try {
 			outJson("{success:true, msg:'修改配置成功!'}");
 		} catch (Exception e) {

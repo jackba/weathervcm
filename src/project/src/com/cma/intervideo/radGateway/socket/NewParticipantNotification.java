@@ -13,11 +13,11 @@ import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Node;
 
 import com.cma.intervideo.service.NotificationHandleService;
-import com.cma.intervideo.util.VcmProperties;
+import com.cma.intervideo.util.PropertiesHelper;
 
 public class NewParticipantNotification extends BaseNotification{
 	private static Log logger = LogFactory.getLog(NewParticipantNotification.class);
-	private static String dialOutNumberPrefix = VcmProperties.getProperty("dialOutNumberPrefix");
+	private static String dialOutNumberPrefix = PropertiesHelper.getDialOutNumberPrefix();
 	/**
 	 * Participant ID
 	 */

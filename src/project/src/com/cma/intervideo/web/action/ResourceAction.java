@@ -84,9 +84,8 @@ public class ResourceAction extends AbstractBaseAction{
 				vo.setServiceTemplateName(serviceMap.get(infoList.get(i).getServiceTemplateId()));
 				voList.add(vo);
 			}
-			List<Integer> portNums = mrr.getInfos().get(0).getPortNums();
-			
-			int minutes = 0;
+//			List<Integer> portNums = mrr.getInfos().get(0).getPortNums();
+//			int minutes = 0;
 			JSONObject json = new JSONObject();
 			json.put("totalProperty", voList.size());
 			json.put("totalConfs", totalConfs);

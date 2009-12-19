@@ -32,12 +32,6 @@ body{font-size:12px;}
 	    </label></td>
   	  </tr>
 	  <tr>
-	    <th width="20%">会议号：</th>
-	    <td><label>
-	      <s:property value='confTemplate.virtualConfId'/>
-	    </label></td>
-  	  </tr>
-  	  <tr>
 	    <th width="20%">会议主题：</th>
 	    <td><label>
 	      <s:property value='confTemplate.subject'/>

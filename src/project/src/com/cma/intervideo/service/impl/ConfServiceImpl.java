@@ -22,8 +22,8 @@ import com.cma.intervideo.pojo.Unit;
 import com.cma.intervideo.service.IConfService;
 import com.cma.intervideo.util.PageHolder;
 import com.cma.intervideo.util.ParamVo;
+import com.cma.intervideo.util.PropertiesHelper;
 import com.cma.intervideo.util.UserPrivilege;
-import com.cma.intervideo.util.VcmProperties;
 import com.radvision.icm.service.ControlResult;
 import com.radvision.icm.service.ScheduleResult;
 import com.radvision.icm.service.vcm.ICMService;
@@ -269,7 +269,7 @@ public class ConfServiceImpl implements IConfService {
 	 */
 	public void checkConfs(){
 		logger.info("Start to check conferences status..., current time is " + Calendar.getInstance().getTime().toString());
-		int maxConfPeriod = VcmProperties.getPropertyByInt("vcm.icm.maxConfPeriod", 24);
+		int maxConfPeriod = PropertiesHelper.getMaxConfPeroidHour();
 		List<Conference> abnormalConfs = confDao.findAbnormalConfs();
 		logger.info(abnormalConfs.size()+" conferences with abnormal status!!");
 		for(int i=0;i<abnormalConfs.size();i++){

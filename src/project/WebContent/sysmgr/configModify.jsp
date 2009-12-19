@@ -37,13 +37,13 @@ body{font-size:12px;}
 	  <tr>
 	    <th class="row1">平台地址：</th>
 	    <td class="row2"><label>
-	      <input type="text" readonly name="config.icmHost" class="put200" value="<s:property value='config.icmHost'/>"/>
+	      <input type="text" name="config.icmHost" class="put200" value="<s:property value='config.icmHost'/>"/>
 	    </label></td>
 	  </tr>
 	  <tr>
 	    <th class="row1">平台端口：</th>
 	    <td class="row2"><label>
-	      <input type="text" readonly name="config.icmPort" class="put200" value="<s:property value='config.icmPort'/>"/>
+	      <input type="text" name="config.icmPort" class="put200" value="<s:property value='config.icmPort'/>"/>
 	    </label></td>
 	  </tr>
 	  	 

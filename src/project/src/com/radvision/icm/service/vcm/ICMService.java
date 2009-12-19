@@ -107,7 +107,7 @@ public class ICMService {
 	}
 
 	private static String getIcmIPPort() {
-		return PropertiesHelper.getIcmHost() + ":" + PropertiesHelper.getIcmPort();
+		return PropertiesHelper.getIcmIpPort();
 	}
 	
 	public static UserServicePortType getUserServicePortType() throws Exception {
