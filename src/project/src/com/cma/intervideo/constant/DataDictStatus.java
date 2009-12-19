@@ -24,8 +24,10 @@ public abstract class DataDictStatus {
 	
 	public static final Short bulletinNormalStatus = new Short("0");
 	public static final Short bulletinInvalidStatus = new Short("1");
+	
 	public static final Short messageNormalStatus = new Short("0");
 	public static final Short messageInvalidStatus = new Short("1");
+	
 	public static Map bulletinStatusMap = new HashMap();
 	public static Map messageStatusMap = new HashMap();
 	static {
@@ -35,7 +37,7 @@ public abstract class DataDictStatus {
 		messageStatusMap.put(messageInvalidStatus, "无效");
 	}
 	
-	public static final Short EnableStatus = new Short("1");
 	public static final Short DisableStatus = new Short("0");
+	public static final Short EnableStatus = new Short("1");
 	
 }
