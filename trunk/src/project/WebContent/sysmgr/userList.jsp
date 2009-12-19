@@ -48,7 +48,8 @@
 						<td><select name="status" id="status" class="put200">
 							<option value="" selected="selected">请选择</option>
 							<option value="0">启用</option>
-							<option value="1">禁用</option>
+							<option value="2">禁用</option>
+							<!--<option value="1">无效</option>-->
 							<!--<option value="2">禁用</option>-->
 							
 						</select></td>

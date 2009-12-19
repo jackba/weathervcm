@@ -6,8 +6,6 @@ import com.cma.intervideo.dao.util.DAO;
 import com.cma.intervideo.pojo.Privilege;
 import com.cma.intervideo.pojo.Role;
 import com.cma.intervideo.pojo.User;
-import com.cma.intervideo.pojo.UserUnit;
-import com.cma.intervideo.pojo.UserUnitId;
 import com.cma.intervideo.util.PageHolder;
 
 public interface IUserDao extends DAO<User, String>{

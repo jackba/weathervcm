@@ -410,6 +410,7 @@ public class UserServiceImpl implements IUserService {
 		userDao.updateObject(user);
 		logger.info("Updated successfully user status - new status: " + status + "; " + user);
 	}
+	
 	/**
 	 * 根据用户号查找用户可选的主会场,返回列表的元素为Unit对象
 	 * @param userId

@@ -87,7 +87,7 @@ function initGrid() {
     	   renderer : function(value, p, record){
     	   		if(record.data.status == '0'){
     	   			return "<span style='color:blue;'>" + "启用" + "</span>";
-    	   		}else if(record.data.status == '1'){
+    	   		}else if(record.data.status == '2'){
     	   			return "<span style='color:green;'>" + "禁用" + "</span>";
     	   		}else{
     	   			return "<span style='color:red;'>" + "无效" + "</span>";
@@ -272,7 +272,7 @@ function initGrid() {
 	function stop(){
 		var list = sm.getSelections();
 		var id = list[0].data["userId"];
-		userService.updateStatus(id,1,function(){
+		userService.updateStatus(id,2,function(){
 			Ext.MessageBox.alert('提示','修改用户状态成功！');
 			loadStore(ptb.cursor);
 		});

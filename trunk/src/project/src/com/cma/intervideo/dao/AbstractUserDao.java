@@ -26,14 +26,17 @@ import com.cma.intervideo.util.PageHolder;
 
 public class AbstractUserDao extends AbstractDAO<User, String> implements IUserDao{
 	private static Log logger = LogFactory.getLog(AbstractUserDao.class);
+	private static String baseHql4ValidUser = "from User user where user.status!=" + DataDictStatus.invalidateStatus;
+	private static String baseHql4NormalUser = "from User user where user.status=" + DataDictStatus.normalStatus;
+	private static String baseHql4NormalRole = "from Role role where role.status=" + DataDictStatus.normalStatus;
 	/**
 	 * 根据用户姓名查找用户
 	 */
 	public User findUserByName(String name){
-		List userList = this.getHibernateTemplate().find("from User user where user.userName='"+name+"' and user.status="+DataDictStatus.normalStatus);
-		if((userList!=null)&&(userList.size()!=0)){
+		List userList = getHibernateTemplate().find(baseHql4ValidUser + " and user.userName=?", name);
+		if (userList != null && userList.size() > 0)
 			return (User)userList.get(0);
-		}else
+		else
 			return null;
 	}
 	/**
@@ -42,10 +45,10 @@ public class AbstractUserDao extends AbstractDAO<User, String> implements IUserD
 	 * @return
 	 */
 	public User findUserByLoginId(String loginId){
-		List l = this.getHibernateTemplate().find("from User user where user.status=0 and user.loginId=?",loginId);
-		if((l!=null)&&(l.size()>0)){
-			return (User)l.get(0);
-		}else
+		List userList = getHibernateTemplate().find(baseHql4NormalUser + " and user.loginId=?", loginId);
+		if (userList != null && userList.size() > 0)
+			return (User)userList.get(0);
+		else
 			return null;
 	}
 	
@@ -56,7 +59,9 @@ public class AbstractUserDao extends AbstractDAO<User, String> implements IUserD
 	 */
 	public List<Privilege> findPrivilegesByUserId(String userId){
 		List<Privilege> result = new ArrayList<Privilege>();
-		List l = this.getHibernateTemplate().find("from Privilege p, RolePrivilege rp, UserRole ur where p.privilegeId=rp.id.privilegeId and rp.id.roleId=ur.id.roleId and ur.id.userId=?)",userId);
+		List l = getHibernateTemplate().find("from Privilege p, RolePrivilege rp, UserRole ur " +
+				"where p.privilegeId=rp.id.privilegeId and rp.id.roleId=ur.id.roleId " +
+				"and ur.id.userId=?",userId);
 		if(l!=null){
 			for(int i=0;i<l.size();i++){
 				Object[] o = (Object[])l.get(i);
@@ -72,12 +77,13 @@ public class AbstractUserDao extends AbstractDAO<User, String> implements IUserD
 	 */
 	public List findUrlsByUserId(String userid){
 		List result = new ArrayList();
-		Session s = this.getSession();
+		Session s = getSession();
 		Connection conn = s.connection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try{
-			pstmt = conn.prepareStatement("select url from privilege where privilege_id in (select privilege_id from role_privilege where role_id in (select role_id from user_role where user_id=?))");
+			pstmt = conn.prepareStatement("select url from privilege " +
+					"where privilege_id in (select privilege_id from role_privilege where role_id in (select role_id from user_role where user_id=?))");
 			pstmt.setString(1, userid);
 			rs = pstmt.executeQuery();
 			String url = null;
@@ -113,110 +119,108 @@ public class AbstractUserDao extends AbstractDAO<User, String> implements IUserD
 	}
 	
 	public List findAllUsers(PageHolder ph){
-		if(ph.isGetCount()){
-			ph.setResultSize(this.getCount("from User user where user.status!=1"));
-		}
-		List userList = this.find("from User user where user.status!=1", ph);
-		return userList;
+		if(ph.isGetCount())
+			ph.setResultSize(getCount(baseHql4ValidUser));
+		return find(baseHql4ValidUser, ph);
 	}
-	public List queryUsers(String username, String name, PageHolder ph){
-		StringBuffer sb = new StringBuffer("from User user where user.status!=1");
-		if((username!=null)&&(!username.equals(""))){
+	
+	public List<User> queryUsers(String username, String name, PageHolder ph){
+		StringBuffer sb = new StringBuffer(baseHql4ValidUser);
+		if((username!=null)&&(!username.equals("")))
 			sb.append(" and username like '%"+username+"%'");
-		}
-		if((name!=null)&&(!name.equals(""))){
+		if((name!=null)&&(!name.equals("")))
 			sb.append(" and name like '%"+name+"%'");
-		}
-		if(ph.isGetCount()){
-			ph.setResultSize((int)this.getCount2(sb.toString()));
-		}
-		return this.find(sb.toString(), ph);
+		if(ph.isGetCount())
+			ph.setResultSize((int)getCount2(sb.toString()));
+		return find(sb.toString(), ph);
 	}
-	public List queryUsersAndStatus(String username, String name, Short status, PageHolder ph){
-		StringBuffer sb = new StringBuffer("from User user where user.status!=2");
-		if((username!=null)&&(!username.equals(""))){
+	
+	public List<User> queryUsersAndStatus(String username, String name, Short status, PageHolder ph){
+		StringBuffer sb = new StringBuffer("from User user where user.status!=3");
+		if((username!=null)&&(!username.equals("")))
 			sb.append(" and login_id like '%"+username+"%'");
-		}
-		if((name!=null)&&(!name.equals(""))){
+		if((name!=null)&&(!name.equals("")))
 			sb.append(" and user_name like '%"+name+"%'");
-		}
-		if((status!=null)&&(!status.equals(""))){
+		if((status!=null)&&(!status.equals("")))
 			sb.append(" and status = '"+status+"'");
-			
-		}
-		if(ph.isGetCount()){
-			ph.setResultSize((int)this.getCount2(sb.toString()));
-		}
-		return this.find(sb.toString(), ph);
+		if(ph.isGetCount())
+			ph.setResultSize((int)getCount2(sb.toString()));
+		return find(sb.toString(), ph);
 	}
+	
 	public void addUser(User user){
-		this.getHibernateTemplate().save(user);
+		getHibernateTemplate().save(user);
 	}
+	
 	public List findAllRoles(PageHolder ph){
-		if(ph.isGetCount()){
-			ph.setResultSize(this.getCount("from Role role where role.status=0"));
-		}
-		List roleList = this.find("from Role role where role.status=0", ph);
-		return roleList;
+		if(ph.isGetCount())
+			ph.setResultSize(getCount(baseHql4NormalRole));
+		return find(baseHql4NormalRole, ph);
 	}
+	
 	public List queryRoles(String roleName, PageHolder ph){
-		StringBuffer sb = new StringBuffer("from Role role where role.status=0");
-		if((roleName!=null)&&(!roleName.equals(""))){
+		StringBuffer sb = new StringBuffer(baseHql4NormalRole);
+		if((roleName!=null)&&(!roleName.equals("")))
 			sb.append(" and role.name like '%"+roleName+"%'");
-		}
-		if(ph.isGetCount()){
-			ph.setResultSize(this.getCount(sb.toString()));
-		}
-		return this.find(sb.toString(), ph);
+		if(ph.isGetCount())
+			ph.setResultSize(getCount(sb.toString()));
+		return find(sb.toString(), ph);
 	}
+	
 	public List findAllPrivileges(){
-		return this.getHibernateTemplate().find("from Privilege privilege");
+		return getHibernateTemplate().find("from Privilege privilege");
 	}
+	
 	public List findAllPrivileges(PageHolder ph){
 		if(ph.isGetCount()){
-			ph.setResultSize(this.getCount("from Privilege privilege"));
+			ph.setResultSize(getCount("from Privilege privilege"));
 		}
-		List privileges = this.find("from Privilege privilege", ph);
+		List privileges = find("from Privilege privilege", ph);
 		return privileges;
 	}
+	
 	public void addRole(Role role){
-		this.getHibernateTemplate().save(role);
+		getHibernateTemplate().save(role);
 	}
+	
 	public void addRolePrivilege(Integer roleId, Integer privilegeId){
 		RolePrivilegeId rolePrivilegeId = new RolePrivilegeId();
 		rolePrivilegeId.setRoleId(roleId);
 		rolePrivilegeId.setPrivilegeId(privilegeId);
 		RolePrivilege rolePrivilege = new RolePrivilege();
 		rolePrivilege.setId(rolePrivilegeId);
-		this.getHibernateTemplate().save(rolePrivilege);
+		getHibernateTemplate().save(rolePrivilege);
 	}
 	
 	public List findAllRoles(){
-		return this.getHibernateTemplate().find("from Role role where role.status=0");
+		return getHibernateTemplate().find(baseHql4NormalRole);
 	}
+	
 	public void addUserRole(String userId, Integer roleId){
 		UserRoleId userRoleId = new UserRoleId();
 		userRoleId.setUserId(userId);
 		userRoleId.setRoleId(roleId);
 		UserRole userRole = new UserRole();
 		userRole.setId(userRoleId);
-		this.getHibernateTemplate().save(userRole);
+		getHibernateTemplate().save(userRole);
 	}
+	
 	public void addUserUnit(String userId, Integer unitId){
 		UserUnitId userUnitId = new UserUnitId();
 		userUnitId.setUserId(userId);
 		userUnitId.setUnitId(unitId);
 		UserUnit userUnit = new UserUnit();
 		userUnit.setId(userUnitId);
-		this.getHibernateTemplate().save(userUnit);
+		getHibernateTemplate().save(userUnit);
 	}
+	
 	/**
 	 * 根据用户号查找用户具有的角色,返回列表的元素为Role对象
 	 * @param userId
 	 * @return
 	 */
 	public List findRolesByUserId(String userId){
-		Session s = this.getSession();
+		Session s = getSession();
 		Connection conn = s.connection();
 		List result = new ArrayList();
 		PreparedStatement pstmt = null;
@@ -248,13 +252,14 @@ public class AbstractUserDao extends AbstractDAO<User, String> implements IUserD
 		}
 		return result;
 	}
+	
 	/**
 	 * 根据角色查找角色具有的权限
 	 * @param roleId
 	 * @return
 	 */
 	public List findPrivilegesByRoleId(Integer roleId){
-		Session s = this.getSession();
+		Session s = getSession();
 		Connection conn = s.connection();
 		List result = new ArrayList();
 		PreparedStatement pstmt = null;
@@ -292,7 +297,7 @@ public class AbstractUserDao extends AbstractDAO<User, String> implements IUserD
 	 * @param userId
 	 */
 	public void deleteUserRoleByUserId(String userId){
-		Session s = this.getSession();
+		Session s = getSession();
 		Connection conn = s.connection();
 		PreparedStatement pstmt = null;
 		try{
@@ -317,7 +322,7 @@ public class AbstractUserDao extends AbstractDAO<User, String> implements IUserD
 	 * @param userId
 	 */
 	public void deleteUserUnitByUserId(String userId){
-		Session s = this.getSession();
+		Session s = getSession();
 		Connection conn = s.connection();
 		PreparedStatement pstmt = null;
 		try{
@@ -336,12 +341,13 @@ public class AbstractUserDao extends AbstractDAO<User, String> implements IUserD
 			}
 		}
 	}
+	
 	/**
 	 * 删除角色的所有权限
 	 * @param roleId
 	 */
 	public void deleteRolePrivilegeByRoleId(Integer roleId){
-		Session s = this.getSession();
+		Session s = getSession();
 		Connection conn = s.connection();
 		PreparedStatement pstmt = null;
 		try{
@@ -361,33 +367,39 @@ public class AbstractUserDao extends AbstractDAO<User, String> implements IUserD
 	}
 	
 	public void updateUser(User user){
-		this.getHibernateTemplate().update(user);
+		getHibernateTemplate().update(user);
 	}
+	
 	public void saveOrUpdateUser(User user){
 		if (user.getUserId() ==null){
-			this.getHibernateTemplate().saveOrUpdate(user);
+			getHibernateTemplate().saveOrUpdate(user);
 		}else{
-			this.getHibernateTemplate().merge(user);
+			getHibernateTemplate().merge(user);
 		}
 	}
+	
 	public void updateRole(Role role){
-		this.getHibernateTemplate().update(role);
+		getHibernateTemplate().update(role);
 	}
+	
 	public User getUser(String userId){
-		return (User)this.getHibernateTemplate().get(User.class, userId);
+		return (User)getHibernateTemplate().get(User.class, userId);
 	}
+	
 	public Role getRole(Integer roleId){
-		return (Role)this.getHibernateTemplate().get(Role.class, roleId);
+		return (Role)getHibernateTemplate().get(Role.class, roleId);
 	}
+	
 	public Role getRoleByName(String name){
-		List l = this.getHibernateTemplate().find("from Role role where role.status=0 and role.name=?",name);
-		if((l!=null)&&(l.size()>0)){
+		List l = getHibernateTemplate().find(baseHql4NormalRole + " and role.name=?", name);
+		if((l!=null)&&(l.size()>0))
 			return (Role)l.get(0);
-		}else
+		else
 			return null;
 	}
+	
 	public List findUserRoleByRoleId(Integer roleId){
-		return this.getHibernateTemplate().find("from UserRole userRole where userRole.roleid=?",roleId);
+		return getHibernateTemplate().find("from UserRole userRole where userRole.roleid=?", roleId);
 	}
 	
 	/**
@@ -395,10 +407,10 @@ public class AbstractUserDao extends AbstractDAO<User, String> implements IUserD
 	 * @param userId
 	 * @return
 	 */
-	public List findUnitsByUserId(String userId){
-		Session s = this.getSession();
+	public List<Unit> findUnitsByUserId(String userId){
+		Session s = getSession();
 		Connection conn = s.connection();
-		List result = new ArrayList();
+		List<Unit> result = new ArrayList<Unit>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try{
@@ -428,4 +440,5 @@ public class AbstractUserDao extends AbstractDAO<User, String> implements IUserD
 		}
 		return result;
 	}
+
 }
