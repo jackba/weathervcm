@@ -1,36 +1,25 @@
 package com.cma.intervideo.util;
 
 public class PropertiesHelper {
-	private static final String MCU_PROXY_CONNECTED = "vcm.icm.mcuproxy.connected";
-	private static final String WEB_SERVICE_CONNECTED = "vcm.icm.webservice.connected";
-	
-	private static String m_icmDefaultMemberId = VcmProperties.getProperty("vcm.icm.defaultMemberId", "999");
-	private static String m_icmDefaultUserId = VcmProperties.getProperty("vcm.icm.defaultUserId", "999");
-	private static boolean m_startMcuProxySocket = VcmProperties.getPropertyByBoolean("vcm.icm.mcuproxy.startSocket", false);
-	private static int m_mcuProxyQueueNum = Integer.parseInt(VcmProperties.getProperty("vcm.icm.mcuproxy.queueNum","20"));
-	private static int m_mcuConnectionTestPeriod = Integer.parseInt(VcmProperties.getProperty("vcm.icm.mcuproxy.connectionTestPeriod","5")) * 1000;
-	private static String m_mcuProxyAccount = VcmProperties.getProperty("vcm.icm.mcuproxy.mcuAccount", "admin");
-	private static String m_mcuProxyPassword = VcmProperties.getProperty("vcm.icm.mcuproxy.mcuPassword", "");
-	private static String m_mcuProxyVersion = VcmProperties.getProperty("vcm.icm.mcuproxy.version", "iCM 5.0");
-	
+
 	public static synchronized boolean isMcuProxyConnected()
 	{
-		return VcmProperties.getPropertyByBoolean(MCU_PROXY_CONNECTED, false);
+		return VcmProperties.getPropertyByBoolean("vcm.icm.mcuproxy.connected", false);
 	}
 	
 	public static synchronized void setMcuProxyConnected(boolean connected)
 	{
-		VcmProperties.setProperties(MCU_PROXY_CONNECTED, connected ? "true" : "false");
+		VcmProperties.setProperties("vcm.icm.mcuproxy.connected", connected ? "true" : "false");
 	}
 	
 	public static synchronized boolean isIcmServiceConnected()
 	{
-		return VcmProperties.getPropertyByBoolean(WEB_SERVICE_CONNECTED, false);
+		return VcmProperties.getPropertyByBoolean("vcm.icm.webservice.connected", false);
 	}
 	
 	public static synchronized void setIcmServiceConnected(boolean connected)
 	{
-		VcmProperties.setProperties(WEB_SERVICE_CONNECTED, connected ? "true" : "false");
+		VcmProperties.setProperties("vcm.icm.webservice.connected", connected ? "true" : "false");
 	}
 	
 	public static String getDefaultServiceTemplateId() {
@@ -46,9 +35,21 @@ public class PropertiesHelper {
 		return VcmProperties.getProperty("vcm.icm.host", "localhost");
 	}
 	
+	public static void setIcmHost(String icmHost) {
+		VcmProperties.setProperties("vcm.icm.host", icmHost);
+	}
+	
 	public static String getIcmPort()
 	{
 		return VcmProperties.getProperty("vcm.icm.port", "8080");
+	}
+	
+	public static void setIcmPort(String icmPort) {
+		VcmProperties.setProperties("vcm.icm.port", icmPort);
+	}
+	
+	public static String getIcmIpPort() {
+		return VcmProperties.getProperty("vcm.icm.host", "localhost") + ":" + getIcmPort();
 	}
 	
 	public static int getMcuProxyPort() {
@@ -56,35 +57,50 @@ public class PropertiesHelper {
 	}
 	
 	public static String getIcmDefaultMemberId() {
-		return m_icmDefaultMemberId;
+		return VcmProperties.getProperty("vcm.icm.defaultMemberId", "999");
 	}
 	
 	public static String getIcmDefaultUserId() {
-		return m_icmDefaultUserId;
+		return VcmProperties.getProperty("vcm.icm.defaultUserId", "1");
 	}
 	
 	public static boolean startMcuProxySocket() {
-		return m_startMcuProxySocket;
+		return VcmProperties.getPropertyByBoolean("vcm.icm.mcuproxy.startSocket", false);
 	}
 	
 	public static int getMcuProxyQueueNum() {
-		return m_mcuProxyQueueNum;
+		return VcmProperties.getPropertyByInt("vcm.icm.mcuproxy.queueNum", 20);
 	}
 	
 	public static int getMcuConnectionTestPeriod() {
-		return m_mcuConnectionTestPeriod;
+		return VcmProperties.getPropertyByInt("vcm.icm.mcuproxy.connectionTestPeriod", 5) * 1000;
 	}
 	
 	public static String getMcuProxyAccount() {
-		return m_mcuProxyAccount;
+		return VcmProperties.getProperty("vcm.icm.mcuproxy.mcuAccount", "admin");
 	}
 	
 	public static String getMcuProxyPassword() {
-		return m_mcuProxyPassword;
+		return VcmProperties.getProperty("vcm.icm.mcuproxy.mcuPassword", "");
 	}
 	
 	public static String getMcuProxyVersion() {
-		return m_mcuProxyVersion;
+		return VcmProperties.getProperty("vcm.icm.mcuproxy.version", "iCM 5.0");
+	}
+
+	public static String getDialOutNumberPrefix() {
+		return VcmProperties.getProperty("dialOutNumberPrefix");
+	}
+
+	public static int getMaxConfPeroidHour() {
+		return VcmProperties.getPropertyByInt("vcm.icm.maxConfPeriod", 24);
 	}
 	
+	public static String getFullMonitorURL() {
+		return "http://" + getIcmIpPort() +  VcmProperties.getProperty("vcm.icm.monitorUrl");
+	}
+
+	public static void store() {
+		VcmProperties.store();
+	}
 }

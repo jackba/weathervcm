@@ -98,9 +98,7 @@ public class ConfAction extends AbstractBaseAction {
 	}
 	
 	public String listRunning(){
-		String ipport = VcmProperties.getProperty("vcm.icm.ipport");
-		String monitorUrl = VcmProperties.getProperty("vcm.icm.monitorUrl");
-		monitorUrl = "http://"+ipport+monitorUrl;
+		String monitorUrl = PropertiesHelper.getFullMonitorURL();
 		request.setAttribute("monitorUrl", monitorUrl);
 		return "listRunning";
 	}
@@ -125,30 +123,22 @@ public class ConfAction extends AbstractBaseAction {
 		return null;
 	}
 	public String listCurrentDay(){
-		String ipport = VcmProperties.getProperty("vcm.icm.ipport");
-		String monitorUrl = VcmProperties.getProperty("vcm.icm.monitorUrl");
-		monitorUrl = "http://"+ipport+monitorUrl;
+		String monitorUrl = PropertiesHelper.getFullMonitorURL();
 		request.setAttribute("monitorUrl", monitorUrl);
 		return "listCurrentDay";
 	}
 	public String listCurrentWeek(){
-		String ipport = VcmProperties.getProperty("vcm.icm.ipport");
-		String monitorUrl = VcmProperties.getProperty("vcm.icm.monitorUrl");
-		monitorUrl = "http://"+ipport+monitorUrl;
+		String monitorUrl = PropertiesHelper.getFullMonitorURL();
 		request.setAttribute("monitorUrl", monitorUrl);
 		return "listCurrentWeek";
 	}
 	public String listCurrentMonth(){
-		String ipport = VcmProperties.getProperty("vcm.icm.ipport");
-		String monitorUrl = VcmProperties.getProperty("vcm.icm.monitorUrl");
-		monitorUrl = "http://"+ipport+monitorUrl;
+		String monitorUrl = PropertiesHelper.getFullMonitorURL();
 		request.setAttribute("monitorUrl", monitorUrl);
 		return "listCurrentMonth";
 	}
 	public String listAll(){
-		String ipport = VcmProperties.getProperty("vcm.icm.ipport");
-		String monitorUrl = VcmProperties.getProperty("vcm.icm.monitorUrl");
-		monitorUrl = "http://"+ipport+monitorUrl;
+		String monitorUrl = PropertiesHelper.getFullMonitorURL();
 		request.setAttribute("monitorUrl", monitorUrl);
 		return "listAll";
 	}

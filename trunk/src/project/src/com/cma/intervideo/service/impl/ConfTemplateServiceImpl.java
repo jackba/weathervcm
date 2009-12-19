@@ -135,7 +135,7 @@ public class ConfTemplateServiceImpl implements IConfTemplateService {
 				confTemplateDao.addConfTemplateUnit(confTemplate.getConfTemplateId(), new Integer(units[i]));
 			}
 		}
-		logger.info("Created successfully new ConfTemplate to VCM, " +
+		logger.info("Modified successfully ConfTemplate to VCM, " +
 				"confTemplateId: " + confTemplate.getConfTemplateId() + 
 				"; confTemplateName" + confTemplate.getConfTemplateName() + 
 				"; unit size: " + (units==null ? 0 : units.length));

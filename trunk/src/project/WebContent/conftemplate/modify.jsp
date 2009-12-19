@@ -24,7 +24,7 @@ body{font-size:12px;}
 <h1>当前位置：用户个人信息管理&nbsp;&gt;&nbsp;表单模板设置&nbsp;&gt;&nbsp;<span class="position_current"> 修改表单模板</span></h1>
 	<div class="search">
 	<form id="form1" name="form1" method="post" action="<%=request.getContextPath()%>/conftemplate_update.do">
-	<input type="hidden" name="personal" value="<s:property value='#request.personal'/>"/>
+	<input type="hidden" name="confTemplate.confTemplateId" value="<s:property value='confTemplate.confTemplateId'/>"/>
 	<br/>
 	<table class="query">
 	  <tr class="t_title">

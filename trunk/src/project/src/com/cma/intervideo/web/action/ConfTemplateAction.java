@@ -211,6 +211,10 @@ public class ConfTemplateAction extends AbstractBaseAction {
 		{
 			logger.info("update...");
 			ConfTemplate old = confTemplateService.getConfTemplateById(confTemplate.getConfTemplateId()+"");
+			if (old == null) {
+				outJson("{success:false, msg:'修改表单模板失败: 表单模板不存在!'}");
+				return null;
+			}
 			String confTemplateName = confTemplate.getConfTemplateName();
 			if (confTemplateName != null && confTemplateName.trim().length() > 0)
 			{
@@ -250,11 +254,11 @@ public class ConfTemplateAction extends AbstractBaseAction {
 				unitList = units.split(",");
 
 			confTemplateService.modifyConfTemplate(old, unitList);
-			outJson("{success:true, msg:'创建表单模板成功!'}");
+			outJson("{success:true, msg:'修改表单模板成功!'}");
 		} catch (Exception e)
 		{
-			logger.warn("Failed to create new ConfTemplate to VCM due to exception: " + e.toString());
-			outJson("{success:false, msg:'创建表单模板失败'}");
+			logger.warn("Failed to modify ConfTemplate to VCM due to exception: " + e.toString());
+			outJson("{success:false, msg:'修改表单模板失败'}");
 		}
 		return null;
 	}
