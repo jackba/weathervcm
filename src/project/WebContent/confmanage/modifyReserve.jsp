@@ -67,12 +67,7 @@ body{font-size:12px;}
 		  <input name="conf.presider" value="<s:property value='conf.presider'/>" id="presider" type="text" class="put200" maxlength="40"/>
 		</td>
 	  </tr>
-  	  <tr>
-	    <th class="row1"><font color="red">&nbsp;*</font>会议模板：</th>
-	    <td class="row2"><label>
-	    	<div id="service_template"></div>
-	    </label></td>
-	  </tr>
+  	  
 	  <tr>
 	  	<th class="row1"><font color="red">&nbsp;*</font>会议类型:</th>
 		<td class="row2"><label>
@@ -110,6 +105,42 @@ body{font-size:12px;}
 		  <div id="conf_unit"></div>
 		</td>
 	  </tr>
+	  
+	  <tr>
+	    <th  class="row1">主要议题：</th>
+	    <td class="row2"><label>
+	      <textarea name="conf.description" cols="40" rows="5" id="description" class="w600" style="width: 450px;"><s:property value='conf.description'/></textarea>
+	    </label></td>
+	  </tr>
+	  <tr>
+	  	<th class="row1">是否需要打开卫星单向广播</th>
+		<td class="row2">
+		<input id="isBroadcast" type="checkbox" name="conf.isBroadcast" value="1"/>是
+		</td>
+	  </tr>
+	  <tr>
+	  	<th class="row1">是否需要主站技术支持</th>
+		<td class="row2">
+		<input id="isSupport" type="checkbox" name="conf.isSupport" value="1"/>是
+		</td>
+	  </tr>
+	  <tr>
+	  	<th class="row1">是否需要主站进行录像</th>
+		<td class="row2">
+		<input id="isRecord" type="checkbox" name="conf.isRecord" value="1"/>是
+		</td>
+	  </tr>
+	  <tr>
+	  	<th class="row1">高级选项：</th>
+		<td class="row2"><input name="advance" id="advance" type="checkbox" onClick="showAdv()"/>显示高级会议设置选项</td>
+	  </tr>
+	  <tr><td colspan="2"><table class="query" id="adv" width="100%" cellpadding="0" cellspacing="0" style="display:none">
+	  <tr>
+	    <th width="20%" class="row1"><font color="red">&nbsp;*</font>会议模板：</th>
+	    <td class="row2"><label>
+	    	<div id="service_template"></div>
+	    </label></td>
+	  </tr>
 	  <tr>
 	    <th class="row1">会议密码：</th>
 	    <td class="row2"><label>
@@ -122,12 +153,7 @@ body{font-size:12px;}
 	      <input name="conf.controlPin" value="<s:property value='conf.controlPin'/>" type="password" id="controlPin" class="put200" maxlength="8">
 	    </label></td>
 	  </tr>
-	  <tr>
-	    <th  class="row1">主要议题：</th>
-	    <td class="row2"><label>
-	      <textarea name="conf.description" cols="40" rows="5" id="description" class="w600" style="width: 450px;"><s:property value='conf.description'/></textarea>
-	    </label></td>
-	  </tr>
+	  </table></td></tr>
   </table>
 	  
   <br/>
@@ -144,11 +170,31 @@ body{font-size:12px;}
 <script language="javascript">
 var formItemSelector;
 var unitComboWithTooltip;
+function showAdv(){
+	var adv = document.getElementById('adv');
+	if(adv.style.display == 'none'){
+		adv.style.display = "block";
+	}else{
+		adv.style.display = "none";
+	}
+}
 Ext.onReady(function(){
 	Ext.BLANK_IMAGE_URL="resources/images/default/s.gif";
 	window.parent.contentPanel.getActiveTab().setTitle("修改预约会议");
     Ext.QuickTips.init();
     Ext.form.Field.prototype.msgTarget = 'side';
+	var isBroadcast = document.getElementById('isBroadcast');
+	var isSupport = document.getElementById('isSupport');
+	var isRecord = document.getElementById('isRecord');
+	<s:if test='conf.isBroadcast==1'>
+		isBroadcast.checked = 'true';
+	</s:if>
+	<s:if test='conf.isSupport==1'>
+		isSupport.checked = 'true';
+	</s:if>
+	<s:if test='conf.isRecord==1'>
+		isRecord.checked = 'true';
+	</s:if>
 	var conftypeds = new Ext.data.Store({
 		proxy : new Ext.data.HttpProxy({
 			url : 'conf_searchConfType.do'
@@ -179,7 +225,7 @@ Ext.onReady(function(){
 	serviceds.load();
 	var serviceComboWithTooltip = new Ext.form.ComboBox({
 		store: serviceds,
-		value: "<s:property value='conf.serviceTemplate'/>",
+		value: "<s:property value='conf.serviceTemplateId'/>",
 		hiddenId: 'serviceTemplate',
         hiddenName: 'conf.serviceTemplate',
         valueField: 'serviceTemplateId',
