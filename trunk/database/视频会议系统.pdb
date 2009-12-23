@@ -4092,7 +4092,7 @@ TableComment 0 Microsoft Sans Serif,8,N</a:FontList>
 <a:Code>user</a:Code>
 <a:CreationDate>1243582651</a:CreationDate>
 <a:Creator>lihw2</a:Creator>
-<a:ModificationDate>1261155759</a:ModificationDate>
+<a:ModificationDate>1261155823</a:ModificationDate>
 <a:Modifier>lihw2</a:Modifier>
 <a:History>ORG {7CC900F5-DF13-489E-BB0B-19FE73ECB0AF}
 DAT 1243582651</a:History>
@@ -4288,10 +4288,11 @@ ATT DTTP</a:History>
 <a:Code>default_unit_id</a:Code>
 <a:CreationDate>1261155759</a:CreationDate>
 <a:Creator>lihw2</a:Creator>
-<a:ModificationDate>1261155774</a:ModificationDate>
+<a:ModificationDate>1261155823</a:ModificationDate>
 <a:Modifier>lihw2</a:Modifier>
 <a:Comment>默认主会场Id</a:Comment>
 <a:DataType>int</a:DataType>
+<a:Mandatory>1</a:Mandatory>
 </o:Column>
 </c:Columns>
 <c:Keys>

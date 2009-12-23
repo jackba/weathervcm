@@ -162,6 +162,9 @@ create table conference
    contact_method                 varchar(200),
    principal                      varchar(40),
    conf_type			  tinyint			  not null,
+   is_broadcast			  tinyint,
+   is_support			  tinyint,
+   is_record			  tinyint,
    primary key (conference_id)
 )
 type = InnoDB;
