@@ -89,5 +89,14 @@
         <property name="confType" type="java.lang.Short">
         	<column name="conf_type"></column>
         </property>
+        <property name="isBroadcast" type="java.lang.Short">
+        	<column name="is_broadcast"></column>
+        </property>
+        <property name="isSupport" type="java.lang.Short">
+        	<column name="is_support"></column>
+        </property>
+        <property name="isRecord" type="java.lang.Short">
+        	<column name="is_record"></column>
+        </property>
     </class>
 </hibernate-mapping>

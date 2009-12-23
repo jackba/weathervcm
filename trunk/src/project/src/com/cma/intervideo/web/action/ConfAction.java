@@ -436,6 +436,8 @@ public class ConfAction extends AbstractBaseAction {
 		if(user!=null){
 			request.setAttribute("defaultUnitId", user.getDefaultUnitId());
 		}
+		String defaultServiceTemplateId = PropertiesHelper.getDefaultServiceTemplateId();
+		request.setAttribute("defaultServiceTemplateId", defaultServiceTemplateId);
 		return "reserveConf";
 	}
 
@@ -463,6 +465,15 @@ public class ConfAction extends AbstractBaseAction {
 
 		try {
 			conf.setStatus(Conference.status_upcoming);
+			if(conf.getIsBroadcast()==null){
+				conf.setIsBroadcast((short)0);
+			}
+			if(conf.getIsSupport()==null){
+				conf.setIsSupport((short)0);
+			}
+			if(conf.getIsRecord()==null){
+				conf.setIsRecord((short)0);
+			}
 			confService.createConf(conf, unitList);
 			logService.addLog(up.getUserId(), ILogService.type_reserve_conf, "预约会议"+conf.getRadConferenceId());
 			outJson("{success:true, msg:'预约会议成功!'}");
@@ -535,6 +546,21 @@ public class ConfAction extends AbstractBaseAction {
 		oldConf.setPrincipalMobile(conf.getPrincipalMobile());
 		oldConf.setReserveCode(conf.getReserveCode());
 		oldConf.setDescription(conf.getDescription());
+		if(conf.getIsBroadcast()==null){
+			oldConf.setIsBroadcast((short)0);
+		}else{
+			oldConf.setIsBroadcast(conf.getIsBroadcast());
+		}
+		if(conf.getIsSupport()==null){
+			oldConf.setIsSupport((short)0);
+		}else{
+			oldConf.setIsSupport(conf.getIsSupport());
+		}
+		if(conf.getIsRecord()==null){
+			oldConf.setIsRecord((short)0);
+		}else{
+			oldConf.setIsRecord(conf.getIsRecord());
+		}
 		response.setContentType("text/html;charset=utf-8");
 
 		String units = request.getParameter("confUnits");

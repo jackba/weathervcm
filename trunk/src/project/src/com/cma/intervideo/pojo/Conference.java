@@ -48,7 +48,9 @@ public class Conference implements java.io.Serializable {
 	//	private String statusStr; //added additional
 	private String confUnitNames; //added additional
 	private String mainUnitName; //added additional
-
+	private Short isBroadcast;
+	private Short isSupport;
+	private Short isRecord;
 	public String toString() {
 		StringBuilder buf = new StringBuilder();
 		
@@ -350,6 +352,30 @@ public class Conference implements java.io.Serializable {
 
 	public void setConfTypeDesc(String confTypeDesc) {
 		this.confTypeDesc = confTypeDesc;
+	}
+
+	public Short getIsBroadcast() {
+		return isBroadcast;
+	}
+
+	public void setIsBroadcast(Short isBroadcast) {
+		this.isBroadcast = isBroadcast;
+	}
+
+	public Short getIsSupport() {
+		return isSupport;
+	}
+
+	public void setIsSupport(Short isSupport) {
+		this.isSupport = isSupport;
+	}
+
+	public Short getIsRecord() {
+		return isRecord;
+	}
+
+	public void setIsRecord(Short isRecord) {
+		this.isRecord = isRecord;
 	}
 	
 }
