@@ -93,12 +93,14 @@ body{font-size:12px;}
 		  <input name="conf.contactMethod" value="<s:property value='conf.contactMethod'/>" id="contactMethod" type="text" class="put200" maxlength="200"/>
 		</td>
 	  </tr>
+	  <!--
 	  <tr>
 	  	<th class="row1"><input type="button" value="生成预约码"/></th>
 		<td class="row2">
 		  <input name="conf.reserveCode" id="conf.reserveCode" type="text" class="put200" maxlength="10"/>
 		</td>
 	  </tr>
+	  -->
 	  <tr>
 	  	<th class="row1">参加单位：</th>
 		<td class="row2">
@@ -226,8 +228,8 @@ Ext.onReady(function(){
 	var serviceComboWithTooltip = new Ext.form.ComboBox({
 		store: serviceds,
 		value: "<s:property value='conf.serviceTemplateId'/>",
-		hiddenId: 'serviceTemplate',
-        hiddenName: 'conf.serviceTemplate',
+		hiddenId: 'serviceTemplateId',
+        hiddenName: 'conf.serviceTemplateId',
         valueField: 'serviceTemplateId',
         displayField: 'serviceTemplateDesc',
         typeAhead: true,
@@ -392,7 +394,8 @@ function checkForm(){
 			&& validateRequired('startTime','开始时间')
 			&& validateRequired('timeLong','时长')
 			&& validateRequired('mainUnit','主会场')
-			&& validateRequired('serviceTemplate','会议类型')
+			&& validateRequired('serviceTemplateId','会议模板')
+			&& validateRequired('confType','会议类型')
 			) {		
 		return true;
 	}else {
