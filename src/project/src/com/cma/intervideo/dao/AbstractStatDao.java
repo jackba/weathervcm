@@ -195,7 +195,7 @@ public class AbstractStatDao extends BaseDao implements IStatDao{
 		try{
 			
 			stmt = conn.createStatement();
-			String strSQL = "select sum(timestampdiff(SECOND,c.create_time,c.update_time)) as timeLong,u.unit_name from conference c, unit u" +
+			String strSQL = "select sum(timestampdiff(SECOND,from_unixtime(c.start_time/1000),c.update_time)) as timeLong,u.unit_name from conference c, unit u" +
 				" where c.main_unit=u.unit_id and c.status="+Conference.status_history;
 			if(startDate!=null && !"".equals(startDate)){	
 				strSQL += " and c.create_time>='" + startDate + "'";
@@ -232,7 +232,7 @@ public class AbstractStatDao extends BaseDao implements IStatDao{
 		try{
 			
 			stmt = conn.createStatement();
-			String strSQL = "select sum(timestampdiff(SECOND,c.create_time,c.update_time)) as timeLong,f.field_desc from conference c, field_desc f" +
+			String strSQL = "select sum(timestampdiff(SECOND,from_unixtime(c.start_time/1000),c.update_time)) as timeLong,f.field_desc from conference c, field_desc f" +
 				" where c.conf_type=f.field_value and c.status="+Conference.status_history;
 			if(startDate!=null && !"".equals(startDate)){	
 				strSQL += " and c.create_time>='" + startDate + "'";
@@ -268,7 +268,7 @@ public class AbstractStatDao extends BaseDao implements IStatDao{
 		ResultSet rs = null;
 		try{	
 			stmt = conn.createStatement();
-			String strSQL = "select timestampdiff(SECOND,c.create_time,c.update_time) as timeLong,c.subject from conference c" +
+			String strSQL = "select timestampdiff(SECOND,from_unixtime(c.start_time/1000),c.update_time) as timeLong,c.subject from conference c" +
 				" where c.status="+Conference.status_history;
 			if(startDate!=null && !"".equals(startDate)){	
 				strSQL += " and c.create_time>='" + startDate + "'";
