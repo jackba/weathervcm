@@ -30,6 +30,8 @@ public class ServiceTemplate implements java.io.Serializable {
 	private Integer isHdCapable;
 	private String ivrPrefix;
 
+	private String serviceTemplateClassification; //add
+	
 	public String toString() {
 		StringBuilder buf = new StringBuilder();
 		
@@ -263,6 +265,31 @@ public class ServiceTemplate implements java.io.Serializable {
 
 	public void setIvrPrefix(String ivrPrefix) {
 		this.ivrPrefix = ivrPrefix;
+	}
+
+	public String getServiceTemplateClassification() {
+		if (serviceTemplateDesc == null || serviceTemplateDesc.length() == 0)
+			return this.serviceTemplateName;
+		
+		if (serviceTemplateClassification != null)
+			return serviceTemplateClassification;
+		
+		if ("Only Audio".equals(serviceTemplateDesc))
+			serviceTemplateClassification = "纯音频";
+		else if ("SD Conf".equals(serviceTemplateDesc))
+			serviceTemplateClassification = "会商、会议";
+		else if ("HD Conf".equals(serviceTemplateDesc))
+			serviceTemplateClassification = "高清视频";
+		else if ("DeskTop Conf".equals(serviceTemplateDesc))
+			serviceTemplateClassification = "桌面视频";
+		else
+			serviceTemplateClassification = serviceTemplateDesc;
+		
+		return serviceTemplateDesc;
+	}
+
+	public void setServiceTemplateClassification(String serviceTemplateClassification) {
+		this.serviceTemplateClassification = serviceTemplateClassification;
 	}
 
 }

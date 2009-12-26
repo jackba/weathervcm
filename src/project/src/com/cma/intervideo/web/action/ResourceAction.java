@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -59,11 +61,44 @@ public class ResourceAction extends AbstractBaseAction{
 			long endTime = startTime + 60*1000;
 			int interval = 1;
 			List<String> serviceTemplateIds = new ArrayList<String>();
+			/**
 			List<ServiceTemplate> serviceList = serviceService.findServices();
 			HashMap<String,String> serviceMap = new HashMap<String,String>(serviceList.size());
 			for(int i=0;i<serviceList.size();i++){
 				serviceTemplateIds.add(serviceList.get(i).getServiceTemplateId());
 				serviceMap.put(serviceList.get(i).getServiceTemplateId(), serviceList.get(i).getServiceTemplateName());
+			}
+			McuResourceResult mrr = ICMService.getResourceInfos(serviceTemplateIds, startTime, endTime, interval);
+			if (mrr == null || mrr.getInfos().size() == 0)
+			{
+				outJson("{success:false, msg:'从平台获取资源失败,请检查连接和配置!'}");
+				return null;
+			}
+			
+			int totalConfs = mrr.getConfNums().get(1) - (int)Math.round(mrr.getConfNums().get(0)*mrr.getConfNums().get(1)/100.0);
+			List<McuResourceInfo> infoList = mrr.getInfos();
+			List<ResourceVo> voList = new ArrayList<ResourceVo>();
+			for(int i=0;i<infoList.size();i++){
+				List<Integer> portNums = infoList.get(i).getPortNums();
+				int total = portNums.get(1);
+				ResourceVo vo = new ResourceVo();
+				vo.setAvailableNum((int)Math.round(portNums.get(0)*total/100.0));
+				vo.setOccupyNum(total-vo.getAvailableNum());
+				vo.setServiceTemplateName(serviceMap.get(infoList.get(i).getServiceTemplateId()));
+				voList.add(vo);
+			}
+			*/
+			Map<String, List<ServiceTemplate>> serviceHm = serviceService.classifyServices();
+			HashMap<String,String> serviceMap = new HashMap<String,String>();
+			Iterator<String> it = serviceHm.keySet().iterator();
+			while (it.hasNext()) {
+				String key = it.next();
+				List<ServiceTemplate> lst = serviceHm.get(key);
+				if (lst == null || lst.size() == 0)
+					continue;
+				
+				serviceTemplateIds.add(lst.get(0).getServiceTemplateId());
+				serviceMap.put(lst.get(0).getServiceTemplateId(), lst.get(0).getServiceTemplateClassification());
 			}
 			McuResourceResult mrr = ICMService.getResourceInfos(serviceTemplateIds, startTime, endTime, interval);
 			if (mrr == null || mrr.getInfos().size() == 0)
@@ -177,8 +212,9 @@ public class ResourceAction extends AbstractBaseAction{
 	}
 	public String searchAvailable(){
 		logger.info("searchAvailable...");
-//		String serviceTemplateId = request.getParameter("serviceTemplate");
-		String serviceTemplateId = PropertiesHelper.getDefaultServiceTemplateId();
+		String serviceTemplateId = request.getParameter("serviceTemplateId");
+		if (serviceTemplateId == null || serviceTemplateId.length() == 0)
+			serviceTemplateId = PropertiesHelper.getDefaultServiceTemplateId();
 		if (serviceTemplateId == null || serviceTemplateId.length() == 0) {
 			logger.info("searchAvailable failed, Please specify default service template first!");
 			return null;
