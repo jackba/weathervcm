@@ -33,7 +33,7 @@
 			<form name="form1" id="form1" method="post" action="<%=request.getContextPath()%>/res_searchAvailable.do">
 				<table border="1" class="query">
 					<tr>
-						<th>会议类型：</th>
+						<th>会议模板：</th>
 						<td>
 							<div id="service_template"></div>
 						</td>
@@ -94,7 +94,7 @@ Ext.onReady(function() {
 	
 	serviceds = new Ext.data.Store({
 		proxy : new Ext.data.HttpProxy({
-			url : 'service_search.do'
+			url : 'service_searchex.do'
 		}),
 		reader : new Ext.data.JsonReader({
 			root : 'root'
@@ -104,15 +104,17 @@ Ext.onReady(function() {
 			name : 'serviceTemplateName'
 		}, {
 			name : 'serviceTemplateDesc'
+		}, {
+			name : 'serviceTemplateClassification'
 		}])
 	});
 	serviceds.load();
 	var serviceComboWithTooltip = new Ext.form.ComboBox({
 		store: serviceds,
-		hiddenId: 'serviceTemplate',
-        hiddenName: 'serviceTemplate',
+		hiddenId: 'serviceTemplateId',
+        hiddenName: 'serviceTemplateId',
         valueField: 'serviceTemplateId',
-        displayField: 'serviceTemplateDesc',
+        displayField: 'serviceTemplateClassification',
         typeAhead: true,
         forceSelection: false,
         mode: 'local',
@@ -128,7 +130,7 @@ function query() {
 }
 function loadStore(){
 //	alert(Ext.get('status').dom.value);
-	if (validateRequired('serviceTemplate','会议类型')
+	if (validateRequired('serviceTemplateId','会议类型')
 			&& validateRequired('day','日期')
 			) {
 		
@@ -244,7 +246,7 @@ function loadStore(){
 	}		
 	ds.load({
 		params : {
-			'serviceTemplate' : Ext.get("serviceTemplate").dom.value,
+			'serviceTemplateId' : Ext.get("serviceTemplateId").dom.value,
 			'day' : Ext.get("day").dom.value,
 			'interval' : Ext.get("interval").dom.value
 		}

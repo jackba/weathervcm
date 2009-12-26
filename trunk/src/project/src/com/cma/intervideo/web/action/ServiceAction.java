@@ -67,6 +67,26 @@ public class ServiceAction extends AbstractBaseAction{
 		return null;
 	}
 	
+	public String searchex(){
+		try{
+			logger.info("searchex...");
+			List<ServiceTemplate> serviceList = serviceService.findServicesByClassification();
+			JSONObject json = new JSONObject();
+			JSONArray arr = JSONArray.fromObject(serviceList);
+			json.put("root", arr);
+			System.out.println(json);
+			response.setCharacterEncoding("utf-8");
+		
+			PrintWriter out = response.getWriter();
+			out.print(json);
+			out.flush();
+			out.close();
+		}catch(Exception e){
+			logger.error(e.toString());
+		}
+		return null;
+	}
+	
 	public String update() {
 		logger.info("update...");
 		List<MeetingType> mts = ICMService.getMeetingTypes();
