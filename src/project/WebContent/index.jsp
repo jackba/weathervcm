@@ -74,10 +74,10 @@ a:hover{}
 			<li>
 				<span id="userSort" href="<%=request.getContextPath()%>/stat_userReserveStat.do" onClick="onClickMenuItem(this)">用户使用次数排行</span>
 			</li>
-			<li>
+			<!--<li>
 				<span id="confSort" href="<%=request.getContextPath()%>/stat_userReserveStat.do" onClick="onClickMenuItem(this)">用户会议召开次数排行</span>
-			</li>
-			<!--<li><span id="dayConfSort" href="<%=request.getContextPath()%>/stat_userDayReserveStat.do" onClick="onClickMenuItem(this)">用户单日会议召开次数排行</span></li>-->
+			</li>-->
+			<li><span id="dayConfSort" href="<%=request.getContextPath()%>/stat_userDayReserveStat.do" onClick="onClickMenuItem(this)">用户单日会议召开次数排行</span></li>
 			<li>
 				<span id="confNumStat" href="<%=request.getContextPath()%>/stat_confNumStat.do" onClick="onClickMenuItem(this)">会议次数统计表</span>
 			</li>
