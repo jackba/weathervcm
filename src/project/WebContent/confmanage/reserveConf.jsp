@@ -238,12 +238,17 @@ Ext.onReady(function(){
 			name : 'serviceTemplateName'
 		}, {
 			name : 'serviceTemplateDesc'
-		}])
+		}]),
+		listeners : {
+			load : function(thisObject, records, options){
+				serviceComboWithTooltip.setValue("<s:property value='#request.defaultServiceTemplateId'/>");
+			}
+		}
 	});
-	serviceds.load();
+	
 	var serviceComboWithTooltip = new Ext.form.ComboBox({
 		store: serviceds,
-		value: "<s:property value='#request.defaultServiceTemplateId'/>",
+		//value: "<s:property value='#request.defaultServiceTemplateId'/>",
 		hiddenId: 'serviceTemplateId',
         hiddenName: 'conf.serviceTemplateId',
         valueField: 'serviceTemplateId',
@@ -256,6 +261,7 @@ Ext.onReady(function(){
         selectOnFocus: true,
         renderTo: 'service_template'
     });
+	serviceds.load();
 	var confTypeComboWithTooltip = new Ext.form.ComboBox({
 		store: conftypeds,
 		value: "<s:property value='conf.confType'/>",
@@ -271,6 +277,7 @@ Ext.onReady(function(){
         selectOnFocus: true,
         renderTo: 'conf_type'
     });
+	
     unitds = new Ext.data.Store({
 		proxy : new Ext.data.HttpProxy({
 			url : 'user_getUnitsByUserId.do'
@@ -283,12 +290,17 @@ Ext.onReady(function(){
 			name : 'unitName'
 		}, {
 			name : 'description'
-		}])
+		}]),
+		listeners : {
+			load : function(thisObject, records, options){
+				unitComboWithTooltip.setValue("<s:property value='#request.defaultUnitId'/>");
+			}
+		}
 	});
-	unitds.load();
+	
 	var unitComboWithTooltip = new Ext.form.ComboBox({
 		store: unitds,
-		value: "<s:property value='#request.defaultUnitId'/>",
+		//value: "<s:property value='#request.defaultUnitId'/>",
 		hiddenId: 'mainUnit',
         hiddenName: 'conf.mainUnit',
         valueField: 'unitId',
@@ -301,6 +313,7 @@ Ext.onReady(function(){
         selectOnFocus: true,
         renderTo: 'main_unit'
     });
+	unitds.load();
 	/*
 	 * Ext.ux.ItemSelector Example Code
 	 */
