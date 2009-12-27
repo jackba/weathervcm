@@ -43,6 +43,7 @@
 		<property name="target">
 			<bean class="com.cma.intervideo.web.action.ConfTemplateAction" autowire="byName">
 				<property name="confTemplateService" ref="confTemplateService"></property>
+				<property name="userService" ref="userService"></property>
 			</bean>
 		</property>
 	</bean>

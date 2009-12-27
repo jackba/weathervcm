@@ -130,6 +130,8 @@ body{font-size:12px;}
 </div><!--end of wrap-->
 <script language="javascript">
 var formItemSelector;
+var serviceComboWithTooltip;
+var unitComboWithTooltip;
 Ext.onReady(function(){
 	Ext.BLANK_IMAGE_URL="resources/images/default/s.gif";
 	window.parent.contentPanel.getActiveTab().setTitle("新建表单模板");
@@ -148,12 +150,16 @@ Ext.onReady(function(){
 			name : 'serviceTemplateName'
 		}, {
 			name : 'serviceTemplateDesc'
-		}])
+		}]),
+		listeners : {
+			load : function(thisObject, records, options){
+    			serviceComboWithTooltip.setValue("<s:property value='#request.defaultServiceTemplateId'/>");
+			}
+		}
 	});
-	serviceds.load();
-	var serviceComboWithTooltip = new Ext.form.ComboBox({
+	serviceComboWithTooltip = new Ext.form.ComboBox({
 		store: serviceds,
-		value: "<s:property value='confTemplate.serviceTemplateDesc'/>",
+		//value: "<s:property value='confTemplate.serviceTemplateDesc'/>",
 		hiddenId: 'serviceTemplateId',
         hiddenName: 'confTemplate.serviceTemplateId',
         valueField: 'serviceTemplateId',
@@ -166,7 +172,9 @@ Ext.onReady(function(){
         selectOnFocus: true,
         renderTo: 'service_template'
     });
-    unitds = new Ext.data.Store({
+	serviceds.load();
+
+	unitds = new Ext.data.Store({
 		proxy : new Ext.data.HttpProxy({
 			url : 'unit_getAll.do'
 		}),
@@ -178,12 +186,16 @@ Ext.onReady(function(){
 			name : 'unitName'
 		}, {
 			name : 'description'
-		}])
+		}]),
+		listeners : {
+		load : function(thisObject, records, options){
+				unitComboWithTooltip.setValue("<s:property value='#request.defaultUnitId'/>");
+			}
+		}
 	});
-	unitds.load();
-	var unitComboWithTooltip = new Ext.form.ComboBox({
+	unitComboWithTooltip = new Ext.form.ComboBox({
 		store: unitds,
-		value: "<s:property value='confTemplate.mainUnitName'/>",
+		//value: "<s:property value='confTemplate.mainUnitName'/>",
 		hiddenId: 'mainUnit',
         hiddenName: 'confTemplate.mainUnit',
         valueField: 'unitId',
@@ -196,32 +208,34 @@ Ext.onReady(function(){
         selectOnFocus: true,
         renderTo: 'main_unit'
     });
+	unitds.load();
+
 	/*
 	 * Ext.ux.ItemSelector Example Code
 	 */
-			formItemSelector = new Ext.ux.ItemSelector({
-				//labelWidth: 75,
-				width:650,
-				renderTo:'conf_unit',
-				name:"confUnits",
-				fieldLabel:"ItemSelector",
-				hideLabel:true,
-				dataFields:["unitId", "unitName"],
-				fromStore:unitds,
-				toData:[],
-				msWidth:250,
-				msHeight:200,
-				valueField:"unitId",
-				displayField:"unitName",
-				imagePath:"resources/js/ItemSelector",
-				//switchToFrom:true,
-				toLegend:"已选单位",
-				fromLegend:"可选单位"
-			});
+	formItemSelector = new Ext.ux.ItemSelector({
+		//labelWidth: 75,
+		width:650,
+		renderTo:'conf_unit',
+		name:"confUnits",
+		fieldLabel:"ItemSelector",
+		hideLabel:true,
+		dataFields:["unitId", "unitName"],
+		fromStore:unitds,
+		toData:[],
+		msWidth:250,
+		msHeight:200,
+		valueField:"unitId",
+		displayField:"unitName",
+		imagePath:"resources/js/ItemSelector",
+		//switchToFrom:true,
+		toLegend:"已选单位",
+		fromLegend:"可选单位"
+	});
 });
 function submitForm(){
-if ( checkForm()){
-	var ajax_loading_callback = function()
+	if ( checkForm()){
+		var ajax_loading_callback = function()
 		{
 		    Ext.MessageBox.show({
 		       title: '提示',
@@ -232,15 +246,16 @@ if ( checkForm()){
 		       animEl: 'body'
 		   });
 		}
-	var ajax_loaded_callback = function()
+
+		var ajax_loaded_callback = function()
 		{
 		    Ext.MessageBox.hide();
 		}
 	
-	Ext.Ajax.on('beforerequest', ajax_loading_callback, this);
-	Ext.Ajax.on('requestcomplete', ajax_loaded_callback, this);
+		Ext.Ajax.on('beforerequest', ajax_loading_callback, this);
+		Ext.Ajax.on('requestcomplete', ajax_loaded_callback, this);
 	
-	//定义ajax的调用过程
+		//定义ajax的调用过程
 		Ext.Ajax.request({
 			form:'form1',
 			success:function(result,request){

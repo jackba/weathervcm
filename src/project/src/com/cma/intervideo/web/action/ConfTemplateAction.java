@@ -17,7 +17,9 @@ import org.apache.commons.logging.LogFactory;
 import com.cma.intervideo.constant.DataDictStatus;
 import com.cma.intervideo.pojo.ConfTemplate;
 import com.cma.intervideo.pojo.Unit;
+import com.cma.intervideo.pojo.User;
 import com.cma.intervideo.service.IConfTemplateService;
+import com.cma.intervideo.service.IUserService;
 import com.cma.intervideo.util.AbstractBaseAction;
 import com.cma.intervideo.util.PageHolder;
 import com.cma.intervideo.util.ParamVo;
@@ -29,6 +31,7 @@ public class ConfTemplateAction extends AbstractBaseAction {
 	private static Log logger = LogFactory.getLog(ConfTemplateAction.class);
 	
 	private IConfTemplateService confTemplateService;
+	private IUserService userService;
 	
 	private ConfTemplate confTemplate;
 
@@ -43,12 +46,24 @@ public class ConfTemplateAction extends AbstractBaseAction {
 	public void setConfTemplateService(IConfTemplateService confTemplateService) {
 		this.confTemplateService = confTemplateService;
 	}
+	
+	public void setUserService(IUserService userService) {
+		this.userService = userService;
+	}
 
 	public String list() {
 		return "list";
 	}
 
 	public String add() {
+		UserPrivilege up = (UserPrivilege)session.get("userPrivilege");
+		User user = userService.getUser(up.getUserId());
+		if(user!=null)
+			request.setAttribute("defaultUnitId", user.getDefaultUnitId());
+
+		String defaultServiceTemplateId = PropertiesHelper.getDefaultServiceTemplateId();
+		request.setAttribute("defaultServiceTemplateId", defaultServiceTemplateId);
+		
 		return "add";
 	}
 	

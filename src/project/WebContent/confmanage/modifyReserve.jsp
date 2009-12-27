@@ -197,6 +197,7 @@ Ext.onReady(function(){
 	<s:if test='conf.isRecord==1'>
 		isRecord.checked = 'true';
 	</s:if>
+	
 	var conftypeds = new Ext.data.Store({
 		proxy : new Ext.data.HttpProxy({
 			url : 'conf_searchConfType.do'
@@ -207,42 +208,16 @@ Ext.onReady(function(){
 			name : 'fieldValue'
 		}, {
 			name : 'fieldDesc'
-		}])
+		}]),
+		listeners : {
+			load : function(thisObject, records, options){
+				confTypeComboWithTooltip.setValue("<s:property value='conf.confType'/>");
+			}
+		}
 	});
-	conftypeds.load();
-    var serviceds = new Ext.data.Store({
-		proxy : new Ext.data.HttpProxy({
-			url : 'service_search.do'
-		}),
-		reader : new Ext.data.JsonReader({
-			root : 'root'
-		}, [{
-			name : 'serviceTemplateId'
-		}, {
-			name : 'serviceTemplateName'
-		}, {
-			name : 'serviceTemplateDesc'
-		}])
-	});
-	serviceds.load();
-	var serviceComboWithTooltip = new Ext.form.ComboBox({
-		store: serviceds,
-		value: "<s:property value='conf.serviceTemplateId'/>",
-		hiddenId: 'serviceTemplateId',
-        hiddenName: 'conf.serviceTemplateId',
-        valueField: 'serviceTemplateId',
-        displayField: 'serviceTemplateDesc',
-        typeAhead: true,
-        forceSelection: false,
-        mode: 'local',
-        triggerAction: 'all',
-        emptyText: '请选择会议模板...',
-        selectOnFocus: true,
-        renderTo: 'service_template'
-    });
 	var confTypeComboWithTooltip = new Ext.form.ComboBox({
 		store: conftypeds,
-		value: "<s:property value='conf.confType'/>",
+		//value: "<s:property value='conf.confType'/>",
 		hiddenId: 'confType',
         hiddenName: 'conf.confType',
         valueField: 'fieldValue',
@@ -255,7 +230,45 @@ Ext.onReady(function(){
         selectOnFocus: true,
         renderTo: 'conf_type'
     });
-    unitds = new Ext.data.Store({
+    conftypeds.load();
+    
+    var serviceds = new Ext.data.Store({
+		proxy : new Ext.data.HttpProxy({
+			url : 'service_search.do'
+		}),
+		reader : new Ext.data.JsonReader({
+			root : 'root'
+		}, [{
+			name : 'serviceTemplateId'
+		}, {
+			name : 'serviceTemplateName'
+		}, {
+			name : 'serviceTemplateDesc'
+		}]),
+		listeners : {
+			load : function(thisObject, records, options){
+				serviceComboWithTooltip.setValue("<s:property value='conf.serviceTemplateId'/>");
+			}
+		}
+	});
+	var serviceComboWithTooltip = new Ext.form.ComboBox({
+		store: serviceds,
+		//value: "<s:property value='conf.serviceTemplateId'/>",
+		hiddenId: 'serviceTemplateId',
+        hiddenName: 'conf.serviceTemplateId',
+        valueField: 'serviceTemplateId',
+        displayField: 'serviceTemplateDesc',
+        typeAhead: true,
+        forceSelection: false,
+        mode: 'local',
+        triggerAction: 'all',
+        emptyText: '请选择会议模板...',
+        selectOnFocus: true,
+        renderTo: 'service_template'
+    });
+	serviceds.load();
+	
+	unitds = new Ext.data.Store({
 		proxy : new Ext.data.HttpProxy({
 			url : 'user_getUnitsByUserId.do'
 		}),
@@ -267,12 +280,16 @@ Ext.onReady(function(){
 			name : 'unitName'
 		}, {
 			name : 'description'
-		}])
+		}]),
+		listeners : {
+			load : function(thisObject, records, options){
+				unitComboWithTooltip.setValue("<s:property value='conf.mainUnit'/>");
+			}
+		}
 	});
-	unitds.load();
 	unitComboWithTooltip = new Ext.form.ComboBox({
 		store: unitds,
-		value: "<s:property value='conf.mainUnit'/>",
+		//value: "<s:property value='conf.mainUnit'/>",
 		hiddenId: 'mainUnit',
         hiddenName: 'conf.mainUnit',
         valueField: 'unitId',
@@ -285,6 +302,8 @@ Ext.onReady(function(){
         selectOnFocus: true,
         renderTo: 'main_unit'
     });
+	unitds.load();
+	
 	var fds = new Ext.data.Store({
 		proxy : new Ext.data.HttpProxy({
 			url : 'conf_getUnitsByConfId.do?conferenceId=<%=request.getParameter("conferenceId")%>&selected=false'

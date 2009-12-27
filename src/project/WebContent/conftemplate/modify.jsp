@@ -130,6 +130,8 @@ body{font-size:12px;}
 </div><!--end of wrap-->
 <script language="javascript">
 var formItemSelector;
+var serviceComboWithTooltip;
+var unitComboWithTooltip;
 Ext.onReady(function(){
 	Ext.BLANK_IMAGE_URL="resources/images/default/s.gif";
 	window.parent.contentPanel.getActiveTab().setTitle("修改表单模板");
@@ -148,12 +150,16 @@ Ext.onReady(function(){
 			name : 'serviceTemplateName'
 		}, {
 			name : 'serviceTemplateDesc'
-		}])
+		}]),
+		listeners : {
+			load : function(thisObject, records, options){
+				serviceComboWithTooltip.setValue("<s:property value='confTemplate.serviceTemplateId'/>");
+			}
+		}
 	});
-	serviceds.load();
-	var serviceComboWithTooltip = new Ext.form.ComboBox({
+	serviceComboWithTooltip = new Ext.form.ComboBox({
 		store: serviceds,
-		value: "<s:property value='confTemplate.serviceTemplateId'/>",
+		//value: "<s:property value='confTemplate.serviceTemplateId'/>",
 		hiddenId: 'serviceTemplateId',
         hiddenName: 'confTemplate.serviceTemplateId',
         valueField: 'serviceTemplateId',
@@ -166,6 +172,8 @@ Ext.onReady(function(){
         selectOnFocus: true,
         renderTo: 'service_template'
     });
+	serviceds.load();
+	
     unitds = new Ext.data.Store({
 		proxy : new Ext.data.HttpProxy({
 			url : 'unit_getAll.do'
@@ -178,12 +186,16 @@ Ext.onReady(function(){
 			name : 'unitName'
 		}, {
 			name : 'description'
-		}])
+		}]),
+		listeners : {
+			load : function(thisObject, records, options){
+				unitComboWithTooltip.setValue("<s:property value='confTemplate.mainUnit'/>");
+			}
+		}
 	});
-	unitds.load();
-	var unitComboWithTooltip = new Ext.form.ComboBox({
+	unitComboWithTooltip = new Ext.form.ComboBox({
 		store: unitds,
-		value: "<s:property value='confTemplate.mainUnit'/>",
+		//value: "<s:property value='confTemplate.mainUnit'/>",
 		hiddenId: 'mainUnit',
         hiddenName: 'confTemplate.mainUnit',
         valueField: 'unitId',
@@ -196,6 +208,7 @@ Ext.onReady(function(){
         selectOnFocus: true,
         renderTo: 'main_unit'
     });
+	unitds.load();
 
 	var fds = new Ext.data.Store({
 		proxy : new Ext.data.HttpProxy({
