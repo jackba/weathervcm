@@ -21,8 +21,13 @@ import com.cma.intervideo.pojo.ServiceTemplate;
 import com.cma.intervideo.service.IResourceService;
 import com.cma.intervideo.service.IServiceService;
 import com.cma.intervideo.util.AbstractBaseAction;
+import com.cma.intervideo.util.FusionChartUtil;
 import com.cma.intervideo.util.PropertiesHelper;
 import com.cma.intervideo.vo.ResourceVo;
+import com.cma.intervideo.vo.stcol3d.Category;
+import com.cma.intervideo.vo.stcol3d.Chart;
+import com.cma.intervideo.vo.stcol3d.Dataset;
+import com.cma.intervideo.vo.stcol3d.Set;
 import com.radvision.icm.service.McuResourceInfo;
 import com.radvision.icm.service.McuResourceResult;
 import com.radvision.icm.service.vcm.ICMService;
@@ -203,6 +208,89 @@ public class ResourceAction extends AbstractBaseAction{
 
 			PrintWriter out = response.getWriter();
 			out.print(json);
+			out.flush();
+			out.close();
+		}catch(Exception e){
+			logger.error(e.toString());
+		}
+		return null;
+	}
+	public String searchAvailable1(){
+		logger.info("searchAvailable1...");
+		String serviceTemplateId = request.getParameter("serviceTemplateId");
+		if (serviceTemplateId == null || serviceTemplateId.length() == 0)
+			serviceTemplateId = PropertiesHelper.getDefaultServiceTemplateId();
+		if (serviceTemplateId == null || serviceTemplateId.length() == 0) {
+			logger.info("searchAvailable failed, Please specify default service template first!");
+			return null;
+		}
+		String day = request.getParameter("day");
+		int interval = Integer.parseInt(request.getParameter("interval"));
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		try{
+			Date d = df.parse(day);
+			long startTime = d.getTime();
+			long endTime = startTime + 24*60*60*1000;
+			List<String> serviceTemplateIds = new ArrayList<String>();
+			serviceTemplateIds.add(serviceTemplateId);
+			McuResourceResult mrr = ICMService.getResourceInfos(serviceTemplateIds, startTime, endTime, interval);
+			if (mrr == null || !mrr.isSuccess() || mrr.getInfos().size() == 0)
+			{
+				outJson("{success:false, msg:'从平台获取资源失败,请检查连接和配置!'}");
+				return null;
+			}
+			
+			List<Integer> portNums = mrr.getInfos().get(0).getPortNums();
+			int total = portNums.get(portNums.size()-1);
+			int minutes = 0;
+			List<ResourceVo> voList = new ArrayList<ResourceVo>();
+			for(int i=0;i<portNums.size()-1;i++){
+				ResourceVo vo = new ResourceVo();
+				vo.setHourMinutes(getHourMinutes(minutes));
+				vo.setAvailableNum((int)Math.round(portNums.get(i)*total/100.0));
+				vo.setOccupyNum(total-vo.getAvailableNum());
+				voList.add(vo);
+				minutes += interval;
+			}
+			Chart chart = new Chart();
+			chart.setCaption("可用资源情况");
+			chart.setXAxisName("时间");
+			chart.setYAxisName("数量");
+			chart.setCategories(new ArrayList<Category>());
+			chart.setDatasets(new ArrayList<Dataset>());
+			Dataset ods = new Dataset();
+			ods.setSeriesName("占用");
+			ods.setColor("FF0000");
+			ods.setSets(new ArrayList<Set>());
+			chart.getDatasets().add(ods);
+			Dataset ads = new Dataset();
+			ads.setSeriesName("空闲");
+			ads.setColor("00FF00");
+			ads.setSets(new ArrayList<Set>());
+			chart.getDatasets().add(ads);
+			for(int i=0;i<voList.size();i++){
+				ResourceVo vo = voList.get(i);
+				Category c = new Category();
+				c.setLabel(vo.getHourMinutes());
+				chart.getCategories().add(c);
+				Set os = new Set();
+				os.setValue(vo.getOccupyNum()+"");
+				ods.getSets().add(os);
+				Set as = new Set();
+				as.setValue(vo.getAvailableNum()+"");
+				ads.getSets().add(as);
+			}
+			String xml = FusionChartUtil.createDummyData(chart);
+			logger.info("xml = "+xml);
+//			JSONObject json = new JSONObject();
+//			json.put("totalProperty", voList.size());
+//			JSONArray arr = JSONArray.fromObject(voList);
+//			json.put("root", arr);
+//			System.out.println(json);
+			response.setCharacterEncoding("utf-8");
+
+			PrintWriter out = response.getWriter();
+			out.print(xml);
 			out.flush();
 			out.close();
 		}catch(Exception e){
