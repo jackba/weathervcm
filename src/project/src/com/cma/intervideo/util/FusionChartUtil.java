@@ -36,14 +36,13 @@ public class FusionChartUtil {
 			xstream.useAttributeFor(com.cma.intervideo.vo.column3d.Chart.class, "yAxisName");
 			xstream.useAttributeFor(com.cma.intervideo.vo.column3d.Chart.class, "decimals");
 			xstream.useAttributeFor(com.cma.intervideo.vo.column3d.Chart.class, "formatNumberScale");
-			xstream.useAttributeFor(com.cma.intervideo.vo.column3d.Chart.class, "overlapColumns");
 			xstream.alias("set", com.cma.intervideo.vo.column3d.Set.class);
 			xstream.addImplicitCollection(com.cma.intervideo.vo.column3d.Chart.class, "set");
 			xstream.useAttributeFor(com.cma.intervideo.vo.column3d.Set.class, "label");
 			xstream.useAttributeFor(com.cma.intervideo.vo.column3d.Set.class, "value");
 		}
 		if(chart instanceof com.cma.intervideo.vo.stcol3d.Chart){
-			xstream.alias("graph", com.cma.intervideo.vo.stcol3d.Chart.class);
+			xstream.alias("chart", com.cma.intervideo.vo.stcol3d.Chart.class);
 			xstream.useAttributeFor(com.cma.intervideo.vo.stcol3d.Chart.class, "rotateYAxisName");
 			xstream.useAttributeFor(com.cma.intervideo.vo.stcol3d.Chart.class, "rotateLabels");
 			xstream.useAttributeFor(com.cma.intervideo.vo.stcol3d.Chart.class, "baseFont");
