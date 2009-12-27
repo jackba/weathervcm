@@ -19,6 +19,7 @@ Ext.onReady(function() {
 		thisId = 'manageConf';
 	}
 	initData();
+	setInterval("refresh()", 30*1000)
 });
 
 // 初始化数据
@@ -272,6 +273,10 @@ function initGrid() {
 	}
 }
 
+function refresh() {
+//	alert("auto refresh!!!");
+	loadStore(ptb.cursor);
+}
 function query() {
 	loadStore(0);
 }
