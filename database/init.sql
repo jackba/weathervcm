@@ -17,7 +17,7 @@ insert into privilege (name,url,description,code) values("查看日志","action:LogA
 insert into privilege (name,url,description,code) values("查看会议模板","action:ServiceAction.list;json:ServiceAction.search;action:ServiceAction.detail","查看会议模板","0009");
 insert into privilege (name,url,description,code) values("更新会议模板","action:ServiceAction.update","更新会议模板","0010");
 
-insert into privilege (name,url,description,code) values("查看资源占用情况","action:ResourceAction.occupy;json:ResourceAction.searchOccupy","查看资源占用情况","0011");
+insert into privilege (name,url,description,code) values("查看资源占用情况","action:ResourceAction.occupy;json:ResourceAction.searchOccupy;action:ResourceAction.occupywave;json:ResourceAction.searchOccupyWave","查看资源占用情况","0011");
 insert into privilege (name,url,description,code) values("查看可用资源","action.ResourceAction.available;json:ResourceAction.searchAvailable","查看可用资源","0012");
 
 insert into privilege (name,url,description,code) values("管理预约会议","action:ConfAction.manageReserve;json:ConfAction.searchReserves;action:ConfAction.reserveDetail","查看预约会议","0013");
@@ -28,7 +28,9 @@ insert into privilege (name,url,description,code) values("预约会议","action:Conf
 insert into privilege (name,url,description,code) values("查看正在召开的会议","action:ConfAction.listRunning;json:ConfAction.searchRunnings;action:ConfAction.reserveDetail","查看正在召开的会议","0017");
 insert into privilege (name,url,description,code) values("查看当日会议安排","action:ConfAction.listCurrentDay;json:ConfAction.searchCurrentDays;action:ConfAction.reserveDetail","查看当日会议安排","0018");
 insert into privilege (name,url,description,code) values("查看本周会议安排","action:ConfAction.listCurrentWeek;json:ConfAction.searchCurrentWeeks;action:ConfAction.reserveDetail","查看本周会议安排","0019");
-insert into privilege (name,url,description,code) values("查看本月会议安排","action:ConfAction.listCurrentMonth;json:ConfAction.searchCurrentMonths;action:ConfAction.reserveDetail","有会议安排","0021");
+insert into privilege (name,url,description,code) values("查看本月会议安排","action:ConfAction.listCurrentMonth;json:ConfAction.searchCurrentMonths;action:ConfAction.reserveDetail","查看本月会议安排","0020");
+insert into privilege (name,url,description,code) values("查看所有会议安排","action:ConfAction.listAll;json:ConfAction.searchAlls;action:ConfAction.reserveDetail","查看所有会议安排","0021");
+
 
 insert into privilege (name,url,description,code) values("增加虚拟房间","action:RoomAction.add;json:RoomAction.save","增加虚拟房间","0022");
 insert into privilege (name,url,description,code) values("修改虚拟房间","action:RoomAction.modify;json:RoomAction.update","修改虚拟房间","0023");
@@ -52,6 +54,12 @@ insert into privilege (name,url,description,code) values("公告管理","action:Bull
 
 insert into privilege (name,url,description,code) values("查看全部留言","action:BBSAction.listAll;action:BBSAction.search","查看全部留言","0037");
 insert into privilege (name,url,description,code) values("删除留言","action:BBSAction.delete","删除留言","0038");
+
+insert into privilege (name,url,description,code) values("系统配置","action:SysConfigAction.configModify;json:SysConfigAction.modifyConfiguration","系统配置","0039");
+
+insert into privilege (name,url,description,code) values("会议次数统计","action:StatAction.confNumStat","会议次数统计","0040");
+
+insert into privilege (name,url,description,code) values("会议时长统计","action:StatAction.confTypeTimeStat;json:StatAction.searchConfTypeTimeStat;action:StatAction.unitTimeStat;json:StatAction.searchUnitTimeStat;action:StatAction.confTimeStat;json:StatAction.searchConfTimeStat","会议时长统计","0041");
 
 insert into field_desc (table_name,field_name,field_value,field_desc) values ('conference','conf_type',1,'定期会商');
 insert into field_desc (table_name,field_name,field_value,field_desc) values ('conference','conf_type',2,'区域流域');
