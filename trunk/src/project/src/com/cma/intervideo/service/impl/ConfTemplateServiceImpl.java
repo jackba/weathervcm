@@ -81,7 +81,12 @@ public class ConfTemplateServiceImpl implements IConfTemplateService {
 		List<Unit> listUnit = findUnitsByConfTemplateId(conf.getConfTemplateId()+"", true);
 		if (listUnit == null || listUnit.size() == 0)
 			return;
-		
+		conf.setUnits(listUnit);
+		List<Unit> otherUnits = findUnitsByConfTemplateId(conf.getConfTemplateId()+"", false);
+		if (otherUnits == null){
+			return;
+		}
+		conf.setOtherUnits(otherUnits);
 		String names = "";
 		int unitSize = listUnit.size();
 		for (int j = 0; j < unitSize-1; j++) {
