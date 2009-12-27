@@ -69,12 +69,16 @@ Ext.onReady(function(){
 			name : 'serviceTemplateName'
 		}, {
 			name : 'serviceTemplateDesc'
-		}])
+		}]),
+		listeners : {
+			load : function(thisObject, records, options){
+				serviceComboWithTooltip.setValue("<s:property value='config.defaultServiceTemplateId'/>");
+			}
+		}
 	});
-	serviceds.load();
 	var serviceComboWithTooltip = new Ext.form.ComboBox({
 		store: serviceds,
-		value: "<s:property value='config.defaultServiceTemplateId'/>",
+		//value: "<s:property value='config.defaultServiceTemplateId'/>",
 		hiddenId: 'serviceTemplateId',
         hiddenName: 'config.defaultServiceTemplateId',
         valueField: 'serviceTemplateId',
@@ -87,6 +91,7 @@ Ext.onReady(function(){
         selectOnFocus: true,
         renderTo: 'service_template'
     });
+	serviceds.load();
 })
 
 function submitForm1(){
