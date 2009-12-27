@@ -214,8 +214,59 @@ Ext.onReady(function(){
         selectOnFocus: true,
         renderTo: 'conf_template',
 		listeners : {
-			change : function(thisObject, newValue, oldValue){
-				
+			select : function(thisObject, record, index){
+				Ext.Ajax.request({
+					url : 'conftemplate_getConfTemplateById.do',
+					success:function(result,request){
+						var resp = Ext.util.JSON.decode(result.responseText);
+						Ext.getDom('subject').value = resp.subject;
+						Ext.getDom('initUnit').value = resp.initUnit;
+						Ext.getDom('timeLong').value = resp.timeLong;
+						unitComboWithTooltip.setValue(resp.mainUnit);
+						Ext.getDom('presider').value = resp.presider;
+						serviceComboWithTooltip.setValue(resp.serviceTemplateId);
+						Ext.getDom('principal').value = resp.principal;
+						Ext.getDom('principalMobile').value = resp.principalMobile;
+						Ext.getDom('contactMethod').value = resp.contactMethod;
+						Ext.getDom('password').value = resp.password;
+						Ext.getDom('controlPin').value = resp.controlPin;
+						Ext.getDom('description').value = resp.description;
+						var otherUnits = new Ext.data.JsonStore({
+							fields: ['unitId','unitName','description'],
+							data : resp.otherUnits
+						});
+						var units = new Ext.data.JsonStore({
+							fields: ['unitId','unitName','description'],
+							data : resp.units
+						});
+						//formItemSelector.fromData = resp.otherUnits;
+						//formItemSelector.toData = resp.units;
+						formItemSelector.destroy();
+						formItemSelector = new Ext.ux.ItemSelector({
+							//labelWidth: 75,
+							width:650,
+							renderTo:'conf_unit',
+							name:"confUnits",
+							fieldLabel:"ItemSelector",
+							hideLabel:true,
+							dataFields:["unitId", "unitName"],
+							fromStore:otherUnits,
+							toStore:units,
+							msWidth:250,
+							msHeight:200,
+							valueField:"unitId",
+							displayField:"unitName",
+							imagePath:"resources/js/ItemSelector",
+							//switchToFrom:true,
+							toLegend:"已选单位",
+							fromLegend:"可选单位"
+						});
+		    		},
+		    		failure:function(result,request){
+						Ext.Msg.alert('失败',result.responseText);
+		    		},
+					params : {confTemplateId : record.data.confTemplateId}
+				});
 			}
 		}
 	});
