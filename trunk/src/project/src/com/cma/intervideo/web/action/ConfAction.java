@@ -302,7 +302,10 @@ public class ConfAction extends AbstractBaseAction {
 				try{
 					Date startTime = df.parse(df.format(c.getTime()));
 					c.setTime(startTime);
-					c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+					//c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+					int weekday = c.get(Calendar.DAY_OF_WEEK);
+					weekday = (weekday+5) % 7;
+					c.add(Calendar.DATE, 0-weekday);
 					startTime = df.parse(df.format(c.getTime()));
 					c.add(Calendar.DATE, 7);
 					Date endTime = df.parse(df.format(c.getTime()));
