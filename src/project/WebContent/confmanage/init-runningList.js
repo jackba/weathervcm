@@ -8,6 +8,7 @@ var ptb;// 分页控件
 Ext.onReady(function() {
 	Ext.BLANK_IMAGE_URL="resources/images/default/s.gif";
 	initData();
+	setInterval("refresh()", 30*1000)
 });
 
 // 初始化数据
@@ -209,6 +210,10 @@ function initGrid() {
 	}
 }
 
+function refresh() {
+//	alert("auto refresh!!!");
+	loadStore(ptb.cursor);
+}
 function query() {
 	loadStore(0);
 }
