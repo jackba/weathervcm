@@ -31,6 +31,10 @@ body{font-size:12px;}
 		<th colspan="2" class="t">预约会议</th>
 	  </tr>
 	  <tr>
+	  	<th width="20%">表单模板：</th>
+		<td><div id="conf_template"/></td>
+	  </tr>
+	  <tr>
 	    <th width="20%"><font color="red">&nbsp;*</font>名称：</th>
 	    <td><label>
 	      <input name="conf.subject" value="<s:property value='conf.subject'/>" id="subject" type="text" class="put200" maxlength="40"></input>
@@ -183,7 +187,38 @@ Ext.onReady(function(){
 	window.parent.contentPanel.getActiveTab().setTitle("预约会议");
     Ext.QuickTips.init();
     Ext.form.Field.prototype.msgTarget = 'side';
-
+	var ctds = new Ext.data.Store({
+		proxy : new Ext.data.HttpProxy({
+			url : 'conftemplate_getConfTemplatesByUser.do'
+		}),
+		reader : new Ext.data.JsonReader({
+			root : 'root'
+		}, [{
+			name : 'confTemplateId'
+		}, {
+			name : 'confTemplateName'
+		}])
+	});
+	ctds.load();
+	var ctComboWithTooltip = new Ext.form.ComboBox({
+		store: ctds,
+		hiddenId: 'confTemplateId',
+        hiddenName: 'conf.confTemplateId',
+        valueField: 'confTemplateId',
+        displayField: 'confTemplateName',
+        typeAhead: true,
+        forceSelection: false,
+        mode: 'local',
+        triggerAction: 'all',
+        emptyText: '请选择表单模板...',
+        selectOnFocus: true,
+        renderTo: 'conf_template',
+		listeners : {
+			change : function(thisObject, newValue, oldValue){
+				
+			}
+		}
+	});
     /*
     var vmds = new Ext.data.Store({
 		proxy : new Ext.data.HttpProxy({
