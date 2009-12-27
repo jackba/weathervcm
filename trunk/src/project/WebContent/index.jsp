@@ -29,7 +29,7 @@ a:hover{}
 .bulletinBoardTitle{ color:#FF0000;}*/
 .menuList {
 	list-style: square;
-	padding-left: 30px;
+	padding-left: 40px;
 	margin-top: 10px;
 	color: #000000;
 	font-size: 12px;
