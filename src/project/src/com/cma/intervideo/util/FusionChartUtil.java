@@ -4,7 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.cma.intervideo.vo.column3d.Chart;
+import com.cma.intervideo.vo.Chart;
 import com.cma.intervideo.vo.column3d.Set;
 import com.thoughtworks.xstream.XStream;
 
@@ -24,21 +24,49 @@ public class FusionChartUtil {
 	
 	private static String chart2XML(Chart chart) {
 		XStream xstream = new XStream();
-		xstream.alias("chart", Chart.class);
-		xstream.useAttributeFor(Chart.class, "rotateYAxisName");
-		xstream.useAttributeFor(Chart.class, "rotateLabels");
-		xstream.useAttributeFor(Chart.class, "baseFont");
-		xstream.useAttributeFor(Chart.class, "baseFontSize");
-		xstream.useAttributeFor(Chart.class, "caption");
-		xstream.useAttributeFor(Chart.class, "xAxisName");
-		xstream.useAttributeFor(Chart.class, "yAxisName");
-		xstream.useAttributeFor(Chart.class, "decimals");
-		xstream.useAttributeFor(Chart.class, "formatNumberScale");
 		
-		xstream.alias("set", Set.class);
-		xstream.addImplicitCollection(Chart.class, "set");
-		xstream.useAttributeFor(Set.class, "label");
-		xstream.useAttributeFor(Set.class, "value");
+		if(chart instanceof com.cma.intervideo.vo.column3d.Chart){
+			xstream.alias("chart", com.cma.intervideo.vo.column3d.Chart.class);
+			xstream.useAttributeFor(com.cma.intervideo.vo.column3d.Chart.class, "rotateYAxisName");
+			xstream.useAttributeFor(com.cma.intervideo.vo.column3d.Chart.class, "rotateLabels");
+			xstream.useAttributeFor(com.cma.intervideo.vo.column3d.Chart.class, "baseFont");
+			xstream.useAttributeFor(com.cma.intervideo.vo.column3d.Chart.class, "baseFontSize");
+			xstream.useAttributeFor(com.cma.intervideo.vo.column3d.Chart.class, "caption");
+			xstream.useAttributeFor(com.cma.intervideo.vo.column3d.Chart.class, "xAxisName");
+			xstream.useAttributeFor(com.cma.intervideo.vo.column3d.Chart.class, "yAxisName");
+			xstream.useAttributeFor(com.cma.intervideo.vo.column3d.Chart.class, "decimals");
+			xstream.useAttributeFor(com.cma.intervideo.vo.column3d.Chart.class, "formatNumberScale");
+			xstream.useAttributeFor(com.cma.intervideo.vo.column3d.Chart.class, "overlapColumns");
+			xstream.alias("set", com.cma.intervideo.vo.column3d.Set.class);
+			xstream.addImplicitCollection(com.cma.intervideo.vo.column3d.Chart.class, "set");
+			xstream.useAttributeFor(com.cma.intervideo.vo.column3d.Set.class, "label");
+			xstream.useAttributeFor(com.cma.intervideo.vo.column3d.Set.class, "value");
+		}
+		if(chart instanceof com.cma.intervideo.vo.stcol3d.Chart){
+			xstream.alias("graph", com.cma.intervideo.vo.stcol3d.Chart.class);
+			xstream.useAttributeFor(com.cma.intervideo.vo.stcol3d.Chart.class, "rotateYAxisName");
+			xstream.useAttributeFor(com.cma.intervideo.vo.stcol3d.Chart.class, "rotateLabels");
+			xstream.useAttributeFor(com.cma.intervideo.vo.stcol3d.Chart.class, "baseFont");
+			xstream.useAttributeFor(com.cma.intervideo.vo.stcol3d.Chart.class, "baseFontSize");
+			xstream.useAttributeFor(com.cma.intervideo.vo.stcol3d.Chart.class, "caption");
+			xstream.useAttributeFor(com.cma.intervideo.vo.stcol3d.Chart.class, "xAxisName");
+			xstream.useAttributeFor(com.cma.intervideo.vo.stcol3d.Chart.class, "yAxisName");
+			xstream.useAttributeFor(com.cma.intervideo.vo.stcol3d.Chart.class, "decimals");
+			xstream.useAttributeFor(com.cma.intervideo.vo.stcol3d.Chart.class, "showvalues");
+			xstream.useAttributeFor(com.cma.intervideo.vo.stcol3d.Chart.class, "showLegend");
+			xstream.useAttributeFor(com.cma.intervideo.vo.stcol3d.Chart.class, "showSum");
+			xstream.useAttributeFor(com.cma.intervideo.vo.stcol3d.Chart.class, "overlapColumns");
+			xstream.alias("category", com.cma.intervideo.vo.stcol3d.Category.class);
+			xstream.useAttributeFor(com.cma.intervideo.vo.stcol3d.Category.class, "label");
+			xstream.addImplicitCollection(com.cma.intervideo.vo.stcol3d.Chart.class, "datasets");
+			xstream.alias("dataset", com.cma.intervideo.vo.stcol3d.Dataset.class);
+			xstream.useAttributeFor(com.cma.intervideo.vo.stcol3d.Dataset.class, "seriesName");
+			xstream.useAttributeFor(com.cma.intervideo.vo.stcol3d.Dataset.class, "showValues");
+			xstream.useAttributeFor(com.cma.intervideo.vo.stcol3d.Dataset.class, "color");
+			xstream.addImplicitCollection(com.cma.intervideo.vo.stcol3d.Dataset.class, "sets");
+			xstream.alias("set", com.cma.intervideo.vo.stcol3d.Set.class);
+			xstream.useAttributeFor(com.cma.intervideo.vo.stcol3d.Set.class, "value");
+		}
 		return xstream.toXML(chart);
 	}
 	
