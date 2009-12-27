@@ -1,5 +1,4 @@
 var viewport;
-var ds;// 数据源
 var serviceds; // 会议模板数据源
 var mychart; //图表
 var day;
@@ -138,21 +137,6 @@ Ext.onReady(function(){
 		renderTo:'dayDiv'
 	});
 	day.setValue(new Date());
-	ds = new Ext.data.Store({
-		proxy : new Ext.data.HttpProxy({
-			url : 'res_searchAvailable.do'
-		}),
-		reader : new Ext.data.JsonReader({
-			totalProperty : 'totalProperty',
-			root : 'root'
-		}, [{
-			name : 'hourMinutes'
-		}, {
-			name : 'occupyNum'
-		}, {
-			name : 'availableNum'
-		}])
-	});
 //	serviceds = new Ext.data.Store({
 //		proxy : new Ext.data.HttpProxy({
 //			url : 'service_search.do'
@@ -389,14 +373,6 @@ function initGrid() {
 		//iconCls : 'icon-grid',
 		renderTo : 'runningArea'
 	});
-
-	function makeParams(){
-		var params = "start="+ptb.cursor;
-		params += "&limit="+ptb.getPageSize();
-		params += "&totalProperty="+ds.getTotalCount();
-		params += "&lisType=running";
-		return params;
-	}
 }
 function onClickMenuItem(node){
 	var n = contentPanel.getComponent(node.id);
@@ -512,6 +488,9 @@ function loadStore1(start){
 		}
 	});
 }
+var chartEvents = {
+           //'mousemove':function(){console.log(['mousemove',arguments])}
+          };
 function loadStore(){
 //	alert(Ext.get('status').dom.value);
 	if (/*validateRequired('serviceTemplate','会议类型')
@@ -522,19 +501,36 @@ function loadStore(){
 		return;
 	}
 	if(mychart==null || mychart==undefined){
-		mychart = new Ext.Panel({
-        title: '可用资源情况',
-        frame:true,
-        renderTo: 'searchArea',
-        width: Ext.get("searchArea").getWidth()*0.98,
-		//autoWidth : true,
-		//height:Ext.get("searchArea").getHeight()*0.99,
-		//autoHeight : true,
-		height: 400,
-		layout:'fit',
-		tbar: [{
-			xtype:'tbfill'
-		},{
+		mychart = new Ext.ux.Chart.Fusion.Panel({
+       				title       : '可用资源情况',
+       				//collapsible : true,
+       				renderTo    : 'searchArea',
+       				floating:false,
+       				fusionCfg   :{ id   : 'chart1'
+                     				,listeners: chartEvents  //DOM listeners for the chart Object itself
+                  				},
+       				autoScroll : true,
+       				id       : 'chartpanel',
+       				chartURL : 'FusionCharts/StackedColumn3D.swf',
+       				dataURL  : 'res_searchAvailable1.do?serviceTemplate='+Ext.get("serviceTemplate").dom.value+'&day='+Ext.get("day").dom.value+'&interval='+Ext.get('interval').dom.value,
+       				mediaMask  : {msg:'正在装载报表'},
+       				autoMask  : true,
+       				width     : Ext.get("searchArea").getWidth()*0.98,
+       				height    : 500,
+       				listeners :{
+           				show  : function(p){
+               				if(p.floating)p.setPosition(p.x||10,p.y||10);
+               				}
+           				//,chartload : function(p,obj){
+               			//	p.setTitle(p.title.split(":")[0]+': Loaded.');
+               			//	}
+           				//,chartrender : function(p,obj){
+               			//	p.setTitle(p.title.split(":")[0]+': Rendered.');
+               			//	}
+       				},
+					tbar: [{
+						xtype:'tbfill'
+						},{
 			text: '上一天',
 			handler: function(){
 				if(day.getValue()!=null && day.getValue()!=undefined && day.getValue()!="")
@@ -553,89 +549,19 @@ function loadStore(){
 		},{
 			xtype: 'tbseparator'
 		},{
-            text: '重新载入',
-            handler: function(){
-                loadStore();
-            }
-        }],
-        items: {
-            xtype: 'stackedcolumnchart',
-            store: ds,
-            xField: 'hourMinutes',
-            yAxis: new Ext.chart.NumericAxis({
-            	stackingEnabled: true,
-                title: '数量'
-            }),
-			xAxis: new Ext.chart.CategoryAxis({
-				title: "时间"
-			}),
-            tipRenderer : function(chart, record, index, series){
-                if(series.yField == 'availableNum'){
-                    return record.data.availableNum + ' 点数空闲，在 ' + record.data.hourMinutes;
-                }else{
-                    return record.data.occupyNum + ' 点数占用在 ' + record.data.hourMinutes;
-                }
-            },
-            chartStyle: {
-                padding: 10,
-                animationEnabled: true,
-                font: {
-                    name: 'Tahoma',
-                    color: 0x444444,
-                    size: 11
-                },
-                dataTip: {
-                    padding: 5,
-                    border: {
-                        color: 0x99bbe8,
-                        size:1
-                    },
-                    background: {
-                        color: 0xDAE7F6,
-                        alpha: .9
-                    },
-                    font: {
-                        name: 'Tahoma',
-                        color: 0x15428B,
-                        size: 10,
-                        bold: true
-                    }
-                }
-            },
-            series: [{
-                //type: 'column',
-                displayName: '占用',
-                yField: 'occupyNum',
-                style: {
-                	labelPosition: 'outside',
-                    //image:'bar.gif',
-                    mode: 'stretch',
-                    //color:0x99BBE8
-					color:0xFF0000
-                }
-            },{
-                //type:'column',
-                displayName: '空闲',
-                yField: 'availableNum',
-                style: {
-                	labelPosition: 'outside',
-					//image:'bar.gif',
-                    mode: 'stretch',
-                    //color:0x99BBE8
-                    //color: 0x15428B
-					color:0x0000FF
-                }
-            }]
-        }
-    });
-	}		
-	ds.load({
-		params : {
-			'serviceTemplate' : Ext.get("serviceTemplate").dom.value,
-			'day' : Ext.get("day").dom.value,
-			'interval' : Ext.get("interval").dom.value
-		}
-	});
+            			text: '重新载入',
+            			handler: function(){
+							loadStore();
+                			//mychart.refreshMedia();
+            			}
+        			}]
+  				});
+				mychart.show();
+		
+	}else{
+		mychart.setChartDataURL('res_searchAvailable1.do?serviceTemplate='+Ext.get("serviceTemplate").dom.value+'&day='+Ext.get("day").dom.value+'&interval='+Ext.get('interval').dom.value,true);
+		//mychart.refreshMedia();
+	}
 }
 function reset() {
 	Ext.get("form1").reset();

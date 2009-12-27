@@ -17,7 +17,11 @@ var loginId = "<s:property value='#session.userPrivilege.loginId'/>";
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/validate.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/pager.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/calendar/WdatePicker.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/uxmediapak.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/uxflashpak.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/uxfusionpak.js"></script>
 <script type="text/javascript" src="init-main.js"></script>
+
 <style type="text/css">
 body{font:12px Tahoma;margin:0px; padding:0px;text-align:center;background:#FF;}
 a:link,a:visited{font-size:12px;text-decoration:none;}
