@@ -300,5 +300,22 @@ public class ConfTemplateAction extends AbstractBaseAction {
 		}
 		return null;
 	}
+	
+	public String getConfTemplateById(){
+		String confTemplateId = request.getParameter("confTemplateId");
+		ConfTemplate ct = confTemplateService.getConfTemplateById(confTemplateId);
+		JSONObject json = JSONObject.fromObject(ct);
+		System.out.println(json);
+		response.setCharacterEncoding("utf-8");
+		try{
+			PrintWriter out = response.getWriter();
+			out.print(json);
+			out.flush();
+			out.close();
+		}catch(Exception e){
+			logger.error(e.toString());
+		}
+		return null;
+	}
 
 }
