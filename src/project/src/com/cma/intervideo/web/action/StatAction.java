@@ -3,6 +3,7 @@ package com.cma.intervideo.web.action;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -15,11 +16,14 @@ import org.apache.commons.logging.LogFactory;
 
 import com.cma.intervideo.service.IStatService;
 import com.cma.intervideo.util.AbstractBaseAction;
+import com.cma.intervideo.util.FusionChartUtil;
 import com.cma.intervideo.vo.ConfNumStatVo;
 import com.cma.intervideo.vo.ConfTimeStatVo;
 import com.cma.intervideo.vo.ConfTypeTimeStatVo;
 import com.cma.intervideo.vo.UnitTimeStatVo;
 import com.cma.intervideo.vo.UserReserveStatVo;
+import com.cma.intervideo.vo.column3d.Chart;
+import com.cma.intervideo.vo.column3d.Set;
 
 public class StatAction extends AbstractBaseAction{
 	private static final Log logger = LogFactory.getLog(StatAction.class);
@@ -114,15 +118,24 @@ public class StatAction extends AbstractBaseAction{
 			String startDate = request.getParameter("startDate");
 			String endDate = request.getParameter("endDate");
 			List<ConfTypeTimeStatVo> voList = statService.statConfTypeTime(startDate, endDate);
-			JSONObject json = new JSONObject();
-			json.put("totalProperty", voList.size());
-			JSONArray arr = JSONArray.fromObject(voList);
-			json.put("root", arr);
-			System.out.println(json);
-			response.setCharacterEncoding("utf-8");
-
+			response.setContentType("application/xml;charset=utf-8");
+			Chart chart = new Chart();
+			chart.setCaption("会议类型时长统计");
+			chart.setXAxisName("会议类型");
+			chart.setYAxisName("时长(分钟)");
+			List<Set> set = new ArrayList<Set>();
+			for(int i=0;i<voList.size();i++){
+				Set s = new Set();
+				ConfTypeTimeStatVo vo = voList.get(i);
+				s.setLabel(vo.getConfTypeDesc());
+				s.setValue(String.valueOf((vo.getTimeLong())));
+				set.add(s);
+			}
+			chart.setSet(set);
+			String xml = FusionChartUtil.createDummyData(chart);
+			logger.info("xml = "+xml);
 			PrintWriter out = response.getWriter();
-			out.print(json);
+			out.print(xml);
 			out.flush();
 			out.close();
 		}catch(Exception e){
@@ -130,6 +143,27 @@ public class StatAction extends AbstractBaseAction{
 		}
 		return null;
 	}
+//	public String searchConfTypeTimeStat(){
+//		try{
+//			String startDate = request.getParameter("startDate");
+//			String endDate = request.getParameter("endDate");
+//			List<ConfTypeTimeStatVo> voList = statService.statConfTypeTime(startDate, endDate);
+//			JSONObject json = new JSONObject();
+//			json.put("totalProperty", voList.size());
+//			JSONArray arr = JSONArray.fromObject(voList);
+//			json.put("root", arr);
+//			System.out.println(json);
+//			response.setCharacterEncoding("utf-8");
+//
+//			PrintWriter out = response.getWriter();
+//			out.print(json);
+//			out.flush();
+//			out.close();
+//		}catch(Exception e){
+//			logger.error(e.toString());
+//		}
+//		return null;
+//	}
 	public String confTimeStat(){
 		return "confTimeStat";
 	}
