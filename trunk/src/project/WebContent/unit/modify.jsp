@@ -61,6 +61,7 @@ body{font-size:12px;}
 </div><!--end of wrap-->
 <script language="javascript">
 var formItemSelector;
+var terminalComboWithTooltip;
 Ext.onReady(function(){
 	Ext.BLANK_IMAGE_URL="resources/images/default/s.gif";
 	//window.parent.contentPanel.getActiveTab().setTitle("修改虚拟房间");
@@ -79,12 +80,16 @@ Ext.onReady(function(){
 			name : 'terminalName'
 		}, {
 			name : 'dialString'
-		}])
+		}]),
+		listeners : {
+			load : function(thisObject, records, options){
+    			terminalComboWithTooltip.setValue("<s:property value='unit.partyId'/>");
+			}
+		}
 	});
-	tds.load();
-	var terminalComboWithTooltip = new Ext.form.ComboBox({
+	terminalComboWithTooltip = new Ext.form.ComboBox({
 		store: tds,
-		value: "<s:property value='unit.partyName'/>",
+		//value: "<s:property value='unit.partyId'/>",
 		hiddenId: 'partyId',
         hiddenName: 'unit.partyId',
         valueField: 'terminalId',
@@ -97,6 +102,7 @@ Ext.onReady(function(){
         selectOnFocus: true,
         renderTo: 'unit_terminal'
     });
+	tds.load();
 });
 function submitForm(){
 if ( checkForm()){
