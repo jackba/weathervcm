@@ -311,12 +311,15 @@ public class ICMService {
 		try {
 			ConferenceInfo info = convertToConferenceInfo(conf, listTerminalId, true);
 			sr = getScheduleServicePortType().createConference(info);
-			logger.info((sr != null && sr.isSuccess() ? "success" : "fail")
-							+ " to schedule conference to platform - conference subject: "
-							+ conf.getSubject());
+			if (sr == null)
+				logger.warn("Failed to schedule conference to platform - conference subject: " + conf.getSubject());
+			else if (sr.isSuccess())
+				logger.info("Successed to schedule conference to platform - conference subject: " + conf.getSubject());
+			else
+				logger.warn("Failed to schedule conference to platform - conference subject: " + conf.getSubject() + 
+						". Error Info: "+ sr.getErrorInfo()+ ". Error Status: "+ sr.getErrorStatus());
 		} catch (Exception e) {
-			logger.info("Exception on creating confernece to platform: conference subject = "
-							+ conf.getSubject() + ", Exception = " + e.getMessage());
+			logger.warn("Exception on creating confernece to platform: conference subject = " + conf.getSubject() + ", Exception = " + e.getMessage());
 			e.printStackTrace();
 		}
 		return sr;
@@ -328,14 +331,15 @@ public class ICMService {
 		try {
 			ConferenceInfo info = convertToConferenceInfo(conf, listTerminalId, false);
 			sr = getScheduleServicePortType().modifyConference(info);
-			logger.info((sr != null && sr.isSuccess() ? "success" : "fail")
-							+ " to modify conference to iCM platform - rad conference id : "
-							+ conf.getRadConferenceId());
+			if (sr == null)
+				logger.warn("Failed to modify conference to platform - rad conference id: " + conf.getRadConferenceId());
+			else if (sr.isSuccess())
+				logger.info("Successed to modify conference to platform - rad conference id: " + conf.getRadConferenceId());
+			else
+				logger.warn("Failed to modify conference to platform - rad conference id: " + conf.getRadConferenceId() + 
+						". Error Info: "+ sr.getErrorInfo()+ ". Error Status: "+ sr.getErrorStatus());
 		} catch (Exception e) {
-			logger.info("Exception on modifying confernece to iCM platform - rad conference id: "
-							+ conf.getRadConferenceId()
-							+ " - "
-							+ e.getMessage());
+			logger.warn("Exception on modifying confernece to platform - rad conference id: " + conf.getRadConferenceId() + ", Eexception = " + e.getMessage());
 			e.printStackTrace();
 		}
 		return sr;
@@ -349,12 +353,12 @@ public class ICMService {
 		boolean b = false;
 		try {
 			b = getScheduleServicePortType().cancelConference(confId);
-			logger.info((b ? "success" : "fail")
-							+ " to cancel conference to iCM platform - rad conference id: "
-							+ confId);
+			if (b)
+				logger.info("Successed to cancel conference to platform - rad conference id: " + confId);
+			else
+				logger.warn("Fail to cancel conference to platform - rad conference id: " + confId);
 		} catch (Exception e) {
-			logger.info("Exception on creating confernece to iCM platform - - rad conference id: "
-							+ confId + " - - " + e.getMessage());
+			logger.warn("Exception on canceling confernece to platform - - rad conference id: " + confId + " - - " + e.getMessage());
 			e.printStackTrace();
 		}
 		return b;
