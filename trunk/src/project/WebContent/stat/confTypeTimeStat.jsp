@@ -110,7 +110,7 @@ function loadStore(){
 						},{
             			text: '重新载入',
             			handler: function(){
-							mychart.setChartDataURL('<%=request.getContextPath()%>/stat_searchConfTypeTimeStat.do?startDate='+Ext.get("startDate").dom.value+'&endDate='+Ext.get("endDate").dom.value,true);
+							loadStore();
                 			//mychart.refreshMedia();
             			}
         			}]
