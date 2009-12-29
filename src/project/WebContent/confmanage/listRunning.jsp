@@ -42,7 +42,7 @@ var monitorUrl = "<s:property value='#request.monitorUrl'/>";
 						</td>
 						<th>会议号：</th>
 						<td>
-							<input name="dialableNumber" type="text" id="dialableNumber" class="put200" maxlength="20"/>
+							<input name="virtualConfId" type="text" id="virtualConfId" class="put200" maxlength="20"/>
 						</td>
 					</tr>
 				</table>

@@ -45,7 +45,7 @@ function initData() {
 		}, {
 			name : 'serviceTemplateDesc'
 		}, {
-			name : 'dialableNumber'
+			name : 'virtualConfId'
 		}])
 	});
 	ds.load({
@@ -82,7 +82,7 @@ function initGrid() {
 		header : "会议号",
 		width: Ext.get("searchArea").getWidth()*0.14,
 		sortable : true,
-		dataIndex : 'dialableNumber'
+		dataIndex : 'virtualConfId'
 	}, {
 		header : "组织单位",
 		width : Ext.get("searchArea").getWidth()*0.14,
@@ -210,7 +210,7 @@ function initGrid() {
 		params += "&limit="+ptb.getPageSize();
 		params += "&totalProperty="+ds.getTotalCount();
 		params += "&subject="+Ext.get("subject").dom.value;
-		params += "&dialableNumber="+Ext.get("dialableNumber").dom.value;
+		params += "&virtualConfId="+Ext.get("virtualConfId").dom.value;
 		params += "&listType=all";
 		return params;
 	}
@@ -227,7 +227,7 @@ function loadStore(start){
 			limit : ptb.getPageSize(),
 			'totalProperty' : ds.getTotalCount(),
 			'subject' : Ext.get("subject").dom.value,
-			'dialableNumber' : Ext.get("dialableNumber").dom.value,
+			'virtualConfId' : Ext.get("virtualConfId").dom.value,
 			'listType' : 'all'
 		}
 	});
