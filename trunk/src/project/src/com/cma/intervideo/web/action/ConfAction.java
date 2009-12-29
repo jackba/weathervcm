@@ -260,9 +260,15 @@ public class ConfAction extends AbstractBaseAction {
 				vo.setParamValue(String.valueOf(Conference.status_ongoing));
 				params.add(vo);
 			}else if("currentDay".equals(listType)){
+				
 				Calendar c = Calendar.getInstance();
+				
 				DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 				try{
+					String day = request.getParameter("day");
+					if(day!=null && !day.equals("")){
+						c.setTime(df.parse(day));
+					}
 					Date startTime = df.parse(df.format(c.getTime()));
 					c.add(Calendar.DATE, 1);
 					Date endTime = df.parse(df.format(c.getTime()));
