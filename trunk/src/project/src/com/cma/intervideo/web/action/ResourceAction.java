@@ -24,6 +24,9 @@ import com.cma.intervideo.util.AbstractBaseAction;
 import com.cma.intervideo.util.FusionChartUtil;
 import com.cma.intervideo.util.PropertiesHelper;
 import com.cma.intervideo.vo.ResourceVo;
+import com.cma.intervideo.vo.line2d.Apply;
+import com.cma.intervideo.vo.line2d.Style;
+import com.cma.intervideo.vo.line2d.Styles;
 import com.cma.intervideo.vo.stcol3d.Category;
 import com.cma.intervideo.vo.stcol3d.Chart;
 import com.cma.intervideo.vo.stcol3d.Dataset;
@@ -113,6 +116,7 @@ public class ResourceAction extends AbstractBaseAction{
 			}
 			
 			int totalConfs = mrr.getConfNums().get(1) - (int)Math.round(mrr.getConfNums().get(0)*mrr.getConfNums().get(1)/100.0);
+			session.put("totalConfs", totalConfs);
 			List<McuResourceInfo> infoList = mrr.getInfos();
 			List<ResourceVo> voList = new ArrayList<ResourceVo>();
 			for(int i=0;i<infoList.size();i++){
@@ -126,16 +130,66 @@ public class ResourceAction extends AbstractBaseAction{
 			}
 //			List<Integer> portNums = mrr.getInfos().get(0).getPortNums();
 //			int minutes = 0;
-			JSONObject json = new JSONObject();
-			json.put("totalProperty", voList.size());
-			json.put("totalConfs", totalConfs);
-			JSONArray arr = JSONArray.fromObject(voList);
-			json.put("root", arr);
-			System.out.println(json);
+//			JSONObject json = new JSONObject();
+//			json.put("totalProperty", voList.size());
+//			json.put("totalConfs", totalConfs);
+//			JSONArray arr = JSONArray.fromObject(voList);
+//			json.put("root", arr);
+//			System.out.println(json);
+			Chart chart = new Chart();
+			chart.setCaption("资源占用情况");
+			chart.setXAxisName("会议类型");
+			chart.setYAxisName("数量");
+			chart.setShowvalues("1");
+			chart.setRotateLabels("0");
+			chart.setCategories(new ArrayList<Category>());
+			chart.setDatasets(new ArrayList<Dataset>());
+			Dataset ods = new Dataset();
+			ods.setShowValues("1");
+			ods.setSeriesName("占用");
+			ods.setColor("FF0000");
+			ods.setSets(new ArrayList<Set>());
+			chart.getDatasets().add(ods);
+			Dataset ads = new Dataset();
+			ads.setShowValues("1");
+			ads.setSeriesName("空闲");
+			ads.setColor("00FF00");
+			ads.setSets(new ArrayList<Set>());
+			chart.getDatasets().add(ads);
+			for(int i=0;i<voList.size();i++){
+				ResourceVo vo = voList.get(i);
+				Category ct = new Category();
+				ct.setLabel(vo.getServiceTemplateName());
+				chart.getCategories().add(ct);
+				Set os = new Set();
+				os.setValue(vo.getOccupyNum()+"");
+				ods.getSets().add(os);
+				Set as = new Set();
+				as.setValue(vo.getAvailableNum()+"");
+				ads.getSets().add(as);
+			}
+			String xml = FusionChartUtil.createDummyData(chart);
+			logger.info("xml = "+xml);
 			response.setCharacterEncoding("utf-8");
 
 			PrintWriter out = response.getWriter();
-			out.print(json);
+			out.print(xml);
+			out.flush();
+			out.close();
+		}catch(Exception e){
+			logger.error(e.toString());
+		}
+		return null;
+	}
+	public String getTotalConfs(){
+		response.setCharacterEncoding("utf-8");
+		Integer totalConfs = (Integer)session.get("totalConfs");
+		if(totalConfs == null){
+			totalConfs = 0;
+		}
+		try{
+			PrintWriter out = response.getWriter();
+			out.print(totalConfs);
 			out.flush();
 			out.close();
 		}catch(Exception e){
@@ -199,15 +253,66 @@ public class ResourceAction extends AbstractBaseAction{
 				voList.add(vo);
 				minutes += interval;
 			}
-			JSONObject json = new JSONObject();
-			json.put("totalProperty", voList.size());
-			JSONArray arr = JSONArray.fromObject(voList);
-			json.put("root", arr);
-			System.out.println(json);
+//			JSONObject json = new JSONObject();
+//			json.put("totalProperty", voList.size());
+//			JSONArray arr = JSONArray.fromObject(voList);
+//			json.put("root", arr);
+//			System.out.println(json);
+			com.cma.intervideo.vo.line2d.Chart chart = new com.cma.intervideo.vo.line2d.Chart();
+			chart.setCaption("资源占用波动图");
+			chart.setXAxisName("时间");
+			chart.setYAxisName("数量");
+			chart.setSets(new ArrayList<com.cma.intervideo.vo.line2d.Set>());
+			for(int i=0;i<voList.size();i++){
+				ResourceVo vo = voList.get(i);
+				com.cma.intervideo.vo.line2d.Set set = new com.cma.intervideo.vo.line2d.Set();
+				set.setLabel(vo.getHourMinutes());
+				set.setValue(""+vo.getOccupyNum());
+				chart.getSets().add(set);
+			}
+			Styles styles = new Styles();
+			chart.setStyles(styles);
+			List<Style> definition = new ArrayList<Style>();
+			List<Apply> application = new ArrayList<Apply>();
+			styles.setDefinition(definition);
+			styles.setApplication(application);
+			Style style = new Style();
+			style.setName("Anim1");
+			style.setType("animation");
+			style.setParam("_xscale");
+			style.setStart("0");
+			style.setDuration("1");
+			definition.add(style);
+			style = new Style();
+			style.setName("Anim2");
+			style.setType("animation");
+			style.setParam("_alpha");
+			style.setStart("0");
+			style.setDuration("0.6");
+			definition.add(style);
+			style = new Style();
+			style.setName("DataShadow");
+			style.setType("Shadow");
+			style.setAlpha("40");
+			definition.add(style);
+			Apply apply = new Apply();
+			apply.setToObject("DIVLINES");
+			apply.setStyles("Anim1");
+			application.add(apply);
+			apply = new Apply();
+			apply.setToObject("HGRID");
+			apply.setStyles("Anim2");
+			application.add(apply);
+			apply = new Apply();
+			apply.setToObject("DATALABELS");
+			apply.setStyles("DataShadow,Anim2");
+			application.add(apply);
+			String xml = FusionChartUtil.createDummyData(chart);
+			logger.info("xml = "+xml);
 			response.setCharacterEncoding("utf-8");
 
 			PrintWriter out = response.getWriter();
-			out.print(json);
+			out.print(xml);
 			out.flush();
 			out.close();
 		}catch(Exception e){

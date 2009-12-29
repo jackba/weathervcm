@@ -6,7 +6,7 @@ public class Chart extends com.cma.intervideo.vo.Chart{
 	private String rotateLabels = "0";
 	private String rotateYAxisName = "0";
 	private String baseFont = "宋体";
-	private String baseFontSize = "14";
+	private String baseFontSize = "12";
 	private String caption;
 	private String xAxisName;
 	private String yAxisName;

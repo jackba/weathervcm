@@ -66,6 +66,40 @@ public class FusionChartUtil {
 			xstream.alias("set", com.cma.intervideo.vo.stcol3d.Set.class);
 			xstream.useAttributeFor(com.cma.intervideo.vo.stcol3d.Set.class, "value");
 		}
+		if(chart instanceof com.cma.intervideo.vo.line2d.Chart){
+			xstream.alias("chart", com.cma.intervideo.vo.line2d.Chart.class);
+			xstream.useAttributeFor(com.cma.intervideo.vo.line2d.Chart.class, "labelStep");
+			xstream.useAttributeFor(com.cma.intervideo.vo.line2d.Chart.class, "showvalues");
+			xstream.useAttributeFor(com.cma.intervideo.vo.line2d.Chart.class, "rotateYAxisName");
+			xstream.useAttributeFor(com.cma.intervideo.vo.line2d.Chart.class, "rotateLabels");
+			xstream.useAttributeFor(com.cma.intervideo.vo.line2d.Chart.class, "baseFont");
+			xstream.useAttributeFor(com.cma.intervideo.vo.line2d.Chart.class, "baseFontSize");
+			xstream.useAttributeFor(com.cma.intervideo.vo.line2d.Chart.class, "caption");
+			xstream.useAttributeFor(com.cma.intervideo.vo.line2d.Chart.class, "xAxisName");
+			xstream.useAttributeFor(com.cma.intervideo.vo.line2d.Chart.class, "yAxisName");
+			xstream.useAttributeFor(com.cma.intervideo.vo.line2d.Chart.class, "alternateHGridColor");
+			xstream.useAttributeFor(com.cma.intervideo.vo.line2d.Chart.class, "alternateHGridAlpha");
+			xstream.useAttributeFor(com.cma.intervideo.vo.line2d.Chart.class, "divLineColor");
+			xstream.useAttributeFor(com.cma.intervideo.vo.line2d.Chart.class, "divLineAlpha");
+			xstream.useAttributeFor(com.cma.intervideo.vo.line2d.Chart.class, "canvasBorderColor");
+			xstream.useAttributeFor(com.cma.intervideo.vo.line2d.Chart.class, "baseFontColor");
+			xstream.useAttributeFor(com.cma.intervideo.vo.line2d.Chart.class, "lineColor");
+			xstream.addImplicitCollection(com.cma.intervideo.vo.line2d.Chart.class, "sets");
+			xstream.alias("set", com.cma.intervideo.vo.line2d.Set.class);
+			xstream.useAttributeFor(com.cma.intervideo.vo.line2d.Set.class, "label");
+			xstream.useAttributeFor(com.cma.intervideo.vo.line2d.Set.class, "value");
+			xstream.alias("styles", com.cma.intervideo.vo.line2d.Styles.class);
+			xstream.alias("style", com.cma.intervideo.vo.line2d.Style.class);
+			xstream.useAttributeFor(com.cma.intervideo.vo.line2d.Style.class, "name");
+			xstream.useAttributeFor(com.cma.intervideo.vo.line2d.Style.class, "type");
+			xstream.useAttributeFor(com.cma.intervideo.vo.line2d.Style.class, "param");
+			xstream.useAttributeFor(com.cma.intervideo.vo.line2d.Style.class, "start");
+			xstream.useAttributeFor(com.cma.intervideo.vo.line2d.Style.class, "duration");
+			xstream.useAttributeFor(com.cma.intervideo.vo.line2d.Style.class, "alpha");
+			xstream.alias("apply", com.cma.intervideo.vo.line2d.Apply.class);
+			xstream.useAttributeFor(com.cma.intervideo.vo.line2d.Apply.class, "toObject");
+			xstream.useAttributeFor(com.cma.intervideo.vo.line2d.Apply.class, "styles");
+		}
 		return xstream.toXML(chart);
 	}
 	
