@@ -243,11 +243,11 @@ public class ConfAction extends AbstractBaseAction {
 			vo.setParamValue(subject);
 			params.add(vo);
 		}
-		String dialableNumber = request.getParameter("dialableNumber");
-		if(dialableNumber != null && !dialableNumber.equals("")){
+		String virtualConfId = request.getParameter("virtualConfId");
+		if(virtualConfId != null && !virtualConfId.equals("")){
 			ParamVo vo = new ParamVo();
-			vo.setParamName("dialableNumber");
-			vo.setParamValue(dialableNumber);
+			vo.setParamName("virtualConfId");
+			vo.setParamValue(virtualConfId);
 			params.add(vo);
 		}
 		String listType = request.getParameter("listType");
@@ -684,7 +684,7 @@ public class ConfAction extends AbstractBaseAction {
 				cell = row.createCell(0);
 				cell.setCellValue(new HSSFRichTextString(c.getSubject()));
 				cell = row.createCell(1);
-				cell.setCellValue(new HSSFRichTextString(c.getDialableNumber()));
+				cell.setCellValue(new HSSFRichTextString(c.getVirtualConfId()));
 				cell = row.createCell(2);
 				cell.setCellValue(new HSSFRichTextString(c.getInitUnit()));
 				cell = row.createCell(3);
@@ -747,7 +747,7 @@ public class ConfAction extends AbstractBaseAction {
 			for(int i=0;i<l.size();i++){
 				Conference c = l.get(i);
 				table.addCell(new Paragraph(c.getSubject(),fontChinese));
-				table.addCell(c.getDialableNumber());
+				table.addCell(c.getVirtualConfId());
 				table.addCell(new Paragraph(c.getInitUnit(),fontChinese));
 				Date startTime = new Date(c.getStartTime());
 				table.addCell(df.format(startTime));
