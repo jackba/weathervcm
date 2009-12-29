@@ -13,7 +13,9 @@
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/ext-lang-zh_CN.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/validate.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/calendar/WdatePicker.js"></script>
-
+<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/uxmediapak.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/uxflashpak.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/uxfusionpak.js"></script>
 <style type="text/css">
 .STYLE3 {
 	font-size: 12px
@@ -56,7 +58,6 @@
 		</div><!--end of searchArea-->
 	</div><!--end of wrap-->
 <script language="javascript">
-var ds;// 数据源
 var mychart; //图表
 var day;
 Ext.onReady(function() {
@@ -71,26 +72,14 @@ Ext.onReady(function() {
 		renderTo:'dayDiv'
 	});
 	day.setValue(new Date());
-	ds = new Ext.data.Store({
-		proxy : new Ext.data.HttpProxy({
-			url : 'res_searchOccupyWave.do'
-		}),
-		reader : new Ext.data.JsonReader({
-			totalProperty : 'totalProperty',
-			root : 'root'
-		}, [{
-			name : 'hourMinutes'
-		}, {
-			name : 'occupyNum'
-		}, {
-			name : 'availableNum'
-		}])
-	});
 	loadStore();
 });
 function query() {
 	loadStore();
 }
+var chartEvents = {
+           //'mousemove':function(){console.log(['mousemove',arguments])}
+          };
 function loadStore(){
 //	alert(Ext.get('status').dom.value);
 	if (validateRequired('day','日期')) {
@@ -99,50 +88,48 @@ function loadStore(){
 		return;
 	}
 	if(mychart==null || mychart==undefined){
-		mychart = new Ext.Panel({
-        title: '资源占用波动图',
-        frame:true,
-        renderTo: 'searchArea',
-        width: Ext.get("searchArea").getWidth()*0.98,
-		//autoWidth : true,
-		//height:Ext.get("searchArea").getHeight()*0.99,
-		//autoHeight : true,
-		height: 400,
-		layout:'fit',
-		tbar: [{
-			xtype:'tbfill'
-		},{
-            text: '重新载入',
-            handler: function(){
-                loadStore();
-            }
-        }],
-        items: {
-            xtype: 'linechart',
-            store: ds,
-            xField: 'hourMinutes',
-			yField: 'occupyNum',
-            yAxis: new Ext.chart.NumericAxis({
-                title: '数量'
-            }),
-			xAxis: new Ext.chart.CategoryAxis({
-				title: "时间"
-			}),
-			extraStyle: {
-				xAxis: {
-					labelRotation: -90
-				}
-			}
-        }
-    });
-	}		
-	ds.load({
-		params : {
-			'serviceTemplate' : Ext.get("serviceTemplate").dom.value,
-			'day' : Ext.get("day").dom.value,
-			'range' : Ext.get("range").dom.value
-		}
-	});
+		mychart = new Ext.ux.Chart.Fusion.Panel({
+       				title       : '资源占用波动图',
+       				//collapsible : true,
+       				renderTo    : 'searchArea',
+       				floating:false,
+       				fusionCfg   :{ id   : 'chart1'
+                     				,listeners: chartEvents  //DOM listeners for the chart Object itself
+                  				},
+       				autoScroll : true,
+       				id       : 'chartpanel',
+       				chartURL : 'FusionCharts/Line.swf',
+       				dataURL  : 'res_searchOccupyWave.do?serviceTemplate='+Ext.get("serviceTemplate").dom.value+'&day='+Ext.get("day").dom.value+'&range='+Ext.get("range").dom.value,
+       				mediaMask  : {msg:'正在装载报表'},
+       				autoMask  : true,
+       				width     : Ext.get("searchArea").getWidth()*0.98,
+       				height    : 500,
+       				listeners :{
+           				show  : function(p){
+               				if(p.floating)p.setPosition(p.x||10,p.y||10);
+               				}
+           				//,chartload : function(p,obj){
+               			//	p.setTitle(p.title.split(":")[0]+': Loaded.');
+               			//	}
+           				//,chartrender : function(p,obj){
+               			//	p.setTitle(p.title.split(":")[0]+': Rendered.');
+               			//	}
+       				},
+					tbar: [{
+						xtype:'tbfill'
+						},{
+            			text: '重新载入',
+            			handler: function(){
+							loadStore();
+                			//mychart.refreshMedia();
+            			}
+        			}]
+  				});
+				mychart.show();
+	}else{
+		mychart.setChartDataURL('res_searchOccupyWave.do?serviceTemplate='+Ext.get("serviceTemplate").dom.value+'&day='+Ext.get("day").dom.value+'&range='+Ext.get("range").dom.value,true);
+		//mychart.refreshMedia();
+	}
 }
 function reset() {
 	Ext.get("form1").reset();
