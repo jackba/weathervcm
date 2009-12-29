@@ -282,7 +282,7 @@ public class AbstractStatDao extends BaseDao implements IStatDao{
 				ed = ec.getTime();
 				strSQL += " and c.create_time<='" + df.format(ed) + "'";
 			}
-			strSQL += " order by timestampdiff(SECOND,c.create_time,c.update_time) desc limit 10";
+			strSQL += " order by timestampdiff(SECOND,from_unixtime(c.start_time/1000),c.update_time) desc limit 10";
 			logger.info(strSQL);
 			rs = stmt.executeQuery(strSQL);
 			List<ConfTimeStatVo> l = new ArrayList<ConfTimeStatVo>();

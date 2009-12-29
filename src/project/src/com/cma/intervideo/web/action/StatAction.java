@@ -48,15 +48,31 @@ public class StatAction extends AbstractBaseAction{
 			String startDate = request.getParameter("startDate");
 			String endDate = request.getParameter("endDate");
 			List<UserReserveStatVo> voList = statService.statUserReserve(startDate, endDate);
-			JSONObject json = new JSONObject();
-			json.put("totalProperty", voList.size());
-			JSONArray arr = JSONArray.fromObject(voList);
-			json.put("root", arr);
-			System.out.println(json);
+//			JSONObject json = new JSONObject();
+//			json.put("totalProperty", voList.size());
+//			JSONArray arr = JSONArray.fromObject(voList);
+//			json.put("root", arr);
+//			System.out.println(json);
+			
+			Chart chart = new Chart();
+			chart.setCaption("用户使用次数排行榜");
+			chart.setXAxisName("用户");
+			chart.setYAxisName("次数");
+			List<Set> set = new ArrayList<Set>();
+			for(int i=0;i<voList.size();i++){
+				Set s = new Set();
+				UserReserveStatVo vo = voList.get(i);
+				s.setLabel(vo.getUserName());
+				s.setValue(String.valueOf((vo.getNumber())));
+				set.add(s);
+			}
+			chart.setSet(set);
+			String xml = FusionChartUtil.createDummyData(chart);
+			logger.info("xml = "+xml);
 			response.setCharacterEncoding("utf-8");
 
 			PrintWriter out = response.getWriter();
-			out.print(json);
+			out.print(xml);
 			out.flush();
 			out.close();
 		}catch(Exception e){
@@ -94,15 +110,31 @@ public class StatAction extends AbstractBaseAction{
 			String startDate = request.getParameter("startDate");
 			String endDate = request.getParameter("endDate");
 			List<UnitTimeStatVo> voList = statService.statUnitTime(startDate, endDate);
-			JSONObject json = new JSONObject();
-			json.put("totalProperty", voList.size());
-			JSONArray arr = JSONArray.fromObject(voList);
-			json.put("root", arr);
-			System.out.println(json);
+//			JSONObject json = new JSONObject();
+//			json.put("totalProperty", voList.size());
+//			JSONArray arr = JSONArray.fromObject(voList);
+//			json.put("root", arr);
+//			System.out.println(json);
+			
+			Chart chart = new Chart();
+			chart.setCaption("主会场时长统计");
+			chart.setXAxisName("主会场");
+			chart.setYAxisName("时长(分钟)");
+			List<Set> set = new ArrayList<Set>();
+			for(int i=0;i<voList.size();i++){
+				Set s = new Set();
+				UnitTimeStatVo vo = voList.get(i);
+				s.setLabel(vo.getUnitName());
+				s.setValue(String.valueOf((vo.getTimeLong())));
+				set.add(s);
+			}
+			chart.setSet(set);
+			String xml = FusionChartUtil.createDummyData(chart);
+			logger.info("xml = "+xml);
 			response.setCharacterEncoding("utf-8");
 
 			PrintWriter out = response.getWriter();
-			out.print(json);
+			out.print(xml);
 			out.flush();
 			out.close();
 		}catch(Exception e){
@@ -172,15 +204,31 @@ public class StatAction extends AbstractBaseAction{
 			String startDate = request.getParameter("startDate");
 			String endDate = request.getParameter("endDate");
 			List<ConfTimeStatVo> voList = statService.statConfTime(startDate, endDate);
-			JSONObject json = new JSONObject();
-			json.put("totalProperty", voList.size());
-			JSONArray arr = JSONArray.fromObject(voList);
-			json.put("root", arr);
-			System.out.println(json);
+//			JSONObject json = new JSONObject();
+//			json.put("totalProperty", voList.size());
+//			JSONArray arr = JSONArray.fromObject(voList);
+//			json.put("root", arr);
+//			System.out.println(json);
+			
+			Chart chart = new Chart();
+			chart.setCaption("会议时长排行榜");
+			chart.setXAxisName("会议名称");
+			chart.setYAxisName("时长(分钟)");
+			List<Set> set = new ArrayList<Set>();
+			for(int i=0;i<voList.size();i++){
+				Set s = new Set();
+				ConfTimeStatVo vo = voList.get(i);
+				s.setLabel(vo.getSubject());
+				s.setValue(String.valueOf((vo.getTimeLong())));
+				set.add(s);
+			}
+			chart.setSet(set);
+			String xml = FusionChartUtil.createDummyData(chart);
+			logger.info("xml = "+xml);
 			response.setCharacterEncoding("utf-8");
 
 			PrintWriter out = response.getWriter();
-			out.print(json);
+			out.print(xml);
 			out.flush();
 			out.close();
 		}catch(Exception e){
