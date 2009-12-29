@@ -42,6 +42,7 @@ import com.cma.intervideo.util.PageHolder;
 import com.cma.intervideo.util.ParamVo;
 import com.cma.intervideo.util.PropertiesHelper;
 import com.cma.intervideo.util.UserPrivilege;
+import com.cma.intervideo.util.VcmProperties;
 import com.lowagie.text.Document;
 import com.lowagie.text.Font;
 import com.lowagie.text.Paragraph;
@@ -453,10 +454,17 @@ public class ConfAction extends AbstractBaseAction {
 		Date d = Calendar.getInstance().getTime();
 		conf.setCreateTime(d);
 		conf.setUpdateTime(d);
+		long delayTime = VcmProperties.getPropertyByLong("vcm.delayAdhocStartTime", 20) * 1000;
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String startTime = request.getParameter("startTime");
 		if (startTime != null && !startTime.equals("")) {
-			conf.setStartTime(df.parse(startTime).getTime());
+			long st = df.parse(startTime).getTime();
+			long now = d.getTime();
+			if (now + delayTime >= st)
+				st = now + delayTime;
+			conf.setStartTime(st);
+		} else {
+			conf.setStartTime(d.getTime() + delayTime);
 		}
 		response.setContentType("text/html;charset=utf-8");
 
