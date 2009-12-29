@@ -13,7 +13,9 @@
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/ext-lang-zh_CN.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/validate.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/calendar/WdatePicker.js"></script>
-
+<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/uxmediapak.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/uxflashpak.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/uxfusionpak.js"></script>
 <style type="text/css">
 .STYLE3 {
 	font-size: 12px
@@ -51,7 +53,6 @@
 		</div><!--end of searchArea-->
 	</div><!--end of wrap-->
 <script language="javascript">
-var ds;// 数据源
 var mychart; //图表
 Ext.onReady(function() {
 	Ext.BLANK_IMAGE_URL="resources/images/default/s.gif";
@@ -60,24 +61,14 @@ Ext.onReady(function() {
 	var today = new Date();
 	Ext.getDom('startDate').value = today.format('Y-m-d');
 	Ext.getDom('endDate').value = today.format('Y-m-d');
-	ds = new Ext.data.Store({
-		proxy : new Ext.data.HttpProxy({
-			url : 'stat_searchConfTimeStat.do'
-		}),
-		reader : new Ext.data.JsonReader({
-			totalProperty : 'totalProperty',
-			root : 'root'
-		}, [{
-			name : 'subject'
-		}, {
-			name : 'timeLong'
-		}])
-	});
 	loadStore();
 });
 function query() {
 	loadStore();
 }
+var chartEvents = {
+           //'mousemove':function(){console.log(['mousemove',arguments])}
+          };
 function loadStore(){
 //	alert(Ext.get('status').dom.value);
 	if (validateRequired('startDate','起始日期')
@@ -87,49 +78,49 @@ function loadStore(){
 		return;
 	}
 	if(mychart==null || mychart==undefined){
-		mychart = new Ext.Panel({
-        title: '会议时长排行榜',
-        frame:true,
-        renderTo: 'searchArea',
-        width: Ext.get("searchArea").getWidth()*0.98,
-		//autoWidth : true,
-		//height:Ext.get("searchArea").getHeight()*0.99,
-		//autoHeight : true,
-		height: 400,
-		layout:'fit',
-		tbar: [{
-			xtype:'tbfill'
-		},{
-            text: '重新载入',
-            handler: function(){
-                loadStore();
-            }
-        }],
-        items: {
-            xtype: 'columnchart',
-            store: ds,
-            xField: 'subject',
-			yField: 'timeLong',
-            yAxis: new Ext.chart.NumericAxis({
-                title: '时长（分钟）'
-            }),
-			xAxis: new Ext.chart.CategoryAxis({
-				title: "会议名称"
-			}),
-			extraStyle: {
-				xAxis: {
-					labelRotation: -90
-				}
-			}
-        }
-    });
-	}		
-	ds.load({
-		params : {
-			'startDate' : Ext.get("startDate").dom.value,
-			'endDate' : Ext.get("endDate").dom.value
-		}
-	});
+		mychart = new Ext.ux.Chart.Fusion.Panel({
+       				title       : '会议时长排行榜',
+       				//collapsible : true,
+       				renderTo    : 'searchArea',
+       				floating:false,
+       				fusionCfg   :{ id   : 'chart1'
+                     				,listeners: chartEvents  //DOM listeners for the chart Object itself
+                  				},
+       				autoScroll : true,
+       				id       : 'chartpanel',
+       				chartURL : '<%=request.getContextPath()%>/FusionCharts/Column3D.swf',
+       				dataURL  : '<%=request.getContextPath()%>/stat_searchConfTimeStat.do?startDate='+Ext.get("startDate").dom.value+'&endDate='+Ext.get("endDate").dom.value,
+       				mediaMask  : {msg:'正在装载报表'},
+       				autoMask  : true,
+       				width     : Ext.get("searchArea").getWidth()*0.98,
+       				height    : 500,
+       				listeners :{
+           				show  : function(p){
+               				if(p.floating)p.setPosition(p.x||10,p.y||10);
+               				}
+           				//,chartload : function(p,obj){
+               			//	p.setTitle(p.title.split(":")[0]+': Loaded.');
+               			//	}
+           				//,chartrender : function(p,obj){
+               			//	p.setTitle(p.title.split(":")[0]+': Rendered.');
+               			//	}
+       				},
+					tbar: [{
+						xtype:'tbfill'
+						},{
+            			text: '重新载入',
+            			handler: function(){
+							loadStore();
+                			//mychart.refreshMedia();
+            			}
+        			}]
+  				});
+				mychart.show();
+		
+	}else{
+		mychart.setChartDataURL('<%=request.getContextPath()%>/stat_searchConfTimeStat.do?startDate='+Ext.get("startDate").dom.value+'&endDate='+Ext.get("endDate").dom.value,true);
+		//mychart.refreshMedia();
+	}
 }
 function reset() {
 	Ext.get("form1").reset();
