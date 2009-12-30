@@ -411,7 +411,13 @@ public class ICMService {
 		UserInfo info = new UserInfo();
 		info.setUserId(user.getUserId());
 		info.setEmamil(user.getEmail());
-		info.setRoleId(2); // TODO: handle role
+		/**
+		 * Role For Platform User
+		 * 1: Organization Administrator
+		 * 2: Meeting Organizer
+		 * 3: Regular User
+		 */
+		info.setRoleId(3); // TODO: handle role
 		info.setUserLoginId(user.getLoginId());
 		// user name (VCM) < -- > last name(platform)me());
 		info.setUserLastName(user.getUserName()); 
