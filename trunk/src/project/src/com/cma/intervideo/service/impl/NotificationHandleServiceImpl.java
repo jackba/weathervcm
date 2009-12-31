@@ -1,5 +1,7 @@
 package com.cma.intervideo.service.impl;
 
+import java.util.Calendar;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -43,6 +45,7 @@ public class NotificationHandleServiceImpl implements NotificationHandleService{
 		Conference c = confDao.findConfByRadConfId(notification.getConfGID());
 		if(c!=null){
 			c.setStatus(c.status_history);
+			c.setUpdateTime(Calendar.getInstance().getTime());
 			confDao.updateObject(c);
 		}
 		return 0;
