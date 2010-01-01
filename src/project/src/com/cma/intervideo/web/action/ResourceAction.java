@@ -326,7 +326,7 @@ public class ResourceAction extends AbstractBaseAction{
 		if (serviceTemplateId == null || serviceTemplateId.length() == 0)
 			serviceTemplateId = PropertiesHelper.getDefaultServiceTemplateId();
 		if (serviceTemplateId == null || serviceTemplateId.length() == 0) {
-			logger.info("searchAvailable failed, Please specify default service template first!");
+			logger.warn("searchAvailable1 failed, Please specify default service template first!");
 			return null;
 		}
 		String day = request.getParameter("day");
@@ -341,7 +341,8 @@ public class ResourceAction extends AbstractBaseAction{
 			McuResourceResult mrr = ICMService.getResourceInfos(serviceTemplateIds, startTime, endTime, interval);
 			if (mrr == null || !mrr.isSuccess() || mrr.getInfos().size() == 0)
 			{
-				outJson("{success:false, msg:'从平台获取资源失败,请检查连接和配置!'}");
+//				outJson("{success:false, msg:'从平台获取资源失败,请检查连接和配置!'}");
+				logger.warn("searchAvailable1 failed, Please check the connection to platform first!");
 				return null;
 			}
 			
