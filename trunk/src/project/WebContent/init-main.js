@@ -43,6 +43,21 @@ Ext.onReady(function(){
 		items:[{
 			text:"欢迎"+loginId+"进入全国天气预报电视会商系统"
 		},{
+			xtype:'tbseparator'
+		},{
+			id: 'connectStatus',
+					xtype: 'tbtext',
+					text: '...',
+					listeners: {
+						'afterrender': {
+							fn: function(){
+								Ext.fly(Ext.getCmp('connectStatus').getEl()).parent().addClass('custom-status-text-panel');
+								getConnectStatus();
+								setInterval("getConnectStatus()",30*1000);
+							}
+						}
+					}	
+		},{
 			xtype:'tbfill'
 		},{
 			xtype:'tbseparator'
@@ -137,25 +152,6 @@ Ext.onReady(function(){
 				autoScroll:true,
 				border:false
 			}]
-		},{
-			region: 'south',
-			bbar:{
-				id: 'sBar',
-				items: [{
-					id: 'connectStatus',
-					xtype: 'tbtext',
-					text: '...',
-					listeners: {
-						'afterrender': {
-							fn: function(){
-								Ext.fly(Ext.getCmp('connectStatus').getEl()).parent().addClass('custom-status-text-panel');
-								getConnectStatus();
-								setInterval("getConnectStatus()",30*1000);
-							}
-						}
-					}	
-				}]
-			}
 		},contentPanel]
 	});
 	day = new Ext.form.DateField({
