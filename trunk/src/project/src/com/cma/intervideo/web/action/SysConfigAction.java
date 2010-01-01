@@ -36,6 +36,9 @@ public class SysConfigAction extends AbstractBaseAction {
 	
 	public String modifyConfiguration() throws Exception{
 		logger.info("modifyConfiguration...");
+		logger.info("Old Configuration: defaultServiceTemplateId=" + PropertiesHelper.getDefaultServiceTemplateId() + 
+				"; iVIEW Host=" + PropertiesHelper.getIcmHost() +
+				"; iVIEW Port=" + PropertiesHelper.getIcmPort());
 		// TODO: confirm which properties need to be configured
 		PropertiesHelper.setDefaultServiceTemplateId(config.getDefaultServiceTemplateId());
 		PropertiesHelper.setIcmHost(config.getIcmHost());
@@ -43,9 +46,13 @@ public class SysConfigAction extends AbstractBaseAction {
 		PropertiesHelper.store();
 		try {
 			outJson("{success:true, msg:'修改配置成功!'}");
+			logger.info("New Configuration: defaultServiceTemplateId=" + PropertiesHelper.getDefaultServiceTemplateId() + 
+					"; iVIEW Host=" + PropertiesHelper.getIcmHost() +
+					"; iVIEW Port=" + PropertiesHelper.getIcmPort());
 		} catch (Exception e) {
 			outJson("{success:true, msg:'修改配置失败!'}");
 		}
 		return null;
 	}
+	
 }
