@@ -45,7 +45,13 @@ a:hover{}
 	text-decoration: underline;
 	color: blue;
 }
-
+.custom-status-text-panel{
+	border-top:1px solid #99BBE8;
+	border-right:1px solid #fff;
+	border-bottom:1px solid #fff;
+	border-left:1px solid #99BBE8;
+	padding:1px 2px 2px 1px;
+}
 </style>
 </head>
 <body>

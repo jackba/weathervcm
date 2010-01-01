@@ -22,7 +22,17 @@ var contentPanel=new Ext.TabPanel({
 		autoScroll:true
 	}]
 });
-
+function getConnectStatus(){
+	Ext.Ajax.request({
+		url: 'conf_getConnectStatus.do',
+		success: function(result,request){
+			Ext.getCmp('connectStatus').setText(result.responseText);
+		},
+		failure: function(result,request){
+			Ext.getCmp('connectStatus').setText("error");
+		}
+	});
+}
 Ext.onReady(function(){
 	Ext.BLANK_IMAGE_URL="resources/images/default/s.gif";
 	Ext.FlashComponent.EXPRESS_INSTALL_URL = "resources/images/default/expressInstall.swf";
@@ -127,6 +137,25 @@ Ext.onReady(function(){
 				autoScroll:true,
 				border:false
 			}]
+		},{
+			region: 'south',
+			bbar:{
+				id: 'sBar',
+				items: [{
+					id: 'connectStatus',
+					xtype: 'tbtext',
+					text: '...',
+					listeners: {
+						'afterrender': {
+							fn: function(){
+								Ext.fly(Ext.getCmp('connectStatus').getEl()).parent().addClass('custom-status-text-panel');
+								getConnectStatus();
+								setInterval("getConnectStatus()",30*1000);
+							}
+						}
+					}	
+				}]
+			}
 		},contentPanel]
 	});
 	day = new Ext.form.DateField({
