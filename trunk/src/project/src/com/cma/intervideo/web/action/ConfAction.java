@@ -50,6 +50,7 @@ import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
+import com.radvision.icm.service.vcm.ICMService;
 
 public class ConfAction extends AbstractBaseAction {
 	private static Log logger = LogFactory.getLog(AbstractBaseAction.class);
@@ -783,5 +784,23 @@ public class ConfAction extends AbstractBaseAction {
 		}catch(Exception e){
 			logger.error(e.toString());
 		}
+	}
+	public String getConnectStatus(){
+		try{
+			response.setCharacterEncoding("utf-8");
+
+			PrintWriter out = response.getWriter();
+			boolean b = ICMService.isConnected();
+			if(b){
+				out.print("已连接iView");
+			}else{
+				out.print("未连接iView");
+			}
+			out.flush();
+			out.close();
+		}catch(Exception e){
+			logger.error(e.toString());
+		}
+		return null;
 	}
 }
