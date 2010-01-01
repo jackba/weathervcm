@@ -268,10 +268,10 @@ public class ConfServiceImpl implements IConfService {
 	 * 供定时器调用定时检查会议状态，对不正常的状态进行处理
 	 */
 	public void checkConfs(){
-		logger.info("Start to check conferences status..., current time is " + Calendar.getInstance().getTime().toString());
+		logger.warn("Start to check conferences status..., current time is " + Calendar.getInstance().getTime().toString());
 		int maxConfPeriod = PropertiesHelper.getMaxConfPeroidHour();
 		List<Conference> abnormalConfs = confDao.findAbnormalConfs();
-		logger.info(abnormalConfs.size()+" conferences with abnormal status!!");
+		logger.warn(abnormalConfs.size()+" conferences with abnormal status!!");
 		for(int i=0;i<abnormalConfs.size();i++){
 			Conference c = abnormalConfs.get(i);
 			c.setStatus(Conference.status_history);
@@ -280,12 +280,12 @@ public class ConfServiceImpl implements IConfService {
 			// call platform API to terminate conference
 			ControlResult r = ICMService.terminateLiveConference(c.getRadConferenceId());
 			boolean b = r!=null && r.isSuccess();
-			logger.info("the innormal conference - confId:" + c.getConferenceId() + 
+			logger.warn("the innormal conference - confId:" + c.getConferenceId() + 
 					"; rad confId:" + c.getRadConferenceId() + 
 					" was changed to history status, and try to be terminated:" + b);
 		}
 		List<Conference> tooLongConfs = confDao.findTooLongConf(maxConfPeriod);
-		logger.info(tooLongConfs.size()+" conferences duration is too long!!");
+		logger.warn(tooLongConfs.size()+" conferences duration is too long!!");
 		for(int i=0;i<tooLongConfs.size();i++){
 			Conference c = tooLongConfs.get(i);
 			c.setStatus(Conference.status_history);
@@ -294,7 +294,7 @@ public class ConfServiceImpl implements IConfService {
 			// call platform API to terminate conference
 			ControlResult r = ICMService.terminateLiveConference(c.getRadConferenceId());
 			boolean b = r!=null && r.isSuccess();
-			logger.info("the conference with too long duration - confId:" + c.getConferenceId() + 
+			logger.warn("the conference with too long duration - confId:" + c.getConferenceId() + 
 					"; rad confId:" + c.getRadConferenceId() + 
 					" was changed to history status, and try to be terminated:" + b);
 		}
