@@ -53,15 +53,13 @@ public class StatusMonitorServlet extends HttpServlet {
 		 */
 		Timer timer = new Timer();
 		TestTask4IcmService tt = new TestTask4IcmService();
-		int testPeriod = PropertiesHelper.getMcuConnectionTestPeriod();
-		timer.schedule(tt, Calendar.getInstance().getTime(), testPeriod);
+		timer.schedule(tt, Calendar.getInstance().getTime(), interval);
 		
 		/**
 		 * 启动服务器状态定时检测
 		 */
-		Timer timer2 = new Timer();
 		StatusMonitorTask tt2 = new StatusMonitorTask();
-		timer2.schedule(tt2, Calendar.getInstance().getTime(), interval);
+		timer.schedule(tt2, Calendar.getInstance().getTime(), interval);
 		
 	}
 	
@@ -75,7 +73,6 @@ public class StatusMonitorServlet extends HttpServlet {
 				logger.info("Test RADVISION iCM Service connection successfully!");
 		}
 	}
-
 	
 }
 
