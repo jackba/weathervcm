@@ -152,7 +152,7 @@ function initGrid() {
 			iconCls : 'add16',
 			onClick : function() {
 				//location.href = "conftemplate_add.do";
-				window.parent.createNewPanel('conftemplateAdd','confTemplate','添加新表单模板','conftemplate_add.do');
+				window.parent.createNewPanel('conftemplateAdd','conftemplate','添加新表单模板','conftemplate_add.do');
 			}
 		}, {
 			id : 'btnEdit',
