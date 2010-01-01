@@ -70,7 +70,7 @@ public class StatusMonitorServlet extends HttpServlet {
 			if (!connected)
 				logger.warn("Test RADVISION iCM Service connection failed, please check the connnection and configuration!");
 			else
-				logger.info("Test RADVISION iCM Service connection successfully!");
+				logger.warn("Test RADVISION iCM Service connection successfully!");
 		}
 	}
 	

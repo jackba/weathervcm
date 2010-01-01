@@ -63,7 +63,7 @@ public class SocketGateway extends HttpServlet {
 			}else{
 				//logger.info(rsp.getXml());
 				PropertiesHelper.setMcuProxyConnected(true);
-				logger.info("Test MCU Proxy connection successfully!");
+				logger.warn("Test MCU Proxy connection successfully!");
 			}
 		}
 	}
