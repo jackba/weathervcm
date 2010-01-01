@@ -193,7 +193,7 @@ class StatusMonitorTask extends TimerTask {
 //        	double systemLoad = operatingMXBean.getSystemLoadAverage();
 //	        statusLines.add("--- SystemLoad     : " + (systemLoad < 0 ? "N/A" :  String.valueOf(systemLoad)) + "\t"
 //	        	+ "--- JVMLoad          : " + tabString(load/100.0+"%("+overallLoad/100.0+"%)"));
-	        statusLines.add("--- JVMLoad          : " + tabString(load/100.0+"%("+overallLoad/100.0+"%)"));
+	        statusLines.add("--- JVMLoad        : " + tabString(load/100.0+"%("+overallLoad/100.0+"%)"));
 	        lastCpuTime = totalCpuTime;
 	        lastUpdatedTime = curTime;
         }
@@ -226,9 +226,9 @@ class StatusMonitorTask extends TimerTask {
 	}		
 	
 	private void iviewStatus(ArrayList<String> statusLines) {
-		
-		statusLines.add("--- iCM Service	: " + (PropertiesHelper.isIcmServiceConnected() ? "Connected" : "Disconnected"));
-		statusLines.add("--- MCU Proxy		: " + (PropertiesHelper.isMcuProxyConnected() ? "Connected" : "Disconnected"));
+		statusLines.add("--- iCM            : " + PropertiesHelper.getIcmIpPort());
+		statusLines.add("--- iCM Service    : " + (PropertiesHelper.isIcmServiceConnected() ? "Connected" : "Disconnected"));
+		statusLines.add("--- MCU Proxy      : " + (PropertiesHelper.isMcuProxyConnected() ? "Connected" : "Disconnected"));
 		statusLines.add("---");
 	}
 	
@@ -237,8 +237,8 @@ class StatusMonitorTask extends TimerTask {
 		int upcomings = 0;
 		int ongoings = 0;
 		int total = 0;
-		// TODO
 		
+		// TODO
 		
 		statusLines.add("--- t-confs/tobes/upcomings/ongoings  : " + total + "/" + toBeScheduleds
 				+ "/" + upcomings + "/" + ongoings);		
