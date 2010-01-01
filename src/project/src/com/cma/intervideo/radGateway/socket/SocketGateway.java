@@ -27,7 +27,6 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.cma.intervideo.service.NotificationHandleService;
 import com.cma.intervideo.util.PropertiesHelper;
-import com.radvision.icm.service.vcm.ICMService;
 
 public class SocketGateway extends HttpServlet {
 	private static Log logger = LogFactory.getLog(SocketGateway.class);
@@ -42,6 +41,7 @@ public class SocketGateway extends HttpServlet {
 	boolean flag = true;
 	private LinkedBlockingQueue<BaseNotification>[] queue;
 	private int queueNum = 20;
+	
 	/**
 	 * 测试类,定期调用GetServices接口以测试连接是否正常,如果测试失败则重新建立连接
 	 * @author lihw2
@@ -65,17 +65,6 @@ public class SocketGateway extends HttpServlet {
 				PropertiesHelper.setMcuProxyConnected(true);
 				logger.info("Test MCU Proxy connection successfully!");
 			}
-		}
-	}
-	
-	class TestTask4IcmService extends TimerTask{
-		public void run(){
-			boolean b = ICMService.isConnected();
-			PropertiesHelper.setIcmServiceConnected(b);
-			if (!b)
-				logger.warn("Test RADVISION iCM Service connection failed, please check the connnection and configuration!");
-			else
-				logger.info("Test RADVISION iCM Service connection successfully");
 		}
 	}
 	
@@ -355,15 +344,7 @@ public class SocketGateway extends HttpServlet {
 		logger.info("Begin to start socket gateway...");
 		String mcuIp = PropertiesHelper.getIcmHost();
 		int mcuPort = PropertiesHelper.getMcuProxyPort();
-		try{
-			/**
-			 * 启动定时测试iCM Service, 每testPeriod秒钟进行一次测试
-			 */
-			Timer timer1 = new Timer();
-			TestTask4IcmService tt1 = new TestTask4IcmService();
-			int testPeriod = PropertiesHelper.getMcuConnectionTestPeriod();
-			timer1.schedule(tt1, Calendar.getInstance().getTime(), testPeriod);
-			
+		try{			
 			/**
 			 * 创建到MCUProxy的Socket连接, 收发处理器
 			 */
@@ -386,9 +367,10 @@ public class SocketGateway extends HttpServlet {
 			/**
 			 * 启动定时测试MCUProxy, 每testPeriod秒钟进行一次测试
 			 */
-			Timer timer2 = new Timer();
-			TestTask tt2 = new TestTask(this);
-			timer2.schedule(tt2, Calendar.getInstance().getTime(), testPeriod);
+			Timer timer = new Timer();
+			TestTask tt = new TestTask(this);
+			int testPeriod = PropertiesHelper.getMcuConnectionTestPeriod();
+			timer.schedule(tt, Calendar.getInstance().getTime(), testPeriod);
 
 			NotificationHandleService service = (NotificationHandleService)ctx.getBean("notificationHandleService");
 			GetConferenceListRequest request = new GetConferenceListRequest();
