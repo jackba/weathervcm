@@ -263,7 +263,7 @@ function initData() {
 		}, {
 			name : 'serviceTemplateDesc'
 		}, {
-			name : 'dialableNumber'
+			name : 'virtualConfId'
 		}])
 	});
 	ds1.load({
@@ -300,7 +300,7 @@ function initGrid() {
 		header : "会议号",
 		width: Ext.get("runningArea").getWidth()*0.14,
 		sortable : true,
-		dataIndex : 'dialableNumber'
+		dataIndex : 'virtualConfId'
 	}, {
 		header : "组织单位",
 		width : Ext.get("runningArea").getWidth()*0.14,
@@ -603,7 +603,7 @@ function getDayConf(day){
 		}, {
 			name : 'serviceTemplateDesc'
 		}, {
-			name : 'dialableNumber'
+			name : 'virtualConfId'
 		}])
 	});
 	ds2.load({
@@ -637,7 +637,7 @@ function getDayConf(day){
 		header : "会议号",
 		width: Ext.get("agendaArea").getWidth()*0.14,
 		sortable : true,
-		dataIndex : 'dialableNumber'
+		dataIndex : 'virtualConfId'
 	}, {
 		header : "组织单位",
 		width : Ext.get("agendaArea").getWidth()*0.14,
