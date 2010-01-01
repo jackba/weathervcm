@@ -86,6 +86,8 @@ class StatusMonitorTask extends TimerTask {
 	
 	private static long startupTime = 0L;
 	private static long countsResetTime = 0L;
+	private static String jvmVersion = null;
+	private static String osVersion = null;
 	private static long lastCpuTime = 0l;
 	private static long lastUpdatedTime = 0l;
 	
@@ -112,6 +114,9 @@ class StatusMonitorTask extends TimerTask {
 		
 		statusLines.add(sline);
 		uptimeStatus(statusLines);
+		versionStatus(statusLines);
+		iviewStatus(statusLines);
+		conferenceStatus(statusLines);
 		runtimeCacheStatus(statusLines);
 		statusLines.add(sline);
 		
@@ -194,6 +199,55 @@ class StatusMonitorTask extends TimerTask {
         }
         
 	    statusLines.add("---");
+	}
+	
+	private void versionStatus(ArrayList<String> statusLines)
+	{
+		if (jvmVersion == null)
+		{
+	        RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
+	        if (runtimeMXBean != null)
+	        {
+	        	jvmVersion = runtimeMXBean.getVmName() + "-" + runtimeMXBean.getVmVendor() 
+	        	    + "-" + runtimeMXBean.getVmVersion();
+	        	if (jvmVersion.length() > 50)
+	        		jvmVersion = "..." + jvmVersion.substring(jvmVersion.length()-50);
+	        }
+	        OperatingSystemMXBean operatingMXBean = ManagementFactory.getOperatingSystemMXBean();
+	        if (operatingMXBean != null)
+	        {
+	        	osVersion = operatingMXBean.getArch() + "-" + operatingMXBean.getName()
+	        	    + "-" + operatingMXBean.getVersion();	        	
+	        }
+		}
+		statusLines.add("--- java version   : " + jvmVersion);
+		statusLines.add("--- os   version   : " + osVersion);
+		statusLines.add("---");
+	}		
+	
+	private void iviewStatus(ArrayList<String> statusLines) {
+		
+		statusLines.add("--- iCM Service	: " + (PropertiesHelper.isIcmServiceConnected() ? "Connected" : "Disconnected"));
+		statusLines.add("--- MCU Proxy		: " + (PropertiesHelper.isMcuProxyConnected() ? "Connected" : "Disconnected"));
+		statusLines.add("---");
+	}
+	
+	private void conferenceStatus(ArrayList<String> statusLines) {
+		int toBeScheduleds = 0;
+		int upcomings = 0;
+		int ongoings = 0;
+		int total = 0;
+		// TODO
+		
+		
+		statusLines.add("--- t-confs/tobes/upcomings/ongoings  : " + total + "/" + toBeScheduleds
+				+ "/" + upcomings + "/" + ongoings);		
+		if (total > 0) {
+			statusLines.add("---");		
+			statusLines.add("--- confId\t radConfId\t name\t\tvirId\t status\t duration(m)");
+		}
+		
+		statusLines.add("---");
 	}
 	
 	/**
