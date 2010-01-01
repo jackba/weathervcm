@@ -143,7 +143,7 @@ function initGrid() {
 			tooltip : '更新终端列表',
 			iconCls : 'add16',
 			onClick : function() {
-				location.href = "terminal_update.do";
+				update();
 			}
 		}],
 		bbar : ptb,
@@ -153,7 +153,15 @@ function initGrid() {
 		renderTo : 'searchArea'
 	});
 }
-
+function update() {
+	ds.load({
+		params : {
+			start : 0,
+			limit : ptb.getPageSize(),
+			'update' : 'true'
+		}
+	});
+}
 function query() {
 	loadStore(0);
 }

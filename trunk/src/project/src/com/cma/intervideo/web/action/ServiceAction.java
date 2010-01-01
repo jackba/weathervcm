@@ -1,5 +1,6 @@
 package com.cma.intervideo.web.action;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,9 +48,15 @@ public class ServiceAction extends AbstractBaseAction{
 		return "detail";
 	}
 	
-	public String search(){
+	public String search() throws IOException {
+		boolean update = false;
 		try{
 			logger.info("search...");
+			
+			update = "true".equals(request.getParameter("update"));
+			if (update)
+				update();
+			
 			List<ServiceTemplate> serviceList = serviceService.findServices();
 			JSONObject json = new JSONObject();
 			JSONArray arr = JSONArray.fromObject(serviceList);
@@ -61,33 +68,14 @@ public class ServiceAction extends AbstractBaseAction{
 			out.print(json);
 			out.flush();
 			out.close();
+			
 		}catch(Exception e){
 			logger.error(e.toString());
 		}
 		return null;
 	}
 	
-	public String searchex(){
-		try{
-			logger.info("searchex...");
-			List<ServiceTemplate> serviceList = serviceService.findServicesByClassification();
-			JSONObject json = new JSONObject();
-			JSONArray arr = JSONArray.fromObject(serviceList);
-			json.put("root", arr);
-			System.out.println(json);
-			response.setCharacterEncoding("utf-8");
-		
-			PrintWriter out = response.getWriter();
-			out.print(json);
-			out.flush();
-			out.close();
-		}catch(Exception e){
-			logger.error(e.toString());
-		}
-		return null;
-	}
-	
-	public String update() {
+	private void update() {
 		logger.info("update...");
 		List<MeetingType> mts = ICMService.getMeetingTypes();
 		int count = 0;
@@ -113,7 +101,26 @@ public class ServiceAction extends AbstractBaseAction{
 		logger.info(count + " Service Template were downloaded from Platform and saved to VCM!");
 		serviceService.deleteServiceTemplatesByNewIds(newIds);
 		logger.info("Deleted the Service Template(s) that were not downloaded from Platform!");
-		return list();
+	}
+	
+	public String searchex(){
+		try{
+			logger.info("searchex...");
+			List<ServiceTemplate> serviceList = serviceService.findServicesByClassification();
+			JSONObject json = new JSONObject();
+			JSONArray arr = JSONArray.fromObject(serviceList);
+			json.put("root", arr);
+			System.out.println(json);
+			response.setCharacterEncoding("utf-8");
+		
+			PrintWriter out = response.getWriter();
+			out.print(json);
+			out.flush();
+			out.close();
+		}catch(Exception e){
+			logger.error(e.toString());
+		}
+		return null;
 	}
 
 }

@@ -52,12 +52,13 @@ public class TerminalAction extends AbstractBaseAction {
 		return "detail";
 	}
 
-	public String save() throws IOException, ParseException, Exception {
-		return null;
-	}
-
 	public String search() {
 		logger.info("search...");
+		
+		boolean update = "true".equals(request.getParameter("update"));
+		if (update)
+			update();
+		
 		String start = request.getParameter("start");
 		String limit = request.getParameter("limit");
 		String totalProperty = request.getParameter("totalProperty");
@@ -68,18 +69,18 @@ public class TerminalAction extends AbstractBaseAction {
 			ph.setResultSize(Integer.parseInt(totalProperty));
 		}
 		List<ParamVo> params = new ArrayList<ParamVo>();
-		String templateName = request.getParameter("templateName");
-		String serviceTemplate = request.getParameter("serviceTemplate");
-		if (templateName != null && !templateName.equals("")) {
+		String terminalName = request.getParameter("terminalName");
+		String terminalNumber = request.getParameter("terminalNumber");
+		if (terminalName != null && !terminalName.equals("")) {
 			ParamVo vo = new ParamVo();
-			vo.setParamName("templateName");
-			vo.setParamValue(templateName);
+			vo.setParamName("terminalName");
+			vo.setParamValue(terminalName);
 			params.add(vo);
 		}
-		if (serviceTemplate != null && serviceTemplate.length() > 0) {
+		if (terminalNumber != null && terminalNumber.length() > 0) {
 			ParamVo vo = new ParamVo();
-			vo.setParamName("serviceTemplate");
-			vo.setParamValue(serviceTemplate);
+			vo.setParamName("terminalNumber");
+			vo.setParamValue(terminalNumber);
 			params.add(vo);
 		}
 		List<Terminal> terminalList = terminalService.findTerminals(params, ph);
@@ -121,7 +122,7 @@ public class TerminalAction extends AbstractBaseAction {
 		return null;
 	}
 
-	public String update() throws IOException, ParseException, Exception {
+	private void update() {
 		logger.info("update...");
 		int count = 0;
 		List<TerminalResource> trs = ICMService.getTerminals();
@@ -156,7 +157,6 @@ public class TerminalAction extends AbstractBaseAction {
 		logger.info(count + " Terminals(s) were downloaded from Platform and saved to VCM!");
 		terminalService.deleteTerminalsByNewIds(newIds);
 		logger.info("Deleted the terminal(s) that were not downloaded from Platform!");
-		return list();
 	}
 
 }

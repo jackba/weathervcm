@@ -35,7 +35,7 @@ public class AbstractTerminalDao extends AbstractDAO<Terminal, String>
 					hql += " and t.terminalName like '%"+vo.getParamValue()+"%'";
 				}
 				if(vo.getParamName().equals("terminalNumber")){
-					hql += " and t.terminalNumber='"+vo.getParamValue()+"'";
+					hql += " and (t.terminalNumber like '%"+vo.getParamValue()+"%' or t.e164 like '%" + vo.getParamValue() + "%')";
 				}
 			}
 		}

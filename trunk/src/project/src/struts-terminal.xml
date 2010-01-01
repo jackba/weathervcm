@@ -6,7 +6,6 @@
 	<package name="terminal" namespace="/"	extends="struts-base">
 		<action name="terminal_*" method="{1}" class="terminalAction">
 			<result name="list">/terminal/list.jsp</result>
-			<result name="update">/terminal/list.jsp</result>
 			<result name="detail">/terminal/detail.jsp</result>
 		</action>
 	</package>
