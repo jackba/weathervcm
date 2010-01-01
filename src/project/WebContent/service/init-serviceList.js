@@ -82,7 +82,8 @@ function initGrid() {
 			tooltip : '更新会议模板列表',
 			iconCls : 'add16',
 			onClick : function() {
-				location.href = "service_update.do";
+//				location.href = "service_update.do";
+				update();
 			}
 		}],
 		width: Ext.get("searchArea").getWidth()*0.99,
@@ -91,10 +92,10 @@ function initGrid() {
 		renderTo : 'searchArea'
 	});
 }
-
-function query() {
-	loadStore(0);
-}
-function loadStore(start){
-	ds.load();
+function update() {
+	ds.load({
+		params : {
+			'update' : 'true'
+		}
+	});	
 }

@@ -6,7 +6,6 @@
 	<package name="service" namespace="/"	extends="struts-base">
 		<action name="service_*" method="{1}" class="serviceAction">
 			<result name="list">/service/list.jsp</result>
-			<result name="update">/service/list.jsp</result>
 			<result name="detail">/service/serviceDetail.jsp</result>
 		</action>
 	</package>
