@@ -28,13 +28,12 @@ import com.cma.intervideo.pojo.Conference;
 import com.cma.intervideo.service.IConfService;
 import com.cma.intervideo.util.PropertiesHelper;
 import com.cma.intervideo.util.RuntimeInfo;
-import com.cma.intervideo.util.VcmProperties;
 import com.radvision.icm.service.vcm.ICMService;
 
 public class StatusMonitorServlet extends VcmServlet {
 	
 	private static Log logger = LogFactory.getLog(StatusMonitorServlet.class);
-	long interval = VcmProperties.getPropertyByLong("vcm.statusMonitorInterval",300000L); //default 5 minutes
+	long interval = PropertiesHelper.getStatusMonitorInterval();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -56,6 +55,7 @@ public class StatusMonitorServlet extends VcmServlet {
 		Timer timer = new Timer();
 		TestTask4IcmService tt = new TestTask4IcmService();
 		timer.schedule(tt, Calendar.getInstance().getTime(), interval);
+		logger.info("Started checking iCM Service connection per " + interval + " milliseconds.");
 		
 		/**
 		 * 启动服务器状态定时检测

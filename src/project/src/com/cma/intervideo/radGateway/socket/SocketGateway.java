@@ -29,6 +29,7 @@ import com.cma.intervideo.util.RuntimeInfo;
 
 public class SocketGateway extends VcmServlet {
 	private static Log logger = LogFactory.getLog(SocketGateway.class);
+	long interval = PropertiesHelper.getStatusMonitorInterval();
 	private static Hashtable<String, BaseRequest> reqToRes = new Hashtable<String, BaseRequest>(1000);
 	private static Object sendLock = new Object();
 	private static SocketGateway instance;
@@ -55,13 +56,16 @@ public class SocketGateway extends VcmServlet {
 			GetServicesResponse rsp = (GetServicesResponse)sg.call(req);
 			//logger.info(req.getXml());
 			if(rsp == null){
-				logger.warn("Test MCU Proxy connection failed, begin to reconnect...");
-				RuntimeInfo.setMcuProxyConnected(false);
+				logger.warn("Test RADVISION MCU Proxy connection failed, begin to reconnect...");
 				sg.reconnect();
+				rsp = (GetServicesResponse)sg.call(req);
+				RuntimeInfo.setMcuProxyConnected(rsp != null);
+				if (rsp != null)
+					logger.warn("Test RADVISION MCU Proxy connection successfully after Reconnected to radvision proxy gateway.");
 			}else{
 				//logger.info(rsp.getXml());
 				RuntimeInfo.setMcuProxyConnected(true);
-				logger.warn("Test MCU Proxy connection successfully!");
+				logger.warn("Test RADVISION MCU Proxy connection successfully.");
 			}
 		}
 	}
@@ -210,6 +214,12 @@ public class SocketGateway extends VcmServlet {
 					}
 					//此时说明是由于bi==offset导致的正常退出
 					offset = 0;
+				} catch (NullPointerException e) {
+					try{
+						Thread.sleep(1000);
+					}catch(Exception ex){
+						logger.error(ex.toString());
+					}
 				} catch (Exception e) {
 					logger.error(e.toString());
 					//等待一段时间,出现异常的原因可能是连接中断,等待重新连接
@@ -325,16 +335,15 @@ public class SocketGateway extends VcmServlet {
 		logger.info("Begin to start socket gateway...");
 		String mcuIp = PropertiesHelper.getIcmHost();
 		int mcuPort = PropertiesHelper.getMcuProxyPort();
-		try{			
+		try{
 			/**
-			 * 创建到MCUProxy的Socket连接, 收发处理器
+			 * 启动定时测试MCUProxy, 每testPeriod秒钟进行一次测试
 			 */
-			mcuSocket = new Socket();
-			mcuSocket.connect(new InetSocketAddress(mcuIp,mcuPort),5*1000);
-			logger.info("Connected to radvision proxy gateway");
-			os = new DataOutputStream(mcuSocket.getOutputStream());
-			pw = new PrintWriter(os,true);
-			is = mcuSocket.getInputStream();
+			Timer timer = new Timer();
+			TestTask tt = new TestTask(this);
+			timer.schedule(tt, Calendar.getInstance().getTime(), interval);
+			logger.info("Started checking MCU Proxy connection per " + interval + " milliseconds.");
+
 			queueNum = PropertiesHelper.getMcuProxyQueueNum();
 			queue = new LinkedBlockingQueue[queueNum];
 			for(int i=0;i<queueNum;i++){
@@ -346,13 +355,15 @@ public class SocketGateway extends VcmServlet {
 			instance = this;
 			
 			/**
-			 * 启动定时测试MCUProxy, 每testPeriod秒钟进行一次测试
+			 * 创建到MCUProxy的Socket连接, 收发处理器
 			 */
-			Timer timer = new Timer();
-			TestTask tt = new TestTask(this);
-			int testPeriod = PropertiesHelper.getMcuConnectionTestPeriod();
-			timer.schedule(tt, Calendar.getInstance().getTime(), testPeriod);
-
+			mcuSocket = new Socket();
+			mcuSocket.connect(new InetSocketAddress(mcuIp,mcuPort),5*1000);
+			logger.info("Connected to radvision proxy gateway");
+			os = new DataOutputStream(mcuSocket.getOutputStream());
+			pw = new PrintWriter(os,true);
+			is = mcuSocket.getInputStream();
+			
 //			NotificationHandleService service = (NotificationHandleService)getBean("notificationHandleService");
 			GetConferenceListRequest request = new GetConferenceListRequest();
 			GetConferenceListResponse response = (GetConferenceListResponse)this.call(request);
@@ -374,9 +385,9 @@ public class SocketGateway extends VcmServlet {
 				conf.setDesktopPID(presponse.getDesktopPID());
 			}
 		}catch(UnknownHostException e){
-			logger.error(e.toString());
+			logger.error("Failed to init SocketGateway, UnknownHostException:" + e.toString());
 		}catch(IOException e){
-			logger.error(e.toString());
+			logger.error("Failed to init SocketGateway, IOException:" + e.toString());
 		}
 	}
 	/**
@@ -386,10 +397,10 @@ public class SocketGateway extends VcmServlet {
 	public void reconnect(){
 		//关闭原有连接
 		try{
-			is.close();
-			pw.close();
-			os.close();
-			mcuSocket.close();
+			if (is != null) is.close();
+			if (pw != null) pw.close();
+			if (os != null) os.close();
+			if (mcuSocket != null) mcuSocket.close();
 		}catch(Exception e){
 			logger.error(e.toString());
 		}

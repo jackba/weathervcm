@@ -143,14 +143,15 @@ public class ICMService {
 	{	
 		String version;
 		try {
+			logger.warn("Test RADVISION iCM Service connection " + getIcmIPPort() + "...");
 			ScheduleServicePortType portType = getScheduleServicePortType();
 			if (portType == null) {
-				logger.warn("Cannot connect to icm service due to service port type is null!");
+				logger.warn("Test RADVISION iCM Service connection failed due to cannot get ScheduleServicePortType.");
 				return false;
 			}
 			version = portType.getVersion();
 		} catch (Exception e) {
-			logger.warn("Exception on getting Schedule Service port type: " + e.getMessage());
+			logger.warn("Test RADVISION iCM Service connection failed due to exception: " + e.getMessage());
 			return false;
 		}
 		return version != null && version.trim().length() > 0;
