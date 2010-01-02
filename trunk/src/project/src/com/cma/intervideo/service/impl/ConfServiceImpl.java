@@ -306,4 +306,9 @@ public class ConfServiceImpl implements IConfService {
 	public List<FieldDesc> findConfTypes(){
 		return confDao.findConfTypes();
 	}
+	
+	public List<Conference> findNotFinishedConfs() {
+		return confDao.findNotFinishedConfs();
+	}
+	
 }

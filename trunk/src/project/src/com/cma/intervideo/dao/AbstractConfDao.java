@@ -174,6 +174,15 @@ public abstract class AbstractConfDao extends AbstractDAO<Conference, Integer> i
 		}else
 			return null;
 	}
+	
+	public List<Conference> findNotFinishedConfs() {
+		String hql = "from Conference c where c.status in (" + 
+			Conference.status_tobescheduled + "," + Conference.status_upcoming + "," + Conference.status_upcoming + ")";
+		List<Conference> confs = this.getHibernateTemplate().find(hql);
+		logger.info("Found " + (confs == null ? "0" : confs.size()) + " Conference(s), HQL: " + hql);
+		return confs;
+	}
+	
 	/**
 	 * 查询直到预约的会议结束时间仍然未收到会议开始和结束消息的会议
 	 * @return

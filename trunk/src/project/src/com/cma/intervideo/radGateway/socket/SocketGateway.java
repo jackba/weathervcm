@@ -16,21 +16,19 @@ import java.util.TimerTask;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.cma.intervideo.VcmServlet;
 import com.cma.intervideo.service.NotificationHandleService;
 import com.cma.intervideo.util.PropertiesHelper;
+import com.cma.intervideo.util.RuntimeInfo;
 
-public class SocketGateway extends HttpServlet {
+public class SocketGateway extends VcmServlet {
 	private static Log logger = LogFactory.getLog(SocketGateway.class);
-	private static ApplicationContext ctx = null;
 	private static Hashtable<String, BaseRequest> reqToRes = new Hashtable<String, BaseRequest>(1000);
 	private static Object sendLock = new Object();
 	private static SocketGateway instance;
@@ -58,11 +56,11 @@ public class SocketGateway extends HttpServlet {
 			//logger.info(req.getXml());
 			if(rsp == null){
 				logger.warn("Test MCU Proxy connection failed, begin to reconnect...");
-				PropertiesHelper.setMcuProxyConnected(false);
+				RuntimeInfo.setMcuProxyConnected(false);
 				sg.reconnect();
 			}else{
 				//logger.info(rsp.getXml());
-				PropertiesHelper.setMcuProxyConnected(true);
+				RuntimeInfo.setMcuProxyConnected(true);
 				logger.warn("Test MCU Proxy connection successfully!");
 			}
 		}
@@ -86,7 +84,7 @@ public class SocketGateway extends HttpServlet {
 			logger.debug("Handle thread " + tindex + " begin to run...");
 			
 			//获取消息处理类
-			NotificationHandleService service = (NotificationHandleService)ctx.getBean("notificationHandleService");
+			NotificationHandleService service = (NotificationHandleService)getBean("notificationHandleService");
 			
 			while(true){
 				BaseNotification notification = null;
@@ -233,20 +231,6 @@ public class SocketGateway extends HttpServlet {
 	public SocketGateway() {
 		super();
 	}
-	
-	
-	
-	public static ApplicationContext getCtx() {
-		return ctx;
-	}
-
-
-
-	public static void setCtx(ApplicationContext ctx) {
-		SocketGateway.ctx = ctx;
-	}
-
-
 
 	/**
 	 * Destruction of the servlet. <br>
@@ -333,9 +317,6 @@ public class SocketGateway extends HttpServlet {
 	public void init() throws ServletException {
 //		if (true) return;
 //		Put your code here
-		if(ctx==null){
-			ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
-		}
 		boolean startMcuProxySocket = PropertiesHelper.startMcuProxySocket();
 		if(!startMcuProxySocket){
 			logger.info("Socket gateway are not setuped to start!");
@@ -372,7 +353,7 @@ public class SocketGateway extends HttpServlet {
 			int testPeriod = PropertiesHelper.getMcuConnectionTestPeriod();
 			timer.schedule(tt, Calendar.getInstance().getTime(), testPeriod);
 
-			NotificationHandleService service = (NotificationHandleService)ctx.getBean("notificationHandleService");
+//			NotificationHandleService service = (NotificationHandleService)getBean("notificationHandleService");
 			GetConferenceListRequest request = new GetConferenceListRequest();
 			GetConferenceListResponse response = (GetConferenceListResponse)this.call(request);
 			if(response == null){

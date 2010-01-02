@@ -50,7 +50,7 @@ body{font-size:12px;}
 	</table>
 	  <br/>
 	  <div class="query_btn">
-			<input type="button" class="butt_bg1" value="提交" onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" onClick="submitForm1()" name="post"/>
+			<input type="button" class="butt_bg1" value="保存" onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" onClick="submitForm1()" name="post"/>
 	  </div>
   </form>
 </div>

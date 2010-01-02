@@ -18,18 +18,20 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.cma.intervideo.pojo.Conference;
+import com.cma.intervideo.service.IConfService;
 import com.cma.intervideo.util.PropertiesHelper;
+import com.cma.intervideo.util.RuntimeInfo;
 import com.cma.intervideo.util.VcmProperties;
 import com.radvision.icm.service.vcm.ICMService;
 
-public class StatusMonitorServlet extends HttpServlet {
+public class StatusMonitorServlet extends VcmServlet {
 	
 	private static Log logger = LogFactory.getLog(StatusMonitorServlet.class);
 	long interval = VcmProperties.getPropertyByLong("vcm.statusMonitorInterval",300000L); //default 5 minutes
@@ -58,7 +60,7 @@ public class StatusMonitorServlet extends HttpServlet {
 		/**
 		 * 启动服务器状态定时检测
 		 */
-		StatusMonitorTask tt2 = new StatusMonitorTask();
+		StatusMonitorTask tt2 = new StatusMonitorTask(this);
 		timer.schedule(tt2, Calendar.getInstance().getTime(), interval);
 		
 	}
@@ -66,7 +68,7 @@ public class StatusMonitorServlet extends HttpServlet {
 	class TestTask4IcmService extends TimerTask {
 		public void run(){
 			boolean connected = ICMService.isConnected();
-			PropertiesHelper.setIcmServiceConnected(connected);
+			RuntimeInfo.setIcmServiceConnected(connected);
 			if (!connected)
 				logger.warn("Test RADVISION iCM Service connection failed, please check the connnection and configuration!");
 			else
@@ -88,16 +90,21 @@ class StatusMonitorTask extends TimerTask {
 	private static long lastCpuTime = 0l;
 	private static long lastUpdatedTime = 0l;
 	
+	private static VcmServlet vcmServlet = null; 
+	
 	private static String sline = 
 		"---------------------------------------------------------------------------";
 	
-	StatusMonitorTask()
-	{
+	StatusMonitorTask(VcmServlet servlet) {
+		init();
+		vcmServlet = servlet;
+	}
+	
+	private void init() {
 		if (startupTime == 0L)
 		    startupTime = System.currentTimeMillis();
 		if (countsResetTime == 0L)
 			countsResetTime = startupTime;
-		
 	}
 	
 	public void run(){
@@ -224,8 +231,8 @@ class StatusMonitorTask extends TimerTask {
 	
 	private void iviewStatus(ArrayList<String> statusLines) {
 		statusLines.add("--- iCM            : " + PropertiesHelper.getIcmIpPort());
-		statusLines.add("--- iCM Service    : " + (PropertiesHelper.isIcmServiceConnected() ? "Connected" : "Disconnected"));
-		statusLines.add("--- MCU Proxy      : " + (PropertiesHelper.isMcuProxyConnected() ? "Connected" : "Disconnected"));
+		statusLines.add("--- iCM Service    : " + (RuntimeInfo.isIcmServiceConnected() ? "Connected" : "Disconnected"));
+		statusLines.add("--- MCU Proxy      : " + (RuntimeInfo.isMcuProxyConnected() ? "Connected" : "Disconnected"));
 		statusLines.add("---");
 	}
 	
@@ -236,6 +243,25 @@ class StatusMonitorTask extends TimerTask {
 		int total = 0;
 		
 		// TODO
+		IConfService confService = (IConfService)vcmServlet.getBean("confService");
+		List<Conference> confList = confService.findNotFinishedConfs();
+		for (Conference conf : confList) {
+			Short status = conf.getStatus();
+			switch (status) {
+				case Conference.status_tobescheduled:
+					toBeScheduleds++;
+					break;
+				case Conference.status_upcoming:
+					upcomings++;
+					break;
+				case Conference.status_ongoing:
+					ongoings++;
+					break;
+				default:
+					break;
+			}
+		}
+		total = toBeScheduleds + upcomings + ongoings;
 		
 		statusLines.add("--- t-confs/tobes/upcomings/ongoings  : " + total + "/" + toBeScheduleds
 				+ "/" + upcomings + "/" + ongoings);		

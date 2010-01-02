@@ -1,6 +1,5 @@
 package com.cma.intervideo.dao;
 
-import java.util.Calendar;
 import java.util.List;
 
 import com.cma.intervideo.dao.util.DAO;
@@ -20,6 +19,8 @@ public interface IConfDao extends DAO<Conference, Integer>{
 	public void addConfParty(Integer confId, String partyId);
 	public void deleteConfPartiesByConfId(Integer confId);
 	public Conference findConfByRadConfId(String radConferenceId);
+	public List<Conference> findNotFinishedConfs();
+	
 	/**
 	 * 查询直到预约的会议结束时间仍然未收到会议开始和结束消息的会议
 	 * @return
