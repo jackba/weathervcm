@@ -189,12 +189,17 @@ Ext.onReady(
 			name : 'unitName'
 		}, {
 			name : 'description'
-		}])
+		}]),
+			listeners : {
+				load : function(thisObject, records, options){
+					unitComboWithTooltip.setValue("<s:property value='user.defaultUnitId'/>");
+				}
+			}
 	});
-	unitds.load();
+	
 	var unitComboWithTooltip = new Ext.form.ComboBox({
 		store: unitds,
-		value: "<s:property value='user.defaultUnitId'/>",
+		//value: "<s:property value='user.defaultUnitId'/>",
 		hiddenId: 'defaultUnitId',
         hiddenName: 'user.defaultUnitId',
         valueField: 'unitId',
@@ -207,7 +212,7 @@ Ext.onReady(
         selectOnFocus: true,
         renderTo: 'main_unit'
     });
-	
+	unitds.load();
 	var urds = new Ext.data.Store({
 			proxy : new Ext.data.HttpProxy({
 				url : 'user_getAllUnits.do'
@@ -296,7 +301,8 @@ function submitForm(){
 function checkForm(){
 	if(validateRequired('loginId','操作员名称') && validateRequired('userName','操作员姓名') 
 		&& validateRequired('password','密码') && validatePassword('password','password2') 
-		&& validateMinLength('password','密码','6') && validateAlphanum('password','密码'))
+		&& validateMinLength('password','密码','6') && validateAlphanum('password','密码')
+		&& validateRequired('defaultUnitId','默认主会场'))
 	{		
 		return true;
 	}else {

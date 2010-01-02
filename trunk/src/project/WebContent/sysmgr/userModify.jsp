@@ -133,7 +133,7 @@ Ext.onReady(function(){
     Ext.form.Field.prototype.msgTarget = 'side';
     var ds = new Ext.data.Store({
 		proxy : new Ext.data.HttpProxy({
-			url : 'user_getAllRolesExclud.do?userId=<%=request.getParameter("userId")%>'
+			url : 'user_getAllRolesExclud.do?userId=<%=request.getAttribute("userId")%>'
 		}),
 		reader : new Ext.data.JsonReader({
 			root : 'root'
@@ -146,7 +146,7 @@ Ext.onReady(function(){
 	ds.load();
 	var dsr = new Ext.data.Store({
 		proxy : new Ext.data.HttpProxy({
-			url : 'user_getRolesByUserId.do?userId=<%=request.getParameter("userId")%>'
+			url : 'user_getRolesByUserId.do?userId=<%=request.getAttribute("userId")%>'
 		}),
 		reader : new Ext.data.JsonReader({
 			root : 'root'
@@ -181,6 +181,8 @@ Ext.onReady(function(){
 				toLegend:"已选角色",
 				fromLegend:"可选角色"
 			});
+			
+			<s:if test="#request.personal == 'false'">
 			var unitds = new Ext.data.Store({
 		proxy : new Ext.data.HttpProxy({
 			url : 'unit_getAll.do'
@@ -193,13 +195,17 @@ Ext.onReady(function(){
 			name : 'unitName'
 		}, {
 			name : 'description'
-		}])
+		}]),
+		listeners : {
+			load : function(thisObject, records, options){
+				unitComboWithTooltip.setValue("<s:property value='user.defaultUnitId'/>");
+			}
+		}
 	});
-	<s:if test="#request.personal == 'false'">
-	unitds.load();
+	
 	var unitComboWithTooltip = new Ext.form.ComboBox({
 		store: unitds,
-		value: "<s:property value='user.defaultUnitId'/>",
+		//value: "<s:property value='user.defaultUnitId'/>",
 		hiddenId: 'defaultUnitId',
         hiddenName: 'user.defaultUnitId',
         valueField: 'unitId',
@@ -212,7 +218,7 @@ Ext.onReady(function(){
         selectOnFocus: true,
         renderTo: 'main_unit'
     });
-	
+	unitds.load();
 	var urds = new Ext.data.Store({
 		proxy : new Ext.data.HttpProxy({
 			url : 'user_getAllUnitsExclud.do?userId=<%=request.getParameter("userId")%>'
