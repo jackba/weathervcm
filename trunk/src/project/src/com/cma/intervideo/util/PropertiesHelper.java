@@ -2,25 +2,9 @@ package com.cma.intervideo.util;
 
 public class PropertiesHelper {
 
-//	public static synchronized boolean isMcuProxyConnected()
-//	{
-//		return VcmProperties.getPropertyByBoolean("vcm.icm.mcuproxy.connected", false);
-//	}
-//	
-//	public static synchronized void setMcuProxyConnected(boolean connected)
-//	{
-//		VcmProperties.setProperties("vcm.icm.mcuproxy.connected", connected ? "true" : "false");
-//	}
-//	
-//	public static synchronized boolean isIcmServiceConnected()
-//	{
-//		return VcmProperties.getPropertyByBoolean("vcm.icm.webservice.connected", false);
-//	}
-//	
-//	public static synchronized void setIcmServiceConnected(boolean connected)
-//	{
-//		VcmProperties.setProperties("vcm.icm.webservice.connected", connected ? "true" : "false");
-//	}
+	public static long getStatusMonitorInterval() {
+		return VcmProperties.getPropertyByLong("vcm.statusMonitorInterval", 5) * 60 * 1000;	
+	}
 	
 	public static String getDefaultServiceTemplateId() {
 		return VcmProperties.getProperty("vcm.defaultServiceTemplateId", "");
@@ -49,7 +33,7 @@ public class PropertiesHelper {
 	}
 	
 	public static String getIcmIpPort() {
-		return VcmProperties.getProperty("vcm.icm.host", "localhost") + ":" + getIcmPort();
+		return getIcmHost() + ":" + getIcmPort();
 	}
 	
 	public static int getMcuProxyPort() {
@@ -72,9 +56,9 @@ public class PropertiesHelper {
 		return VcmProperties.getPropertyByInt("vcm.icm.mcuproxy.queueNum", 20);
 	}
 	
-	public static int getMcuConnectionTestPeriod() {
-		return VcmProperties.getPropertyByInt("vcm.icm.mcuproxy.connectionTestPeriod", 5) * 1000;
-	}
+//	public static int getMcuConnectionTestPeriod() {
+//		return VcmProperties.getPropertyByInt("vcm.icm.mcuproxy.connectionTestPeriod", 5) * 1000;
+//	}
 	
 	public static String getMcuProxyAccount() {
 		return VcmProperties.getProperty("vcm.icm.mcuproxy.mcuAccount", "admin");
