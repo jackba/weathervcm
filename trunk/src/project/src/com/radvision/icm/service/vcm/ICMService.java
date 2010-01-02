@@ -15,6 +15,7 @@ import com.cma.intervideo.pojo.User;
 import com.cma.intervideo.pojo.VirtualRoom;
 import com.cma.intervideo.util.PropertiesHelper;
 import com.radvision.icm.service.ConferenceInfo;
+import com.radvision.icm.service.ConferenceInfoCondition;
 import com.radvision.icm.service.ControlResult;
 import com.radvision.icm.service.ControlService;
 import com.radvision.icm.service.ControlServicePortType;
@@ -376,6 +377,24 @@ public class ICMService {
 			e.printStackTrace();
 		}
 		return ret;
+	}
+	
+	/**
+	 * @param condition
+	 * 		conferenceStatus:
+	 * 			0 - upcoming
+	 * 			1 - In session
+	 * 			2 - history
+	 * @return
+	 */
+	public static List<ConferenceInfo> searchConferences(ConferenceInfoCondition condition) {
+		List<ConferenceInfo> confList = null;
+		try {
+			confList = getScheduleServicePortType().searchConferences(condition);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return confList;
 	}
 
 	private static ConferenceInfo convertToConferenceInfo(Conference conf,

@@ -2,7 +2,10 @@ package com.cma.intervideo.service.impl;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -24,12 +27,16 @@ import com.cma.intervideo.util.PageHolder;
 import com.cma.intervideo.util.ParamVo;
 import com.cma.intervideo.util.PropertiesHelper;
 import com.cma.intervideo.util.UserPrivilege;
+import com.radvision.icm.service.ConferenceInfo;
+import com.radvision.icm.service.ConferenceInfoCondition;
 import com.radvision.icm.service.ControlResult;
 import com.radvision.icm.service.ScheduleResult;
 import com.radvision.icm.service.vcm.ICMService;
 
 public class ConfServiceImpl implements IConfService {
 	private static final Log logger = LogFactory.getLog(ConfServiceImpl.class);
+	private static final int maxConfPeriod = PropertiesHelper.getMaxConfPeroidHour();
+	
 	private IConfDao confDao;
 	private IUnitDao unitDao;
 	private ILogDao logDao;
@@ -264,18 +271,82 @@ public class ConfServiceImpl implements IConfService {
 		updateServiceTemplateInfo(conf);
 		updateConfTypeInfo(conf);
 	}
+	
 	/**
 	 * 供定时器调用定时检查会议状态，对不正常的状态进行处理
 	 */
 	public void checkConfs(){
 		logger.warn("Start to check conferences status..., current time is " + Calendar.getInstance().getTime().toString());
-		int maxConfPeriod = PropertiesHelper.getMaxConfPeroidHour();
+		
+		Date currDate = Calendar.getInstance().getTime();
+		
+		//
+		List<Conference> vcmConfList = confDao.findNotFinishedConfs();
+		if (vcmConfList != null && vcmConfList.size() > 0) {
+			try {
+				Map<String, ConferenceInfo> radHm = new HashMap<String, ConferenceInfo>();
+				
+				// 从平台查询未召开的会议
+				ConferenceInfoCondition condition = new ConferenceInfoCondition();
+				condition.setConferenceStatus(Conference.rad_status_upcoming);
+				List<ConferenceInfo> radConfUpcomingList = ICMService.searchConferences(condition);
+				if (radConfUpcomingList != null && radConfUpcomingList.size() > 0) {
+					for (ConferenceInfo ci : radConfUpcomingList) {
+						radHm.put(ci.getConferenceId(), ci);
+					}
+				}
+				
+				// 从平台查询正在召开的会议
+				condition.setConferenceStatus(Conference.rad_status_insession);
+				List<ConferenceInfo> radConfInsessionList = ICMService.searchConferences(condition);
+				if (radConfInsessionList != null && radConfInsessionList.size() > 0) {
+					for (ConferenceInfo ci : radConfInsessionList) {
+						radHm.put(ci.getConferenceId(), ci);
+					}
+				}
+				
+				for (Conference conf : vcmConfList) {
+					if (conf.getStatus() == Conference.status_tobescheduled)
+						continue;
+					
+					String radConfId = conf.getRadConferenceId();
+					ConferenceInfo ci = radHm.get(radConfId);
+					if (ci == null) {
+						conf.setStatus(Conference.status_history);
+						conf.setUpdateTime(currDate);
+						confDao.updateObject(conf);
+						logger.warn("the conference cannot be found in platform - confId:" + conf.getConferenceId() + 
+								"; rad confId:" + conf.getRadConferenceId() + " was changed to history status.");
+					} else {
+						Short vcmStatus = conf.getStatus();
+						int radStatus = ci.getConferenceStatus();
+						if (vcmStatus == Conference.status_upcoming) {
+							if (radStatus == Conference.rad_status_insession) {
+								conf.setStatus(Conference.status_ongoing);
+								conf.setUpdateTime(currDate);
+								confDao.updateObject(conf);
+								logger.warn("the conference status is not started in VCM, but is in session in platform - confId:" + conf.getConferenceId() + 
+										"; rad confId:" + conf.getRadConferenceId() + " was changed to on-going.");
+							}
+						} else if (vcmStatus == Conference.status_ongoing) {
+							if (radStatus == Conference.rad_status_upcoming) {
+								// impossible
+							}
+						}
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		// 查询直到预约的会议结束时间仍然未收到会议开始和结束消息的会议
 		List<Conference> abnormalConfs = confDao.findAbnormalConfs();
 		logger.warn(abnormalConfs.size()+" conferences with abnormal status!!");
 		for(int i=0;i<abnormalConfs.size();i++){
 			Conference c = abnormalConfs.get(i);
 			c.setStatus(Conference.status_history);
-			c.setUpdateTime(Calendar.getInstance().getTime());
+			c.setUpdateTime(currDate);
 			confDao.updateObject(c);
 			// call platform API to terminate conference
 			ControlResult r = ICMService.terminateLiveConference(c.getRadConferenceId());
@@ -284,12 +355,14 @@ public class ConfServiceImpl implements IConfService {
 					"; rad confId:" + c.getRadConferenceId() + 
 					" was changed to history status, and try to be terminated:" + b);
 		}
+		
+		// 查询超长的会议
 		List<Conference> tooLongConfs = confDao.findTooLongConf(maxConfPeriod);
 		logger.warn(tooLongConfs.size()+" conferences duration is too long!!");
 		for(int i=0;i<tooLongConfs.size();i++){
 			Conference c = tooLongConfs.get(i);
 			c.setStatus(Conference.status_history);
-			c.setUpdateTime(Calendar.getInstance().getTime());
+			c.setUpdateTime(currDate);
 			confDao.updateObject(c);
 			// call platform API to terminate conference
 			ControlResult r = ICMService.terminateLiveConference(c.getRadConferenceId());
@@ -299,6 +372,7 @@ public class ConfServiceImpl implements IConfService {
 					" was changed to history status, and try to be terminated:" + b);
 		}
 	}
+	
 	/**
 	 * 查找会议类型
 	 * @return

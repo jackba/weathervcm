@@ -14,6 +14,10 @@ public class Conference implements java.io.Serializable {
 	public static final short status_history = 2;
 	public static final short status_cancel = 3;
 	
+	public static final int rad_status_upcoming = 0;
+	public static final int rad_status_insession = 1;
+	public static final int rad_status_history = 2;
+	
 	private Integer conferenceId;
 	private String userId;
 	private String serviceTemplateId;

@@ -177,7 +177,7 @@ public abstract class AbstractConfDao extends AbstractDAO<Conference, Integer> i
 	
 	public List<Conference> findNotFinishedConfs() {
 		String hql = "from Conference c where c.status in (" + 
-			Conference.status_tobescheduled + "," + Conference.status_upcoming + "," + Conference.status_upcoming + ")";
+			Conference.status_tobescheduled + "," + Conference.status_upcoming + "," + Conference.status_ongoing + ")";
 		List<Conference> confs = this.getHibernateTemplate().find(hql);
 		logger.info("Found " + (confs == null ? "0" : confs.size()) + " Conference(s), HQL: " + hql);
 		return confs;
