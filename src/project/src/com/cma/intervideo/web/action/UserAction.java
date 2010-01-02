@@ -198,6 +198,7 @@ public class UserAction extends AbstractBaseAction{
 	
 	public String modify(){
 		String id = request.getParameter("userId");
+		request.setAttribute("userId", id);
 		user = userService.getUser(id);
 		request.setAttribute("personal", "false");
 		return "modifyEdit";
@@ -206,6 +207,7 @@ public class UserAction extends AbstractBaseAction{
 	public String personalModify(){
 		UserPrivilege up = (UserPrivilege)session.get("userPrivilege");
 		String id = up.getUserId();
+		request.setAttribute("userId", id);
 		user = userService.getUser(id);
 		request.setAttribute("personal", "true");
 		return "modifyEdit";
@@ -393,7 +395,7 @@ public class UserAction extends AbstractBaseAction{
 		}
 		if(units!=null && !units.equals("")){
 			unitList = units.split(",");
-		}else {
+		}else if(user.getDefaultUnitId()>0){
 			outJson("{success:false, msg:'至少要为操作员选择一个主会场!'}");
 			return null;
 		}
