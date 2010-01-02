@@ -15,6 +15,8 @@ public interface IConfService {
 	public Conference getConfById(String confId);
 	public List<Unit> findUnitsByConfId(String confId, boolean selected);
 	public List<Unit> findAllUnits();
+	public List<Conference> findNotFinishedConfs();
+	
 	/**
 	 * 查找会议类型
 	 * @return

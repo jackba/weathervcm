@@ -29,7 +29,7 @@ function getConnectStatus(){
 			Ext.getCmp('connectStatus').setText(result.responseText);
 		},
 		failure: function(result,request){
-			Ext.getCmp('connectStatus').setText("error");
+			Ext.getCmp('connectStatus').setText("连接iVIEW错误");
 		}
 	});
 }

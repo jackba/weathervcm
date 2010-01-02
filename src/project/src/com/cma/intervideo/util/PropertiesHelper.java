@@ -2,25 +2,25 @@ package com.cma.intervideo.util;
 
 public class PropertiesHelper {
 
-	public static synchronized boolean isMcuProxyConnected()
-	{
-		return VcmProperties.getPropertyByBoolean("vcm.icm.mcuproxy.connected", false);
-	}
-	
-	public static synchronized void setMcuProxyConnected(boolean connected)
-	{
-		VcmProperties.setProperties("vcm.icm.mcuproxy.connected", connected ? "true" : "false");
-	}
-	
-	public static synchronized boolean isIcmServiceConnected()
-	{
-		return VcmProperties.getPropertyByBoolean("vcm.icm.webservice.connected", false);
-	}
-	
-	public static synchronized void setIcmServiceConnected(boolean connected)
-	{
-		VcmProperties.setProperties("vcm.icm.webservice.connected", connected ? "true" : "false");
-	}
+//	public static synchronized boolean isMcuProxyConnected()
+//	{
+//		return VcmProperties.getPropertyByBoolean("vcm.icm.mcuproxy.connected", false);
+//	}
+//	
+//	public static synchronized void setMcuProxyConnected(boolean connected)
+//	{
+//		VcmProperties.setProperties("vcm.icm.mcuproxy.connected", connected ? "true" : "false");
+//	}
+//	
+//	public static synchronized boolean isIcmServiceConnected()
+//	{
+//		return VcmProperties.getPropertyByBoolean("vcm.icm.webservice.connected", false);
+//	}
+//	
+//	public static synchronized void setIcmServiceConnected(boolean connected)
+//	{
+//		VcmProperties.setProperties("vcm.icm.webservice.connected", connected ? "true" : "false");
+//	}
 	
 	public static String getDefaultServiceTemplateId() {
 		return VcmProperties.getProperty("vcm.defaultServiceTemplateId", "");
