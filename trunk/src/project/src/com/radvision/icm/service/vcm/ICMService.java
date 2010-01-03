@@ -387,14 +387,8 @@ public class ICMService {
 	 * 			2 - history
 	 * @return
 	 */
-	public static List<ConferenceInfo> searchConferences(ConferenceInfoCondition condition) {
-		List<ConferenceInfo> confList = null;
-		try {
-			confList = getScheduleServicePortType().searchConferences(condition);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return confList;
+	public static List<ConferenceInfo> searchConferences(ConferenceInfoCondition condition) throws Exception {
+		return getScheduleServicePortType().searchConferences(condition);
 	}
 
 	private static ConferenceInfo convertToConferenceInfo(Conference conf,
