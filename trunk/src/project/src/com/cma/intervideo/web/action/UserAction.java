@@ -279,13 +279,13 @@ public class UserAction extends AbstractBaseAction{
 			JSONObject json = new JSONObject();
 //			List users = userService.queryUsers(username, name, ph);
 			List users = userService.queryUsersAndStatus(username, name, status, ph);
-			for(int i=0;i<users.size();i++){
-				User user = (User)users.get(i);
-				if(user.getUserId().equals(up.getUserId())){
-					users.remove(i);
-					break;
-				}
-			}
+//			for(int i=0;i<users.size();i++){
+//				User user = (User)users.get(i);
+//				if(user.getUserId().equals(up.getUserId())){
+//					users.remove(i);
+//					break;
+//				}
+//			}
 			json.put("totalProperty", ph.getResultSize());
 			JSONArray arr = JSONArray.fromObject(users);
 			json.put("root", arr);
