@@ -288,11 +288,14 @@ public class ConfServiceImpl implements IConfService {
 				
 				// 从平台查询未召开的会议
 				ConferenceInfoCondition condition = new ConferenceInfoCondition();
+				condition.setStartTime(-1);
+				condition.setEndTime(-1);
 				condition.setConferenceStatus(Conference.rad_status_upcoming);
 				List<ConferenceInfo> radConfUpcomingList = ICMService.searchConferences(condition);
 				if (radConfUpcomingList != null && radConfUpcomingList.size() > 0) {
 					for (ConferenceInfo ci : radConfUpcomingList) {
 						radHm.put(ci.getConferenceId(), ci);
+						logger.info("Upcoming meeting in platform: conferenceId=" + ci.getConferenceId() + "; subject=" + ci.getSubject());
 					}
 				}
 				
@@ -302,10 +305,13 @@ public class ConfServiceImpl implements IConfService {
 				if (radConfInsessionList != null && radConfInsessionList.size() > 0) {
 					for (ConferenceInfo ci : radConfInsessionList) {
 						radHm.put(ci.getConferenceId(), ci);
+						logger.info("Insession meeting in platform: conferenceId=" + ci.getConferenceId() + "; subject=" + ci.getSubject());
 					}
 				}
 				
 				for (Conference conf : vcmConfList) {
+					logger.info("Start to check conference in vcm: conferenceId=" + conf.getConferenceId() + 
+							"; radConferenceId=" + conf.getRadConferenceId() + "; status=" + conf.getStatus());
 					if (conf.getStatus() == Conference.status_tobescheduled)
 						continue;
 					
@@ -336,6 +342,7 @@ public class ConfServiceImpl implements IConfService {
 					}
 				}
 			} catch (Exception e) {
+				logger.warn("Exception on check the conferences between vcm and platform: " + e.getMessage());
 				e.printStackTrace();
 			}
 		}
