@@ -504,7 +504,7 @@ function query2(){
 }
 function loadStore1(start){
 //	alert(Ext.get('status').dom.value);
-	ds.load({
+	ds1.load({
 		params : {
 			start : start,
 			limit : ptb1.getPageSize(),
