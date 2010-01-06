@@ -2,6 +2,8 @@ package com.cma.intervideo.pojo;
 
 // Generated 2009-8-20 4:02:54 by Hibernate Tools 3.2.4.GA
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -17,6 +19,8 @@ public class Conference implements java.io.Serializable {
 	public static final int rad_status_upcoming = 0;
 	public static final int rad_status_insession = 1;
 	public static final int rad_status_history = 2;
+	
+	private static final DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	private Integer conferenceId;
 	private String userId;
@@ -55,6 +59,7 @@ public class Conference implements java.io.Serializable {
 	private Short isBroadcast;
 	private Short isSupport;
 	private Short isRecord;
+	
 	public String toString() {
 		StringBuilder buf = new StringBuilder();
 		
@@ -63,7 +68,8 @@ public class Conference implements java.io.Serializable {
 		buf.append(" conferenceId = " + conferenceId + ", radConferenceId = " + radConferenceId + line);
 		buf.append(" virtualConfId = " + virtualConfId + ", dialableNumber = " + dialableNumber + line);
 		buf.append(" description = " + description + ", confTemplateId = " + confTemplateId + line);
-		buf.append(" startTime = " + startTime + ", timeLong = " + timeLong + line);
+		Date st = new Date(startTime);
+		buf.append(" startTime = " + startTime + "/" + df.format(st) + ", timeLong = " + timeLong + line);
 		buf.append(" serviceTemplateId = " + serviceTemplateId + ", serviceTemplateName = " + serviceTemplateName + ", serviceTemplateDesc = " + serviceTemplateDesc + line);
 		buf.append(" memberId = " + memberId + ", userId = " + userId + line);
 		buf.append(" status = " + status + ", subject = " + subject + line);
