@@ -388,7 +388,11 @@ public class ICMService {
 	 * @return
 	 */
 	public static List<ConferenceInfo> searchConferences(ConferenceInfoCondition condition) throws Exception {
-		return getScheduleServicePortType().searchConferences(condition);
+		if (condition == null)
+			return null;
+		List<ConferenceInfo> confList = getScheduleServicePortType().searchConferences(condition);
+		logger.info("Searched " + (confList == null ? 0 : confList.size()) + " ConferenceInfo from platform, " + ServiceUtil.toString(condition));
+		return confList;
 	}
 
 	private static ConferenceInfo convertToConferenceInfo(Conference conf,
