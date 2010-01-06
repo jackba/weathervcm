@@ -134,16 +134,16 @@ public class AbstractStatDao extends BaseDao implements IStatDao{
 				vo.setNum(rs.getInt("num"));
 				if(preVo == null){
 					vo.setColumnSpan(1);
-					
+					preVo = vo;
 				}else{
 					if(vo.getConfType().equals(preVo.getConfType())){
 						vo.setColumnSpan(0);
 						preVo.setColumnSpan(preVo.getColumnSpan()+1);
 					}else{
 						vo.setColumnSpan(1);
+						preVo = vo;
 					}
 				}
-				preVo = vo;
 				l.add(vo);
 			}
 			return l;
