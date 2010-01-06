@@ -200,8 +200,11 @@ Ext.onReady(function(){
     var cday = new Date();
     Ext.getDom('day2').value = cday.format('Y-m-d');
     createWeekPanel();
-	
+	setInterval("refresh()", 30*1000)
 });
+function refresh(){
+	loadStore();
+}
 function createDayGrid(){
 	dayGrid = getDayConf(Ext.getDom('day2').value);
 	dayGrid.render('agendaArea');
