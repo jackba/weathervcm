@@ -1,5 +1,5 @@
 --用户数据
-INSERT INTO `user` VALUES ('1','super',NULL,'超级管理员',NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,0,'2009-09-01 04:47:21','2009-09-01 04:47:21','111111');
+INSERT INTO `user` VALUES ('1','super',NULL,'超级管理员',NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,0,'2009-09-01 04:47:21','2009-09-01 04:47:21','111111',NULL);
 insert into user(user_id,login_id,user_name,sex,status,create_time,update_time,password) values('2','guest','guest',1,0,now(),now(),'111111')
 --权限数据
 insert into privilege (name,url,description,code) values("增加用户","action:UserAction.add;json:UserAction:save","增加用户","0000");
