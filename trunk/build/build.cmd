@@ -14,7 +14,7 @@ goto END
 echo off
 echo --------------------------------------------------------------------------
 echo build [targetName]
-echo       clean            -- clean all compiled classes
+echo       cleanup          -- clean all compiled classes
 echo       build            -- build vcm.jar and compile all source code
 echo       deploy           -- call build, then deploy to web server
 echo --------------------------------------------------------------------------
