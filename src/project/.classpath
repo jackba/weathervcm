@@ -90,7 +90,7 @@
 	<classpathentry kind="lib" path="lib/slf4j-api-1.4.2.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-log4j12-1.4.2.jar"/>
 	<classpathentry kind="lib" path="lib/smtp.jar"/>
-	<classpathentry kind="lib" path="lib/spring.jar" sourcepath="D:/Study/JavaSeries/J2EE/Spring/spring-framework-2.5.6.SEC01/src/org"/>
+	<classpathentry kind="lib" path="lib/spring.jar" sourcepath="D:/Study/JavaSeries/J2EE/Spring/spring-framework-2.5.6.SEC01/src"/>
 	<classpathentry kind="lib" path="lib/standard-1.1.2.jar"/>
 	<classpathentry kind="lib" path="lib/stax-ex.jar"/>
 	<classpathentry kind="lib" path="lib/streambuffer.jar"/>
