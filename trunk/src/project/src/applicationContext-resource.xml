@@ -3,21 +3,21 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-
 	<bean id="dataSource"
 		class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close">
 		<property name="driverClass" value="com.mysql.jdbc.Driver" />
 		<property name="jdbcUrl"
-			value="jdbc:mysql://localhost:3206/vcm?useUnicode=true&amp;characterEncoding=utf-8">
+			value="jdbc:mysql://localhost:3309/vcm?useUnicode=true&amp;characterEncoding=utf-8">
 		</property>
 		<property name="user" value="root"></property>
-		<property name="password" value="111111"></property>
+		<property name="password" value="root"></property>
 		<property name="minPoolSize" value="15" />
 		<property name="maxPoolSize" value="50" />
 		<property name="maxStatements" value="0" />
 		<property name="acquireIncrement" value="3" /> 
 	</bean>
+	
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
 		<property name="dataSource">
@@ -63,9 +63,11 @@
            <ref bean="sessionFactory"/>
          </property>
     </bean>
+    
 	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	
 	<bean id="baseTransactionProxy" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean" abstract="true">
 		<property name="transactionManager" ref="transactionManager" />
 		<property name="proxyTargetClass" value="true"/>
@@ -89,4 +91,23 @@
 			</list>
 		</property>
 	</bean>
+
+<!--	
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="message" /> 
+		<property name="useCodeAsDefaultMessage" value="true" />
+	</bean>
+	
+	<bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
+	
+	<bean id="defaultUrlMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping">
+		<property name="interceptors" ref="localeChangeInterceptor" />
+		<property name="order">
+			<value>1</value>
+		</property>
+	</bean>
+	
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver" />
+-->
+	
 </beans>
