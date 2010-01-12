@@ -218,7 +218,8 @@ public class ResourceAction extends AbstractBaseAction{
 				//时间范围为一天
 				startTime = d.getTime();
 				endTime = startTime + 24*60*60*1000;
-				interval = 5;
+				//interval = 5;
+				interval = 30;
 			}else{
 				//时间范围为一周
 				Calendar c = Calendar.getInstance();
@@ -262,6 +263,9 @@ public class ResourceAction extends AbstractBaseAction{
 			chart.setCaption("资源占用波动图");
 			chart.setXAxisName("时间");
 			chart.setYAxisName("数量");
+			if(range!=1){
+				chart.setLabelStep("8");
+			}
 			chart.setSets(new ArrayList<com.cma.intervideo.vo.line2d.Set>());
 			for(int i=0;i<voList.size();i++){
 				ResourceVo vo = voList.get(i);

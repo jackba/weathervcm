@@ -3,7 +3,7 @@ package com.cma.intervideo.vo.line2d;
 import java.util.List;
 
 public class Chart extends com.cma.intervideo.vo.Chart{
-	private String labelStep = "5";
+	private String labelStep = "1";
 	private String showvalues = "0";
 	private String rotateLabels = "1";
 	private String rotateYAxisName = "0";
@@ -117,5 +117,18 @@ public class Chart extends com.cma.intervideo.vo.Chart{
 	public void setBaseFontSize(String baseFontSize) {
 		this.baseFontSize = baseFontSize;
 	}
+	public String getLabelStep() {
+		return labelStep;
+	}
+	public void setLabelStep(String labelStep) {
+		this.labelStep = labelStep;
+	}
+	public String getShowvalues() {
+		return showvalues;
+	}
+	public void setShowvalues(String showvalues) {
+		this.showvalues = showvalues;
+	}
+	
 	
 }
