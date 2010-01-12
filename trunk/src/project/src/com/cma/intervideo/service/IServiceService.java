@@ -12,4 +12,5 @@ public interface IServiceService {
 	public void saveOrUpdate(ServiceTemplate service);
 	public ServiceTemplate getServiceTemplate(String serviceTemplateId);
 	public void deleteServiceTemplatesByNewIds(List<String> newIds);
+	public void update();
 }

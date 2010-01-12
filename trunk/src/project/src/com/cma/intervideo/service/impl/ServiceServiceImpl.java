@@ -5,13 +5,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.cma.intervideo.dao.IServiceDao;
 import com.cma.intervideo.pojo.ServiceTemplate;
 import com.cma.intervideo.service.IServiceService;
+import com.radvision.icm.service.MeetingType;
+import com.radvision.icm.service.vcm.ICMService;
 
 public class ServiceServiceImpl implements IServiceService{
 	
-//	private static Log logger = LogFactory.getLog(TerminalServiceImpl.class);
+	private static Log logger = LogFactory.getLog(TerminalServiceImpl.class);
 	
 	private IServiceDao serviceDao;
 	
@@ -79,6 +84,39 @@ public class ServiceServiceImpl implements IServiceService{
 	
 	public void deleteServiceTemplatesByNewIds(List<String> newIds) {
 		serviceDao.deleteServiceTemplatesByNewIds(newIds);
+	}
+	
+	public void update() {
+		logger.info("update...");
+//		if (!RuntimeInfo.isIcmServiceConnected()) {
+//			logger.warn("Cannot connect platform by web service, exit update!");
+//			return;
+//		}
+		
+		List<MeetingType> mts = ICMService.getMeetingTypes();
+		int count = 0;
+		List<String> newIds = new ArrayList<String>();
+		for (int i = 0; mts != null && i < mts.size(); i++) {
+			MeetingType mt = mts.get(i);
+			if ("EMBEDDED".equals(mt.getBuiltInToken()) || "N/A".equals(mt.getServicePrefix()))
+				continue;
+			ServiceTemplate service = new ServiceTemplate();
+			service.setServiceTemplateId(mt.getId());
+			service.setServicePrefix(mt.getServicePrefix());
+			service.setServiceTemplateName(mt.getName());
+			service.setMatchingRate(mt.getBandwidth());
+			service.setServiceTemplateDesc(mt.getDescription());
+			service.setBuiltInToken(mt.getBuiltInToken());
+			service.setSwitchingMode(mt.getSwitchingMode());
+			service.setActiveFlag(true);
+			this.saveOrUpdate(service);
+			count++;
+			newIds.add(mt.getId());
+			logger.info("Service Template was downloaded from Platform and saved to VCM: " + service);
+		}
+		logger.info(count + " Service Template were downloaded from Platform and saved to VCM!");
+		this.deleteServiceTemplatesByNewIds(newIds);
+		logger.info("Deleted the Service Template(s) that were not downloaded from Platform!");
 	}
 	
 }

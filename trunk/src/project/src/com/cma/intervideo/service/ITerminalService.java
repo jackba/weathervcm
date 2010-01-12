@@ -12,4 +12,5 @@ public interface ITerminalService {
 	public void saveOrUpdate(Terminal terminal);
 	public void deleteTerminalsByNewIds(List<String> newIds);
 	public Terminal getTerminal(String terminalId);
+	public void update();
 }

@@ -27,11 +27,7 @@ function initData() {
 			name : 'matchingRate'
 		}])
 	});
-	ds.load({
-		params : {
-			'update' : 'true'
-		}
-	});
+	ds.load();
 	initGrid();
 }
 // 初始化显示表格

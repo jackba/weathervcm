@@ -35,13 +35,14 @@ function initData() {
 			name : 'areaCode'
 		}, {
 			name : 'maxBandwidth'
+		}, {
+			name : 'dialString'
 		}])
 	});
 	ds.load({
 		params : {
 			start : 0,
-			limit : limit,
-			'update' : 'true'
+			limit : limit
 		}
 	});
 	initGrid();
@@ -68,18 +69,19 @@ function initGrid() {
 		header : "呼叫号码",
 		width: Ext.get("searchArea").getWidth() * 0.25,
 		sortable : true,
-		dataIndex : 'terminalNumber',
+		dataIndex : 'dialString',
 		renderer : function(value, p, record){
-			if(record.data.terminalProtocol == '0'){
-				return "<span style='color:blue;'>" + record.data.e164 + "</span>";
-			} else if(record.data.terminalProtocol == '1'){
-				return "<span style='color:blue;'>" 
-				+ record.data.countryCode + " "
-				+ record.data.areaCode + " "
-				+ record.data.terminalNumber + "</span>";
-			} else {
-				return "<span style='color:blue;'>" + record.data.terminalNumber + "</span>";
-			}
+//			if(record.data.terminalProtocol == '0'){
+//			return "<span style='color:blue;'>" + record.data.e164 + "</span>";
+//			} else if(record.data.terminalProtocol == '1'){
+//				return "<span style='color:blue;'>" 
+//				+ record.data.countryCode + " "
+//				+ record.data.areaCode + " "
+//				+ record.data.terminalNumber + "</span>";
+//			} else {
+//				return "<span style='color:blue;'>" + record.data.terminalNumber + "</span>";
+//			}
+			return "<span style='color:blue;'>" + record.data.dialString + "</span>";
 		}
 	}, {
 		header : "终端类型",

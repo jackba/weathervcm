@@ -31,11 +31,13 @@ public class AbstractTerminalDao extends AbstractDAO<Terminal, String>
 		if(params!=null){
 			for(int i=0;i<params.size();i++){
 				ParamVo vo = params.get(i);
-				if(vo.getParamName().equals("terminalName")){
-					hql += " and t.terminalName like '%"+vo.getParamValue()+"%'";
+				String name = vo.getParamName();
+				String value = (String)vo.getParamValue();
+				if("terminalName".equals(name)){
+					hql += " and t.terminalName like '%" + value + "%'";
 				}
-				if(vo.getParamName().equals("terminalNumber")){
-					hql += " and (t.terminalNumber like '%"+vo.getParamValue()+"%' or t.e164 like '%" + vo.getParamValue() + "%')";
+				if("terminalNumber".equals(name)){
+					hql += " and (t.terminalNumber like '%" + value + "%' or t.e164 like '%" + value + "%' or t.ip like '%" + value + "%')";
 				}
 			}
 		}

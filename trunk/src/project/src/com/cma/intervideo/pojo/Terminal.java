@@ -234,8 +234,12 @@ public class Terminal implements java.io.Serializable {
 	}
 	
 	public String getDialString() {
-		if (getTerminalProtocol() == 0)	// IP
-			return getE164();
+		if (getTerminalProtocol() == 0)	{ // IP
+			if (e164 != null && e164.length() > 0)
+				return e164;
+			else
+				return ip;
+		}
 		else if (getTerminalProtocol() == 1) //ISDN
 			return getCountryCode() + " " +  getAreaCode() + " " + getTerminalNumber();
 		else // SIP and others
