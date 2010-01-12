@@ -165,7 +165,7 @@ body{font-size:12px;}
 	  
 	<div class="query_btn">
 		<input type="button" class="butt_bg1"  onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" value="提交" onClick="submitForm()" />
-		<input type="reset"  class="butt_bg1"  onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" value="重置"/>
+		<input type="button"  class="butt_bg1"  onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" value="重置" onClick="resetForm()"/>
 	</div>
   		
 </form>
@@ -181,6 +181,11 @@ function showAdv(){
 	}else{
 		adv.style.display = "none";
 	}
+}
+function resetForm(){
+	formItemSelector.reset();
+	document.getElementById('adv').style.display = "none";
+	document.form1.reset();
 }
 Ext.onReady(function(){
 	Ext.BLANK_IMAGE_URL="resources/images/default/s.gif";

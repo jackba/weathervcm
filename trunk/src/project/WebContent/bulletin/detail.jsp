@@ -12,5 +12,6 @@
 <h1 align="center"><s:property value='bulletinBoard.title'/></h1>
 <p align="center"><s:date name='bulletinBoard.effectiveTime' format='yyyy-MM-dd'/></p>
 <div align="left"><s:property value="bulletinBoard.content"/></div>
+<p align="center"><input type="button" value="返回" onClick="history.go(-1)"/></p>
 </body>
 </html>

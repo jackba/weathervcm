@@ -204,6 +204,8 @@ Ext.onReady(function(){
 });
 function refresh(){
 	loadStore();
+	loadStore1(ptb1.cursor);
+	weekPanel.getActiveTab().getBottomToolbar().doLoad(weekPanel.getActiveTab().getBottomToolbar().cursor);
 }
 function createDayGrid(){
 	dayGrid = getDayConf(Ext.getDom('day2').value);
