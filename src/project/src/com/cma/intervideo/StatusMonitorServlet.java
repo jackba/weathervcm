@@ -26,6 +26,8 @@ import org.apache.commons.logging.LogFactory;
 
 import com.cma.intervideo.pojo.Conference;
 import com.cma.intervideo.service.IConfService;
+import com.cma.intervideo.service.IServiceService;
+import com.cma.intervideo.service.ITerminalService;
 import com.cma.intervideo.util.PropertiesHelper;
 import com.cma.intervideo.util.RuntimeInfo;
 import com.radvision.icm.service.vcm.ICMService;
@@ -62,6 +64,15 @@ public class StatusMonitorServlet extends VcmServlet {
 		 */
 		StatusMonitorTask tt2 = new StatusMonitorTask(this);
 		timer.schedule(tt2, Calendar.getInstance().getTime(), interval);
+		
+		/**
+		 * Update ServiceTemplate and Terminal From platform
+		 */
+		logger.warn("Updating ServiceTemplate and Terminal From platform...");
+		IServiceService serviceService = (IServiceService) this.getBean("serviceService");
+		serviceService.update();
+		ITerminalService terminalService = (ITerminalService) this.getBean("terminalService");
+		terminalService.update();
 		
 	}
 	
