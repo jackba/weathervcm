@@ -194,7 +194,7 @@ Ext.onReady(function(){
 	loadStore();
     var iTop = (window.screen.availHeight-30-400)/2;
     var iLeft = (window.screen.availWidth-10-800)/2;
-    window.open('bulletin_list.do','最新公告','height=400,width=800,status=no,menubar=no,location=no,toolbar=no,top='+iTop+',left='+iLeft);
+    window.open('bulletin_list.do','最新公告','height=400,width=800,status=no,menubar=no,location=no,resizable=yes,scrollbars=yes,toolbar=no,top='+iTop+',left='+iLeft);
     initData();
    
     var cday = new Date();

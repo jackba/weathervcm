@@ -8,6 +8,7 @@
 <title>公告详情</title>
 </head>
 <body>
+<a href="#" onClick="history.go(-1)"><<返回</a>  
 <h1 align="center"></h1>
 <h1 align="center"><s:property value='bulletinBoard.title'/></h1>
 <p align="center"><s:date name='bulletinBoard.effectiveTime' format='yyyy-MM-dd'/></p>
