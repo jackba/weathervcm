@@ -35,7 +35,7 @@
 			
 			<form name="form1" id="form1" method="post" action="<%=request.getContextPath()%>/conf_searchReserves.do">
 				<input type="hidden" name="personal" id="personal" value="<s:property value='#request.personal'/>"/>
-				<table border="1" width="800" class="query">
+				<table style="display:none" border="1" width="800" class="query">
 					<tr>
 						<th>会议名称：</th>
 						<td>
@@ -47,7 +47,7 @@
 						</td>
 					</tr>
 				</table>
-				<div align="center" class="query_btn">
+				<div style="display:none" align="center" class="query_btn">
 					<td colspan="2">
 						<input type="button" value="查询" id="btnQuery"	class="butt_bg1" onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" onClick="query()" /> &nbsp;&nbsp;
 						<input type="button" value="重置" id="btnReset"	class="butt_bg1" onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" onClick="reset()" /></td>

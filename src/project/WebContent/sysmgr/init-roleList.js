@@ -15,7 +15,14 @@ Ext.onReady(function() {
 function initData() {
 	ds = new Ext.data.Store({
 		proxy : new Ext.data.HttpProxy({
-			url : 'role_search.do'
+			url : 'role_search.do',
+			failure : function(response, options){
+				Ext.Msg.confirm("警告",response.responseText,function(btn){
+					if(btn=='yes'){
+						window.top.location.href="login.jsp";
+					}
+				});
+			}
 		}),
 		reader : new Ext.data.JsonReader({
 			totalProperty : 'totalProperty',
@@ -196,22 +203,6 @@ function initGrid() {
 //		var userName = list[0].data["userName"];
 //		window.open('privilege/resetPassword.jsp?userId='+id+'&userName='+userName,'resetUserPassword','height=400,width=800,status=no,titlebar=no,toolbar=no,menubar=no,location=no,top=200,left=200');
 //	}
-	function resume(){
-		var list = sm.getSelections();
-		var id = list[0].data["id"];
-		roleService.updateStatus(id,0,function(){
-			Ext.MessageBox.alert('提示','修改用户状态成功！');
-		});
-		loadStore(ptb.cursor);
-	}
-	function stop(){
-		var list = sm.getSelections();
-		var id = list[0].data["id"];
-		roleService.updateStatus(id,2,function(){
-			Ext.MessageBox.alert('提示','修改用户状态成功！');
-		});
-		loadStore(ptb.cursor);
-	}
 	function del() {
 		Ext.MessageBox.confirm('提示', '确定要删除这些角色吗?', function(button) {
 			if (button == 'yes') {
@@ -220,18 +211,27 @@ function initGrid() {
 				for (var i = 0; i < list.length; i++) {
 					ids[i] = list[i].data["id"];
 				}
-				roleService.deleteRoles(ids, function(data) {
-					if (data > 0) {
-						Ext.MessageBox.alert('提示', "删除" + data + '条数据成功!');
-						// 如果把当页数据删除完毕，则跳转到上一页！
-						if (data == ptb.store.getTotalCount() - ptb.cursor) {
-							if(ptb.cursor!=0){
-								ptb.cursor = ptb.cursor - ptb.pageSize;
+				roleService.deleteRoles(ids, {
+					callback: function(data) {
+						if (data > 0) {
+							Ext.MessageBox.alert('提示', "删除" + data + '条数据成功!');
+							// 如果把当页数据删除完毕，则跳转到上一页！
+							if (data == ptb.store.getTotalCount() - ptb.cursor) {
+								if(ptb.cursor!=0){
+									ptb.cursor = ptb.cursor - ptb.pageSize;
+								}
 							}
+							loadStore(ptb.cursor);
+						} else {
+							Ext.MessageBox.alert('提示', "删除数据失败!");
 						}
-						loadStore(ptb.cursor);
-					} else {
-						Ext.MessageBox.alert('提示', "删除数据失败!");
+					},
+					errorHandler: function(errorStr,exception){
+						Ext.Msg.confirm("警告",errorStr,function(btn){
+							if(btn=='yes'){
+								window.top.location.href="login.jsp";
+							}
+						});
 					}
 				});
 			}

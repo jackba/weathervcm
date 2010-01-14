@@ -254,18 +254,27 @@ function initGrid() {
 				for (var i = 0; i < list.length; i++) {
 					ids[i] = list[i].data["conferenceId"]+","+list[i].data["radConferenceId"];
 				}
-				confService.deleteReserves(ids, function(data) {
-					if (data > 0) {
-						Ext.MessageBox.alert('提示', "删除" + data + '条数据成功!');
-						// 如果把当页数据删除完毕，则跳转到上一页！
-						if (data == ptb.store.getTotalCount() - ptb.cursor) {
-							if(ptb.cursor!=0){
-								ptb.cursor = ptb.cursor - ptb.pageSize;
+				confService.deleteReserves(ids, {
+					callback:function(data) {
+						if (data > 0) {
+							Ext.MessageBox.alert('提示', "删除" + data + '条数据成功!');
+							// 如果把当页数据删除完毕，则跳转到上一页！
+							if (data == ptb.store.getTotalCount() - ptb.cursor) {
+								if(ptb.cursor!=0){
+									ptb.cursor = ptb.cursor - ptb.pageSize;
+								}
 							}
+							loadStore(ptb.cursor);
+						} else {
+							Ext.MessageBox.alert('提示', "删除数据失败!");
 						}
-						loadStore(ptb.cursor);
-					} else {
-						Ext.MessageBox.alert('提示', "删除数据失败!");
+					},
+					errorHandler: function(errorStr,exception){
+						Ext.Msg.confirm("警告",errorStr,function(btn){
+							if(btn=='yes'){
+								window.top.location.href="login.jsp";
+							}
+						});
 					}
 				});
 			}

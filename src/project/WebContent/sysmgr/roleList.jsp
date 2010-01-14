@@ -281,7 +281,15 @@ function initGrid() {
 						}
 				    },
 				    failure:function(result,request){
-						Ext.Msg.alert('失败',result.responseText);
+						if(result.status==401){
+							Ext.Msg.confirm('警告',result.responseText,function(btn){
+								if(btn=='yes'){
+									window.top.location.href="<%=request.getContextPath()%>/login.jsp";
+								}
+							});
+						}else{
+							Ext.Msg.alert('失败',result.responseText);
+						}
 				    }
 				});
 			}

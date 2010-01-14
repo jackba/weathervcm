@@ -174,6 +174,8 @@ body{font-size:12px;}
 </div><!--end of wrap-->
 <script language="javascript">
 var formItemSelector;
+var serviceComboWithTooltip;
+var unitComboWithTooltip;
 function showAdv(){
 	var adv = document.getElementById('adv');
 	if(adv.style.display == 'none'){
@@ -186,6 +188,8 @@ function resetForm(){
 	formItemSelector.reset();
 	document.getElementById('adv').style.display = "none";
 	document.form1.reset();
+	serviceComboWithTooltip.setValue("<s:property value='#request.defaultServiceTemplateId'/>");
+	unitComboWithTooltip.setValue("<s:property value='#request.defaultUnitId'/>");
 }
 Ext.onReady(function(){
 	Ext.BLANK_IMAGE_URL="resources/images/default/s.gif";
@@ -337,7 +341,7 @@ Ext.onReady(function(){
 		}
 	});
 	
-	var serviceComboWithTooltip = new Ext.form.ComboBox({
+	serviceComboWithTooltip = new Ext.form.ComboBox({
 		store: serviceds,
 		//value: "<s:property value='#request.defaultServiceTemplateId'/>",
 		hiddenId: 'serviceTemplateId',
@@ -389,7 +393,7 @@ Ext.onReady(function(){
 		}
 	});
 	
-	var unitComboWithTooltip = new Ext.form.ComboBox({
+	unitComboWithTooltip = new Ext.form.ComboBox({
 		store: unitds,
 		//value: "<s:property value='#request.defaultUnitId'/>",
 		hiddenId: 'mainUnit',
