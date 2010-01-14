@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ page language="java" import="com.cma.intervideo.util.UserPrivilege" %>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -61,9 +62,14 @@ a:hover{}
 <div id="menus" style="display:none">
 	<div id="resourceMenus">
 		<ul class="menuList">
+		<%
+			UserPrivilege up = (UserPrivilege)session.getAttribute("userPrivilege");
+			if(up.hasCodePrivilege("0031")){
+		%>
 			<li>
 				<span id="siteinfo" href="<%=request.getContextPath()%>/unit_list.do" onClick="onClickMenuItem(this)">参会单位</span>
 			</li>
+		<%}%>
 			<li>
 				<span id="terminalinfo" href="<%=request.getContextPath()%>/terminal_list.do" onClick="onClickMenuItem(this)">终端列表</span>
 			</li>
