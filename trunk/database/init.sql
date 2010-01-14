@@ -6,9 +6,9 @@ insert into privilege (name,url,description,code) values("修改用户","action:User
 insert into privilege (name,url,description,code) values("删除用户","dwr:UserServiceImpl.deleteUsers","删除用户","0002");
 insert into privilege (name,url,description,code) values("查看用户","action:UserAction.list;json:UserAction.search;action:UserAction.detail","查看用户","0003");
 
-insert into privilege (name,url,description,code) values("增加角色","action:RoleAction.add;json:UserAction.save","增加角色","0004");
+insert into privilege (name,url,description,code) values("增加角色","action:RoleAction.add;json:RoleAction.save","增加角色","0004");
 insert into privilege (name,url,description,code) values("修改角色","action:RoleAction.modify;json:RoleAction.update","修改角色","0005");
-insert into privilege (name,url,description,code) values("删除角色","dwr:RoleServiceImpl.deleteRoles","删除角色","0006");
+insert into privilege (name,url,description,code) values("删除角色","dwr:RoleServiceImpl.deleteRoles;json:RoleAction.delete","删除角色","0006");
 insert into privilege (name,url,description,code) values("查看角色","action:RoleAction.list;json:RoleAction.search;action:RoleAction.detail","查看角色","0007");
 
 insert into privilege (name,url,description,code) values("查看日志","action:LogAction.list;json:LogAction.search","查看日志","0008");
