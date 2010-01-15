@@ -341,7 +341,7 @@ create table user
    create_time                    datetime                       not null,
    update_time                    datetime                       not null,
    password                       varchar(28),
-   default_unit_id		  int				 not null,
+   default_unit_id                int                            default 0,
    primary key (user_id)
 )
 type = InnoDB;
