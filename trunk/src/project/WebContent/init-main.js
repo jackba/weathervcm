@@ -110,47 +110,56 @@ Ext.onReady(function(){
 				title:'系统资源浏览',
 				html:Ext.getDom('resourceMenus').innerHTML,
 				autoScroll:true,
-				border:false
+				border:false,
+				hidden:isHidden('resourceMenus')
 			},{
 				title:'个人会议预约',
 				html:Ext.getDom('scheduleConfMenus').innerHTML,
 				autoScroll:true,
-				border:false
+				border:false,
+				hidden:isHidden('scheduleConfMenus')
 			},{
 				title:'预约审核及变更',
 				html:Ext.getDom('moidfyConfMenus').innerHTML,
 				autoScroll:true,
-				border:false
+				border:false,
+				hidden:isHidden('moidfyConfMenus')
 			},{
 				title:'个人会议管理',
 				html:Ext.getDom('confMgmtMenus').innerHTML,
 				autoScroll:true,
-				border:false
+				border:false,
+				hidden:isHidden('confMgmtMenus')
 			},{
 				title:'用户个人信息管理',
 				html:Ext.getDom('personalMenus').innerHTML,
 				autoScroll:true,
-				border:false
+				border:false,
+				hidden:isHidden('personalMenus')
 			},{
 				title:'系统参数管理',
 				html:Ext.getDom('systemConfigMenus').innerHTML,
 				autoScroll:true,
-				border:false
+				border:false,
+				hidden:isHidden('systemConfigMenus')
 			},{
 				title:'公告栏',
 				html:Ext.getDom('bulletinMenus').innerHTML,
 				autoScroll:true,
-				border:false
+				border:false,
+				hidden:isHidden('bulletinMenus')
 			},{
 				title:'留言板',
 				html:Ext.getDom('bbsMenus').innerHTML,
 				autoScroll:true,
-				border:false
+				border:false,
+				hidden:isHidden('bbsMenus')
 			},{
 				title:'帮助',
 				html:Ext.getDom('helpMenus').innerHTML,
 				autoScroll:true,
-				border:false
+				border:false,
+				hidden:isHidden('helpMenus')
 			}]
 		},contentPanel]
 	});
@@ -202,6 +211,13 @@ Ext.onReady(function(){
     createWeekPanel();
 	setInterval("refresh()", 30*1000)
 });
+function isHidden(divId){
+	var childMenus = Ext.DomQuery.select("ul/li",Ext.getDom(divId));
+	if(childMenus==null || childMenus==undefined || childMenus.length==0)
+		return true;
+	else
+		return false;
+}
 function refresh(){
 	loadStore();
 	loadStore1(ptb1.cursor);
