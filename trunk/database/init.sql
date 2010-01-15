@@ -1,5 +1,5 @@
-INSERT INTO `user` VALUES ('1','super',NULL,'超级管理员',NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,0,'2009-09-01 04:47:21','2009-09-01 04:47:21','111111',-1);
-insert into user(user_id,login_id,user_name,sex,status,create_time,update_time,password,default_unit_id) values('2','guest','guest',1,0,now(),now(),'111111',-1);
+INSERT INTO user(user_id,login_id,user_name,sex,status,create_time,update_time,password,default_unit_id) VALUES('1','super',NULL,'超级管理员',NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,0,'2009-09-01 04:47:21','2009-09-01 04:47:21','111111',0);
+insert into user(user_id,login_id,user_name,sex,status,create_time,update_time,password,default_unit_id) VALUES('2','guest','guest',1,0,now(),now(),'111111',0);
 
 insert into privilege (name,url,description,code) values("增加用户","action:UserAction.add;json:UserAction:save","增加用户","0000");
 insert into privilege (name,url,description,code) values("修改用户","action:UserAction.modify;json:UserAction.update;dwr:UserServiceImpl.stopUser;dwr:UserServiceImpl.resumeUser;action:UserAction.beforResetPassword;action:UserAction.resetPassword","修改用户","0001");
