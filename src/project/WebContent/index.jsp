@@ -69,24 +69,36 @@ a:hover{}
 			<li>
 				<span id="siteinfo" href="<%=request.getContextPath()%>/unit_list.do" onClick="onClickMenuItem(this)">参会单位</span>
 			</li>
-		<%}%>
+		<%}
+			if(up.hasCodePrivilege("0026")){
+		%>
 			<li>
 				<span id="terminalinfo" href="<%=request.getContextPath()%>/terminal_list.do" onClick="onClickMenuItem(this)">终端列表</span>
 			</li>
-			
+		<%} 
+			if(up.hasCodePrivilege("0009")){
+		%>	
 			<li>
 				<span id="service" href="<%=request.getContextPath()%>/service_list.do" onClick="onClickMenuItem(this)">会议模板</span>
 			</li>
+		<%}
+			if(up.hasCodePrivilege("0011")){
+		%>
 			<li>
 				<span id="occupation" href="<%=request.getContextPath()%>/res_occupy.do" onClick="onClickMenuItem(this)">资源占用情况</span>
 			</li>
 			<li>
 				<span id="occupationwave" href="<%=request.getContextPath()%>/res_occupywave.do" onClick="onClickMenuItem(this)">资源占用波动图</span>
 			</li>
+		<%}
+			if(up.hasCodePrivilege("0012")){
+		%>
 			<li>
 				<span id="available" href="<%=request.getContextPath()%>/res_available.do" onClick="onClickMenuItem(this)">可用资源</span>
 			</li>
-			
+		<%}
+			if(up.hasCodePrivilege("0032")){
+		%>
 			<li>
 				<span id="userSort" href="<%=request.getContextPath()%>/stat_userReserveStat.do" onClick="onClickMenuItem(this)">用户使用次数排行</span>
 			</li>
@@ -94,9 +106,15 @@ a:hover{}
 				<span id="confSort" href="<%=request.getContextPath()%>/stat_userReserveStat.do" onClick="onClickMenuItem(this)">用户会议召开次数排行</span>
 			</li>-->
 			<li><span id="dayConfSort" href="<%=request.getContextPath()%>/stat_userDayReserveStat.do" onClick="onClickMenuItem(this)">用户单日会议召开次数排行</span></li>
+		<%}
+			if(up.hasCodePrivilege("0040")){
+		%>
 			<li>
 				<span id="confNumStat" href="<%=request.getContextPath()%>/stat_confNumStat.do" onClick="onClickMenuItem(this)">会议次数统计表</span>
 			</li>
+		<%}
+			if(up.hasCodePrivilege("0041")){
+		%>
 			<li>
 				<span id="confTypeTimeStat" href="<%=request.getContextPath()%>/stat_confTypeTimeStat.do" onClick="onClickMenuItem(this)">会议类型时长统计</span>
 			</li>
@@ -106,47 +124,75 @@ a:hover{}
 			<li>
 				<span id="confTimeStat" href="<%=request.getContextPath()%>/stat_confTimeStat.do" onClick="onClickMenuItem(this)">会议时长排行榜</span>
 			</li>
+		<%} %>
 		</ul>
 	</div>
 	
 	<div id="scheduleConfMenus">
 		<ul class="menuList">
+			<%
+				if(up.hasCodePrivilege("0016")){
+			%>
 			<li>
 				<span id="scheduleConf" href="<%=request.getContextPath()%>/conf_listReserve.do" onClick="onClickMenuItem(this)">预约会议</span>
 			</li>
+			<%} %>
 		</ul>
 	</div>
 	
 	<div id="moidfyConfMenus">
 		<ul class="menuList">
+		<%
+			if(up.hasCodePrivilege("0013")){
+		%>
 			<li>
 				<span id="manageConf" href="<%=request.getContextPath()%>/conf_manageReserve.do" onClick="onClickMenuItem(this)">预约管理</span>
 			</li>
+		<%} %>
 		</ul>
 	</div>
 	
 	<div id="confMgmtMenus">
 		<ul class="menuList">
+			<%
+				if(up.hasCodePrivilege("0017")){
+			%>
 			<li>
 				<span id="currentConf" href="<%=request.getContextPath()%>/conf_listRunning.do" onClick="onClickMenuItem(this)">正在召开的会议</span>
 			</li>
+			<%}
+			if(up.hasCodePrivilege("0018")){
+			%>
 			<li>
 				<span id="currentDayConf" href="<%=request.getContextPath()%>/conf_listCurrentDay.do" onClick="onClickMenuItem(this)">当日会议安排</span>
 			</li>
+			<%}
+			if(up.hasCodePrivilege("0019")){
+			%>
 			<li>
 				<span id="currentWeekConf" href="<%=request.getContextPath()%>/conf_listCurrentWeek.do" onClick="onClickMenuItem(this)">本周会议安排</span>
 			</li>
+			<%}
+			if(up.hasCodePrivilege("0020")){
+			%>
 			<li>
 				<span id="currentMonthConf" href="<%=request.getContextPath()%>/conf_listCurrentMonth.do" onClick="onClickMenuItem(this)">本月会议安排</span>
 			</li>
+			<%}
+			if(up.hasCodePrivilege("0021")){
+			%>
 			<li>
 				<span id="allConf" href="<%=request.getContextPath()%>/conf_listAll.do" onClick="onClickMenuItem(this)">所有会议安排</span>
 			</li>
+			<%} %>
 		</ul>
 	</div>
 	
 	<div id="personalMenus">
 		<ul class="menuList">
+		<%
+			if(!up.getLoginId().equals("guest")){
+		%>
 			<li>
 				<span id="baseInfo" href="<%=request.getContextPath()%>/user_personalModify.do" onClick="onClickMenuItem(this)">个人设置</span>
 			</li>
@@ -156,23 +202,37 @@ a:hover{}
 			<li>
 				<span id="conftemplate" href="<%=request.getContextPath()%>/conftemplate_list.do" onClick="onClickMenuItem(this)">表单模板</span>
 			</li>
+		<%} %>
 		</ul>
 	</div>
 	
 	<div id="systemConfigMenus">
 		<ul class="menuList">
+			<%
+			if(up.hasCodePrivilege("0003")){
+			%>
 			<li>
 				<span id="user" href="<%=request.getContextPath()%>/user_list.do" onClick="onClickMenuItem(this)">用户管理</span>
 			</li>
+			<%} 
+			if(up.hasCodePrivilege("0007")){
+			%>
 			<li>
 				<span id="role" href="<%=request.getContextPath()%>/role_list.do" onClick="onClickMenuItem(this)">角色管理</span>
 			</li>
+			<%}
+			if(up.hasCodePrivilege("0008")){
+			%>
 			<li>
 				<span id="log" href="<%=request.getContextPath()%>/log_list.do" onClick="onClickMenuItem(this)">日志管理</span>
 			</li>
+			<%}
+			if(up.hasCodePrivilege("0039")){
+			%>
 			<li>
 				<span id="config" href="<%=request.getContextPath()%>/config_configModify.do" onClick="onClickMenuItem(this)">系统配置</span>
 			</li>
+			<%} %>
 		</ul>
 	</div>
 	
@@ -181,20 +241,31 @@ a:hover{}
 			<li>
 				<span id="bulletinList" href="<%=request.getContextPath()%>/bulletin_list.do" onClick="onClickMenuItem(this)">最新公告</span>
 			</li>
+			<%
+			if(up.hasCodePrivilege("0036")){
+			%>
 			<li>
 				<span id="bulletinManage" href="<%=request.getContextPath()%>/bulletin_manage.do" onClick="onClickMenuItem(this)">公告管理</span>
 			</li>
+			<%}
+			if(up.hasCodePrivilege("0033")){
+			%>
 			<li>
 				<span id="bulletinIssue" href="<%=request.getContextPath()%>/bulletin_add.do" onClick="onClickMenuItem(this)">公告发布</span>
 			</li>
+			<%} %>
 		</ul>
 	</div>
 	
 	<div id="bbsMenus">
 		<ul class="menuList">
+			<%
+			if(up.hasCodePrivilege("0037")){
+			%>
 			<li>
 				<span id="bbsManage" href="<%=request.getContextPath()%>/bbs_listAll.do" onClick="onClickMenuItem(this)">查看全部留言</span>
 			</li>
+			<%} %>
 			<li>
 				<span id="messageList" href="<%=request.getContextPath()%>/bbs_listPersonal.do" onClick="onClickMenuItem(this)">查看个人留言</span>
 			</li>
