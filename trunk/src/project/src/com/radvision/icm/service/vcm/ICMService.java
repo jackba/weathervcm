@@ -11,6 +11,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.cma.intervideo.pojo.Conference;
+import com.cma.intervideo.pojo.RecurringMeetingInfo;
 import com.cma.intervideo.pojo.User;
 import com.cma.intervideo.pojo.VirtualRoom;
 import com.cma.intervideo.util.PropertiesHelper;
@@ -24,6 +25,7 @@ import com.radvision.icm.service.LicenseServicePortType;
 import com.radvision.icm.service.McuResourceInfo;
 import com.radvision.icm.service.McuResourceResult;
 import com.radvision.icm.service.MeetingType;
+import com.radvision.icm.service.RecurrenceInfo;
 import com.radvision.icm.service.ResourceService;
 import com.radvision.icm.service.ResourceServicePortType;
 import com.radvision.icm.service.ScheduleResult;
@@ -365,6 +367,19 @@ public class ICMService {
 		}
 		return b;
 	}
+	
+	public static List<ScheduleResult> createRecurrence(RecurringMeetingInfo rmi,
+			List<String> listTerminalId) {
+		List<ScheduleResult> srs = null;
+		try {
+			RecurrenceInfo recurrInfo = convertToRecurringInfo(rmi, listTerminalId, true);
+			srs = getScheduleServicePortType().createRecurrence(recurrInfo);
+		} catch (Exception e) {
+			logger.warn("Exception on creating recurrence to platform: recurrence subject = " + rmi.getSubject() + ", Exception = " + e.getMessage());
+			e.printStackTrace();
+		}
+		return srs;
+	}
 
 	public static ControlResult terminateLiveConference(String confId) {
 		if (confId == null || confId.length() == 0)
@@ -423,6 +438,44 @@ public class ICMService {
 			}
 		}
 		return info;
+	}
+	
+	private static RecurrenceInfo convertToRecurringInfo(RecurringMeetingInfo conf,
+			List<String> listTerminalId, boolean isCreating) {
+		
+		RecurrenceInfo ri = new RecurrenceInfo();
+
+		ConferenceInfo info = new ConferenceInfo();
+		info.setConferenceId(isCreating ? null : conf.getRadRecurrenceId());
+		info.setUserID(conf.getUserId());
+		info.setOrgID(conf.getMemberId());
+		info.setDialableConferenceId(conf.getDialableNumber());
+		long startTime = conf.getStartTime();
+		long endTime = startTime + conf.getTimeLong() * 60000;
+		info.setStartTime(startTime);
+		info.setEndTime(endTime);
+		info.setMeetingTypeId(conf.getServiceTemplateId());
+		info.setDescription(conf.getDescription());
+		info.setPassword(conf.getPassword());
+		info.setFullControlPassword(conf.getControlPin());
+		int reservedport = conf.getPortsNum() == null ? 2 : conf.getPortsNum();
+		info.setReservedIPPorts(reservedport);
+		// info.setReservedISDNPorts(reservedport);
+		info.setSubject(conf.getSubject());
+		if (listTerminalId != null && listTerminalId.size() > 0) {
+			List<TerminalInfo> terminals = info.getTerminals();
+			for (int i = 0; i < listTerminalId.size(); i++) {
+				TerminalInfo ti = new TerminalInfo();
+				ti.setTerminalId(listTerminalId.get(i));
+				terminals.add(ti);
+			}
+		}
+		ri.setConferenceInfoTemplate(info);
+		
+//		RecurInstanceInfo rii = new RecurInstanceInfo();
+//		ri.getRecurInstanceInfos().add(rii);
+		
+		return ri;
 	}
 
 	private static UserInfo convertToUserInfo(User user) {
