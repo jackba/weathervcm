@@ -1,0 +1,132 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jan 17, 2010 1:18:26 PM by Hibernate Tools 3.2.4.GA -->
+<hibernate-mapping>
+    <class name="com.cma.intervideo.pojo.RecurringMeetingInfo" table="recurring_meeting_info">
+        <id name="recurrenceId" type="java.lang.Integer">
+            <column name="recurrence_id" />
+            <generator class="identity" />
+        </id>
+        <property name="userId" type="string">
+            <column name="user_id" length="128" />
+        </property>
+        <property name="serviceTemplateId" type="string">
+            <column name="service_template_id" length="32" />
+        </property>
+        <property name="confTemplateId" type="java.lang.Integer">
+            <column name="conf_template_id" />
+        </property>
+        <property name="radRecurrenceId" type="string">
+            <column name="rad_recurrence_id" length="20" />
+        </property>
+        <property name="dialableNumber" type="string">
+            <column name="dialable_number" length="20" />
+        </property>
+        <property name="virtualConfId" type="string">
+            <column name="virtual_conf_id" length="20" />
+        </property>
+        <property name="startTime" type="java.lang.Long">
+            <column name="start_time" precision="15" scale="0" />
+        </property>
+        <property name="timeLong" type="java.lang.Integer">
+            <column name="time_long" />
+        </property>
+        <property name="memberId" type="string">
+            <column name="member_id" length="32" />
+        </property>
+        <property name="description" type="string">
+            <column name="description" length="65535" />
+        </property>
+        <property name="password" type="string">
+            <column name="password" />
+        </property>
+        <property name="controlPin" type="string">
+            <column name="control_pin" />
+        </property>
+        <property name="status" type="java.lang.Short">
+            <column name="status" not-null="true" />
+        </property>
+        <property name="portsNum" type="java.lang.Integer">
+            <column name="ports_num" />
+        </property>
+        <property name="subject" type="string">
+            <column name="subject" length="40" not-null="true" />
+        </property>
+        <property name="createTime" type="timestamp">
+            <column name="create_time" length="0" not-null="true" />
+        </property>
+        <property name="cancelTime" type="timestamp">
+            <column name="cancel_time" length="0" />
+        </property>
+        <property name="updateTime" type="timestamp">
+            <column name="update_time" length="0" not-null="true" />
+        </property>
+        <property name="cancelReason" type="string">
+            <column name="cancel_reason" length="200" />
+        </property>
+        <property name="initUnit" type="string">
+            <column name="init_unit" length="200" />
+        </property>
+        <property name="mainUnit" type="java.lang.Integer">
+            <column name="main_unit" />
+        </property>
+        <property name="presider" type="string">
+            <column name="presider" length="40" />
+        </property>
+        <property name="principalMobile" type="string">
+            <column name="principal_mobile" length="15" />
+        </property>
+        <property name="reserveCode" type="string">
+            <column name="reserve_code" length="10" />
+        </property>
+        <property name="contactMethod" type="string">
+            <column name="contact_method" length="200" />
+        </property>
+        <property name="principal" type="string">
+            <column name="principal" length="40" />
+        </property>
+        <property name="confType" type="java.lang.Short">
+        	<column name="conf_type"></column>
+        </property>
+        <property name="isBroadcast" type="java.lang.Short">
+            <column name="is_broadcast" />
+        </property>
+        <property name="isSupport" type="java.lang.Short">
+            <column name="is_support" />
+        </property>
+        <property name="isRecord" type="java.lang.Short">
+            <column name="is_record" />
+        </property>
+        <property name="recurrenceType" type="java.lang.Integer">
+            <column name="recurrence_type" />
+        </property>
+        <property name="dayInterval" type="java.lang.Integer">
+            <column name="day_interval" />
+        </property>
+        <property name="weekInterval" type="java.lang.Integer">
+            <column name="week_interval" />
+        </property>
+        <property name="weekDay" type="java.lang.Integer">
+            <column name="week_day" />
+        </property>
+        <property name="monthInterval" type="java.lang.Integer">
+            <column name="month_interval" />
+        </property>
+        <property name="monthDay" type="java.lang.Integer">
+            <column name="month_day" />
+        </property>
+        <property name="startDate" type="java.lang.Long">
+            <column name="start_date" precision="15" scale="0" />
+        </property>
+        <property name="endType" type="java.lang.Integer">
+            <column name="end_type" />
+        </property>
+        <property name="endDate" type="java.lang.Long">
+            <column name="end_date" precision="15" scale="0" />
+        </property>
+        <property name="endAfterNumber" type="java.lang.Integer">
+            <column name="end_after_number" />
+        </property>
+    </class>
+</hibernate-mapping>

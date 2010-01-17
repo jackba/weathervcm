@@ -40,6 +40,12 @@ drop table if exists user_role;
 
 drop table if exists user_unit;
 
+drop table if exists recurring_meeting_info;
+
+drop table if exists recurrence_conf;
+
+drop table if exists recurrence_unit;
+
 /*==============================================================*/
 /* Table: bulletin_board                                        */
 /*==============================================================*/
@@ -364,4 +370,80 @@ create table user_unit
    unit_id                        int
 )
 comment = "用户可选主会场"
+type = InnoDB;
+
+/*==============================================================*/
+/* Table: recurring_meeting_info                                */
+/*==============================================================*/
+create table recurring_meeting_info
+(
+   recurrence_id                  int                            not null AUTO_INCREMENT,
+   user_id                        varchar(128),
+   service_template_id            varchar(32),
+   conf_template_id               int,
+   rad_recurrence_id              varchar(20),
+   dialable_number                varchar(20),
+   virtual_conf_id                varchar(20),
+   start_time                     decimal(15,0),
+   time_long                      int,
+   member_id                      varchar(32),
+   description                    text,
+   password                       varchar(255),
+   control_pin                    varchar(255),
+   status                         tinyint                        not null,
+   ports_num                      int,
+   subject                        varchar(40)                    not null,
+   create_time                    datetime                       not null,
+   cancel_time                    datetime,
+   update_time                    datetime                       not null,
+   cancel_reason                  varchar(200),
+   init_unit                      varchar(200),
+   main_unit                      int,
+   presider                       varchar(40),
+   principal_mobile               varchar(15),
+   reserve_code                   varchar(10),
+   contact_method                 varchar(200),
+   principal                      varchar(40),
+   conf_type                      tinyint                        not null,
+   is_broadcast                   tinyint,
+   is_support                     tinyint,
+   is_record                      tinyint,
+   recurrence_type                int,
+   day_interval                   int,
+   week_interval                  int,
+   week_day                       int,
+   month_interval                 int,
+   month_day                      int,
+   start_date                     decimal(15,0),
+   end_type                       int,
+   end_date                       decimal(15,0),
+   end_after_number               int,
+   primary key (recurrence_id)
+)
+type = InnoDB;
+
+/*==============================================================*/
+/* Table: recurrence_conf                                       */
+/*==============================================================*/
+create table recurrence_conf
+(
+   recurrence_conf_id             int                            not null AUTO_INCREMENT,
+   recurrence_id                  int                            not null,
+   conference_id                  int                            not null,
+   primary key (recurrence_conf_id)
+)
+comment = "会议与例会的对应关系"
+type = InnoDB;
+
+/*==============================================================*/
+/* Table: recurrence_unit                                       */
+/*==============================================================*/
+create table recurrence_unit
+(
+   recurrence_unit_id             int                            not null AUTO_INCREMENT,
+   recurrence_id                  int                            not null,
+   unit_id                        int                            not null,
+   primary key (recurrence_unit_id)
+)
+comment = "例会与参会单位的对应关系"
 type = InnoDB;
