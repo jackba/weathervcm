@@ -16,10 +16,12 @@ import org.directwebremoting.WebContextFactory;
 
 import com.cma.intervideo.dao.IConfDao;
 import com.cma.intervideo.dao.ILogDao;
+import com.cma.intervideo.dao.IRecurrenceDao;
 import com.cma.intervideo.dao.IServiceDao;
 import com.cma.intervideo.dao.IUnitDao;
 import com.cma.intervideo.pojo.Conference;
 import com.cma.intervideo.pojo.FieldDesc;
+import com.cma.intervideo.pojo.RecurringMeetingInfo;
 import com.cma.intervideo.pojo.ServiceTemplate;
 import com.cma.intervideo.pojo.Unit;
 import com.cma.intervideo.service.IConfService;
@@ -38,6 +40,7 @@ public class ConfServiceImpl implements IConfService {
 	private static final int maxConfPeriod = PropertiesHelper.getMaxConfPeroidHour();
 	
 	private IConfDao confDao;
+	private IRecurrenceDao recurrenceDao;
 	private IUnitDao unitDao;
 	private ILogDao logDao;
 	private IServiceDao serviceDao;
@@ -48,6 +51,10 @@ public class ConfServiceImpl implements IConfService {
 
 	public void setConfDao(IConfDao confDao) {
 		this.confDao = confDao;
+	}
+	
+	public void setRecurrenceDao(IRecurrenceDao recurrenceDao) {
+		this.recurrenceDao = recurrenceDao;
 	}
 	
 	public void setUnitDao(IUnitDao unitDao) {
@@ -391,5 +398,76 @@ public class ConfServiceImpl implements IConfService {
 	public List<Conference> findNotFinishedConfs() {
 		return confDao.findNotFinishedConfs();
 	}
+
+	public void cancelRecurrence(String recurrenceId) throws Exception {
+		ICMService.cancelRecurrence(recurrenceId);
+	}
+
+	public void createRecurrence(RecurringMeetingInfo recurrence, String[] units)
+			throws Exception {
+		logger.info("Before creating a new recurrence: " + recurrence);
+		recurrence.setRecurrenceId(null);
+		List<String> listTerminalId = getTerminalIdList(units);
+		List<ScheduleResult> srs = ICMService.createRecurrence(recurrence, listTerminalId);
+		if (srs == null || srs.size() == 0) {
+			logger.warn("Platform failed to schedule this new meeting!");
+			throw new Exception("平台创建例会" + recurrence.getSubject() + " 失败!");
+		}
+		
+		Conference newConf = convert(recurrence);
+		List<Integer> unitIds = new ArrayList<Integer>();
+		if (units != null) {
+			for (int i = 0; i < units.length; i++)
+				unitIds.add(Integer.valueOf(units[i]));
+		}
+		List<String> terminalIds = new ArrayList<String>();
+		if (listTerminalId != null){
+			for (int i = 0; i < listTerminalId.size(); i++)
+				terminalIds.add(listTerminalId.get(i));
+		}
+		List<Integer> newConfIds = new ArrayList<Integer>();
+		for (ScheduleResult sr : srs) {
+			if (!sr.isSuccess() || sr.getConferenceInfo() == null)
+				continue;
+			
+			ConferenceInfo info = sr.getConferenceInfo();
+			newConf.setStartTime(info.getStartTime());
+			newConf.setConferenceId(null);
+			newConf.setRadConferenceId(info.getConferenceId());
+			newConf.setVirtualConfId(info.getDialableConferenceId());
+			
+			logger.info("Creating a new conference to VCM...");
+			confDao.saveOrUpdate(newConf);
+			for (Integer unitId : unitIds)
+				confDao.addConfUnit(newConf.getConferenceId(), unitId);
+			
+			for (String terminalId : terminalIds)
+				confDao.addConfParty(newConf.getConferenceId(), terminalId);
+			
+			newConfIds.add(newConf.getConferenceId());
+			
+			logger.info("Created successfully a new meeting in VCM.");
+		}
+		
+		if (newConfIds.size() > 0) {
+			recurrenceDao.saveOrUpdate(recurrence);
+			for (Integer unitId : unitIds)
+				recurrenceDao.addRecurrenceUnit(recurrence.getRecurrenceId(), unitId);
+		}
+		logger.info("Created successfully a new recurrence in VCM.");
+	}
 	
+	private Conference convert(RecurringMeetingInfo recurrence) {
+		// TODO
+		Conference conf = new Conference();
+		
+		return conf;
+	}
+
+	public void modifyRecurrence(RecurringMeetingInfo recurrence, String[] units)
+			throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -74,6 +74,7 @@
 		<property name="target">
 			<bean class="com.cma.intervideo.service.impl.ConfServiceImpl">
 				<property name="confDao" ref="confDao"></property>
+				<property name="recurrenceDao" ref="recurrenceDao"></property>
 				<property name="unitDao" ref="unitDao"></property>
 				<property name="serviceDao" ref="serviceDao"/>
 				<property name="logDao" ref="logDao"/>
