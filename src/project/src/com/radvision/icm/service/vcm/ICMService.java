@@ -381,6 +381,30 @@ public class ICMService {
 		return srs;
 	}
 
+	public static List<ScheduleResult> modifyRecurrence(RecurringMeetingInfo rmi,
+			List<String> listTerminalId) {
+		List<ScheduleResult> srs = null;
+		try {
+			RecurrenceInfo recurrInfo = convertToRecurringInfo(rmi, listTerminalId, true);
+			srs = getScheduleServicePortType().modifyRecurrence(recurrInfo);
+		} catch (Exception e) {
+			logger.warn("Exception on modifying recurrence to platform: recurrence subject = " + rmi.getSubject() + ", Exception = " + e.getMessage());
+			e.printStackTrace();
+		}
+		return srs;
+	}
+	
+	public static List<ScheduleResult> cancelRecurrence(String recurrenceId) {
+		List<ScheduleResult> srs = null;
+		try {
+			srs = getScheduleServicePortType().cancelRecurrence(recurrenceId);
+		} catch (Exception e) {
+			logger.warn("Exception on modifying recurrence to platform: recurrence id = " + recurrenceId + ", Exception = " + e.getMessage());
+			e.printStackTrace();
+		}
+		return srs;
+	}
+	
 	public static ControlResult terminateLiveConference(String confId) {
 		if (confId == null || confId.length() == 0)
 			return null;
