@@ -19,10 +19,10 @@ insert into privilege (name,url,description,code) values("更新会议模板","action:
 insert into privilege (name,url,description,code) values("查看资源占用情况","action:ResourceAction.occupy;json:ResourceAction.searchOccupy;action:ResourceAction.occupywave;json:ResourceAction.searchOccupyWave","查看资源占用情况","0011");
 insert into privilege (name,url,description,code) values("查看可用资源","action.ResourceAction.available;json:ResourceAction.searchAvailable","查看可用资源","0012");
 
-insert into privilege (name,url,description,code) values("管理预约会议","action:ConfAction.manageReserve;json:ConfAction.searchReserves;action:ConfAction.reserveDetail","查看预约会议","0013");
-insert into privilege (name,url,description,code) values("修改预约会议","action:ConfAction.modifyReserve;json:ConfAction.update","修改预约会议","0014");
+insert into privilege (name,url,description,code) values("管理预约会议","json:ServiceAction.search;action:ConfAction.manageReserve;json:ConfAction.searchReserves;action:ConfAction.reserveDetail","查看预约会议","0013");
+insert into privilege (name,url,description,code) values("修改预约会议","json:ServiceAction.search;action:ConfAction.modifyReserve;json:ConfAction.update","修改预约会议","0014");
 insert into privilege (name,url,description,code) values("删除预约会议","dwr:ConfServiceImpl.deleteReserves","删除预约会议","0015");
-insert into privilege (name,url,description,code) values("预约会议","action:ConfAction.reserveConf;json:ConfAction.save;action:ConfAction.listReserve;json:ConfAction.searchReserves;action:ConfAction.reserveDetail;action:ConfAction.modifyReserve;json:ConfAction.update;dwr:ConfServiceImpl.deleteReserves","预约会议","0016");
+insert into privilege (name,url,description,code) values("预约会议","json:ServiceAction.search;action:ConfAction.reserveConf;json:ConfAction.save;action:ConfAction.listReserve;json:ConfAction.searchReserves;action:ConfAction.reserveDetail;action:ConfAction.modifyReserve;json:ConfAction.update;dwr:ConfServiceImpl.deleteReserves","预约会议","0016");
 
 insert into privilege (name,url,description,code) values("查看正在召开的会议","action:ConfAction.listRunning;json:ConfAction.searchRunnings;action:ConfAction.reserveDetail","查看正在召开的会议","0017");
 insert into privilege (name,url,description,code) values("查看当日会议安排","action:ConfAction.listCurrentDay;json:ConfAction.searchCurrentDays;action:ConfAction.reserveDetail","查看当日会议安排","0018");
