@@ -65,14 +65,14 @@ body{font-size:12px;}
 	  </tr>
 	  <s:if test="#request.recurrence=='true'">
 	  <input id="recurrence.recurrenceType" type="hidden" name="recurrence.recurrenceType"/>
-	  <input id="recurrence.dayInterval" type="hidden" name="recurrence.dayInterval"/>
-	  <input id="recurrence.weekInterval" type="hidden" name="recurrence.weekInterval"/>
-	  <input id="recurrence.weekDay" type="hidden" name="recurrence.weekDay"/>
-	  <input id="recurrence.monthInterval" type="hidden" name="recurrence.monthInterval"/>
-	  <input id="recurrence.monthDay" type="hidden" name="recurrence.monthDay"/>
+	  <input id="recurrence.dayInterval" type="hidden" name="dayInterval"/>
+	  <input id="recurrence.weekInterval" type="hidden" name="weekInterval"/>
+	  <input id="recurrence.weekDay" type="hidden" name="weekDay"/>
+	  <input id="recurrence.monthInterval" type="hidden" name="monthInterval"/>
+	  <input id="recurrence.monthDay" type="hidden" name="monthDay"/>
 	  <input id="recurrence.endType" type="hidden" name="recurrence.endType"/>
-	  <input id="recurrence.endDate" type="hidden" name="recurrence.endDate"/>
-	  <input id="recurrence.endAfterNumber" type="hidden" name="recurrence.endAfterNumber"/>
+	  <input id="recurrence.endDate" type="hidden" name="endDate"/>
+	  <input id="recurrence.endAfterNumber" type="hidden" name="endAfterNumber"/>
 	  <tr>
 	  	<th width="20%"><font color="red">&nbsp;*</font>例会设置:</th>
 	  	<td><input id="recurrenceBtn" value="设置" type="button" onClick="setupRecurrence()"/></td>
