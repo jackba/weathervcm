@@ -61,7 +61,7 @@ public class ConfAction extends AbstractBaseAction {
 	private ILogService logService;
 	private IUserService userService;
 	private Conference conf;
-	private RecurringMeetingInfo recurrence;
+	private RecurringMeetingInfo recurrence = new RecurringMeetingInfo();
 	private Integer conferenceId;
 	
 	public void setLogService(ILogService logService) {
