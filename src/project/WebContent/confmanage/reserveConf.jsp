@@ -481,9 +481,9 @@ if ( checkForm()){
 				if(resp.success == true){	
 					Ext.Msg.alert('成功',resp.msg, function(button){
 						if(button == 'ok'){
-							<s:if test="#request.personal == 'true'">
+							<s:if test="#request.recurrence == 'true'">
 							//location.href = '<%=request.getContextPath() %>/conf_listReserve.do' ;
-							window.parent.closeAndRefreshPanel('confReserve');
+							window.parent.closeAndRefreshPanel('recurrenceReserve');
 							</s:if>
 							<s:else>
 							//location.href = '<%=request.getContextPath()%>/conf_manageReserve.do';

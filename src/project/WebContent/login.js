@@ -34,11 +34,11 @@ Ext.onReady(function() {
 		bodyStyle : 'padding:5px 5px 0;',
 		width : 800,
 		monitorValid : true,
-		keys : {
-			key : 13,
-			scope : this,
-			fn : doSubmit
-		},
+//		keys : {
+//			key : 13,
+//			scope : this,
+//			fn : doSubmit
+//		},
 		layout : 'column',
 		items : [{
 					columnWidth:.25,
