@@ -14,6 +14,7 @@
 			<result name="listCurrentWeek">/confmanage/listCurrentWeek.jsp</result>
 			<result name="listCurrentMonth">/confmanage/listCurrentMonth.jsp</result>
 			<result name="listAll">/confmanage/listAll.jsp</result>
+			<result name="listRecurrence">/confmanage/listRecurrence.jsp</result>
 		</action>
 	</package>
 </struts>
