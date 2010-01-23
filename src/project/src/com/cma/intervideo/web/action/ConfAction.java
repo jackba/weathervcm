@@ -26,10 +26,12 @@ import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.springframework.beans.BeanUtils;
 
 import com.cma.intervideo.pojo.Conference;
 import com.cma.intervideo.pojo.FieldDesc;
 import com.cma.intervideo.pojo.FieldDescId;
+import com.cma.intervideo.pojo.RecurringMeetingInfo;
 import com.cma.intervideo.pojo.Unit;
 import com.cma.intervideo.pojo.User;
 import com.cma.intervideo.pojo.VirtualRoom;
@@ -59,6 +61,7 @@ public class ConfAction extends AbstractBaseAction {
 	private ILogService logService;
 	private IUserService userService;
 	private Conference conf;
+	private RecurringMeetingInfo recurrence;
 	private Integer conferenceId;
 	
 	public void setLogService(ILogService logService) {
@@ -98,6 +101,10 @@ public class ConfAction extends AbstractBaseAction {
 		return "listReserve";
 	}
 	
+	public String listRecurrence(){
+		request.setAttribute("personal", "true");
+		return "listRecurrence";
+	}
 	public String listRunning(){
 		String monitorUrl = PropertiesHelper.getFullMonitorURL();
 		request.setAttribute("monitorUrl", monitorUrl);
@@ -413,6 +420,63 @@ public class ConfAction extends AbstractBaseAction {
 		}
 		return null;
 	}
+	
+	public String searchRecurrences() {
+		String start = request.getParameter("start");
+		String limit = request.getParameter("limit");
+		String totalProperty = request.getParameter("totalProperty");
+		PageHolder ph = new PageHolder();
+		ph.setFirstIndex(Integer.parseInt(start));
+		ph.setPageSize(Integer.parseInt(limit));
+		if (totalProperty != null && !totalProperty.equals("")) {
+			ph.setResultSize(Integer.parseInt(totalProperty));
+		}
+		List<ParamVo> params = new ArrayList<ParamVo>();
+		String subject = request.getParameter("subject");
+		String serviceTemplate = request.getParameter("serviceTemplate");
+		String personal = request.getParameter("personal");
+		ParamVo vo = new ParamVo();
+		vo.setParamName("status");
+		vo.setParamValue(RecurringMeetingInfo.status_upcoming);
+		params.add(vo);
+		if(personal.equals("true")){
+			UserPrivilege up = (UserPrivilege)session.get("userPrivilege");
+			vo = new ParamVo();
+			vo.setParamName("userId");
+			vo.setParamValue(up.getUserId());
+		}
+		if (subject != null && !subject.equals("")) {
+			vo = new ParamVo();
+			vo.setParamName("subject");
+			vo.setParamValue(subject);
+			params.add(vo);
+		}
+		if (serviceTemplate != null && serviceTemplate.length() > 0) {
+			vo = new ParamVo();
+			vo.setParamName("serviceTemplate");
+			vo.setParamValue(serviceTemplate);
+			params.add(vo);
+		}
+		//List<Conference> confList = confService.findConfs(params, ph);
+		List<RecurringMeetingInfo> recurList = null;
+		try {
+			JSONObject json = new JSONObject();
+			json.put("totalProperty", ph.getResultSize());
+			JSONArray arr = JSONArray.fromObject(recurList);
+			json.put("root", arr);
+			System.out.println(json);
+			response.setCharacterEncoding("utf-8");
+
+			PrintWriter out = response.getWriter();
+			out.print(json);
+			out.flush();
+			out.close();
+		} catch (Exception e) {
+			logger.error(e.toString());
+		}
+		return null;
+	}
+	
 	public String searchConfType(){
 		try{
 			logger.info("search...");
@@ -437,7 +501,7 @@ public class ConfAction extends AbstractBaseAction {
 		return null;
 	}
 	public String reserveConf() {
-		String personal = request.getParameter("psersonal");
+		String personal = request.getParameter("personal");
 		if(personal!=null&&!personal.equals("")){
 			request.setAttribute("personal", personal);
 		}
@@ -449,6 +513,11 @@ public class ConfAction extends AbstractBaseAction {
 		String defaultServiceTemplateId = PropertiesHelper.getDefaultServiceTemplateId();
 		request.setAttribute("defaultServiceTemplateId", defaultServiceTemplateId);
 		return "reserveConf";
+	}
+	
+	public String reserveRecurrence(){
+		request.setAttribute("recurrence", "true");
+		return reserveConf();
 	}
 
 	public String save() throws IOException, ParseException {
@@ -499,6 +568,57 @@ public class ConfAction extends AbstractBaseAction {
 		}
 		return null;
 	}
+	
+	public String saveRecurrence() throws IOException, ParseException {
+		logger.info("save recurrence...");
+		conf.setStatus(Conference.status_tobescheduled);
+		UserPrivilege up = (UserPrivilege) session.get("userPrivilege");
+		String userId = up != null ? up.getUserId() : PropertiesHelper.getIcmDefaultUserId();
+		conf.setUserId(userId);
+		conf.setMemberId(PropertiesHelper.getIcmDefaultMemberId());
+		Date d = Calendar.getInstance().getTime();
+		conf.setCreateTime(d);
+		conf.setUpdateTime(d);
+		long delayTime = VcmProperties.getPropertyByLong("vcm.delayAdhocStartTime", 20) * 1000;
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String startTime = request.getParameter("startTime");
+		if (startTime != null && !startTime.equals("")) {
+			long st = df.parse(startTime).getTime();
+			long now = d.getTime();
+			if (now + delayTime >= st)
+				st = now + delayTime;
+			conf.setStartTime(st);
+		} else {
+			conf.setStartTime(d.getTime() + delayTime);
+		}
+		response.setContentType("text/html;charset=utf-8");
+
+		String units = request.getParameter("confUnits");
+		String[] unitList = null;
+		if (units != null && !units.equals(""))
+			unitList = units.split(",");
+
+		try {
+			conf.setStatus(Conference.status_upcoming);
+			if(conf.getIsBroadcast()==null){
+				conf.setIsBroadcast((short)0);
+			}
+			if(conf.getIsSupport()==null){
+				conf.setIsSupport((short)0);
+			}
+			if(conf.getIsRecord()==null){
+				conf.setIsRecord((short)0);
+			}
+			RecurringMeetingInfo recurrence = new RecurringMeetingInfo();
+			BeanUtils.copyProperties(conf, recurrence);
+			//confService.createConf(conf, unitList);
+			logService.addLog(up.getUserId(), ILogService.type_reserve_conf, "预约例会"+recurrence.getRadRecurrenceId());
+			outJson("{success:true, msg:'预约例会成功!'}");
+		} catch (Exception e) {
+			outJson("{success:false, msg:'预约例会失败'}");
+		}
+		return null;
+	}
 
 	public String modifyReserve() {
 		logger.info("modifyReserve...");
@@ -512,6 +632,25 @@ public class ConfAction extends AbstractBaseAction {
 		Calendar c = Calendar.getInstance();
 		c.setTimeInMillis(conf.getStartTime());
 		request.setAttribute("startTime", df.format(c.getTime()));
+		return "modifyReserve";
+	}
+	
+	public String modifyRecurrence(){
+		logger.info("modifyRecurrence...");
+		String personal = request.getParameter("personal");
+		if(personal!=null && !personal.equals("")){
+			request.setAttribute("personal", personal);
+		}
+		String id = request.getParameter("recurrenceId");
+		//conf = confService.getConfById(id);
+		RecurringMeetingInfo recurrence = null;
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Calendar c = Calendar.getInstance();
+		c.setTimeInMillis(recurrence.getStartTime());
+		request.setAttribute("startTime", df.format(c.getTime()));
+		request.setAttribute("recurrence", "true");
+		conf = new Conference();
+		BeanUtils.copyProperties(recurrence, conf);
 		return "modifyReserve";
 	}
 
@@ -594,6 +733,66 @@ public class ConfAction extends AbstractBaseAction {
 		}
 		return null;
 	}
+	
+	public String updateRecurrence() throws Exception {
+		logger.info("update recurrence...");
+		UserPrivilege up = (UserPrivilege)session.get("userPrivilege");
+		//Conference oldConf = confService.getConfById(conf.getConferenceId()
+		//		.toString());
+		RecurringMeetingInfo oldRecur = null;
+		Date d = Calendar.getInstance().getTime();
+		oldRecur.setUpdateTime(d);
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String startTime = request.getParameter("startTime");
+		if (startTime != null && !startTime.equals("")) {
+			oldRecur.setStartTime(df.parse(startTime).getTime());
+		}
+		oldRecur.setContactMethod(conf.getContactMethod());
+		oldRecur.setServiceTemplateId(conf.getServiceTemplateId());
+		oldRecur.setConfType(conf.getConfType());
+		oldRecur.setSubject(conf.getSubject());
+		oldRecur.setControlPin(conf.getControlPin());
+		oldRecur.setPassword(conf.getPassword());
+		oldRecur.setDialableNumber(conf.getDialableNumber());
+		oldRecur.setInitUnit(conf.getInitUnit());
+		oldRecur.setTimeLong(conf.getTimeLong());
+		oldRecur.setMainUnit(conf.getMainUnit());
+		oldRecur.setPresider(conf.getPresider());
+		oldRecur.setPrincipal(conf.getPrincipal());
+		oldRecur.setPrincipalMobile(conf.getPrincipalMobile());
+		oldRecur.setReserveCode(conf.getReserveCode());
+		oldRecur.setDescription(conf.getDescription());
+		if(conf.getIsBroadcast()==null){
+			oldRecur.setIsBroadcast((short)0);
+		}else{
+			oldRecur.setIsBroadcast(conf.getIsBroadcast());
+		}
+		if(conf.getIsSupport()==null){
+			oldRecur.setIsSupport((short)0);
+		}else{
+			oldRecur.setIsSupport(conf.getIsSupport());
+		}
+		if(conf.getIsRecord()==null){
+			oldRecur.setIsRecord((short)0);
+		}else{
+			oldRecur.setIsRecord(conf.getIsRecord());
+		}
+		response.setContentType("text/html;charset=utf-8");
+
+		String units = request.getParameter("confUnits");
+		String[] unitList = null;
+		if (units != null && !units.equals(""))
+			unitList = units.split(",");
+
+		try {
+			//confService.modifyConf(oldConf, unitList);
+			logService.addLog(up.getUserId(), ILogService.type_modify_conf, "修改例会"+oldRecur.getRadRecurrenceId());
+			outJson("{success:true, msg:'预约例会修改成功!'}");
+		} catch (Exception e) {
+			outJson("{success:false, msg:'预约例会修改失败!'}");
+		}
+		return null;
+	}
 
 	public String reserveDetail() {
 		String confId = request.getParameter("conferenceId");
@@ -605,9 +804,25 @@ public class ConfAction extends AbstractBaseAction {
 		return "reserveDetail";
 	}
 
+	public String recurrenceDetail(){
+		String recurId = request.getParameter("recurrenceId");
+		recurrence = null;
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Calendar c = Calendar.getInstance();
+		c.setTimeInMillis(recurrence.getStartTime());
+		request.setAttribute("startTime", df.format(c.getTime()));
+		BeanUtils.copyProperties(recurrence, conf);
+		return "reserveDetail";
+	}
+	
 	public String manageReserve() {
 		request.setAttribute("personal", "false");
 		return "listReserve";
+	}
+	
+	public String manageRecurrence(){
+		request.setAttribute("personal", "false");
+		return "listRecurrence";
 	}
 
 	public String getUnitsByConfId() {
