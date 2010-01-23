@@ -909,7 +909,7 @@ function setupRecurrence(){
 						Ext.getDom('recurrence.dayInterval').value = Ext.getCmp('dayInterval').getValue();
 					}
 					else {
-						Ext.getDom('recurrence.dayInterval').value = "0";
+						Ext.getDom('recurrence.dayInterval').value = '0';
 					}
 				}
 				else 
@@ -966,7 +966,7 @@ function initWin(){
 			Ext.getCmp('dayMode').show();
 			Ext.getCmp('weekMode').hide();
 			Ext.getCmp('monthMode').hide();
-			if(dayInterval=="0"){
+			if(dayInterval=='0'){
 				Ext.getCmp('workdayRadio').setValue(true);
 			}else{
 				Ext.getCmp('dayIntervalRadio').setValue(true);
@@ -979,7 +979,7 @@ function initWin(){
 			Ext.getCmp('weekMode').show();
 			Ext.getCmp('monthMode').hide();
 			Ext.getCmp('weekInterval').setValue(weekInterval);
-			Ext.getCmp('weekDayGroup').setValue(Ext.getCmp('weekDay_'+weekDay),true);
+			Ext.getCmp('weekDay_'+weekDay).setValue(true);
 		}else{
 			//月例会
 			Ext.getCmp('mode_3').setValue(true);
