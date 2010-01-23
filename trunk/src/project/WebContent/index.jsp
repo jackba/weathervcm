@@ -151,6 +151,9 @@ a:hover{}
 			<li>
 				<span id="manageConf" href="<%=request.getContextPath()%>/conf_manageReserve.do" onClick="onClickMenuItem(this)">预约管理</span>
 			</li>
+			<li>
+				<span id="manageRecurrence" href="<%=request.getContextPath() %>/conf_manageRecurrence.do" onClick="onClickMenuItem(this)">例会管理</span>
+			</li>
 		<%} %>
 		</ul>
 	</div>

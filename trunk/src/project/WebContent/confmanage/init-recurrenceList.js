@@ -14,9 +14,9 @@ Ext.onReady(function() {
 	personal = Ext.getDom('personal').value;
 	thisId = "";
 	if(personal=='true'){
-		thisId = 'scheduleConf';
+		thisId = 'scheduleRecurrence';
 	}else{
-		thisId = 'manageConf';
+		thisId = 'manageRecurrence';
 	}
 	initData();
 	setInterval("refresh()", 30*1000)
