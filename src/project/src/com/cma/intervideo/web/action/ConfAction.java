@@ -609,9 +609,35 @@ public class ConfAction extends AbstractBaseAction {
 			if(conf.getIsRecord()==null){
 				conf.setIsRecord((short)0);
 			}
-			RecurringMeetingInfo recurrence = new RecurringMeetingInfo();
 			BeanUtils.copyProperties(conf, recurrence);
+			String dayInterval = request.getParameter("dayInterval");
+			String weekInterval = request.getParameter("weekInterval");
+			String weekDay = request.getParameter("weekDay");
+			String monthInterval = request.getParameter("monthInterval");
+			String monthDay = request.getParameter("monthDay");
+			String endDate = request.getParameter("endDate");
+			String endAfterNumber = request.getParameter("endAfterNumber");
+			if(recurrence.getRecurrenceType()==1){
+				//日例会
+				recurrence.setDayInterval(Integer.parseInt(dayInterval));
+			}else if(recurrence.getRecurrenceType()==2){
+				//周例会
+				recurrence.setWeekInterval(Integer.parseInt(weekInterval));
+				recurrence.setWeekDay(Integer.parseInt(weekDay));
+			}else{
+				//月例会
+				recurrence.setMonthDay(Integer.parseInt(monthDay));
+				recurrence.setMonthInterval(Integer.parseInt(monthInterval));
+			}
+			if(recurrence.getEndType()==1){
+				DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+				recurrence.setEndDate(df1.parse(endDate).getTime());
+			}else{
+				recurrence.setEndAfterNumber(Integer.parseInt(endAfterNumber));
+			}
+			
 			//confService.createConf(conf, unitList);
+			confService.createRecurrence(recurrence, unitList);
 			logService.addLog(up.getUserId(), ILogService.type_reserve_conf, "预约例会"+recurrence.getRadRecurrenceId());
 			outJson("{success:true, msg:'预约例会成功!'}");
 		} catch (Exception e) {
