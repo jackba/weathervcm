@@ -61,7 +61,7 @@ public class ConfAction extends AbstractBaseAction {
 	private ILogService logService;
 	private IUserService userService;
 	private Conference conf;
-	private RecurringMeetingInfo recurrence = new RecurringMeetingInfo();
+	private RecurringMeetingInfo recurrence;
 	private Integer conferenceId;
 	
 	public void setLogService(ILogService logService) {
@@ -70,6 +70,14 @@ public class ConfAction extends AbstractBaseAction {
 	
 	public void setUserService(IUserService userService) {
 		this.userService = userService;
+	}
+	
+	public RecurringMeetingInfo getRecurrence() {
+		return recurrence;
+	}
+
+	public void setRecurrence(RecurringMeetingInfo recurrence) {
+		this.recurrence = recurrence;
 	}
 
 	public Integer getConferenceId() {
