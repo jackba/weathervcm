@@ -11,6 +11,7 @@ import com.cma.intervideo.util.ParamVo;
 
 public interface IConfService {
 	public List<Conference> findConfs(List<ParamVo> params, PageHolder ph);
+	public List<RecurringMeetingInfo> findRecurrences(List<ParamVo> params, PageHolder ph);
 	public void createConf(Conference conf, String[] units) throws Exception;
 	public void modifyConf(Conference conf, String[] units) throws Exception;
 	public Conference getConfById(String confId);

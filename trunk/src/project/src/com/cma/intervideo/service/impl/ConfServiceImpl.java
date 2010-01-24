@@ -121,6 +121,16 @@ public class ConfServiceImpl implements IConfService {
 		}
 		return listConf;
 	}
+	
+	public List<RecurringMeetingInfo> findRecurrences(List<ParamVo> params, PageHolder ph) {
+		List<RecurringMeetingInfo> listRecurrence = recurrenceDao.findRecurrences(params, ph);
+		if (listRecurrence != null) {
+			int size = listRecurrence.size();
+			for (int i = 0; i < size; i++)
+				updateAdditionalInfo(listRecurrence.get(i));
+		}
+		return listRecurrence;
+	}
 
 	public void createConf(Conference conf, String[] units) throws Exception {
 		logger.info("Before Scheduling a new meeting: " + conf);
@@ -225,6 +235,10 @@ public class ConfServiceImpl implements IConfService {
 		return confDao.findUnitsByConfId(confId, selected);
 	}
 	
+	public List<Unit> findUnitsByRecurrenceId(String recurrenceId, boolean selected){
+		return recurrenceDao.findUnitsByRecurrenceId(recurrenceId, selected);
+	}
+	
 	private void updateUnitInfo(Conference conf) {
 		List<Unit> listUnit = findUnitsByConfId(conf.getConferenceId().toString(), true);
 		if (listUnit == null || listUnit.size() == 0)
@@ -238,11 +252,31 @@ public class ConfServiceImpl implements IConfService {
 		conf.setConfUnitNames(names);
 	}
 	
+	private void updateUnitInfo(RecurringMeetingInfo recur) {
+		List<Unit> listUnit = findUnitsByRecurrenceId(recur.getRecurrenceId().toString(), true);
+		if (listUnit == null || listUnit.size() == 0)
+			return;
+		String names = "";
+		int unitSize = listUnit.size();
+		for (int j = 0; j < unitSize-1; j++) {
+			names += listUnit.get(j).getUnitName() + ", ";
+		}
+		names += listUnit.get(unitSize-1).getUnitName();
+		recur.setConfUnitNames(names);
+	}
+	
 	private void updateMainUnitInfo(Conference conf) {
 		Unit unit = unitDao.getObjectByID(conf.getMainUnit());
 		if (unit == null)
 			return;
 		conf.setMainUnitName(unit.getUnitName());
+	}
+	
+	private void updateMainUnitInfo(RecurringMeetingInfo recur){
+		Unit unit = unitDao.getObjectByID(recur.getMainUnit());
+		if (unit == null)
+			return;
+		recur.setMainUnitName(unit.getUnitName());
 	}
 	
 	private void updateServiceTemplateInfo(Conference conf) {
@@ -255,6 +289,16 @@ public class ConfServiceImpl implements IConfService {
 		conf.setServiceTemplateName(st.getServiceTemplateName());
 	}
 	
+	private void updateServiceTemplateInfo(RecurringMeetingInfo recur) {
+		if (recur == null || recur.getServiceTemplateId() == null || recur.getServiceTemplateId().length() == 0)
+			return;
+		ServiceTemplate st = serviceDao.getServiceTemplate(recur.getServiceTemplateId());
+		if (st == null)
+			return;
+		recur.setServiceTemplateDesc(st.getServiceTemplateDesc());
+		recur.setServiceTemplateName(st.getServiceTemplateName());
+	}
+	
 	private void updateConfTypeInfo(Conference conf){
 		if(conf == null || conf.getConfType() == null){
 			return;
@@ -264,6 +308,17 @@ public class ConfServiceImpl implements IConfService {
 			return;
 		}
 		conf.setConfTypeDesc(fd.getId().getFieldDesc());
+	}
+	
+	private void updateConfTypeInfo(RecurringMeetingInfo recur){
+		if(recur == null || recur.getConfType() == null){
+			return;
+		}
+		FieldDesc fd = confDao.getConfType(recur.getConfType());
+		if(fd == null){
+			return;
+		}
+		recur.setConfTypeDesc(fd.getId().getFieldDesc());
 	}
 
 	public Conference getConfById(String confId) {
@@ -277,6 +332,13 @@ public class ConfServiceImpl implements IConfService {
 		updateMainUnitInfo(conf);
 		updateServiceTemplateInfo(conf);
 		updateConfTypeInfo(conf);
+	}
+	
+	private void updateAdditionalInfo(RecurringMeetingInfo recur){
+		updateUnitInfo(recur);
+		updateMainUnitInfo(recur);
+		updateServiceTemplateInfo(recur);
+		updateConfTypeInfo(recur);
 	}
 	
 	/**

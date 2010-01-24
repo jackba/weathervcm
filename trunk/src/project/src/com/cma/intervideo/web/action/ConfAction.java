@@ -466,7 +466,7 @@ public class ConfAction extends AbstractBaseAction {
 			params.add(vo);
 		}
 		//List<Conference> confList = confService.findConfs(params, ph);
-		List<RecurringMeetingInfo> recurList = null;
+		List<RecurringMeetingInfo> recurList = confService.findRecurrences(params, ph);
 		try {
 			JSONObject json = new JSONObject();
 			json.put("totalProperty", ph.getResultSize());
