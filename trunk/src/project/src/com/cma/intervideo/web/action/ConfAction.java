@@ -625,19 +625,19 @@ public class ConfAction extends AbstractBaseAction {
 			String monthDay = request.getParameter("monthDay");
 			String endDate = request.getParameter("endDate");
 			String endAfterNumber = request.getParameter("endAfterNumber");
-			if(recurrence.getRecurrenceType()==1){
+			if (recurrence.getRecurrenceType() == RecurringMeetingInfo.RECURRING_DAILY){
 				//日例会
 				recurrence.setDayInterval(Integer.parseInt(dayInterval));
-			}else if(recurrence.getRecurrenceType()==2){
+			} else if (recurrence.getRecurrenceType() == RecurringMeetingInfo.RECURRING_WEEKLY){
 				//周例会
 				recurrence.setWeekInterval(Integer.parseInt(weekInterval));
 				recurrence.setWeekDay(Integer.parseInt(weekDay));
-			}else{
+			} else {
 				//月例会
 				recurrence.setMonthDay(Integer.parseInt(monthDay));
 				recurrence.setMonthInterval(Integer.parseInt(monthInterval));
 			}
-			if(recurrence.getEndType()==1){
+			if (recurrence.getEndType() == RecurringMeetingInfo.RECURRING_ENDTYPE_DATE){
 				DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 				recurrence.setEndDate(df1.parse(endDate).getTime());
 			}else{

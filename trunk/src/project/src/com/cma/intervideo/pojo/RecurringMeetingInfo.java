@@ -11,6 +11,13 @@ public class RecurringMeetingInfo implements java.io.Serializable {
 
 	public static final short status_upcoming = 0;
 	public static final short status_cancel = 3;
+	
+	public static final int RECURRING_DAILY = 1;
+	public static final int RECURRING_WEEKLY = 2;
+	public static final int RECURRING_MONTHLY = 3;
+	
+	public static final int RECURRING_ENDTYPE_DATE = 1;
+	public static final int RECURRING_ENDTYPE_NUMBER = 2;
 
 	private Integer recurrenceId;
 	private String userId;

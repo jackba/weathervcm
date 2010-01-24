@@ -1,7 +1,11 @@
 package com.radvision.icm.service.vcm;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -25,6 +29,7 @@ import com.radvision.icm.service.LicenseServicePortType;
 import com.radvision.icm.service.McuResourceInfo;
 import com.radvision.icm.service.McuResourceResult;
 import com.radvision.icm.service.MeetingType;
+import com.radvision.icm.service.RecurInstanceInfo;
 import com.radvision.icm.service.RecurrenceInfo;
 import com.radvision.icm.service.ResourceService;
 import com.radvision.icm.service.ResourceServicePortType;
@@ -464,28 +469,28 @@ public class ICMService {
 		return info;
 	}
 	
-	private static RecurrenceInfo convertToRecurringInfo(RecurringMeetingInfo conf,
-			List<String> listTerminalId, boolean isCreating) {
+	private static RecurrenceInfo convertToRecurringInfo(RecurringMeetingInfo rmi,
+			List<String> listTerminalId, boolean isCreating) throws Exception {
 		
 		RecurrenceInfo ri = new RecurrenceInfo();
 
 		ConferenceInfo info = new ConferenceInfo();
-		info.setConferenceId(isCreating ? null : conf.getRadRecurrenceId());
-		info.setUserID(conf.getUserId());
-		info.setOrgID(conf.getMemberId());
-		info.setDialableConferenceId(conf.getDialableNumber());
-		long startTime = conf.getStartTime();
-		long endTime = startTime + conf.getTimeLong() * 60000;
+		info.setConferenceId(isCreating ? null : rmi.getRadRecurrenceId());
+		info.setUserID(rmi.getUserId());
+		info.setOrgID(rmi.getMemberId());
+		info.setDialableConferenceId(rmi.getDialableNumber());
+		long startTime = rmi.getStartTime();
+		long endTime = startTime + rmi.getTimeLong() * 60000;
 		info.setStartTime(startTime);
 		info.setEndTime(endTime);
-		info.setMeetingTypeId(conf.getServiceTemplateId());
-		info.setDescription(conf.getDescription());
-		info.setPassword(conf.getPassword());
-		info.setFullControlPassword(conf.getControlPin());
-		int reservedport = conf.getPortsNum() == null ? 2 : conf.getPortsNum();
+		info.setMeetingTypeId(rmi.getServiceTemplateId());
+		info.setDescription(rmi.getDescription());
+		info.setPassword(rmi.getPassword());
+		info.setFullControlPassword(rmi.getControlPin());
+		int reservedport = rmi.getPortsNum() == null ? 2 : rmi.getPortsNum();
 		info.setReservedIPPorts(reservedport);
 		// info.setReservedISDNPorts(reservedport);
-		info.setSubject(conf.getSubject());
+		info.setSubject(rmi.getSubject());
 		if (listTerminalId != null && listTerminalId.size() > 0) {
 			List<TerminalInfo> terminals = info.getTerminals();
 			for (int i = 0; i < listTerminalId.size(); i++) {
@@ -496,10 +501,125 @@ public class ICMService {
 		}
 		ri.setConferenceInfoTemplate(info);
 		
-//		RecurInstanceInfo rii = new RecurInstanceInfo();
+		List<RecurInstanceInfo> riis = ri.getRecurInstanceInfos();
+		if (rmi.getRecurrenceType() == RecurringMeetingInfo.RECURRING_DAILY) {
+			int interval = rmi.getDayInterval();
+			long currTime = System.currentTimeMillis();
+			long nextTime = (startTime > currTime) ? startTime : currTime;
+			rmi.setStartDate(getCurrentDate(nextTime));
+			Calendar cal = Calendar.getInstance();
+			cal.setTimeInMillis(nextTime);
+			if (rmi.getEndType() == RecurringMeetingInfo.RECURRING_ENDTYPE_DATE){
+				long endDate = rmi.getEndDate();
+				rmi.setEndDate(getCurrentDate(endDate));
+				while (nextTime < endDate) {
+					if (interval <= 0 ) {
+						int weekDay = cal.get(Calendar.DAY_OF_WEEK);
+						if (weekDay == 0 && weekDay == 6) {
+							cal.add(Calendar.DAY_OF_YEAR, 1);
+							nextTime = cal.getTimeInMillis();
+							continue;
+						}
+					}
+					RecurInstanceInfo rii = new RecurInstanceInfo();
+					rii.setStartTime(nextTime);
+					rii.setEndTime(nextTime + rmi.getTimeLong()*60000);
+					riis.add(rii);
+					cal.add(Calendar.DAY_OF_YEAR, interval<=0 ? 1 : interval);
+					nextTime = cal.getTimeInMillis();
+				}
+			} else {
+				int repeat = rmi.getEndAfterNumber();
+				int i = 0;
+				while (i < repeat) {
+					if (interval <= 0 ) {
+						int weekDay = cal.get(Calendar.DAY_OF_WEEK);
+						if (weekDay == 0 && weekDay == 6) {
+							cal.add(Calendar.DAY_OF_YEAR, 1);
+							nextTime = cal.getTimeInMillis();
+							continue;
+						}
+					}
+					RecurInstanceInfo rii = new RecurInstanceInfo();
+					rii.setStartTime(nextTime);
+					rii.setEndTime(nextTime + rmi.getTimeLong()*60000);
+					riis.add(rii);
+					i++;
+					if (i >= repeat) {
+						rmi.setEndDate(getCurrentDate(nextTime));
+						break;
+					}
+					cal.add(Calendar.DAY_OF_YEAR, interval<=0 ? 1 : interval);
+					nextTime = cal.getTimeInMillis();
+				}
+				
+			}
+		} else if (rmi.getRecurrenceType() == RecurringMeetingInfo.RECURRING_WEEKLY) {
+			int interval = rmi.getWeekInterval();
+			long currTime = System.currentTimeMillis();
+			long nextTime = (startTime > currTime) ? startTime : currTime;
+			rmi.setStartDate(getCurrentDate(nextTime));
+			Calendar cal = Calendar.getInstance();
+			cal.setTimeInMillis(nextTime);
+			if (rmi.getEndType() == RecurringMeetingInfo.RECURRING_ENDTYPE_DATE){
+				long endDate = rmi.getEndDate();
+				rmi.setEndDate(getCurrentDate(endDate));
+				while (nextTime < endDate) {
+					if (interval <= 0 ) {
+						int weekDay = cal.get(Calendar.DAY_OF_WEEK);
+						if (weekDay == 0 && weekDay == 6) {
+							cal.add(Calendar.DAY_OF_YEAR, 1);
+							nextTime = cal.getTimeInMillis();
+							continue;
+						}
+					}
+					RecurInstanceInfo rii = new RecurInstanceInfo();
+					rii.setStartTime(nextTime);
+					rii.setEndTime(nextTime + rmi.getTimeLong()*60000);
+					riis.add(rii);
+					cal.add(Calendar.DAY_OF_YEAR, interval<=0 ? 1 : interval);
+					nextTime = cal.getTimeInMillis();
+				}
+			} else {
+				int repeat = rmi.getEndAfterNumber();
+				int i = 0;
+				while (i < repeat) {
+					if (interval <= 0 ) {
+						int weekDay = cal.get(Calendar.DAY_OF_WEEK);
+						if (weekDay == 0 && weekDay == 6) {
+							cal.add(Calendar.DAY_OF_YEAR, 1);
+							nextTime = cal.getTimeInMillis();
+							continue;
+						}
+					}
+					RecurInstanceInfo rii = new RecurInstanceInfo();
+					rii.setStartTime(nextTime);
+					rii.setEndTime(nextTime + rmi.getTimeLong()*60000);
+					riis.add(rii);
+					i++;
+					if (i >= repeat) {
+						rmi.setEndDate(getCurrentDate(nextTime));
+						break;
+					}
+					cal.add(Calendar.DAY_OF_YEAR, interval<=0 ? 1 : interval);
+					nextTime = cal.getTimeInMillis();
+				}
+				
+			}
+		} else {
+			
+		}
 //		ri.getRecurInstanceInfos().add(rii);
 		
 		return ri;
+	}
+	
+	private static long getCurrentDate(long time) throws Exception {
+		Date dt = new Date(time);
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		String s = df.format(dt);
+		Date dtNew = df.parse(s);
+		return dtNew.getTime();
 	}
 
 	private static UserInfo convertToUserInfo(User user) {
@@ -534,5 +654,26 @@ public class ICMService {
 		virtualRoo.setServiceID(room.getServiceTemplate());
 		return virtualRoo;
 	}
-	
+
+	public static void main(String[] args) {
+		long currTime = System.currentTimeMillis();
+//		long tmpTime = currTime - 24 * 60 * 60 * 1000;
+		Date dt = new Date(currTime);
+//		Calendar cal = Calendar.getInstance();
+//		cal.setTime(dt);
+//		System.out.println(cal);
+		
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		String s = df.format(dt);
+		System.out.println(s);
+		try {
+			Date dtNew = df.parse(s);
+			long newTime = dtNew.getTime();
+			long minutes = (currTime - newTime)/(1000*60);
+			System.out.println(minutes/60 + ":" + minutes%60);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
