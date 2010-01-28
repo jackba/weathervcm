@@ -46,6 +46,8 @@ drop table if exists recurrence_conf;
 
 drop table if exists recurrence_unit;
 
+drop table if exists send_message;
+
 /*==============================================================*/
 /* Table: bulletin_board                                        */
 /*==============================================================*/
@@ -447,3 +449,17 @@ create table recurrence_unit
 )
 comment = "例会与参会单位的对应关系"
 type = InnoDB;
+
+/*==============================================================*/
+/* Table: send_message                                          */
+/*==============================================================*/
+CREATE TABLE send_message (
+  msg_id int(11) AUTO_INCREMENT,
+  message varchar(140) NOT NULL COMMENT '短消息内容',
+  msisdn varchar(15) NOT NULL COMMENT '手机号',
+  send_time datetime NOT NULL COMMENT '发送时间',
+  com_port int(11) NOT NULL DEFAULT 0 COMMENT '端口号，数值型，设定发送本条信息所使用的端口号，为0或不填时为自动端口号',
+  status tinyint NOT NULL COMMENT '发送状态，0-发送成功，1-发送失败',
+  error_desc varchar(200) COMMENT '发送失败原因',
+  PRIMARY KEY (msg_id)
+) ENGINE=InnoDB COMMENT='短信发送表';
