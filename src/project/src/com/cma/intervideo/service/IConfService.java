@@ -5,6 +5,7 @@ import java.util.List;
 import com.cma.intervideo.pojo.Conference;
 import com.cma.intervideo.pojo.FieldDesc;
 import com.cma.intervideo.pojo.RecurringMeetingInfo;
+import com.cma.intervideo.pojo.SendMessage;
 import com.cma.intervideo.pojo.Unit;
 import com.cma.intervideo.util.PageHolder;
 import com.cma.intervideo.util.ParamVo;
@@ -28,4 +29,10 @@ public interface IConfService {
 	 * @return
 	 */
 	public List<FieldDesc> findConfTypes();
+	
+	/**
+	 * 保存短信发送日志
+	 * @param msg
+	 */
+	public void saveSmsLog(SendMessage msg);
 }
