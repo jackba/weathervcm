@@ -33,7 +33,7 @@
 	<h1>当前位置：会议管理&nbsp;&gt;&nbsp;<span class="position_current"> 例会预约列表</span></h1>
 		<div id="searchArea" class="search">
 			
-			<form name="form1" id="form1" method="post" action="<%=request.getContextPath()%>/conf_searchReserves.do">
+			<form name="form1" id="form1" method="post" action="<%=request.getContextPath()%>/conf_searchRecurrences.do">
 				<input type="hidden" name="personal" id="personal" value="<s:property value='#request.personal'/>"/>
 				<table style="display:none" border="1" width="800" class="query">
 					<tr>

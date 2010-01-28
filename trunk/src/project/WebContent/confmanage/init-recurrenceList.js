@@ -26,15 +26,15 @@ Ext.onReady(function() {
 function initData() {
 	ds = new Ext.data.Store({
 		proxy : new Ext.data.HttpProxy({
-			url : 'conf_searchReserves.do'
+			url : 'conf_searchRecurrences.do'
 		}),
 		reader : new Ext.data.JsonReader({
 			totalProperty : 'totalProperty',
 			root : 'root'
 		}, [{
-			name : 'conferenceId'
+			name : 'recurrenceId'
 		}, {
-			name : 'radConferenceId'
+			name : 'radRecurrenceId'
 		}, {
 			name : 'subject'
 		}, {
@@ -102,10 +102,10 @@ function initGrid() {
 	var sm = new Ext.grid.CheckboxSelectionModel();
 
 	var cm = new Ext.grid.ColumnModel([sm, {
-		dataIndex : 'conferenceId',
+		dataIndex : 'recurrenceId',
 		hidden : true
 	},{
-		dataIndex : 'radConferenceId',
+		dataIndex : 'radRecurrenceId',
 		hidden : true
 	},{
 		header : "名称",
@@ -114,8 +114,8 @@ function initGrid() {
 		dataIndex : 'subject',
 		renderer : function(value, p , record){
 			//return String.format('<a href="conf_reserveDetail.do?personal='+Ext.getDom('personal').value+'&conferenceId={0}" target="_blank">{1}</a>',record.data.conferenceId,value);
-			var action="window.parent.createNewPanel('confReserveDetail_{0}','"+thisId+"','预约详情','conf_reserveDetail.do?personal="+personal+"%26conferenceId={1}');";
-			return String.format('<a href="#" onclick='+action+'>{2}</a>',record.data.conferenceId,record.data.conferenceId,value);
+			var action="window.parent.createNewPanel('recurrenceReserveDetail_{0}','"+thisId+"','预约详情','conf_reserveDetail.do?personal="+personal+"%26recurrenceId={1}');";
+			return String.format('<a href="#" onclick='+action+'>{2}</a>',record.data.recurrenceId,record.data.recurrenceId,value);
 		}
 	}, {
 		header : "预约时间",
@@ -185,7 +185,7 @@ function initGrid() {
 		forceFit:true,
 		loadMask : true,
 		//viewConfig : {forceFit : true},
-		tbar : ['<b>&nbsp;&nbsp;&nbsp;&nbsp;<font color=#990000>预约会议列表</font></b>','->',{
+		tbar : ['<b>&nbsp;&nbsp;&nbsp;&nbsp;<font color=#990000>预约例会列表</font></b>','->',{
 			id : 'btnAdd',
 			text : '预约',
 			pressed : true,
@@ -199,7 +199,7 @@ function initGrid() {
 			id : 'btnEdit',
 			text : '修改',
 			pressed : true,
-			tooltip : '修改会议预约',
+			tooltip : '修改例会预约',
 			//iconCls : 'edit',
 			iconCls : 'edit16',
 			onClick : function() {
@@ -213,7 +213,7 @@ function initGrid() {
 			id : 'btnDel',
 			text : '删除',
 			pressed : true,
-			tooltip : '删除会议预约',
+			tooltip : '删除例会预约',
 			iconCls : 'delete16',
 			onClick : function() {
 				if (sm.hasSelection()) {
@@ -241,20 +241,20 @@ function initGrid() {
 			}
 		});*/
 		var list = sm.getSelections();
-		var id = list[0].data["conferenceId"];
+		var id = list[0].data["recurrenceId"];
 		//location.href = "conf_modifyReserve.do?personal="+Ext.getDom('personal').value+"&conferenceId="+id;
-		window.parent.createNewPanel('confModifyReserve_'+id,thisId,'修改预约',"conf_modifyReserve.do?personal="+Ext.getDom('personal').value+"%26conferenceId="+id);
+		window.parent.createNewPanel('confModifyRecurrence_'+id,thisId,'修改预约',"conf_modifyRecurrence.do?personal="+Ext.getDom('personal').value+"%26recurrenceId="+id);
 	}
 	
 	function del() {
-		Ext.MessageBox.confirm('提示', '确定要删除会议预约吗?', function(button) {
+		Ext.MessageBox.confirm('提示', '确定要删除例会预约吗?', function(button) {
 			if (button == 'yes') {
 				var list = sm.getSelections();
 				var ids = [];
 				for (var i = 0; i < list.length; i++) {
-					ids[i] = list[i].data["conferenceId"]+","+list[i].data["radConferenceId"];
+					ids[i] = list[i].data["recurrenceId"]+","+list[i].data["radRecurrenceId"];
 				}
-				confService.deleteReserves(ids, {
+				confService.deleteRecurrences(ids, {
 					callback:function(data) {
 						if (data > 0) {
 							Ext.MessageBox.alert('提示', "删除" + data + '条数据成功!');
