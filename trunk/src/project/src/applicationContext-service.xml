@@ -2,6 +2,9 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	<bean id="vcmConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="/WEB-INF/classes/vcm.properties"/>
+	</bean>
 	<bean id="userService" parent="baseTransactionProxy">
 		<property name="target">
 			<bean class="com.cma.intervideo.service.impl.UserServiceImpl">
@@ -128,5 +131,9 @@
 				<property name="logDao" ref="logDao"/>
 			</bean>
 		</property>
+	</bean>
+	<bean id="SMSUtil" scope="singleton" init-method="init" destroy-method="cleanup">
+		<property name="confDao" ref="confDao"/>
+		<property name="comPort" value="${vcm.sms.comPort}"/>
 	</bean>
 </beans>

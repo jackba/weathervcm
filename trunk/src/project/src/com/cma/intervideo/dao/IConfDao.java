@@ -5,6 +5,7 @@ import java.util.List;
 import com.cma.intervideo.dao.util.DAO;
 import com.cma.intervideo.pojo.Conference;
 import com.cma.intervideo.pojo.FieldDesc;
+import com.cma.intervideo.pojo.SendMessage;
 import com.cma.intervideo.pojo.Unit;
 import com.cma.intervideo.util.PageHolder;
 import com.cma.intervideo.util.ParamVo;
@@ -39,4 +40,10 @@ public interface IConfDao extends DAO<Conference, Integer>{
 	public List<FieldDesc> findConfTypes();
 	
 	public FieldDesc getConfType(short fieldValue);
+	
+	/**
+	 * 保存短信发送日志
+	 * @param msg
+	 */
+	public void saveSmsLog(SendMessage msg);
 }

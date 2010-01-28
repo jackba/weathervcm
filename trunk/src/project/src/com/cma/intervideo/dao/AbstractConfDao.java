@@ -17,6 +17,7 @@ import com.cma.intervideo.pojo.ConfParty;
 import com.cma.intervideo.pojo.ConfUnit;
 import com.cma.intervideo.pojo.Conference;
 import com.cma.intervideo.pojo.FieldDesc;
+import com.cma.intervideo.pojo.SendMessage;
 import com.cma.intervideo.pojo.Unit;
 import com.cma.intervideo.util.PageHolder;
 import com.cma.intervideo.util.ParamVo;
@@ -220,4 +221,11 @@ public abstract class AbstractConfDao extends AbstractDAO<Conference, Integer> i
 		}
 	}
 	
+	/**
+	 * 保存短信发送日志
+	 * @param msg
+	 */
+	public void saveSmsLog(SendMessage msg){
+		this.getHibernateTemplate().save(msg);
+	}
 }

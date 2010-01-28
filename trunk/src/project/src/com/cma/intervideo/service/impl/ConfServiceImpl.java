@@ -22,6 +22,7 @@ import com.cma.intervideo.dao.IUnitDao;
 import com.cma.intervideo.pojo.Conference;
 import com.cma.intervideo.pojo.FieldDesc;
 import com.cma.intervideo.pojo.RecurringMeetingInfo;
+import com.cma.intervideo.pojo.SendMessage;
 import com.cma.intervideo.pojo.ServiceTemplate;
 import com.cma.intervideo.pojo.Unit;
 import com.cma.intervideo.service.IConfService;
@@ -532,4 +533,11 @@ public class ConfServiceImpl implements IConfService {
 		
 	}
 
+	/**
+	 * 保存短信发送日志
+	 * @param msg
+	 */
+	public void saveSmsLog(SendMessage msg){
+		confDao.saveSmsLog(msg);
+	}
 }
