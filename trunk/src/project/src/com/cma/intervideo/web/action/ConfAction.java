@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.ServletOutputStream;
 
@@ -28,10 +29,12 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.BeanUtils;
 
+import com.cma.intervideo.exception.ReserveCodeNotExistException;
 import com.cma.intervideo.pojo.Conference;
 import com.cma.intervideo.pojo.FieldDesc;
 import com.cma.intervideo.pojo.FieldDescId;
 import com.cma.intervideo.pojo.RecurringMeetingInfo;
+import com.cma.intervideo.pojo.SendMessage;
 import com.cma.intervideo.pojo.Unit;
 import com.cma.intervideo.pojo.User;
 import com.cma.intervideo.pojo.VirtualRoom;
@@ -43,6 +46,7 @@ import com.cma.intervideo.util.AbstractBaseAction;
 import com.cma.intervideo.util.PageHolder;
 import com.cma.intervideo.util.ParamVo;
 import com.cma.intervideo.util.PropertiesHelper;
+import com.cma.intervideo.util.SMSUtil;
 import com.cma.intervideo.util.UserPrivilege;
 import com.cma.intervideo.util.VcmProperties;
 import com.lowagie.text.Document;
@@ -63,7 +67,12 @@ public class ConfAction extends AbstractBaseAction {
 	private Conference conf;
 	private RecurringMeetingInfo recurrence;
 	private Integer conferenceId;
+	private SMSUtil smsUtil;
 	
+	public void setSmsUtil(SMSUtil smsUtil) {
+		this.smsUtil = smsUtil;
+	}
+
 	public void setLogService(ILogService logService) {
 		this.logService = logService;
 	}
@@ -568,6 +577,20 @@ public class ConfAction extends AbstractBaseAction {
 			if(conf.getIsRecord()==null){
 				conf.setIsRecord((short)0);
 			}
+			boolean validate = VcmProperties.getPropertyByBoolean("vcm.sms.validate", false);
+			if(validate){
+				String reserveCode = (String)session.get("reserveCode");
+				Date reserveCodeExpiredTime = (Date)session.get("reserveCodeExpiredTime");
+				if(reserveCode == null){
+					throw new ReserveCodeNotExistException("预约码未生成");
+				}else{
+					if(conf.getReserveCode()!=null && !conf.getReserveCode().equals("") && conf.getReserveCode().equals(reserveCode) && (new Date()).before(reserveCodeExpiredTime)){
+						logger.info("预约码输入正确!");
+					}else{
+						throw new ReserveCodeNotExistException("预约码输入错误或者已失效!");
+					}
+				}
+			}
 			confService.createConf(conf, unitList);
 			logService.addLog(up.getUserId(), ILogService.type_reserve_conf, "预约会议"+conf.getRadConferenceId());
 			outJson("{success:true, msg:'预约会议成功!'}");
@@ -1049,6 +1072,44 @@ public class ConfAction extends AbstractBaseAction {
 			out.close();
 		}catch(Exception e){
 			logger.error(e.toString());
+		}
+		return null;
+	}
+	public String generateReserveCode(){
+		PrintWriter out = null;
+		try{
+			response.setCharacterEncoding("utf-8");
+			out = response.getWriter();
+			String reserveCode = "";
+			int i = (new Random()).nextInt(9999);
+			if(i<1000){
+				i = i+1000;
+			}
+			reserveCode += i;
+			SendMessage sendMessage = new SendMessage();
+			sendMessage.setMessage(reserveCode);
+			UserPrivilege up = (UserPrivilege)session.get("userPrivilege");
+			User user = userService.getUser(up.getUserId());
+			sendMessage.setMsisdn(user.getMobile());
+			boolean b = smsUtil.sendMessage(sendMessage);
+			if(b){
+				session.put("reserveCode", reserveCode);
+				int delay = VcmProperties.getPropertyByInt("vcm.sms.delay", 5);
+				Calendar c = Calendar.getInstance();
+				c.add(Calendar.MINUTE, delay);
+				session.put("reserveCodeExpiredTime", c.getTime());
+				
+				out.print("{success:true,msg:'预约码已经发送到您的手机,请在"+delay+"分钟内输入您的预约码'}");
+			}else{
+				out.print("{success:false,msg:'生成预约码失败!'}");
+			}
+			
+		}catch(Exception e){
+			logger.error(e.toString());
+			out.print("{success:false,msg:'生成预约码失败!'}");
+		}finally{
+			out.flush();
+			out.close();
 		}
 		return null;
 	}
