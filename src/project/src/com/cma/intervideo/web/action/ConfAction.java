@@ -1087,14 +1087,14 @@ public class ConfAction extends AbstractBaseAction {
 			}
 			reserveCode += i;
 			SendMessage sendMessage = new SendMessage();
-			sendMessage.setMessage(reserveCode);
+			int delay = VcmProperties.getPropertyByInt("vcm.sms.delay", 5);
+			sendMessage.setMessage("您的预约码是:"+reserveCode+",有效时间为"+delay+"分钟.");
 			UserPrivilege up = (UserPrivilege)session.get("userPrivilege");
 			User user = userService.getUser(up.getUserId());
 			sendMessage.setMsisdn(user.getMobile());
 			boolean b = smsUtil.sendMessage(sendMessage);
 			if(b){
 				session.put("reserveCode", reserveCode);
-				int delay = VcmProperties.getPropertyByInt("vcm.sms.delay", 5);
 				Calendar c = Calendar.getInstance();
 				c.add(Calendar.MINUTE, delay);
 				session.put("reserveCodeExpiredTime", c.getTime());
