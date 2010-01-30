@@ -49,7 +49,6 @@ public class SMSUtil {
 		logger.info(Library.getLibraryDescription());
 		logger.info("版本: " + Library.getLibraryVersion());
 		InboundNotification inboundNotification = new InboundNotification();
-		OutboundNotification outboundNotification = new OutboundNotification();
 		try{
 			srv = new Service();
 			SerialModemGateway gateway = new SerialModemGateway("jindi", comPort, 115200, "wavecom", "M1306B", srv.getLogger());
@@ -57,7 +56,6 @@ public class SMSUtil {
 			gateway.setOutbound(true);
 			gateway.setSimPin("0000");
 			gateway.setInboundNotification(inboundNotification);
-			gateway.setOutboundNotification(outboundNotification);
 			srv.addGateway(gateway);
 			srv.startService();
 			System.out.println("GSM Modem信息:");
@@ -67,6 +65,13 @@ public class SMSUtil {
 			System.out.println("  SIM IMSI: " + gateway.getImsi());
 			System.out.println("  信号强度: " + gateway.getSignalLevel() + "%");
 			System.out.println("  电池容量: " + gateway.getBatteryLevel() + "%");
+			// 读取短信.
+			List msgList = new ArrayList();
+			srv.readMessages(msgList, MessageClasses.ALL);
+			for (int i = 0; i < msgList.size(); i++){
+				System.out.println(msgList.get(i));
+				srv.deleteMessage((InboundMessage)msgList.get(i));
+			}
 		}catch(Exception e){
 			logger.error(e.toString());
 		}
@@ -83,7 +88,7 @@ public class SMSUtil {
 		OutboundMessage msg;
 		msg = new OutboundMessage(sendMessage.getMsisdn(), sendMessage.getMessage());
 		msg.setEncoding(MessageEncodings.ENCUCS2);
-		msg.setStatusReport(false);
+		msg.setStatusReport(true);
 		try{
 			srv.sendMessage(msg);
 			logger.info(msg);
@@ -102,14 +107,6 @@ public class SMSUtil {
 		return true;
 	}
 	
-	public class OutboundNotification implements IOutboundMessageNotification
-	{
-		public void process(String gatewayId, OutboundMessage msg)
-		{
-			System.out.println("发送状态: " + gatewayId);
-			System.out.println(msg);
-		}
-	}
 	public class InboundNotification implements IInboundMessageNotification
 	{
 		public void process(String gatewayId, MessageTypes msgType, String memLoc, int memIndex)
@@ -133,6 +130,7 @@ public class SMSUtil {
 							System.out.println(im);
 							
 						}
+						srv.deleteMessage(im);
 						//System.out.println(msgList.get(i));
 //						if(msgList.get(i) instanceof InboundMessage){
 //							System.out.println("ok");
@@ -166,6 +164,7 @@ public class SMSUtil {
 						}else{
 							System.out.println(im);
 						}
+						srv.deleteMessage(im);
 					}
 				}catch(Exception e){
 					System.out.println("有异常...");
