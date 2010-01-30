@@ -9,7 +9,7 @@ public class SendMessage implements java.io.Serializable{
 	private String message;
 	private String msisdn;
 	private Date sendTime;
-	private Integer comPort;
+	private String comPort;
 	private Short status;
 	private String errorDesc;
 	public Integer getMsgId() {
@@ -36,13 +36,14 @@ public class SendMessage implements java.io.Serializable{
 	public void setSendTime(Date sendTime) {
 		this.sendTime = sendTime;
 	}
-	public Integer getComPort() {
+	
+	
+	public String getComPort() {
 		return comPort;
 	}
-	public void setComPort(Integer comPort) {
+	public void setComPort(String comPort) {
 		this.comPort = comPort;
 	}
-	
 	public Short getStatus() {
 		return status;
 	}

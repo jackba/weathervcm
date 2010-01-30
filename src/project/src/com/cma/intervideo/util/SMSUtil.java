@@ -86,6 +86,7 @@ public class SMSUtil {
 			logger.info(msg);
 			sendMessage.setStatus(sendMessage.status_success);
 			sendMessage.setSendTime(new Date());
+			sendMessage.setComPort(comPort);
 			confDao.saveSmsLog(sendMessage);
 		}catch(Exception e){
 			logger.error(e.toString());
