@@ -16,8 +16,8 @@
         <property name="sendTime" type="timestamp">
             <column name="send_time" length="0" not-null="true" />
         </property>
-        <property name="comPort" type="java.lang.Integer">
-        	<column name="com_port"/>
+        <property name="comPort" type="string">
+        	<column name="com_port" length="10" not-null="true"/>
         </property>
         <property name="status" type="java.lang.Short">
         	<column name="status" not-null="true"/>
