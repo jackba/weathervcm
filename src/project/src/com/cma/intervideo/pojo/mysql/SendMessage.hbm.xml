@@ -23,7 +23,7 @@
         	<column name="status" not-null="true"/>
         </property>
         <property name="errorDesc" type="string">
-        	<column name="errorDesc" length="200"/>
+        	<column name="error_desc" length="200"/>
         </property>
     </class>
 </hibernate-mapping>
