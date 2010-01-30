@@ -132,7 +132,7 @@
 			</bean>
 		</property>
 	</bean>
-	<bean id="SMSUtil" scope="singleton" init-method="init" destroy-method="cleanup">
+	<bean id="SMSUtil" class="com.cma.intervideo.util.SMSUtil" scope="singleton" init-method="init" destroy-method="cleanup">
 		<property name="confDao" ref="confDao"/>
 		<property name="comPort" value="${vcm.sms.comPort}"/>
 	</bean>
