@@ -132,8 +132,17 @@
 			</bean>
 		</property>
 	</bean>
-	<bean id="SMSUtil" class="com.cma.intervideo.util.SMSUtil" scope="singleton" init-method="init" destroy-method="cleanup">
-		<property name="confDao" ref="confDao"/>
-		<property name="comPort" value="${vcm.sms.comPort}"/>
+	<bean id="SMSUtil" parent="baseTransactionProxy">
+		<property name="transactionAttributes">
+			<props>
+				<prop key="sendMessage">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+		<property name="target">
+			<bean class="com.cma.intervideo.util.SMSUtil" scope="singleton" init-method="init" destroy-method="cleanup">
+				<property name="confDao" ref="confDao"/>
+				<property name="comPort" value="${vcm.sms.comPort}"/>
+			</bean>
+		</property>
 	</bean>
 </beans>
