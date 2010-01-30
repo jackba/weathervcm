@@ -119,16 +119,14 @@ public class SMSUtil {
 				{
 					// Read...
 					msgList = new ArrayList();
-					srv.readMessages(msgList, MessageClasses.UNREAD, gatewayId);
+					srv.readMessages(msgList, MessageClasses.ALL, gatewayId);
 					for (int i = 0; i < msgList.size(); i++){
 						InboundMessage im = (InboundMessage)msgList.get(i);
 						if(im instanceof StatusReportMessage){
 							StatusReportMessage srm = (StatusReportMessage)im;
-							System.out.println(srm.getRefNo()+"_"+srm.getOriginator());
 							System.out.println(srm);
 						}else{
 							System.out.println(im);
-							
 						}
 						srv.deleteMessage(im);
 						//System.out.println(msgList.get(i));
@@ -154,12 +152,12 @@ public class SMSUtil {
 				System.out.println(">>> 监测到设备收到短信状态报告: " + gatewayId + " : " + memLoc + " @ " + memIndex);
 				try{
 					msgList = new ArrayList();
-					srv.readMessages(msgList, MessageClasses.UNREAD, gatewayId);
+					srv.readMessages(msgList, MessageClasses.ALL, gatewayId);
 					for(int i=0;i<msgList.size();i++){
 						InboundMessage im = (InboundMessage)msgList.get(i);
 						if(im instanceof StatusReportMessage){
 							StatusReportMessage srm = (StatusReportMessage)im;
-							System.out.println(srm.getRefNo()+"_"+srm.getOriginator());
+							//System.out.println(srm.getRefNo()+"_"+srm.getOriginator());
 							System.out.println(srm);
 						}else{
 							System.out.println(im);
