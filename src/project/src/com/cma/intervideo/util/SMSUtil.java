@@ -8,6 +8,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import cn.sendsms.IInboundMessageNotification;
+import cn.sendsms.IOutboundMessageNotification;
 import cn.sendsms.InboundMessage;
 import cn.sendsms.Library;
 import cn.sendsms.MessageClasses;
@@ -48,13 +49,15 @@ public class SMSUtil {
 		logger.info(Library.getLibraryDescription());
 		logger.info("版本: " + Library.getLibraryVersion());
 		InboundNotification inboundNotification = new InboundNotification();
+		OutboundNotification outboundNotification = new OutboundNotification();
 		try{
 			srv = new Service();
-			SerialModemGateway gateway = new SerialModemGateway("jindi", "COM1", 115200, "wavecom", "M1306B", srv.getLogger());
+			SerialModemGateway gateway = new SerialModemGateway("jindi", comPort, 115200, "wavecom", "M1306B", srv.getLogger());
 			gateway.setInbound(true);
 			gateway.setOutbound(true);
 			gateway.setSimPin("0000");
 			gateway.setInboundNotification(inboundNotification);
+			gateway.setOutboundNotification(outboundNotification);
 			srv.addGateway(gateway);
 			srv.startService();
 			System.out.println("GSM Modem信息:");
@@ -97,6 +100,15 @@ public class SMSUtil {
 			return false;
 		}
 		return true;
+	}
+	
+	public class OutboundNotification implements IOutboundMessageNotification
+	{
+		public void process(String gatewayId, OutboundMessage msg)
+		{
+			System.out.println("发送状态: " + gatewayId);
+			System.out.println(msg);
+		}
 	}
 	public class InboundNotification implements IInboundMessageNotification
 	{
