@@ -115,14 +115,14 @@ body{font-size:12px;}
 		  <input name="conf.contactMethod" value="<s:property value='conf.contactMethod'/>" id="contactMethod" type="text" class="put200" maxlength="200"/>
 		</td>
 	  </tr>
-	  <!--
+	  
 	  <tr>
-	  	<th class="row1"><input type="button" value="生成预约码"/></th>
+	  	<th class="row1"><input type="button" value="生成预约码" onClick="generateReserveCode()"/></th>
 		<td class="row2">
 		  <input name="conf.reserveCode" id="conf.reserveCode" type="text" class="put200" maxlength="10"/>
 		</td>
 	  </tr>
-	  -->
+	  
 	  <tr>
 	  	<th class="row1">参加单位：</th>
 		<td class="row2">
@@ -1010,6 +1010,22 @@ function initWin(){
 		Ext.getCmp('mode_1').setValue(true);
 		Ext.getCmp('endType_1').setValue(true);
 	}
+}
+function generateReserveCode(){
+	Ext.Ajax.request({
+		url: 'conf_generateReserveCode.do',
+		success: function(result,request){
+			var resp = Ext.util.JSON.decode(result.responseText);
+			if(resp.success){
+				Ext.Msg.alert('成功',resp.msg);
+			}else{
+				Ext.Msg.alert('失败',resp.msg);
+			}
+		},
+		failure: function(result,request){
+			Ext.Msg.alert('失败','预约码生成失败！');
+		}
+	});
 }
 </script>
 </body>
