@@ -61,6 +61,7 @@
 				<property name="roomService" ref="roomService"></property>
 				<property name="logService" ref="logService"></property>
 				<property name="userService" ref="userService"></property>
+				<property name="smsUtil" ref="SMSUtil"></property>
 			</bean>
 		</property>
 	</bean>
