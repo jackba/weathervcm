@@ -58,18 +58,18 @@ public class SMSUtil {
 			gateway.setInboundNotification(inboundNotification);
 			srv.addGateway(gateway);
 			srv.startService();
-			System.out.println("GSM Modem信息:");
-			System.out.println("  厂家: " + gateway.getManufacturer());
-			System.out.println("  型号: " + gateway.getModel());
-			System.out.println("  序列号: " + gateway.getSerialNo());
-			System.out.println("  SIM IMSI: " + gateway.getImsi());
-			System.out.println("  信号强度: " + gateway.getSignalLevel() + "%");
-			System.out.println("  电池容量: " + gateway.getBatteryLevel() + "%");
+			logger.info("GSM Modem信息:");
+			logger.info("  厂家: " + gateway.getManufacturer());
+			logger.info("  型号: " + gateway.getModel());
+			logger.info("  序列号: " + gateway.getSerialNo());
+			logger.info("  SIM IMSI: " + gateway.getImsi());
+			logger.info("  信号强度: " + gateway.getSignalLevel() + "%");
+			logger.info("  电池容量: " + gateway.getBatteryLevel() + "%");
 			// 读取短信.
 			List msgList = new ArrayList();
 			srv.readMessages(msgList, MessageClasses.ALL);
 			for (int i = 0; i < msgList.size(); i++){
-				System.out.println(msgList.get(i));
+				logger.info(msgList.get(i));
 				srv.deleteMessage((InboundMessage)msgList.get(i));
 			}
 		}catch(Exception e){
@@ -114,7 +114,7 @@ public class SMSUtil {
 			List msgList;
 			if (msgType == MessageTypes.INBOUND)
 			{
-				System.out.println(">>> 监测到设备收到新的短信: " + gatewayId + " : " + memLoc + " @ " + memIndex);
+				logger.info(">>> 监测到设备收到新的短信: " + gatewayId + " : " + memLoc + " @ " + memIndex);
 				try
 				{
 					// Read...
@@ -124,9 +124,9 @@ public class SMSUtil {
 						InboundMessage im = (InboundMessage)msgList.get(i);
 						if(im instanceof StatusReportMessage){
 							StatusReportMessage srm = (StatusReportMessage)im;
-							System.out.println(srm);
+							logger.info(srm);
 						}else{
-							System.out.println(im);
+							logger.info(im);
 						}
 						srv.deleteMessage(im);
 						//System.out.println(msgList.get(i));
@@ -143,13 +143,13 @@ public class SMSUtil {
 				}
 				catch (Exception e)
 				{
-					System.out.println("有异常...");
+					logger.info("有异常...");
 					e.printStackTrace();
 				}
 			}
 			else if (msgType == MessageTypes.STATUSREPORT)
 			{
-				System.out.println(">>> 监测到设备收到短信状态报告: " + gatewayId + " : " + memLoc + " @ " + memIndex);
+				logger.info(">>> 监测到设备收到短信状态报告: " + gatewayId + " : " + memLoc + " @ " + memIndex);
 				try{
 					msgList = new ArrayList();
 					srv.readMessages(msgList, MessageClasses.ALL, gatewayId);
@@ -158,14 +158,14 @@ public class SMSUtil {
 						if(im instanceof StatusReportMessage){
 							StatusReportMessage srm = (StatusReportMessage)im;
 							//System.out.println(srm.getRefNo()+"_"+srm.getOriginator());
-							System.out.println(srm);
+							logger.info(srm);
 						}else{
-							System.out.println(im);
+							logger.info(im);
 						}
 						srv.deleteMessage(im);
 					}
 				}catch(Exception e){
-					System.out.println("有异常...");
+					logger.info("有异常...");
 					e.printStackTrace();
 				}
 			}
