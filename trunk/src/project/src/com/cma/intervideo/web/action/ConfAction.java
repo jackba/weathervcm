@@ -700,7 +700,7 @@ public class ConfAction extends AbstractBaseAction {
 		}
 		String id = request.getParameter("recurrenceId");
 		//conf = confService.getConfById(id);
-		RecurringMeetingInfo recurrence = null;
+		recurrence = confService.getRecurrenceById(id);
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Calendar c = Calendar.getInstance();
 		c.setTimeInMillis(recurrence.getStartTime());
@@ -708,6 +708,10 @@ public class ConfAction extends AbstractBaseAction {
 		request.setAttribute("recurrence", "true");
 		conf = new Conference();
 		BeanUtils.copyProperties(recurrence, conf);
+		DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		if(recurrence.getEndType()==RecurringMeetingInfo.RECURRING_ENDTYPE_DATE){
+			request.setAttribute("endDate", df1.format(recurrence.getEndDate()));
+		}
 		return "modifyReserve";
 	}
 
@@ -796,7 +800,7 @@ public class ConfAction extends AbstractBaseAction {
 		UserPrivilege up = (UserPrivilege)session.get("userPrivilege");
 		//Conference oldConf = confService.getConfById(conf.getConferenceId()
 		//		.toString());
-		RecurringMeetingInfo oldRecur = null;
+		RecurringMeetingInfo oldRecur = confService.getRecurrenceById(recurrence.getRecurrenceId().toString());
 		Date d = Calendar.getInstance().getTime();
 		oldRecur.setUpdateTime(d);
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -834,6 +838,33 @@ public class ConfAction extends AbstractBaseAction {
 		}else{
 			oldRecur.setIsRecord(conf.getIsRecord());
 		}
+		String dayInterval = request.getParameter("dayInterval");
+		String weekInterval = request.getParameter("weekInterval");
+		String weekDay = request.getParameter("weekDay");
+		String monthInterval = request.getParameter("monthInterval");
+		String monthDay = request.getParameter("monthDay");
+		String endDate = request.getParameter("endDate");
+		String endAfterNumber = request.getParameter("endAfterNumber");
+		oldRecur.setRecurrenceType(recurrence.getRecurrenceType());
+		if(recurrence.getRecurrenceType() == RecurringMeetingInfo.RECURRING_DAILY){
+			//日例会
+			oldRecur.setDayInterval(Integer.parseInt(dayInterval));
+		} else if (recurrence.getRecurrenceType() == RecurringMeetingInfo.RECURRING_WEEKLY){
+			//周例会
+			oldRecur.setWeekInterval(Integer.parseInt(weekInterval));
+			oldRecur.setWeekDay(Integer.parseInt(weekDay));
+		} else {
+			//月例会
+			oldRecur.setMonthInterval(Integer.parseInt(monthInterval));
+			oldRecur.setMonthDay(Integer.parseInt(monthDay));
+		}
+		oldRecur.setEndType(recurrence.getEndType());
+		if (recurrence.getEndType() == RecurringMeetingInfo.RECURRING_ENDTYPE_DATE){
+			DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			oldRecur.setEndDate(df1.parse(endDate).getTime());
+		}else{
+			oldRecur.setEndAfterNumber(Integer.parseInt(endAfterNumber));
+		}
 		response.setContentType("text/html;charset=utf-8");
 
 		String units = request.getParameter("confUnits");
@@ -843,6 +874,7 @@ public class ConfAction extends AbstractBaseAction {
 
 		try {
 			//confService.modifyConf(oldConf, unitList);
+			confService.modifyRecurrence(oldRecur, unitList);
 			logService.addLog(up.getUserId(), ILogService.type_modify_conf, "修改例会"+oldRecur.getRadRecurrenceId());
 			outJson("{success:true, msg:'预约例会修改成功!'}");
 		} catch (Exception e) {

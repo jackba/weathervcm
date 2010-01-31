@@ -16,6 +16,7 @@ public interface IConfService {
 	public void createConf(Conference conf, String[] units) throws Exception;
 	public void modifyConf(Conference conf, String[] units) throws Exception;
 	public Conference getConfById(String confId);
+	public RecurringMeetingInfo getRecurrenceById(String recurrenceId);
 	public List<Unit> findUnitsByConfId(String confId, boolean selected);
 	public List<Unit> findAllUnits();
 	public List<Conference> findNotFinishedConfs();

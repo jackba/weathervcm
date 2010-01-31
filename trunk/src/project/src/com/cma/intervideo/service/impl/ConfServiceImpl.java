@@ -328,6 +328,12 @@ public class ConfServiceImpl implements IConfService {
 		return conf;
 	}
 	
+	public RecurringMeetingInfo getRecurrenceById(String recurrenceId){
+		RecurringMeetingInfo recurrence = recurrenceDao.getObjectByID(new Integer(recurrenceId));
+		updateAdditionalInfo(recurrence);
+		return recurrence;
+	}
+	
 	private void updateAdditionalInfo(Conference conf) {
 		updateUnitInfo(conf);
 		updateMainUnitInfo(conf);
