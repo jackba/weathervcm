@@ -895,12 +895,17 @@ public class ConfAction extends AbstractBaseAction {
 
 	public String recurrenceDetail(){
 		String recurId = request.getParameter("recurrenceId");
-		recurrence = null;
+		recurrence = confService.getRecurrenceById(recurId);
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Calendar c = Calendar.getInstance();
 		c.setTimeInMillis(recurrence.getStartTime());
 		request.setAttribute("startTime", df.format(c.getTime()));
 		BeanUtils.copyProperties(recurrence, conf);
+		DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		if(recurrence.getEndType()==RecurringMeetingInfo.RECURRING_ENDTYPE_DATE){
+			request.setAttribute("endDate", df1.format(recurrence.getEndDate()));
+		}
+		request.setAttribute("recurrence", "true");
 		return "reserveDetail";
 	}
 	
