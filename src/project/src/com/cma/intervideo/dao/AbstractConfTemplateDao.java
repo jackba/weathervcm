@@ -46,7 +46,8 @@ public class AbstractConfTemplateDao extends AbstractDAO<ConfTemplate, Integer>
 			ph.setResultSize(this.getCount(hql));
 
 		hql += " order by r.createTime";
-		List<ConfTemplate> cts = this.getHibernateTemplate().find(hql);
+		//List<ConfTemplate> cts = this.getHibernateTemplate().find(hql);
+		List<ConfTemplate> cts = this.find(hql,ph);
 		logger.info("Found " + (cts == null ? "0" : cts.size()) + " ConfTemplates, HQL: " + hql);
 		return cts;
 	}

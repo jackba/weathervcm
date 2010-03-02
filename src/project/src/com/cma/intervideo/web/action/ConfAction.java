@@ -406,6 +406,7 @@ public class ConfAction extends AbstractBaseAction {
 			vo = new ParamVo();
 			vo.setParamName("userId");
 			vo.setParamValue(up.getUserId());
+			params.add(vo);
 		}
 		if (subject != null && !subject.equals("")) {
 			vo = new ParamVo();
@@ -1124,12 +1125,15 @@ public class ConfAction extends AbstractBaseAction {
 			}
 			reserveCode += i;
 			SendMessage sendMessage = new SendMessage();
-			int delay = VcmProperties.getPropertyByInt("vcm.sms.delay", 5);
-			//sendMessage.setMessage("您的预约码是:"+reserveCode+",有效时间为"+delay+"分钟.");
-			String message = VcmProperties.getProperty("vcm.sms.message", "您的预约码是:{0},有效时间为{1}分钟.");
-			sendMessage.setMessage(message.replaceFirst("\\{0\\}", reserveCode).replaceFirst("\\{1\\}", ""+delay));
 			UserPrivilege up = (UserPrivilege)session.get("userPrivilege");
 			User user = userService.getUser(up.getUserId());
+			int delay = VcmProperties.getPropertyByInt("vcm.sms.delay", 5);
+			//sendMessage.setMessage("您的预约码是:"+reserveCode+",有效时间为"+delay+"分钟.");
+			//String message = VcmProperties.getProperty("vcm.sms.message", "您的预约码是:{0},有效时间为{1}分钟.");
+			//sendMessage.setMessage(message.replaceFirst("\\{0\\}", reserveCode).replaceFirst("\\{1\\}", ""+delay));
+			String message = VcmProperties.getProperty("vcm.sms.message", "{0},您的预约码是:{1}");
+			sendMessage.setMessage(message.replaceFirst("\\{0\\}", user.getUserName()).replaceFirst("\\{1\\}", ""+reserveCode));
+			
 			sendMessage.setMsisdn(user.getMobile());
 			boolean b = smsUtil.sendMessage(sendMessage);
 			if(b){
