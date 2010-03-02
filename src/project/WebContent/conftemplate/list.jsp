@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -32,6 +33,7 @@
 	<h1>当前位置：用户个人信息管理&nbsp;&gt;&nbsp;<span class="position_current"> 表单模板设置</span></h1>
 		<div id="searchArea" class="search">
 			<form name="form1" id="form1" method="post" action="<%=request.getContextPath()%>/conftemplate_search.do">
+			<input type="hidden" name="personal" id="personal" value="<s:property value='#request.personal'/>"/>
 				<table border="1" width="800" class="query">
 					<tr>
 						<th>表单模板名称：</th>
