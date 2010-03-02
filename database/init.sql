@@ -31,10 +31,10 @@ insert into privilege (name,url,description,code) values("查看本月会议安排","act
 insert into privilege (name,url,description,code) values("查看所有会议安排","action:ConfAction.listAll;json:ConfAction.searchAlls;action:ConfAction.reserveDetail","查看所有会议安排","0021");
 
 
-insert into privilege (name,url,description,code) values("增加虚拟房间","action:RoomAction.add;json:RoomAction.save","增加虚拟房间","0022");
-insert into privilege (name,url,description,code) values("修改虚拟房间","action:RoomAction.modify;json:RoomAction.update","修改虚拟房间","0023");
-insert into privilege (name,url,description,code) values("删除虚拟房间","dwr:RoomServiceImpl.deleteRooms","删除虚拟房间","0024");
-insert into privilege (name,url,description,code) values("查看虚拟房间","action:RoomAction.list;json:RoomAction.search;action:RoomAction.detail","查看虚拟房间","0025");
+insert into privilege (name,url,description,code) values("增加虚拟房间","action:ConfTemplateAction.add;json:ConfTemplateAction.save","增加虚拟房间","0022");
+insert into privilege (name,url,description,code) values("修改虚拟房间","action:ConfTemplateAction.modify;json:ConfTemplateAction.update","修改虚拟房间","0023");
+insert into privilege (name,url,description,code) values("删除虚拟房间","dwr:ConfTemplateServiceImpl.deleteConfTemplates","删除虚拟房间","0024");
+insert into privilege (name,url,description,code) values("查看虚拟房间","action:ConfTemplateAction.list;json:ConfTemplateAction.search;action:ConfTemplateAction.detail","查看虚拟房间","0025");
 
 insert into privilege (name,url,description,code) values("查看终端列表","action:TerminalAction.list;json:TerminalAction.search;action:TerminalAction.detail","查看终端列表","0026");
 insert into privilege (name,url,description,code) values("更新终端列表","action:TerminalAction.update;action:TerminalAction.list;json:TerminalAction.search;action:TerminalAction.detail","更新终端列表","0027");
