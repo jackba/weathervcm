@@ -38,7 +38,8 @@ function initData() {
 	ds.load({
 		params : {
 			start : 0,
-			limit : limit
+			limit : limit,
+			personal : Ext.get("personal").dom.value
 		}
 	});
 
@@ -239,7 +240,8 @@ function loadStore(start){
 			limit : ptb.getPageSize(),
 			'totalProperty' : ds.getTotalCount(),
 			'confTemplateName' : Ext.get("confTemplateName").dom.value,
-			'serviceTemplateId' : Ext.get("serviceTemplateId").dom.value
+			'serviceTemplateId' : Ext.get("serviceTemplateId").dom.value,
+			'personal' : Ext.get("personal").dom.value
 		}
 	});
 }
