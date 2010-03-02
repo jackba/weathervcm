@@ -35,7 +35,8 @@ public class AbstractRoomDao extends AbstractDAO<VirtualRoom, String> implements
 			ph.setResultSize(this.getCount(hql));
 		}
 		hql += " order by r.createTime";
-		List<VirtualRoom> rooms = this.getHibernateTemplate().find(hql);
+		//List<VirtualRoom> rooms = this.getHibernateTemplate().find(hql);
+		List<VirtualRoom> rooms = this.find(hql,ph);
 		logger
 				.info("AbstractRoomDao.findRooms(List<ParamVo> params, PageHolder ph) - return "
 						+ (rooms == null ? "0" : rooms.size())

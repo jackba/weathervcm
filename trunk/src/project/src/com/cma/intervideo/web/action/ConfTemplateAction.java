@@ -52,6 +52,7 @@ public class ConfTemplateAction extends AbstractBaseAction {
 	}
 
 	public String list() {
+		request.setAttribute("personal", "true");
 		return "list";
 	}
 
@@ -109,7 +110,14 @@ public class ConfTemplateAction extends AbstractBaseAction {
 			vo.setParamValue(serviceTemplate);
 			params.add(vo);
 		}
-		
+		String personal = request.getParameter("personal");
+		if(personal.equals("true")){
+			UserPrivilege up = (UserPrivilege)session.get("userPrivilege");
+			ParamVo vo = new ParamVo();
+			vo.setParamName("userId");
+			vo.setParamValue(up.getUserId());
+			params.add(vo);
+		}
 		try {
 			List<ConfTemplate> lst = confTemplateService.findConfTemplates(params, ph);
 			JSONObject json = new JSONObject();

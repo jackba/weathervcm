@@ -45,7 +45,8 @@ public class AbstractTerminalDao extends AbstractDAO<Terminal, String>
 			ph.setResultSize(this.getCount(hql));
 		}
 		hql += " order by t.terminalId";
-		List<Terminal> lst = getHibernateTemplate().find(hql);
+		//List<Terminal> lst = getHibernateTemplate().find(hql);
+		List<Terminal> lst = this.find(hql,ph);
 		logger.info("Found " + (lst == null ? 0 : lst.size()) + " Terminal(s), HQL: " + hql);
 		return lst;
 	}

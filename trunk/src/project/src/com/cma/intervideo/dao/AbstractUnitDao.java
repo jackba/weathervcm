@@ -32,7 +32,8 @@ public class AbstractUnitDao extends AbstractDAO<Unit, Integer> implements
 			ph.setResultSize(this.getCount(hql));
 		}
 		hql += " order by unit.unitName";
-		List<Unit> lst = this.getHibernateTemplate().find(hql);
+		//List<Unit> lst = this.getHibernateTemplate().find(hql);
+		List<Unit> lst = this.find(hql,ph);
 		logger.info("Found " + (lst == null ? 0 : lst.size()) + " Unit(s), HQL: " + hql);
 		return lst;
 	}
