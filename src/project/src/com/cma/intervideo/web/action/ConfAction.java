@@ -598,6 +598,24 @@ public class ConfAction extends AbstractBaseAction {
 		} catch (Exception e) {
 			outJson("{success:false, msg:'"+"预约会议失败,"+e.getMessage()+"'}");
 		}
+		try{
+			String message = VcmProperties.getProperty("vcm.sms.reserve_notify_admin");
+			String admins = VcmProperties.getProperty("vcm.sms.receive_notify_admin");
+			if(admins!=null && !"".equals(admins)){
+				User user = userService.getUser(userId);
+				String[] arr = admins.split(",");
+				for(int i=0;i<arr.length;i++){
+					SendMessage sendMessage = new SendMessage();
+					sendMessage.setMsisdn(arr[i]);
+					sendMessage.setMessage(message.replaceFirst("\\{0\\}",df.format(d)).replaceFirst("\\{1\\}", user.getUserName())
+							.replaceFirst("\\{2\\}", startTime).replaceFirst("\\{3\\}", conf.getSubject())
+							.replaceFirst("\\{4\\}", conf.getTimeLong().toString()).replaceFirst("\\{5\\}", ""+unitList.length));
+					smsUtil.sendMessage(sendMessage);
+				}
+			}
+		}catch(Exception e){
+			logger.error(e.toString());
+		}
 		return null;
 	}
 	
@@ -753,6 +771,7 @@ public class ConfAction extends AbstractBaseAction {
 		oldConf.setServiceTemplateId(conf.getServiceTemplateId());
 		oldConf.setConfType(conf.getConfType());
 		oldConf.setSubject(conf.getSubject());
+		String oldSubject = oldConf.getSubject();
 		oldConf.setControlPin(conf.getControlPin());
 		oldConf.setPassword(conf.getPassword());
 		oldConf.setDialableNumber(conf.getDialableNumber());
@@ -792,6 +811,38 @@ public class ConfAction extends AbstractBaseAction {
 			outJson("{success:true, msg:'预约会议修改成功!'}");
 		} catch (Exception e) {
 			outJson("{success:false, msg:'预约会议修改失败!'}");
+		}
+		try{
+			User user = userService.getUser(up.getUserId());
+			if(up.getUserId().equals(oldConf.getUserId())){
+				//自己修改自己的会议
+				String message = VcmProperties.getProperty("vcm.sms.modify_notify_admin");
+				String admins = VcmProperties.getProperty("vcm.sms.receive_notify_admin");
+				if(admins!=null && !"".equals(admins)){
+					
+					String[] arr = admins.split(",");
+					for(int i=0;i<arr.length;i++){
+						SendMessage sendMessage = new SendMessage();
+						sendMessage.setMsisdn(arr[i]);
+						sendMessage.setMessage(message.replaceFirst("\\{0\\}",df.format(d)).replaceFirst("\\{1\\}", user.getUserName())
+								.replaceFirst("\\{2\\}", oldSubject).replaceFirst("\\{3\\}", startTime)
+								.replaceFirst("\\{4\\}", oldConf.getSubject()).replaceFirst("\\{5\\}", oldConf.getTimeLong().toString())
+								.replaceFirst("\\{6\\}", ""+unitList.length));
+						smsUtil.sendMessage(sendMessage);
+					}
+				}
+			}else{
+				//管理员修改用户的会议
+				String message = VcmProperties.getProperty("vcm.sms.modify_notify_user");
+				SendMessage sendMessage = new SendMessage();
+				sendMessage.setMsisdn(user.getMobile());
+				sendMessage.setMessage(message.replaceFirst("\\{0\\}", user.getUserName())
+						.replaceFirst("\\{1\\}", startTime)
+						.replaceFirst("\\{2\\}", oldSubject));
+				smsUtil.sendMessage(sendMessage);
+			}
+		}catch(Exception e){
+			logger.error(e.toString());
 		}
 		return null;
 	}
