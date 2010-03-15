@@ -125,13 +125,29 @@ public class UnitAction extends AbstractBaseAction {
 		try {
 			logger.info("save...");
 			response.setContentType("text/html;charset=utf-8");
+			
+			List<ParamVo> params = new ArrayList<ParamVo>();
+			String unitName = unit.getUnitName();
+			if (unitName != null && !unitName.equals("")) {
+				ParamVo vo = new ParamVo();
+				vo.setParamName("unitName");
+				vo.setParamValue(unitName);
+				params.add(vo);
+			}
+			List<Unit> unitList = unitService.findUnits(params, null);
+			if (unitList != null && unitList.size() > 0) {
+				logger.error("Failed to create Unit to name confliction: " + unit);
+				outJson("{success:false, msg:'单位添加失败: 名称冲突!'}");
+				return null;
+			}
+			
 			unitService.saveOrUpdate(unit);
 			logger.info("Created Unit successfully: " + unit);
 			outJson("{success:true, msg:'单位添加成功!'}");
 		} catch (Exception e) {
 			logger.error("Exception on save Unit: " + e.getMessage());
 			logger.error("Failed to create Unit: " + unit);
-			outJson("{success:true, msg:'单位添加失败'}");
+			outJson("{success:false, msg:'单位添加失败'}");
 		}
 		return null;
 	}
@@ -140,13 +156,34 @@ public class UnitAction extends AbstractBaseAction {
 		try {
 			logger.info("update...");
 			response.setContentType("text/html;charset=utf-8");
+			
+			List<ParamVo> params = new ArrayList<ParamVo>();
+			String unitName = unit.getUnitName();
+			if (unitName != null && !unitName.equals("")) {
+				ParamVo vo = new ParamVo();
+				vo.setParamName("unitName");
+				vo.setParamValue(unitName);
+				params.add(vo);
+			}
+			List<Unit> unitList = unitService.findUnits(params, null);
+			if (unitList != null && unitList.size() > 0) {
+				for (Unit u : unitList) {
+					if (!u.getUnitId().equals(unit.getUnitId()))
+					{
+						logger.error("Failed to update Unit due to name confliction: " + unit);
+						outJson("{success:false, msg:'单位更新失败: 名称冲突!'}");
+						return null;		
+					}
+				}
+			}
+			
 			unitService.saveOrUpdate(unit);
 			logger.info("Updated Unit successfully: " + unit);
 			outJson("{success:true, msg:'单位修改成功!'}");
 		} catch (Exception e) {
 			logger.error("Exception on update Unit: " + e.getMessage());
 			logger.error("Failed to update Unit: " + unit);
-			outJson("{success:true, msg:'单位修改失败'}");
+			outJson("{success:false, msg:'单位修改失败'}");
 		}
 		return null;
 	}
