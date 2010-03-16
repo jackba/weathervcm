@@ -118,9 +118,12 @@ body{font-size:12px;}
 	  </tr>
 	  
 	  <tr>
-	  	<th class="row1"><input type="button" value="生成预约码" onClick="generateReserveCode()"/></th>
+	  	<th class="row1"><input id="codeButton" type="button" value="生成预约码" onClick="generateReserveCode()"/></th>
 		<td class="row2">
-		  <input name="conf.reserveCode" id="conf.reserveCode" type="text" class="put200" maxlength="10"/>
+		  <input name="conf.reserveCode" onPropertyChange="onCodeChange()" id="conf.reserveCode" type="text" class="put200" maxlength="10"/>
+		  <div id="codeTipDiv" style="display:none;"><font color="FF0000">&nbsp;&nbsp;*<span id="codeTipSpan1">请输入预约码</span>
+		  
+		  <span id="codeTipSpan2" style="display:none">预约码输入不正确</span>！</font></div>
 		</td>
 	  </tr>
 	  
@@ -211,6 +214,8 @@ function resetForm(){
 	document.form1.reset();
 	serviceComboWithTooltip.setValue("<s:property value='#request.defaultServiceTemplateId'/>");
 	unitComboWithTooltip.setValue("<s:property value='#request.defaultUnitId'/>");
+	document.getElementById("codeButton").disabled = false;
+	document.getElementById("codeTipDiv").style.display = "none";
 }
 Ext.onReady(function(){
 	Ext.BLANK_IMAGE_URL="resources/images/default/s.gif";
@@ -415,6 +420,21 @@ Ext.onReady(function(){
 		}
 	});
 	
+	var allunitds = new Ext.data.Store({
+		proxy : new Ext.data.HttpProxy({
+			url : 'user_getAllUnits.do'
+		}),
+		reader : new Ext.data.JsonReader({
+			root : 'root'
+		}, [{
+			name : 'unitId'
+		}, {
+			name : 'unitName'
+		}, {
+			name : 'description'
+		}])
+	});
+	allunitds.load();
 	unitComboWithTooltip = new Ext.form.ComboBox({
 		store: unitds,
 		//value: "<s:property value='#request.defaultUnitId'/>",
@@ -442,7 +462,7 @@ Ext.onReady(function(){
 				fieldLabel:"ItemSelector",
 				hideLabel:true,
 				dataFields:["unitId", "unitName"],
-				fromStore:unitds,
+				fromStore:allunitds,
 				toData:[],
 				msWidth:250,
 				msHeight:200,
@@ -1014,18 +1034,44 @@ function initWin(){
 	}
 }
 function generateReserveCode(){
+	document.getElementById("codeButton").disabled = true;
 	Ext.Ajax.request({
 		url: 'conf_generateReserveCode.do',
 		success: function(result,request){
 			var resp = Ext.util.JSON.decode(result.responseText);
 			if(resp.success){
 				Ext.Msg.alert('成功',resp.msg);
+				document.getElementById("codeTipDiv").style.display = "block";
 			}else{
 				Ext.Msg.alert('失败',resp.msg);
+				document.getElementById("codeButton").disabled = false;
 			}
 		},
 		failure: function(result,request){
 			Ext.Msg.alert('失败','预约码生成失败！');
+			document.getElementById("codeButton").disabled = false;
+		}
+	});
+}
+function onCodeChange(){
+	var codeTipSpan1 = document.getElementById("codeTipSpan1");
+	var codeTipSpan2 = document.getElementById("codeTipSpan2");
+	var codeTipDiv = document.getElementById("codeTipDiv");
+	var codeInput = document.getElementById("conf.reserveCode");
+	Ext.Ajax.request({
+		url: 'conf_verifyReserveCode.do?value='+codeInput.value,
+		success: function(result,request){
+			var resp = Ext.util.JSON.decode(result.responseText);
+			if(resp.success){
+				codeTipDiv.style.display = "none";
+			}else{
+				codeTipDiv.style.display = "block";
+				codeTipSpan1.style.display = "none";
+				codeTipSpan2.style.display = "block";
+			}
+		},
+		failure: function(result,request){
+			Ext.Msg.alert('失败','验证预约码失败！');
 		}
 	});
 }
