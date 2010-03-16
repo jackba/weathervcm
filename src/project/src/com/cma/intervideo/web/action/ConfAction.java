@@ -1186,12 +1186,13 @@ public class ConfAction extends AbstractBaseAction {
 			sendMessage.setMessage(message.replaceFirst("\\{0\\}", user.getUserName()).replaceFirst("\\{1\\}", ""+reserveCode));
 			
 			sendMessage.setMsisdn(user.getMobile());
-			boolean b = smsUtil.sendMessage(sendMessage);
+			
 			session.put("reserveCode", reserveCode);
 			Calendar c = Calendar.getInstance();
 			c.add(Calendar.MINUTE, delay);
 			session.put("reserveCodeExpiredTime", c.getTime());
-			logger.info("reserveCode = "+reserveCode);
+			System.out.println("reserveCode = "+reserveCode);
+			boolean b = smsUtil.sendMessage(sendMessage);
 			if(b){
 				out.print("{success:true,msg:'预约码已经发送到您的手机,请在"+delay+"分钟内输入您的预约码'}");
 			}else{
