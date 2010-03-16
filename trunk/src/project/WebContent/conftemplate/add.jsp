@@ -67,13 +67,14 @@ body{font-size:12px;}
 		  <input name="confTemplate.presider" value="<s:property value='confTemplate.presider'/>" id="presider" type="text" class="put200" maxlength="40"/>
 		</td>
 	  </tr>
-  	  <tr>
-	    <th class="row1">会议类型：</th>
-	    <td class="row2"><label>
-	    	<div id="service_template"></div>
-	    </label></td>
-	  </tr>
 	  <tr>
+	  	<th class="row1">会议类型:</th>
+		<td class="row2"><label>
+			<div id="conf_type"></div>
+		</label>
+		</td>
+	  </tr>
+  	  <tr>
 	  	<th class="row1">会议负责人：</th>
 		<td>
 		  <input name="confTemplate.principal" value="<s:property value='confTemplate.principal'/>" id="principal" type="text" class="put200" maxlength="40"/>
@@ -98,30 +99,62 @@ body{font-size:12px;}
 		</td>
 	  </tr>
 	  <tr>
-	    <th class="row1">会议密码：</th>
-	    <td class="row2"><label>
-	      <input name="confTemplate.password" value="<s:property value='confTemplate.password'/>" type="password" id="password" class="put200" maxlength="8">
-	    </label></td>
-	  </tr>
-	  <tr>
-	    <th  class="row1">控制口令：</th>
-	    <td class="row2"><label>
-	      <input name="confTemplate.controlPin" value="<s:property value='confTemplate.controlPin'/>" type="password" id="controlPin" class="put200" maxlength="8">
-	    </label></td>
-	  </tr>
-	  <tr>
-	    <th  class="row1">会议描述：</th>
+	    <th  class="row1">主要议题：</th>
 	    <td class="row2"><label>
 	      <textarea name="confTemplate.description" cols="40" rows="5" id="description" class="w600" style="width: 450px;"><s:property value='confTemplate.description'/></textarea>
 	    </label></td>
 	  </tr>
+	  
+	  <tr>
+	  	<th class="row1">是否需要打开卫星单向广播</th>
+		<td class="row2">
+		<input type="checkbox" name="confTemplate.isBroadcast" value="1"/>是
+		</td>
+	  </tr>
+	  <tr>
+	  	<th class="row1">是否需要主站技术支持</th>
+		<td class="row2">
+		<input type="checkbox" name="confTemplate.isSupport" value="1"/>是
+		</td>
+	  </tr>
+	  <tr>
+	  	<th class="row1">是否需要主站进行录像</th>
+		<td class="row2">
+		<input type="checkbox" name="confTemplate.isRecord" value="1"/>是
+		</td>
+	  </tr>
+	  <tr>
+	  	<th class="row1">高级选项：</th>
+		<td class="row2"><input name="advance" id="advance" type="checkbox" onClick="showAdv()"/>显示高级会议设置选项</td>
+	  </tr>
+	  <tr><td colspan="2"><table class="query" id="adv" width="100%" cellpadding="0" cellspacing="0" style="display:none">
+	  	<tr>
+	    <th width="20%" class="row1">会议摸板：</th>
+	    <td class="row2"><label>
+	    	<div id="service_template"></div>
+	    </label></td>
+	  	</tr>
+	  	<tr>
+	    <th class="row1">会议密码：</th>
+	    <td class="row2"><label>
+	      <input name="confTemplate.password" value="<s:property value='confTemplate.password'/>" type="password" id="password" class="put200" maxlength="8">
+	    </label></td>
+	  	</tr>
+	  	<tr>
+	    <th  class="row1">控制口令：</th>
+	    <td class="row2"><label>
+	      <input name="confTemplate.controlPin" value="<s:property value='confTemplate.controlPin'/>" type="password" id="controlPin" class="put200" maxlength="8">
+	    </label></td>
+	  	</tr>
+	  </table></td></tr>
+	  
   </table>
 	  
   <br/>
 	  
 	<div class="query_btn">
 		<input type="button" class="butt_bg1"  onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" value="提交" onClick="submitForm()" />
-		<input type="reset"  class="butt_bg1"  onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" value="重置"/>
+		<input type="button"  class="butt_bg1"  onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" value="重置" onClick="resetForm()"/>
 	</div>
   		
 </form>
@@ -132,12 +165,41 @@ body{font-size:12px;}
 var formItemSelector;
 var serviceComboWithTooltip;
 var unitComboWithTooltip;
+function showAdv(){
+	var adv = document.getElementById('adv');
+	if(adv.style.display == 'none'){
+		adv.style.display = "block";
+	}else{
+		adv.style.display = "none";
+	}
+}
+function resetForm(){
+	formItemSelector.reset();
+	document.getElementById('adv').style.display = "none";
+	document.form1.reset();
+	serviceComboWithTooltip.setValue("<s:property value='#request.defaultServiceTemplateId'/>");
+	unitComboWithTooltip.setValue("<s:property value='#request.defaultUnitId'/>");
+}
 Ext.onReady(function(){
 	Ext.BLANK_IMAGE_URL="resources/images/default/s.gif";
 	window.parent.contentPanel.getActiveTab().setTitle("新建表单模板");
     Ext.QuickTips.init();
     Ext.form.Field.prototype.msgTarget = 'side';
 
+    var conftypeds = new Ext.data.Store({
+		proxy : new Ext.data.HttpProxy({
+			url : 'conf_searchConfType.do'
+		}),
+		reader : new Ext.data.JsonReader({
+			root : 'root'
+		}, [{
+			name : 'fieldValue'
+		}, {
+			name : 'fieldDesc'
+		}])
+	});
+	conftypeds.load();
+    
     var serviceds = new Ext.data.Store({
 		proxy : new Ext.data.HttpProxy({
 			url : 'service_search.do'
@@ -153,13 +215,14 @@ Ext.onReady(function(){
 		}]),
 		listeners : {
 			load : function(thisObject, records, options){
-    			serviceComboWithTooltip.setValue("<s:property value='#request.defaultServiceTemplateId'/>");
+				serviceComboWithTooltip.setValue("<s:property value='#request.defaultServiceTemplateId'/>");
 			}
 		}
 	});
+	
 	serviceComboWithTooltip = new Ext.form.ComboBox({
 		store: serviceds,
-		//value: "<s:property value='confTemplate.serviceTemplateDesc'/>",
+		//value: "<s:property value='#request.defaultServiceTemplateId'/>",
 		hiddenId: 'serviceTemplateId',
         hiddenName: 'confTemplate.serviceTemplateId',
         valueField: 'serviceTemplateId',
@@ -173,6 +236,21 @@ Ext.onReady(function(){
         renderTo: 'service_template'
     });
 	serviceds.load();
+	var confTypeComboWithTooltip = new Ext.form.ComboBox({
+		store: conftypeds,
+		value: "<s:property value='confTemplate.confType'/>",
+		hiddenId: 'confType',
+        hiddenName: 'confTemplate.confType',
+        valueField: 'fieldValue',
+        displayField: 'fieldDesc',
+        typeAhead: true,
+        forceSelection: false,
+        mode: 'local',
+        triggerAction: 'all',
+        emptyText: '请选择会议类型...',
+        selectOnFocus: true,
+        renderTo: 'conf_type'
+    });
 
 	unitds = new Ext.data.Store({
 		proxy : new Ext.data.HttpProxy({
@@ -195,7 +273,7 @@ Ext.onReady(function(){
 	});
 	unitComboWithTooltip = new Ext.form.ComboBox({
 		store: unitds,
-		//value: "<s:property value='confTemplate.mainUnitName'/>",
+		//value: "<s:property value='#request.defaultUnitId'/>",
 		hiddenId: 'mainUnit',
         hiddenName: 'confTemplate.mainUnit',
         valueField: 'unitId',

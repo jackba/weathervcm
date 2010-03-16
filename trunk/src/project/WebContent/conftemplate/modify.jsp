@@ -70,7 +70,7 @@ body{font-size:12px;}
   	  <tr>
 	    <th class="row1">会议类型：</th>
 	    <td class="row2"><label>
-	    	<div id="service_template"></div>
+			<div id="conf_type"></div>
 	    </label></td>
 	  </tr>
 	  <tr>
@@ -98,6 +98,41 @@ body{font-size:12px;}
 		</td>
 	  </tr>
 	  <tr>
+	    <th  class="row1">主要议题：</th>
+	    <td class="row2"><label>
+	      <textarea name="confTemplate.description" cols="40" rows="5" id="description" class="w600" style="width: 450px;"><s:property value='confTemplate.description'/></textarea>
+	    </label></td>
+	  </tr>
+	  <tr>
+	  	<th class="row1">是否需要打开卫星单向广播</th>
+		<td class="row2">
+		<input id="isBroadcast" type="checkbox" name="confTemplate.isBroadcast" value="1"/>是
+		</td>
+	  </tr>
+	  <tr>
+	  	<th class="row1">是否需要主站技术支持</th>
+		<td class="row2">
+		<input id="isSupport" type="checkbox" name="confTemplate.isSupport" value="1"/>是
+		</td>
+	  </tr>
+	  <tr>
+	  	<th class="row1">是否需要主站进行录像</th>
+		<td class="row2">
+		<input id="isRecord" type="checkbox" name="confTemplate.isRecord" value="1"/>是
+		</td>
+	  </tr>
+	  	  <tr>
+	  	<th class="row1">高级选项：</th>
+		<td class="row2"><input name="advance" id="advance" type="checkbox" onClick="showAdv()"/>显示高级会议设置选项</td>
+	  </tr>
+	  <tr><td colspan="2"><table class="query" id="adv" width="100%" cellpadding="0" cellspacing="0" style="display:none">
+	  <tr>
+	    <th width="20%" class="row1">会议模板：</th>
+	    <td class="row2"><label>
+	    	<div id="service_template"></div>
+	    </label></td>
+	  </tr>
+	  <tr>
 	    <th class="row1">会议密码：</th>
 	    <td class="row2"><label>
 	      <input name="confTemplate.password" value="<s:property value='confTemplate.password'/>" type="password" id="password" class="put200" maxlength="8">
@@ -109,12 +144,8 @@ body{font-size:12px;}
 	      <input name="confTemplate.controlPin" value="<s:property value='confTemplate.controlPin'/>" type="password" id="controlPin" class="put200" maxlength="8">
 	    </label></td>
 	  </tr>
-	  <tr>
-	    <th  class="row1">会议描述：</th>
-	    <td class="row2"><label>
-	      <textarea name="confTemplate.description" cols="40" rows="5" id="description" class="w600" style="width: 450px;"><s:property value='confTemplate.description'/></textarea>
-	    </label></td>
-	  </tr>
+	  </table></td></tr>
+	  
   </table>
 	  
   <br/>
@@ -130,14 +161,67 @@ body{font-size:12px;}
 </div><!--end of wrap-->
 <script language="javascript">
 var formItemSelector;
-var serviceComboWithTooltip;
 var unitComboWithTooltip;
+function showAdv(){
+	var adv = document.getElementById('adv');
+	if(adv.style.display == 'none'){
+		adv.style.display = "block";
+	}else{
+		adv.style.display = "none";
+	}
+}
 Ext.onReady(function(){
 	Ext.BLANK_IMAGE_URL="resources/images/default/s.gif";
 	window.parent.contentPanel.getActiveTab().setTitle("修改表单模板");
     Ext.QuickTips.init();
     Ext.form.Field.prototype.msgTarget = 'side';
-
+	var isBroadcast = document.getElementById('isBroadcast');
+	var isSupport = document.getElementById('isSupport');
+	var isRecord = document.getElementById('isRecord');
+	<s:if test='conf.isBroadcast==1'>
+		isBroadcast.checked = 'true';
+	</s:if>
+	<s:if test='conf.isSupport==1'>
+		isSupport.checked = 'true';
+	</s:if>
+	<s:if test='conf.isRecord==1'>
+		isRecord.checked = 'true';
+	</s:if>
+	
+	var conftypeds = new Ext.data.Store({
+		proxy : new Ext.data.HttpProxy({
+			url : 'conf_searchConfType.do'
+		}),
+		reader : new Ext.data.JsonReader({
+			root : 'root'
+		}, [{
+			name : 'fieldValue'
+		}, {
+			name : 'fieldDesc'
+		}]),
+		listeners : {
+			load : function(thisObject, records, options){
+				confTypeComboWithTooltip.setValue("<s:property value='confTemplate.confType'/>");
+			}
+		}
+	});
+	var confTypeComboWithTooltip = new Ext.form.ComboBox({
+		store: conftypeds,
+		//value: "<s:property value='confTemplate.confType'/>",
+		hiddenId: 'confType',
+        hiddenName: 'confTemplate.confType',
+        valueField: 'fieldValue',
+        displayField: 'fieldDesc',
+        typeAhead: true,
+        forceSelection: false,
+        mode: 'local',
+        triggerAction: 'all',
+        emptyText: '请选择会议类型...',
+        selectOnFocus: true,
+        renderTo: 'conf_type'
+    });
+    conftypeds.load();
+    
     var serviceds = new Ext.data.Store({
 		proxy : new Ext.data.HttpProxy({
 			url : 'service_search.do'
@@ -157,7 +241,7 @@ Ext.onReady(function(){
 			}
 		}
 	});
-	serviceComboWithTooltip = new Ext.form.ComboBox({
+	var serviceComboWithTooltip = new Ext.form.ComboBox({
 		store: serviceds,
 		//value: "<s:property value='confTemplate.serviceTemplateId'/>",
 		hiddenId: 'serviceTemplateId',
@@ -209,7 +293,7 @@ Ext.onReady(function(){
         renderTo: 'main_unit'
     });
 	unitds.load();
-
+	
 	var fds = new Ext.data.Store({
 		proxy : new Ext.data.HttpProxy({
 			url : 'conftemplate_getUnitsByConfTemplateId.do?confTemplateId=<%=request.getParameter("confTemplateId")%>&selected=false'
@@ -240,7 +324,6 @@ Ext.onReady(function(){
 		}])
 	});
 	tds.load();
-    
 	/*
 	 * Ext.ux.ItemSelector Example Code
 	 */
