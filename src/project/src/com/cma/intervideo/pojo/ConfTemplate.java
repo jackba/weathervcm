@@ -14,6 +14,8 @@ public class ConfTemplate implements java.io.Serializable {
 	private String confTemplateName;
 	private String userId;
 	private String serviceTemplateId;
+	private Short confType;
+	private String confTypeDesc;
 	private String virtualConfId;
 	private Integer timeLong;
 	private String memberId;
@@ -39,6 +41,10 @@ public class ConfTemplate implements java.io.Serializable {
 	private String mainUnitName; //added additional
 	private List<Unit> units; // additional property
 	private List<Unit> otherUnits; // additional property
+	private Short isBroadcast;
+	private Short isSupport;
+	private Short isRecord;
+	
 	public String toString() {
 		StringBuilder buf = new StringBuilder();
 		
@@ -333,6 +339,44 @@ public class ConfTemplate implements java.io.Serializable {
 		this.otherUnits = otherUnits;
 	}
 	
-	
+	public Short getConfType() {
+		return confType;
+	}
+
+	public void setConfType(Short confType) {
+		this.confType = confType;
+	}
+
+	public String getConfTypeDesc() {
+		return confTypeDesc;
+	}
+
+	public void setConfTypeDesc(String confTypeDesc) {
+		this.confTypeDesc = confTypeDesc;
+	}
+
+	public Short getIsBroadcast() {
+		return isBroadcast;
+	}
+
+	public void setIsBroadcast(Short isBroadcast) {
+		this.isBroadcast = isBroadcast;
+	}
+
+	public Short getIsSupport() {
+		return isSupport;
+	}
+
+	public void setIsSupport(Short isSupport) {
+		this.isSupport = isSupport;
+	}
+
+	public Short getIsRecord() {
+		return isRecord;
+	}
+
+	public void setIsRecord(Short isRecord) {
+		this.isRecord = isRecord;
+	}
 
 }

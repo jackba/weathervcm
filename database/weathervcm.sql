@@ -106,6 +106,10 @@ create table conf_template
    contact_method                 varchar(200),
    principal                      varchar(40),
    is_default                     decimal(1,0),
+   conf_type			  							tinyint,
+   is_broadcast			  						tinyint,
+   is_support			  							tinyint,
+   is_record			  							tinyint,
    primary key (conf_template_id)
 )
 comment = "会议表单模板"
