@@ -551,7 +551,7 @@ public class ConfAction extends AbstractBaseAction {
 		long delayTime = VcmProperties.getPropertyByLong("vcm.delayAdhocStartTime", 20) * 1000;
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String startTime = request.getParameter("startTime");
-		if (startTime != null && !startTime.equals("")) {
+		if (startTime != null && !startTime.equals("") && !"现在".equals(startTime)) {
 			long st = df.parse(startTime).getTime();
 			long now = d.getTime();
 			if (now + delayTime >= st)

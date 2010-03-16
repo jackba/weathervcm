@@ -54,7 +54,8 @@ body{font-size:12px;}
 	  <tr>
 	  	<th width="20%"><font color="red">&nbsp;*</font>开始时间：</th>
 		<td>
-		  <input type="text" class="Wdate" id="startTime" name="startTime" onFocus="WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
+		  <input type="text" value="现在" class="Wdate" id="startTime" name="startTime" onFocus="WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
+		  <input type="button" id="nowBtn" value="现在" onClick="document.form1.startTime.value='现在'" />
 		</td>
 	  </tr>
 	  <tr>
