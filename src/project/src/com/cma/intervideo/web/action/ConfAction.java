@@ -1187,12 +1187,12 @@ public class ConfAction extends AbstractBaseAction {
 			
 			sendMessage.setMsisdn(user.getMobile());
 			boolean b = smsUtil.sendMessage(sendMessage);
+			session.put("reserveCode", reserveCode);
+			Calendar c = Calendar.getInstance();
+			c.add(Calendar.MINUTE, delay);
+			session.put("reserveCodeExpiredTime", c.getTime());
+			logger.info("reserveCode = "+reserveCode);
 			if(b){
-				session.put("reserveCode", reserveCode);
-				Calendar c = Calendar.getInstance();
-				c.add(Calendar.MINUTE, delay);
-				session.put("reserveCodeExpiredTime", c.getTime());
-				
 				out.print("{success:true,msg:'预约码已经发送到您的手机,请在"+delay+"分钟内输入您的预约码'}");
 			}else{
 				out.print("{success:false,msg:'生成预约码失败!'}");
@@ -1201,6 +1201,28 @@ public class ConfAction extends AbstractBaseAction {
 		}catch(Exception e){
 			logger.error(e.toString());
 			out.print("{success:false,msg:'生成预约码失败!'}");
+		}finally{
+			out.flush();
+			out.close();
+		}
+		return null;
+	}
+	public String verifyReserveCode(){
+		PrintWriter out = null;
+		try{
+			response.setCharacterEncoding("utf-8");
+			out = response.getWriter();
+			String reserveCode = (String)session.get("reserveCode");
+			String value = request.getParameter("value");
+			Date d = (Date)session.get("reserveCodeExpiredTime");
+			if(Calendar.getInstance().getTime().after(d) && reserveCode.equals(value)){
+				out.print("{success:true,msg:'验证预约码成功！'}");
+			}else{
+				out.print("{success:false,msg:'验证预约码失败！'}");
+			}
+		}catch(Exception e){
+			logger.error(e.toString());
+			out.print("{success:false,msg:'验证预约码失败！'}");
 		}finally{
 			out.flush();
 			out.close();
