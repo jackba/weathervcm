@@ -1216,7 +1216,7 @@ public class ConfAction extends AbstractBaseAction {
 			String reserveCode = (String)session.get("reserveCode");
 			String value = request.getParameter("value");
 			Date d = (Date)session.get("reserveCodeExpiredTime");
-			if(Calendar.getInstance().getTime().after(d) && reserveCode.equals(value)){
+			if(Calendar.getInstance().getTime().before(d) && reserveCode.equals(value)){
 				out.print("{success:true,msg:'验证预约码成功！'}");
 			}else{
 				out.print("{success:false,msg:'验证预约码失败！'}");
