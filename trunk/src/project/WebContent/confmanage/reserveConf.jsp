@@ -266,7 +266,8 @@ Ext.onReady(function(){
 						Ext.getDom('password').value = resp.password;
 						Ext.getDom('controlPin').value = resp.controlPin;
 						Ext.getDom('description').value = resp.description;
-						Ext.getDom('confType').value = resp.confType;
+						//Ext.getDom('confType').value = resp.confType;
+						confTypeComboWithTooltip.setValue(resp.confType);
 						var otherUnits = new Ext.data.JsonStore({
 							fields: ['unitId','unitName','description'],
 							data : resp.otherUnits
