@@ -68,6 +68,11 @@ public class RecurringMeetingInfo implements java.io.Serializable {
 	private String mainUnitName; //added additional
 
 	public RecurringMeetingInfo() {
+		dayInterval = 0;
+		weekInterval = 0;
+		weekDay = 0;
+		monthInterval = 0;
+		monthDay = 0;
 	}
 
 	public RecurringMeetingInfo(Short status, String subject, Date createTime,
@@ -77,6 +82,12 @@ public class RecurringMeetingInfo implements java.io.Serializable {
 		this.createTime = createTime;
 		this.updateTime = updateTime;
 		this.confType = confType;
+		
+		dayInterval = 0;
+		weekInterval = 0;
+		weekDay = 0;
+		monthInterval = 0;
+		monthDay = 0;
 	}
 
 	public RecurringMeetingInfo(String userId, String serviceTemplateId,
