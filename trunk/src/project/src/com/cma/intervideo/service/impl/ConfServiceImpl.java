@@ -469,8 +469,31 @@ public class ConfServiceImpl implements IConfService {
 		return confDao.findNotFinishedConfs();
 	}
 
-	public void cancelRecurrence(String recurrenceId) throws Exception {
-		ICMService.cancelRecurrence(recurrenceId);
+	public void cancelRecurrence(String[] ids) throws Exception {
+		if (ids == null || ids.length == 0)
+			return;
+		
+		for (String id : ids) {
+			String[] tmp = id.split(",");
+			if (tmp == null || tmp.length <= 1)
+				continue;
+			
+			//delete recurrence_conf from vcm
+			int recurrenceId = Integer.parseInt(tmp[0]);
+			confDao.deleteRecurrConf(recurrenceId);
+			
+			//delete conferences from vcm
+			recurrenceDao.deleteConferenceByRecurrenceId(recurrenceId);
+			
+			//delete recurrence from vcm
+			RecurringMeetingInfo recurrence = recurrenceDao.getObjectByID(recurrenceId);
+			recurrence.setStatus(Conference.status_cancel);
+			recurrenceDao.saveOrUpdate(recurrence);
+		
+			// delete recurrence from platform
+			ICMService.cancelRecurrence(tmp[1]);
+
+		}
 	}
 
 	public void createRecurrence(RecurringMeetingInfo recurrence, String[] units)
@@ -485,7 +508,6 @@ public class ConfServiceImpl implements IConfService {
 				throw new Exception("平台创建例会" + recurrence.getSubject() + " 失败!");
 			}
 			
-			Conference newConf = convert(recurrence);
 			List<Integer> unitIds = new ArrayList<Integer>();
 			if (units != null) {
 				for (int i = 0; i < units.length; i++)
@@ -502,6 +524,7 @@ public class ConfServiceImpl implements IConfService {
 					continue;
 				
 				ConferenceInfo info = sr.getConferenceInfo();
+				Conference newConf = convert(recurrence);
 				newConf.setStartTime(info.getStartTime());
 				newConf.setConferenceId(null);
 				newConf.setRadConferenceId(info.getConferenceId());
@@ -516,6 +539,9 @@ public class ConfServiceImpl implements IConfService {
 					confDao.addConfParty(newConf.getConferenceId(), terminalId);
 				
 				newConfIds.add(newConf.getConferenceId());
+				
+				if (recurrence.getRadRecurrenceId() == null)
+					recurrence.setRadRecurrenceId(info.getRecurrenceId());
 				
 				logger.info("Created successfully a new meeting in VCM.");
 			}
@@ -533,7 +559,8 @@ public class ConfServiceImpl implements IConfService {
 			
 			logger.info("Created successfully a new recurrence in VCM.");
 		} catch (Exception e) {
-			logger.info("Failed to create a new recurrence in VCM." + e.getMessage());
+			logger.info("Failed to create a new recurrence in VCM: ");
+			e.printStackTrace();
 			throw e;
 		}
 	}

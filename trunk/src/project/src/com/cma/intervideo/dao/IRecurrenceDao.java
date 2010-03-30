@@ -12,4 +12,5 @@ public interface IRecurrenceDao extends DAO<RecurringMeetingInfo, Integer>{
 	public void addRecurrenceUnit(Integer recurrenceId, Integer unitId);
 	public List<RecurringMeetingInfo> findRecurrences(List<ParamVo> params, PageHolder ph);
 	public List<Unit> findUnitsByRecurrenceId(String recurrenceId, boolean selected);
+	public void deleteConferenceByRecurrenceId(Integer recurrenceId);
 }
