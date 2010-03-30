@@ -17,6 +17,7 @@ import com.cma.intervideo.pojo.ConfParty;
 import com.cma.intervideo.pojo.ConfUnit;
 import com.cma.intervideo.pojo.Conference;
 import com.cma.intervideo.pojo.FieldDesc;
+import com.cma.intervideo.pojo.RecurrenceConf;
 import com.cma.intervideo.pojo.SendMessage;
 import com.cma.intervideo.pojo.Unit;
 import com.cma.intervideo.util.PageHolder;
@@ -228,4 +229,51 @@ public abstract class AbstractConfDao extends AbstractDAO<Conference, Integer> i
 	public void saveSmsLog(SendMessage msg){
 		this.getHibernateTemplate().save(msg);
 	}
+
+	public void addRecurrConf(Integer recurrId, Integer confId) {
+		RecurrenceConf recurrConf = new RecurrenceConf();
+		recurrConf.setRecurrenceId(recurrId);
+		recurrConf.setConferenceId(confId);
+		this.getHibernateTemplate().save(recurrConf);
+	}
+
+	public void deleteRecurrConf(Integer recurrId, Integer confId) {
+		Session s = this.getSession();
+		Connection conn = s.connection();
+		PreparedStatement pstmt = null;
+		try{
+			
+		}catch(Exception e){
+			logger.error(e.toString());
+		}finally{
+			try{
+				pstmt = conn.prepareStatement("delete from recurrentce_conf where recurrence_id=? and recurrence_id=?");
+				pstmt.setInt(1, recurrId);
+				pstmt.setInt(2, confId);
+				pstmt.executeUpdate();
+			}catch(Exception ex){
+				logger.error(ex.toString());
+			}
+		}		
+	}
+
+	public void deleteRecurrConf(Integer recurrId) {
+		Session s = this.getSession();
+		Connection conn = s.connection();
+		PreparedStatement pstmt = null;
+		try{
+			
+		}catch(Exception e){
+			logger.error(e.toString());
+		}finally{
+			try{
+				pstmt = conn.prepareStatement("delete from recurrentce_conf where recurrence_id=?");
+				pstmt.setInt(1, recurrId);
+				pstmt.executeUpdate();
+			}catch(Exception ex){
+				logger.error(ex.toString());
+			}
+		}	
+	}
+	
 }
