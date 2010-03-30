@@ -12,7 +12,6 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 
 import com.cma.intervideo.dao.util.AbstractDAO;
-import com.cma.intervideo.pojo.Conference;
 import com.cma.intervideo.pojo.RecurrenceUnit;
 import com.cma.intervideo.pojo.RecurringMeetingInfo;
 import com.cma.intervideo.pojo.Unit;
@@ -30,6 +29,30 @@ public abstract class AbstractRecurrenceDao extends AbstractDAO<RecurringMeeting
 		this.getHibernateTemplate().save(recurrUnit);
 		logger.info("Added successfully Unit: unitId = " + unitId + " for the recurrence: recurrenceId = " + recurrenceId + ".");
 	}
+	
+	public void deleteConferenceByRecurrenceId(Integer recurrenceId) {
+		Session s = this.getSession();
+		Connection conn = s.connection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try{
+			pstmt = conn.prepareStatement("delete from RecurringMeetingInfo r where status="+RecurringMeetingInfo.status_upcoming + " and recurrence_id=?)");
+			pstmt.setInt(1, recurrenceId);
+			pstmt.executeUpdate();
+		}catch(Exception e){
+			logger.error(e.toString());
+		}finally{
+			try{
+				if(rs!=null)
+					rs.close();
+				if(pstmt!=null)
+					pstmt.close();
+			}catch(Exception ex){
+				logger.error(ex.toString());
+			}
+		}
+	}
+	
 	public List<RecurringMeetingInfo> findRecurrences(List<ParamVo> params, PageHolder ph){
 		String hql = "from RecurringMeetingInfo r where status!="+RecurringMeetingInfo.status_cancel;
 		if(params!=null){
@@ -48,18 +71,20 @@ public abstract class AbstractRecurrenceDao extends AbstractDAO<RecurringMeeting
 					hql += " and r.virtualConfId='"+vo.getParamValue()+"'";
 				}
 				if(vo.getParamName().equals("status")){
-					String tmp = (String)vo.getParamValue();
-					String[] values = tmp.split(",");
-					if (values != null) {
-						if (values.length == 1)
-							hql += " and r.status="+vo.getParamValue();
-						else {
-							hql += " and (r.status=" + values[0];
-							for (int ii = 1; ii < values.length; ii++)
-								hql += " or r.status=" + values[ii];
-							hql += ")";
-						}
-					}
+					Short tmp = (Short)vo.getParamValue();
+					hql += " and r.status="+tmp;
+//					String tmp = (String)vo.getParamValue();
+//					String[] values = tmp.split(",");
+//					if (values != null) {
+//						if (values.length == 1)
+//							hql += " and r.status="+vo.getParamValue();
+//						else {
+//							hql += " and (r.status=" + values[0];
+//							for (int ii = 1; ii < values.length; ii++)
+//								hql += " or r.status=" + values[ii];
+//							hql += ")";
+//						}
+//					}
 				}
 				if(vo.getParamName().equals("startTime")){
 					hql += " and r.startTime>="+((Date)vo.getParamValue()).getTime();

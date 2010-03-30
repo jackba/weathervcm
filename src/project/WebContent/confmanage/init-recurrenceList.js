@@ -254,7 +254,7 @@ function initGrid() {
 				for (var i = 0; i < list.length; i++) {
 					ids[i] = list[i].data["recurrenceId"]+","+list[i].data["radRecurrenceId"];
 				}
-				confService.deleteRecurrences(ids, {
+				confService.cancelRecurrence(ids, {
 					callback:function(data) {
 						if (data > 0) {
 							Ext.MessageBox.alert('提示', "删除" + data + '条数据成功!');
