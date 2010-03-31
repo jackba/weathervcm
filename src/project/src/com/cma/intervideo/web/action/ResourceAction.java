@@ -248,7 +248,7 @@ public class ResourceAction extends AbstractBaseAction{
 			List<ResourceVo> voList = new ArrayList<ResourceVo>();
 			for(int i=0;i<portNums.size()-1;i++){
 				ResourceVo vo = new ResourceVo();
-				vo.setHourMinutes(getDayHourMinutes(startDay, minutes));
+				vo.setHourMinutes(range == 1 ? getHourMinutes(minutes) : getDayHourMinutes(startDay, minutes));
 				vo.setAvailableNum((int)Math.round(portNums.get(i)*total/100.0));
 				vo.setOccupyNum(total-vo.getAvailableNum());
 				voList.add(vo);
@@ -261,7 +261,15 @@ public class ResourceAction extends AbstractBaseAction{
 //			System.out.println(json);
 			com.cma.intervideo.vo.line2d.Chart chart = new com.cma.intervideo.vo.line2d.Chart();
 			chart.setCaption("资源占用波动图");
-			chart.setXAxisName("时间");
+			if (range == 1) {
+				Calendar c = Calendar.getInstance();
+				c.setTime(d);
+				chart.setXAxisName("时间(" + df.format(c.getTime()) + ")");
+				
+			} else {
+				chart.setXAxisName("时间");	
+			}
+			
 			chart.setYAxisName("数量");
 			if(range!=1){
 				chart.setLabelStep("8");
