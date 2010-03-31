@@ -191,6 +191,7 @@ function initGrid() {
 			pressed : true,
 			tooltip : '预约会议',
 			iconCls : 'add16',
+			hidden: 'true'==personal ? false : true,
 			onClick : function() {
 				//location.href = "conf_reserveConf.do?personal="+Ext.getDom("personal").value;
 				window.parent.createNewPanel('confReserve',thisId,'预约会议',"conf_reserveConf.do?personal="+Ext.getDom("personal").value);
