@@ -615,42 +615,91 @@ public class ICMService {
 			Calendar cal = Calendar.getInstance();
 			cal.setTimeInMillis(startTime);
 			int startDay = cal.get(Calendar.DAY_OF_MONTH);
-			cal.add(Calendar.DAY_OF_YEAR, rmi.getMonthDay() - startDay);
-			startTime = cal.getTimeInMillis();
-			long currTime = System.currentTimeMillis();
-			long nextTime = startTime;
-			int interval = rmi.getMonthInterval();
-			if (startTime < currTime) {
-				cal.add(Calendar.MONTH, interval);
-				nextTime = cal.getTimeInMillis();
-			}
-			rmi.setStartDate(getCurrentDate(nextTime));
-			if (rmi.getEndType() == RecurringMeetingInfo.RECURRING_ENDTYPE_DATE){	//TODO: modify
-				long endDate = rmi.getEndDate();
-				rmi.setEndDate(getCurrentDate(endDate));
-				while (nextTime < endDate) {
-					RecurInstanceInfo rii = new RecurInstanceInfo();
-					rii.setStartTime(nextTime);
-					rii.setEndTime(nextTime + rmi.getTimeLong()*60000);
-					riis.add(rii);
+			int monthDay = rmi.getMonthDay();
+			if (monthDay > 0) {
+				cal.add(Calendar.DAY_OF_YEAR, rmi.getMonthDay() - startDay);
+				startTime = cal.getTimeInMillis();
+				long currTime = System.currentTimeMillis();
+				long nextTime = startTime;
+				int interval = rmi.getMonthInterval();
+				if (startTime < currTime) {
 					cal.add(Calendar.MONTH, interval);
 					nextTime = cal.getTimeInMillis();
 				}
-			} else {
-				int repeat = rmi.getEndAfterNumber();
-				int i = 0;
-				while (i < repeat) {
-					RecurInstanceInfo rii = new RecurInstanceInfo();
-					rii.setStartTime(nextTime);
-					rii.setEndTime(nextTime + rmi.getTimeLong()*60000);
-					riis.add(rii);
-					i++;
-					if (i >= repeat) {
-						rmi.setEndDate(getCurrentDate(nextTime));
-						break;
+				rmi.setStartDate(getCurrentDate(nextTime));
+				if (rmi.getEndType() == RecurringMeetingInfo.RECURRING_ENDTYPE_DATE){
+					long endDate = rmi.getEndDate();
+					rmi.setEndDate(getCurrentDate(endDate));
+					while (nextTime < endDate) {
+						RecurInstanceInfo rii = new RecurInstanceInfo();
+						rii.setStartTime(nextTime);
+						rii.setEndTime(nextTime + rmi.getTimeLong()*60000);
+						riis.add(rii);
+						cal.add(Calendar.MONTH, interval);
+						nextTime = cal.getTimeInMillis();
 					}
-					cal.add(Calendar.MONTH, interval);
+				} else {
+					int repeat = rmi.getEndAfterNumber();
+					int i = 0;
+					while (i < repeat) {
+						RecurInstanceInfo rii = new RecurInstanceInfo();
+						rii.setStartTime(nextTime);
+						rii.setEndTime(nextTime + rmi.getTimeLong()*60000);
+						riis.add(rii);
+						i++;
+						if (i >= repeat) {
+							rmi.setEndDate(getCurrentDate(nextTime));
+							break;
+						}
+						cal.add(Calendar.MONTH, interval);
+						nextTime = cal.getTimeInMillis();
+					}
+				}
+			} else {
+				cal.set(Calendar.DAY_OF_MONTH, 1);
+				cal.add(Calendar.MONTH, 1);
+				cal.add(Calendar.DAY_OF_YEAR, monthDay);
+				startTime = cal.getTimeInMillis();
+				long currTime = System.currentTimeMillis();
+				long nextTime = startTime;
+				int interval = rmi.getMonthInterval();
+				if (startTime < currTime) {
+					cal.set(Calendar.DAY_OF_MONTH, 1);
+					cal.add(Calendar.MONTH, interval+1);
+					cal.add(Calendar.DAY_OF_YEAR, monthDay);
 					nextTime = cal.getTimeInMillis();
+				}
+				rmi.setStartDate(getCurrentDate(nextTime));
+				if (rmi.getEndType() == RecurringMeetingInfo.RECURRING_ENDTYPE_DATE) {	
+					long endDate = rmi.getEndDate();
+					rmi.setEndDate(getCurrentDate(endDate));
+					while (nextTime < endDate) {
+						RecurInstanceInfo rii = new RecurInstanceInfo();
+						rii.setStartTime(nextTime);
+						rii.setEndTime(nextTime + rmi.getTimeLong()*60000);
+						riis.add(rii);
+						cal.add(Calendar.MONTH, interval+1);
+						cal.add(Calendar.DAY_OF_YEAR, monthDay);
+						nextTime = cal.getTimeInMillis();
+					}
+				} else {
+					int repeat = rmi.getEndAfterNumber();
+					int i = 0;
+					while (i < repeat) {
+						RecurInstanceInfo rii = new RecurInstanceInfo();
+						rii.setStartTime(nextTime);
+						rii.setEndTime(nextTime + rmi.getTimeLong()*60000);
+						riis.add(rii);
+						i++;
+						if (i >= repeat) {
+							rmi.setEndDate(getCurrentDate(nextTime));
+							break;
+						}
+						cal.set(Calendar.DAY_OF_MONTH, 1);
+						cal.add(Calendar.MONTH, interval+1);
+						cal.add(Calendar.DAY_OF_YEAR, monthDay);
+						nextTime = cal.getTimeInMillis();
+					}
 				}
 			}
 		}
