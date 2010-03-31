@@ -23,7 +23,7 @@ public interface IConfService {
 	
 	public void createRecurrence(RecurringMeetingInfo recurrence, String[] units) throws Exception;
 	public void modifyRecurrence(RecurringMeetingInfo recurrence, String[] units) throws Exception;
-	public void cancelRecurrence(String[] recurrenceId) throws Exception;
+	public int deleteRecurrences(List<String> ids) throws Exception;
 	
 	/**
 	 * 查找会议类型

@@ -247,7 +247,7 @@ public abstract class AbstractConfDao extends AbstractDAO<Conference, Integer> i
 			logger.error(e.toString());
 		}finally{
 			try{
-				pstmt = conn.prepareStatement("delete from recurrentce_conf where recurrence_id=? and recurrence_id=?");
+				pstmt = conn.prepareStatement("delete from recurrence_conf where recurrence_id=? and recurrence_id=?");
 				pstmt.setInt(1, recurrId);
 				pstmt.setInt(2, confId);
 				pstmt.executeUpdate();
@@ -267,7 +267,7 @@ public abstract class AbstractConfDao extends AbstractDAO<Conference, Integer> i
 			logger.error(e.toString());
 		}finally{
 			try{
-				pstmt = conn.prepareStatement("delete from recurrentce_conf where recurrence_id=?");
+				pstmt = conn.prepareStatement("delete from recurrence_conf where recurrence_id=?");
 				pstmt.setInt(1, recurrId);
 				pstmt.executeUpdate();
 			}catch(Exception ex){

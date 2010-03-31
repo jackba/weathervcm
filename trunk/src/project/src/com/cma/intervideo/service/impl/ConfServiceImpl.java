@@ -469,31 +469,37 @@ public class ConfServiceImpl implements IConfService {
 		return confDao.findNotFinishedConfs();
 	}
 
-	public void cancelRecurrence(String[] ids) throws Exception {
-		if (ids == null || ids.length == 0)
-			return;
-		
+	public int deleteRecurrences(List<String> ids) {
+		int ret = 0;
 		for (String id : ids) {
-			String[] tmp = id.split(",");
-			if (tmp == null || tmp.length <= 1)
-				continue;
-			
-			//delete recurrence_conf from vcm
-			int recurrenceId = Integer.parseInt(tmp[0]);
-			confDao.deleteRecurrConf(recurrenceId);
-			
-			//delete conferences from vcm
-			recurrenceDao.deleteConferenceByRecurrenceId(recurrenceId);
-			
-			//delete recurrence from vcm
-			RecurringMeetingInfo recurrence = recurrenceDao.getObjectByID(recurrenceId);
-			recurrence.setStatus(Conference.status_cancel);
-			recurrenceDao.saveOrUpdate(recurrence);
-		
-			// delete recurrence from platform
-			ICMService.cancelRecurrence(tmp[1]);
+			try {
+				String[] tmp = id.split(",");
+				if (tmp == null || tmp.length <= 1)
+					continue;
+				
+				//delete conferences from vcm
+				int recurrenceId = Integer.parseInt(tmp[0]);
+				recurrenceDao.deleteConferenceByRecurrenceId(recurrenceId);
+							
+				//delete recurrence_conf from vcm
+				confDao.deleteRecurrConf(recurrenceId);
+				
+				//delete recurrence from vcm
+				RecurringMeetingInfo recurrence = recurrenceDao.getObjectByID(recurrenceId);
+				recurrence.setStatus(Conference.status_cancel);
+				recurrenceDao.saveOrUpdate(recurrence);
 
+				// delete recurrence from platform
+				ICMService.cancelRecurrence(tmp[1]);
+				
+				ret++;
+				
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+				continue;
+			}
 		}
+		return ret;
 	}
 
 	public void createRecurrence(RecurringMeetingInfo recurrence, String[] units)
