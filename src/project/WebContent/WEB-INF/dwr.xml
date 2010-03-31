@@ -37,6 +37,7 @@
 		<create javascript="confService" creator="spring">
 			<param name="beanName" value="confService"></param>
 			<include method="deleteReserves"></include>
+			<include method="deleteRecurrences"></include>
 		</create>
 		<create javascript="terminalService" creator="spring">
 			<param name="beanName" value="terminalService"></param>

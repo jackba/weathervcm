@@ -195,7 +195,7 @@ function initGrid() {
 				//location.href = "conf_reserveConf.do?personal="+Ext.getDom("personal").value;
 				window.parent.createNewPanel('recurrenceReserve',thisId,'预约例会',"conf_reserveRecurrence.do?personal="+Ext.getDom("personal").value);
 			}
-		}, {
+		}/*, {
 			id : 'btnEdit',
 			text : '修改',
 			pressed : true,
@@ -209,7 +209,7 @@ function initGrid() {
 					Ext.MessageBox.alert('提示', "请选择一条记录!");
 				}
 			}
-		}, {
+		}*/, {
 			id : 'btnDel',
 			text : '删除',
 			pressed : true,
@@ -254,7 +254,7 @@ function initGrid() {
 				for (var i = 0; i < list.length; i++) {
 					ids[i] = list[i].data["recurrenceId"]+","+list[i].data["radRecurrenceId"];
 				}
-				confService.cancelRecurrence(ids, {
+				confService.deleteRecurrences(ids, {
 					callback:function(data) {
 						if (data > 0) {
 							Ext.MessageBox.alert('提示', "删除" + data + '条数据成功!');

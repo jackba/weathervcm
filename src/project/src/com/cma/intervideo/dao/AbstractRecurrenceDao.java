@@ -36,7 +36,7 @@ public abstract class AbstractRecurrenceDao extends AbstractDAO<RecurringMeeting
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try{
-			pstmt = conn.prepareStatement("delete from RecurringMeetingInfo r where status="+RecurringMeetingInfo.status_upcoming + " and recurrence_id=?)");
+			pstmt = conn.prepareStatement("delete from Conference where status=" + RecurringMeetingInfo.status_upcoming + " and conference_id in (select conference_id from recurrence_conf where recurrence_id = ?)");
 			pstmt.setInt(1, recurrenceId);
 			pstmt.executeUpdate();
 		}catch(Exception e){
