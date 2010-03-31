@@ -62,6 +62,13 @@ Ext.onReady(function(){
 		},{
 			xtype:'tbseparator'
 		},{
+			text:"刷新",
+			handler:function(){
+				refreshActiveTab();
+			}
+		},{
+			xtype:'tbseparator'
+		},{
 			text:"帮助",
 			handler:function(){
 				Ext.Msg.alert('帮助','help!');
@@ -467,6 +474,10 @@ function closePanel(id){
 			//initN.load(initN.autoLoad);
 		}
 	}
+}
+function refreshActiveTab() {
+	var n = contentPanel.getActiveTab();
+	n.load(n.autoLoad);
 }
 function closeActivePanel(){
 	var n = contentPanel.getActiveTab();
