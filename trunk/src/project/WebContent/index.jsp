@@ -244,9 +244,11 @@ a:hover{}
 	
 	<div id="bulletinMenus">
 		<ul class="menuList">
+		<!--  
 			<li>
 				<span id="bulletinList" href="<%=request.getContextPath()%>/bulletin_list.do" onClick="onClickMenuItem(this)">最新公告</span>
 			</li>
+		-->
 			<%
 			if(up.hasCodePrivilege("0036")){
 			%>
