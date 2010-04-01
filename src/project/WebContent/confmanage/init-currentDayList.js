@@ -3,12 +3,13 @@ var grid;// 数据显示表格
 var searchForm;// 查询表单
 var limit = 5;// 每页显示的记录数
 var ptb;// 分页控件
+var colWidth = 0.125;
 
 // 页面加载后执行的代码
 Ext.onReady(function() {
 	Ext.BLANK_IMAGE_URL="resources/images/default/s.gif";
 	initData();
-	setInterval("refresh()", 30*1000)
+	setInterval("refresh()", 30*1000);
 });
 
 // 初始化数据
@@ -61,17 +62,19 @@ function initData() {
 // 初始化显示表格
 function initGrid() {
 	Ext.QuickTips.init();
-	var sm = new Ext.grid.CheckboxSelectionModel();
-
-	var cm = new Ext.grid.ColumnModel([sm, {
+	//var sm = new Ext.grid.CheckboxSelectionModel();
+	var cm = new Ext.grid.ColumnModel([/*sm,*/{
 		dataIndex : 'conferenceId',
 		hidden : true
 	},{
 		dataIndex : 'radConferenceId',
 		hidden : true
 	},{
+		dataIndex : 'status',
+		hidden : true
+	},{
 		header : "主题",
-		width: Ext.get("searchArea").getWidth()*0.14,
+		width: Ext.get("searchArea").getWidth()*colWidth,
 		sortable : true,
 		dataIndex : 'subject',
 		renderer : function(value, p , record){
@@ -81,17 +84,17 @@ function initGrid() {
 		}
 	}, {
 		header : "会议号",
-		width: Ext.get("searchArea").getWidth()*0.14,
+		width: Ext.get("searchArea").getWidth()*colWidth,
 		sortable : true,
 		dataIndex : 'virtualConfId'
 	}, {
 		header : "组织单位",
-		width : Ext.get("searchArea").getWidth()*0.14,
+		width : Ext.get("searchArea").getWidth()*colWidth,
 		sortable : true,
 		dataIndex : 'initUnit'
 	}, {
 		header : "起始时间",
-		width : Ext.get("searchArea").getWidth()*0.14,
+		width : Ext.get("searchArea").getWidth()*colWidth,
 		sortable : true,
 		dataIndex : 'startTime',
 		renderer : function(value, p, record){
@@ -99,19 +102,26 @@ function initGrid() {
 		}
 	}, {
 		header : "时长(分钟)",
-		width : Ext.get("searchArea").getWidth()*0.14,
+		width : Ext.get("searchArea").getWidth()*colWidth,
 		sortable : true,
 		dataIndex : 'timeLong'
 	}, {
 		header : "状态",
-		width: Ext.get("searchArea").getWidth()*0.14,
+		width: Ext.get("searchArea").getWidth()*colWidth,
 		sortable : true,
 		dataIndex : 'statusStr'
 	}, {
 		header : "会议类型",
-		width : Ext.get("searchArea").getWidth()*0.14,
+		width : Ext.get("searchArea").getWidth()*colWidth,
 		sortable : true,
 		dataIndex : 'serviceTemplateDesc'
+	}, {
+		header : "会议监控",
+		width : Ext.get("searchArea").getWidth()*colWidth,
+		sortable : false,
+		renderer : function(value, p , record){
+			return String.format('<a href="#" onclick="stratMonitor(\'{0}\',\'{1}\');">监控</a>',record.data.radConferenceId,record.data.status);
+		}
 	}]);
 	// 工具栏对象
 	ptb = new Ext.PagingToolbar({
@@ -141,12 +151,12 @@ function initGrid() {
 		buttonAlign : 'right',
 		ds : ds,
 		cm : cm,
-		sm : sm,
+		//sm : sm,
 		stripeRows : true,
 		forceFit:true,
 		loadMask : true,
 		//viewConfig : {forceFit : true},
-		tbar : ['<b>&nbsp;&nbsp;&nbsp;&nbsp;<font color=#990000>当日会议安排</font></b>','->',{
+		tbar : ['<b>&nbsp;&nbsp;&nbsp;&nbsp;<font color=#990000>当日会议安排</font></b>','->',/*{
 			id : 'btnMonitor',
 			text : '监控',
 			pressed : true,
@@ -168,7 +178,7 @@ function initGrid() {
 					Ext.MessageBox.alert('提示', "请选择一条记录!");
 				}
 			}
-		}, {
+		},*/ {
 			id : 'btnPdf',
 			text : '生成PDF报表',
 			pressed : true,
@@ -216,7 +226,15 @@ function initGrid() {
 		return params;
 	}
 }
-
+function stratMonitor(radConferenceId, status) {
+	if(status==0){
+		Ext.MessageBox.alert('提示',"会议还未开始!");
+	}else if(status==2){
+		Ext.MessageBox.alert('提示',"会议已经结束!");
+	}else{
+		openMonitorWin(radConferenceId);
+	}
+}
 function refresh() {
 //	alert("auto refresh!!!");
 	loadStore(ptb.cursor);
