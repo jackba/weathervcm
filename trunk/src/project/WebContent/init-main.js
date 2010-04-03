@@ -8,6 +8,8 @@ var limit = 5;// 每页显示的记录数
 var ptb1;// 分页控件
 var weekPanel;
 var dayGrid;
+var win;
+var win2;
 var contentPanel=new Ext.TabPanel({
 	region:'center',
 	id:'tabPanel',
@@ -232,6 +234,7 @@ function refresh(){
 }
 function createDayGrid(){
 	dayGrid = getDayConf(Ext.getDom('day2').value);
+	
 	dayGrid.render('agendaArea');
 }
 function destroyDayGrid(){
@@ -513,6 +516,7 @@ function closeAndCreatePanel(oldId,newId){
 }
 function query() {
 	loadStore();
+	win.hide();
 }
 function query2(){
 	var type = Ext.getDom('displayType').options[Ext.getDom('displayType').selectedIndex].value;
@@ -533,6 +537,7 @@ function query2(){
 		}
 		createWeekPanel();
 	}
+	win2.hide();
 }
 function loadStore1(start){
 //	alert(Ext.get('status').dom.value);
@@ -588,6 +593,27 @@ function loadStore(){
 					tbar: [{
 						xtype:'tbfill'
 						},{
+			text: '查询',
+			handler: function(){
+				win = new Ext.Window({
+					title: '查询',
+					closable:true,
+					closeAction:'hide',
+					width:800,
+					height:150,
+					items:[{
+						xtype:"panel",
+						title:"",
+						contentEl:"queryArea"
+						//html:Ext.getDom("queryArea").innerHTML
+					}]
+				});
+				win.show(this);
+				Ext.getDom("queryArea").style.display="block";
+			}
+		},{
+			xtype: 'tbseparator'
+		},{
 			text: '上一天',
 			handler: function(){
 				if(day.getValue()!=null && day.getValue()!=undefined && day.getValue()!="")
@@ -757,7 +783,31 @@ function getDayConf(day){
 		forceFit:true,
 		loadMask : true,
 		//viewConfig : {forceFit : true},
-		tbar : ['<b>&nbsp;&nbsp;&nbsp;&nbsp;<font color=#990000>当日会议安排</font></b>','->'],
+		tbar : ['<b>&nbsp;&nbsp;&nbsp;&nbsp;<font color=#990000>当日会议安排</font></b>','->',
+				{
+			xtype:'tbfill'
+		},{
+			text:'查询',
+			handler:function(){
+				if(!win2){
+					win2 = new Ext.Window({
+						title: '查询',
+						closable:true,
+						closeAction:'hide',
+						width:800,
+						height:150,
+						items:[{
+							xtype:"panel",
+							title:"",
+							contentEl:"agendaQueryArea"
+							//html:Ext.getDom("queryArea").innerHTML
+						}]
+					});
+				}
+				win2.show(this);
+				Ext.getDom("agendaQueryArea").style.display="block";
+			}
+		}],
 		bbar : ptb2,
 		width: Ext.get("agendaArea").getWidth()*0.98,
 		height:Ext.get("agendaArea").getHeight()*0.98,

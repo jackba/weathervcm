@@ -293,7 +293,7 @@ a:hover{}
 <!--div id="left"-->
 <div class="wrap">
 		<div id="searchArea" class="search">
-			
+			<div id="queryArea" style="display:none">
 			<form name="form1" id="form1" method="post" action="<%=request.getContextPath()%>/res_searchAvailable.do">
 			<input id="serviceTemplate" type="hidden" name="serviceTemplate" value="10002"/>
 				<table border="1" class="query">
@@ -322,9 +322,11 @@ a:hover{}
 						<input type="button" value="重置" id="btnReset"	class="butt_bg1" onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" onClick="reset()" />
 				</div>
 			</form>
+			</div>
 		</div><!--end of searchArea-->
 		<div id="runningArea" class="search"></div>
 		<div id="agendaArea" class="search">
+			<div id="agendaQueryArea" style="display:none">
 			<form name="form2" id="form2" method="post" action="#">
 				<table border="1" class="query">
 					<tr>
@@ -346,6 +348,7 @@ a:hover{}
 						<input type="button" value="重置" id="btnReset"	class="butt_bg1" onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" onClick="reset2()" />
 				</div>
 			</form>
+			</div>
 		</div>
 	</div><!--end of wrap-->
 <!--/div-->
