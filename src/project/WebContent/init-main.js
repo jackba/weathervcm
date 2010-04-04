@@ -10,20 +10,7 @@ var weekPanel;
 var dayGrid;
 var win;
 var win2;
-var contentPanel=new Ext.TabPanel({
-	region:'center',
-	id:'tabPanel',
-	enableTabScroll:true,
-	resizeTabs:true,
-	deferredRender:false,
-	minTabWidth:115,
-	activeTab:0,
-	items:[{
-		contentEl:"center",
-		title:'主页',
-		autoScroll:true
-	}]
-});
+var contentPanel;
 function getConnectStatus(){
 	Ext.Ajax.request({
 		url: 'conf_getConnectStatus.do',
@@ -39,6 +26,33 @@ Ext.onReady(function(){
 	Ext.BLANK_IMAGE_URL="resources/images/default/s.gif";
 	Ext.FlashComponent.EXPRESS_INSTALL_URL = "resources/images/default/expressInstall.swf";
 	Ext.chart.Chart.CHART_URL = "resources/images/default/charts.swf";
+	var tabs = new Ext.TabPanel({
+		id:"tabs",
+		renderTo:"center",
+	    //width:Ext.get("searchArea").getWidth(),
+	    activeTab: 0,
+	    frame:true,
+	    defaults:{autoHeight: true},
+	    items:[
+	        {contentEl:'searchArea', title: 'Resource'},
+	        {contentEl:'runningArea', title: 'Running'},
+	        {contentEl:'agendaArea', title: 'Agenda'}
+	    ]
+	});
+	contentPanel = new Ext.TabPanel({
+		region:'center',
+		id:'tabPanel',
+		enableTabScroll:true,
+		resizeTabs:true,
+		deferredRender:false,
+		minTabWidth:115,
+		activeTab:0,
+		items:[{
+			contentEl:"tabs",
+			title:'主页',
+			autoScroll:true
+		}]
+	});
 	var northToolbar = new Ext.Toolbar({
 		id:'tb',
 		height:30,
