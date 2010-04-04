@@ -237,6 +237,7 @@ function initGrid() {
 
 function query() {
 	loadStore(0);
+	win.hide();
 }
 function loadStore(start){
 	ds.load({

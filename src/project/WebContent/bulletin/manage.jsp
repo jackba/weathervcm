@@ -31,7 +31,7 @@
 <div class="wrap">
 	<h1>当前位置：系统管理&nbsp;&gt;&nbsp;<span class="position_current"> 公告管理</span></h1>
 		<div id="searchArea" class="search">
-			
+			<div id="queryArea" style="display:none">
 			<form name="form1" id="form1" method="post" action="<%=request.getContextPath()%>/user_search.do">
 				<table border="1" width="800" class="query">
 					<tr>
@@ -55,6 +55,7 @@
 						<input type="button" value="重置" id="btnReset"	class="butt_bg1" onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" onClick="reset()" /></td>
 				</div>
 			</form>
+			</div>
 		</div><!--end of searchArea-->
 	</div><!--end of wrap-->
 </body>

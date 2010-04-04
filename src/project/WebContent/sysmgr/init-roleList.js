@@ -3,6 +3,7 @@ var grid;// 数据显示表格
 var searchForm;// 查询表单
 var limit = 5;// 每页显示的记录数
 var ptb;// 分页控件
+var win;
 
 // 页面加载后执行的代码
 Ext.onReady(function() {
@@ -142,6 +143,29 @@ function initGrid() {
 			forceFit : true
 		},
 		tbar : ['<b>&nbsp;&nbsp;&nbsp;&nbsp;<font color=#990000>角色信息列表</font></b>','->',{
+			id : 'btnQuery',
+			text : '查询',
+			pressed : true,
+			tooltip : '查询角色信息',
+			iconCls : 'add16',
+			onClick : function(){
+				win = new Ext.Window({
+					title: '查询',
+					closable:true,
+					closeAction:'hide',
+					width:800,
+					height:150,
+					items:[{
+						xtype:"panel",
+						title:"",
+						contentEl:"queryArea"
+						//html:Ext.getDom("queryArea").innerHTML
+					}]
+				});
+				win.show(this);
+				Ext.getDom("queryArea").style.display="block";
+			}
+		}, {
 			id : 'btnAdd',
 			text : '添加',
 			pressed : true,
@@ -241,6 +265,7 @@ function initGrid() {
 
 function query() {
 	loadStore(0);
+	win.hide();
 }
 function loadStore(start){
 //	alert(Ext.get('name').dom.value);
