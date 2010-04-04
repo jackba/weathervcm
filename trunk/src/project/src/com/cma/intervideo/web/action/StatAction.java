@@ -55,7 +55,7 @@ public class StatAction extends AbstractBaseAction{
 //			System.out.println(json);
 			
 			Chart chart = new Chart();
-			chart.setCaption("用户使用次数排行榜");
+			chart.setCaption("用户使用次数排行榜(" + startDate + "至" + endDate + ")");
 			chart.setXAxisName("用户");
 			chart.setYAxisName("次数");
 			List<Set> set = new ArrayList<Set>();
@@ -117,7 +117,7 @@ public class StatAction extends AbstractBaseAction{
 //			System.out.println(json);
 			
 			Chart chart = new Chart();
-			chart.setCaption("主会场时长统计");
+			chart.setCaption("主会场时长统计(" + startDate + "至" + endDate + ")");
 			chart.setXAxisName("主会场");
 			chart.setYAxisName("时长(分钟)");
 			List<Set> set = new ArrayList<Set>();
@@ -152,7 +152,7 @@ public class StatAction extends AbstractBaseAction{
 			List<ConfTypeTimeStatVo> voList = statService.statConfTypeTime(startDate, endDate);
 			response.setContentType("application/xml;charset=utf-8");
 			Chart chart = new Chart();
-			chart.setCaption("会议类型时长统计");
+			chart.setCaption("会议类型时长统计(" + startDate + "至" + endDate + ")");
 			chart.setXAxisName("会议类型");
 			chart.setYAxisName("时长(分钟)");
 			List<Set> set = new ArrayList<Set>();
@@ -211,7 +211,7 @@ public class StatAction extends AbstractBaseAction{
 //			System.out.println(json);
 			
 			Chart chart = new Chart();
-			chart.setCaption("会议时长排行榜");
+			chart.setCaption("会议时长排行榜(" + startDate + "至" + endDate + ")");
 			chart.setXAxisName("会议名称");
 			chart.setYAxisName("时长(分钟)");
 			List<Set> set = new ArrayList<Set>();

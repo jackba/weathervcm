@@ -31,7 +31,7 @@
 <div class="wrap">
 	<h1>当前位置：系统资源浏览&nbsp;&gt;&nbsp;<span class="position_current"> 会议类型时长统计</span></h1>
 		<div id="searchArea" class="search">
-			
+			<div id="queryArea" style="display:none">	
 			<form name="form1" id="form1" method="post" action="<%=request.getContextPath()%>/stat_confTypeTimeStat.do">
 				<table border="1" class="query">
 					<tr>
@@ -50,10 +50,12 @@
 						<input type="button" value="重置" id="btnReset"	class="butt_bg1" onMouseOver="this.className='butt_bg1_over'" onMouseOut="this.className='butt_bg1'" onClick="reset()" />
 				</div>
 			</form>
+			</div>
 		</div><!--end of searchArea-->
 	</div><!--end of wrap-->
 <script language="javascript">
 var mychart; //图表
+var win;
 var chartEvents = {
            //'mousemove':function(){console.log(['mousemove',arguments])}
           };
@@ -68,6 +70,7 @@ Ext.onReady(function() {
 });
 function query() {
 	loadStore();
+	win.hide();
 }
 function loadStore(){
 //	alert(Ext.get('status').dom.value);
@@ -107,6 +110,27 @@ function loadStore(){
        				},
 					tbar: [{
 						xtype:'tbfill'
+						},{
+							text: '查询',
+							handler: function(){
+								win = new Ext.Window({
+									title: '查询',
+									closable:true,
+									closeAction:'hide',
+									width:800,
+									height:150,
+									items:[{
+										xtype:"panel",
+										title:"",
+										contentEl:"queryArea"
+										//html:Ext.getDom("queryArea").innerHTML
+									}]
+								});
+								win.show(this);
+								Ext.getDom("queryArea").style.display="block";
+							}
+						},{
+							xtype: 'tbseparator'
 						},{
             			text: '重新载入',
             			handler: function(){
