@@ -26,6 +26,7 @@ Ext.onReady(function(){
 	Ext.BLANK_IMAGE_URL="resources/images/default/s.gif";
 	Ext.FlashComponent.EXPRESS_INSTALL_URL = "resources/images/default/expressInstall.swf";
 	Ext.chart.Chart.CHART_URL = "resources/images/default/charts.swf";
+	
 	var tabs = new Ext.TabPanel({
 		id:"tabs",
 		renderTo:"center",
@@ -37,8 +38,30 @@ Ext.onReady(function(){
 	        {contentEl:'searchArea', title: '可用资源'},
 	        {contentEl:'runningArea', title: '正在召开'},
 	        {contentEl:'agendaArea', title: '周会议'}
-	    ]
+	    ],
+	    listeners:{
+			tabchange:function(thisComp, newTab){
+				if(newTab.title == "可用资源"){
+					
+				}else if(newTab.title == "正在召开"){
+					var runningArea = Ext.getDom("runningArea");
+					if(runningArea.style.display == "none"){
+						runningArea.style.display = "block";
+						initData();
+					}
+				}else if(newTab.title == "周会议"){
+					var agendaArea = Ext.getDom("agendaArea");
+					if(agendaArea.style.display == "none"){
+						agendaArea.style.display = "block";
+						var cday = new Date();
+    					Ext.getDom('day2').value = cday.format('Y-m-d');
+    					createWeekPanel();
+					}
+				}
+			}
+		}
 	});
+	
 	contentPanel = new Ext.TabPanel({
 		region:'center',
 		id:'tabPanel',
@@ -53,6 +76,9 @@ Ext.onReady(function(){
 			autoScroll:true
 		}]
 	});
+//	Ext.getDom("searchArea").style.display="block";
+//	Ext.getDom("runningArea").style.display = "block";
+//	Ext.getDom("agendaArea").style.display = "block";
 	var northToolbar = new Ext.Toolbar({
 		id:'tb',
 		height:30,
@@ -186,14 +212,7 @@ Ext.onReady(function(){
 			}]
 		},contentPanel]
 	});
-	day = new Ext.form.DateField({
-		name:'day',
-		id:'day',
-		readOnly:true,
-		format:'Y\-m\-d',
-		renderTo:'dayDiv'
-	});
-	day.setValue(new Date());
+	
 //	serviceds = new Ext.data.Store({
 //		proxy : new Ext.data.HttpProxy({
 //			url : 'service_search.do'
@@ -223,15 +242,19 @@ Ext.onReady(function(){
 //        selectOnFocus: true,
 //        renderTo: 'service_template'
 //    });
+	day = new Ext.form.DateField({
+		name:'day',
+		id:'day',
+		readOnly:true,
+		format:'Y\-m\-d',
+		renderTo:'dayDiv'
+	});
+	day.setValue(new Date());
 	loadStore();
     var iTop = (window.screen.availHeight-30-400)/2;
     var iLeft = (window.screen.availWidth-10-800)/2;
     window.open('bulletin_list.do','最新公告','height=400,width=800,status=no,menubar=no,location=no,resizable=yes,scrollbars=yes,toolbar=no,top='+iTop+',left='+iLeft);
-    initData();
-   
-    var cday = new Date();
-    Ext.getDom('day2').value = cday.format('Y-m-d');
-    createWeekPanel();
+    
 	setInterval("refresh()", 30*1000)
 });
 function isHidden(divId){
@@ -284,6 +307,7 @@ function createWeekPanel(){
 		resizeTabs:true,
 		deferredRender:false,
 		minTabWidth:115,
+		width:Ext.get("agendaArea").getWidth()*0.98,
 		activeTab:cdayofweek-1,
 		items:[Ext.applyIf(getDayConf(sday.format('Y-m-d')),{title:'星期一'}),
 			Ext.applyIf(getDayConf(sday.add(Date.DAY,1).format('Y-m-d')),{title:'星期二'}),

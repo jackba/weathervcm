@@ -324,8 +324,8 @@ a:hover{}
 			</form>
 			</div>
 		</div><!--end of searchArea-->
-		<div id="runningArea" class="search"></div>
-		<div id="agendaArea" class="search">
+		<div id="runningArea" class="search" style="display:none"></div>
+		<div id="agendaArea" class="search" style="display:none">
 			<div id="agendaQueryArea" style="display:none">
 			<form name="form2" id="form2" method="post" action="#">
 				<table border="1" class="query">
