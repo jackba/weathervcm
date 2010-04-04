@@ -34,9 +34,9 @@ Ext.onReady(function(){
 	    frame:true,
 	    defaults:{autoHeight: true},
 	    items:[
-	        {contentEl:'searchArea', title: 'Resource'},
-	        {contentEl:'runningArea', title: 'Running'},
-	        {contentEl:'agendaArea', title: 'Agenda'}
+	        {contentEl:'searchArea', title: '可用资源'},
+	        {contentEl:'runningArea', title: '正在召开'},
+	        {contentEl:'agendaArea', title: '周会议'}
 	    ]
 	});
 	contentPanel = new Ext.TabPanel({

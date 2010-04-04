@@ -372,7 +372,7 @@ public class ResourceAction extends AbstractBaseAction{
 			}
 			Chart chart = new Chart();
 			chart.setCaption("可用资源情况");
-			chart.setXAxisName("时间");
+			chart.setXAxisName("时间(" + day + ")");
 			chart.setYAxisName("数量");
 			chart.setCategories(new ArrayList<Category>());
 			chart.setDatasets(new ArrayList<Dataset>());
