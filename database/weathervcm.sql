@@ -218,6 +218,8 @@ create table message_board
    content                        varchar(512),
    status                         tinyint                        not null,
    create_time                    datetime                       not null,
+   omsg_id			  int,
+   update_time			  datetime,
    primary key (message_id)
 )
 type = InnoDB;

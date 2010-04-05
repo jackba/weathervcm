@@ -7742,10 +7742,11 @@ ATT MAND</a:History>
 <a:Code>com_port</a:Code>
 <a:CreationDate>1264708745</a:CreationDate>
 <a:Creator>lihw2</a:Creator>
-<a:ModificationDate>1264708803</a:ModificationDate>
+<a:ModificationDate>1264823722</a:ModificationDate>
 <a:Modifier>lihw2</a:Modifier>
 <a:Comment>端口号，数值型，设定发送本条信息所使用的端口号，为0或不填时为自动端口 号</a:Comment>
-<a:DataType>int</a:DataType>
+<a:DataType>varchar(10)</a:DataType>
+<a:Length>10</a:Length>
 <a:Mandatory>1</a:Mandatory>
 </o:Column>
 <o:Column Id="o392">
