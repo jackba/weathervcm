@@ -28,8 +28,218 @@ function deleteMessage(messageId, personal){
 		}
 	});
 }
+function editMessage(messageId, personal, title, content){
+	if(title==null || title==""){
+	var win = new Ext.Window({
+		title: '修改留言',
+		width: 500,
+		height: 350,
+		items: [{
+			xtype: 'form',
+			url: '<%=request.getContextPath()%>/bbs_update.do',
+			id: 'editform',
+			title: '',
+			labelWidth: 100,
+			labelAlign: 'left',
+			layout: 'form',
+			autoHeight: true,
+			items:[{
+				xtype: 'hidden',
+				name: 'messageBoard.messageId',
+				value: messageId
+			},{
+				xtype: 'textarea',
+				fieldLabel: '内容',
+				anchor: '100%',
+				name: 'messageBoard.content',
+				height: 200,
+				value: content
+			}],
+			buttons: [{
+				text: '确认',
+				xtype: 'button',
+				handler: function(thisBtn, thisEvent){
+					Ext.getCmp('editform').getForm().submit({
+						success:function(form,action){
+							Ext.Msg.alert('成功',action.result.msg,function(button){
+								win.close();
+								document.form1.submit();
+							});
+						},
+						failure:function(form,action){
+							switch (action.failureType) {
+							case Ext.form.Action.CLIENT_INVALID:
+                				Ext.Msg.alert('失败', 'Form fields may not be submitted with invalid values',function(btn){
+									win.close();
+								});
+                				break;
+            				case Ext.form.Action.CONNECT_FAILURE:
+                				Ext.Msg.alert('失败', 'Ajax communication failed',function(btn){
+									win.close();
+								});
+                				break;
+            				case Ext.form.Action.SERVER_INVALID:
+               					Ext.Msg.alert('失败', action.result.msg,function(btn){
+									win.close();
+								});
+							}
+						}
+					});
+				}
+			},{
+				text: '取消',
+				xtype: 'button',
+				handler: function(b, e){
+					win.close();
+				}
+			}]
+		}]
+	});
+	win.show(this);
+	}else{
+	var win = new Ext.Window({
+		title: '修改留言',
+		width: 500,
+		height: 350,
+		items: [{
+			xtype: 'form',
+			url: '<%=request.getContextPath()%>/bbs_update.do',
+			id: 'editform',
+			title: '',
+			labelWidth: 100,
+			labelAlign: 'left',
+			layout: 'form',
+			autoHeight: true,
+			items:[{
+				xtype: 'hidden',
+				name: 'messageBoard.messageId',
+				value: messageId
+			},{
+				xtype: 'textfield',
+				fieldLabel: '标题',
+				anchor: '100%',
+				name: 'messageBoard.title',
+				value: title
+			},{
+				xtype: 'textarea',
+				fieldLabel: '内容',
+				anchor: '100%',
+				name: 'messageBoard.content',
+				height: 200,
+				value: content
+			}],
+			buttons: [{
+				text: '确认',
+				xtype: 'button',
+				handler: function(thisBtn, thisEvent){
+					Ext.getCmp('editform').getForm().submit({
+						success:function(form,action){
+							Ext.Msg.alert('成功',action.result.msg,function(button){
+								win.close();
+								document.form1.submit();
+							});
+						},
+						failure:function(form,action){
+							switch (action.failureType) {
+							case Ext.form.Action.CLIENT_INVALID:
+                				Ext.Msg.alert('失败', 'Form fields may not be submitted with invalid values',function(btn){
+									win.close();
+								});
+                				break;
+            				case Ext.form.Action.CONNECT_FAILURE:
+                				Ext.Msg.alert('失败', 'Ajax communication failed',function(btn){
+									win.close();
+								});
+                				break;
+            				case Ext.form.Action.SERVER_INVALID:
+               					Ext.Msg.alert('失败', action.result.msg,function(btn){
+									win.close();
+								});
+							}
+						}
+					});
+				}
+			},{
+				text: '取消',
+				xtype: 'button',
+				handler: function(thisBtn, thisEvent){
+					win.close();
+				}
+			}]
+		}]
+	});
+	win.show(this);
+	}
+}
+function replyMessage(messageId, personal){
+	var win = new Ext.Window({
+		title: '修改留言',
+		width: 500,
+		height: 350,
+		items: [{
+			xtype: 'form',
+			url: '<%=request.getContextPath()%>/bbs_reply.do',
+			id: 'replyform',
+			title: '',
+			labelWidth: 100,
+			labelAlign: 'left',
+			layout: 'form',
+			autoHeight: true,
+			items:[{
+				xtype: 'hidden',
+				name: 'messageBoard.omsgId',
+				value: messageId
+			},{
+				xtype: 'textarea',
+				fieldLabel: '内容',
+				anchor: '100%',
+				name: 'messageBoard.content',
+				height: 200
+			}],
+			buttons: [{
+				text: '确认',
+				xtype: 'button',
+				handler: function(thisBtn, thisEvent){
+					Ext.getCmp('replyform').getForm().submit({
+						success:function(form,action){
+							Ext.Msg.alert('成功',action.result.msg,function(button){
+								win.close();
+								document.form1.submit();
+							});
+						},
+						failure:function(form,action){
+							switch (action.failureType) {
+							case Ext.form.Action.CLIENT_INVALID:
+                				Ext.Msg.alert('失败', 'Form fields may not be submitted with invalid values',function(btn){
+									win.close();
+								});
+                				break;
+            				case Ext.form.Action.CONNECT_FAILURE:
+                				Ext.Msg.alert('失败', 'Ajax communication failed',function(btn){
+									win.close();
+								});
+                				break;
+            				case Ext.form.Action.SERVER_INVALID:
+               					Ext.Msg.alert('失败', action.result.msg,function(btn){
+									win.close();
+								});
+							}
+						}
+					});
+				}
+			},{
+				text: '取消',
+				xtype: 'button',
+				handler: function(){
+					win.close();
+				}
+			}]
+		}]
+	});
+	win.show(this);
+}
 </script>
-<h1>留言板&nbsp;&gt;&nbsp;<span class="position_current">查看个人留言</span></h1>
+<h1>留言板&nbsp;&gt;&nbsp;<span class="position_current"><s:if test='#request.personal=="true"'>查看个人留言</s:if><s:else>查看全部留言</s:else></span></h1>
 <div class="wrap">
 <div class="search">
 <form name="form1" action="<%=request.getContextPath()%>/bbs_search.do" method="post">
@@ -45,11 +255,13 @@ function deleteMessage(messageId, personal){
 
 </td></tr><tr><td><table width="100%" border="0">
 <s:iterator value='#request.messageList'>
+<s:if test='messageId == omsgId'>
 <tr bgcolor="#cccccc">
-<td><s:property value="title"/></td>
+<td colspan="2"><s:property value="title"/></td>
 </tr>
-<tr><td><span><s:property value="content"/></span><br/></td></tr>
-<tr bgcolor="#e1e2e2"><td>作者： <s:property value='userName'/> | 发表于： <s:date name='createTime' format='yyyy-MM-dd HH:mm:ss'/> | <a href="#" onClick="deleteMessage('<s:property value="messageId"/>','<s:property value="#request.personal"/>')">删除该条留言</a></td></tr>
+</s:if>
+<tr><s:if test='messageId==omsgId'><td colspan="2"></s:if><s:else><td rowspan="2">&nbsp;&nbsp;&nbsp;&nbsp;</td><td></s:else><span><s:property value="content"/></span><br/></td></tr>
+<tr bgcolor="#e1e2e2"><s:if test='messageId==omsgId'><td colspan="2"></s:if><s:else><td></s:else>作者： <s:property value='userName'/> | 发表于： <s:date name='createTime' format='yyyy-MM-dd HH:mm:ss'/> | 最后修改： <s:date name='updateTime' format='yyyy-MM-dd HH:mm:ss'/> <s:if test='#session.userPrivilege.hasCodePrivilege("0037") || #session.userPrivilege.userId==userId'>| <a href="#" onClick="deleteMessage('<s:property value="messageId"/>','<s:property value="#request.personal"/>')">删除</a> | <a href="#" onClick="editMessage('<s:property value="messageId"/>','<s:property value="#request.personal"/>','<s:property value="title"/>','<s:property value="content"/>')">修改</a> </s:if>| <a href="#" onClick="replyMessage('<s:property value="omsgId"/>','<s:property value="#request.personal"/>')">回复</a></td></tr>
 </s:iterator>
 </table></td></tr></table>
 <jsp:include page="../common/page.jsp"/>

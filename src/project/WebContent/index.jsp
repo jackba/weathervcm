@@ -267,13 +267,9 @@ a:hover{}
 	
 	<div id="bbsMenus">
 		<ul class="menuList">
-			<%
-			if(up.hasCodePrivilege("0037")){
-			%>
 			<li>
 				<span id="bbsManage" href="<%=request.getContextPath()%>/bbs_listAll.do" onClick="onClickMenuItem(this)">查看全部留言</span>
 			</li>
-			<%} %>
 			<li>
 				<span id="messageList" href="<%=request.getContextPath()%>/bbs_listPersonal.do" onClick="onClickMenuItem(this)">查看个人留言</span>
 			</li>
