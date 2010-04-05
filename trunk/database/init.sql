@@ -51,8 +51,7 @@ insert into privilege (name,url,description,code) values("公告修改","action:Bull
 insert into privilege (name,url,description,code) values("公告删除","dwr:BulletinServiceImpl.deleteBulletins","公告删除","0035");
 insert into privilege (name,url,description,code) values("公告管理","action:BulletinAction.manage;json:BulletinAction.search;action:BulletinAction.detail","公告管理","0036");
 
-insert into privilege (name,url,description,code) values("查看全部留言","action:BBSAction.listAll;action:BBSAction.search","查看全部留言","0037");
-insert into privilege (name,url,description,code) values("删除留言","action:BBSAction.delete","删除留言","0038");
+insert into privilege (name,url,description,code) values("管理留言","","管理留言","0037");
 
 insert into privilege (name,url,description,code) values("系统配置","action:SysConfigAction.configModify;json:SysConfigAction.modifyConfiguration","系统配置","0039");
 
