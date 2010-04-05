@@ -16,6 +16,8 @@ public class MessageBoard implements java.io.Serializable {
 	private Short status;
 	private Date createTime;
 	private String userName; //additional
+	private Integer omsgId;
+	private Date updateTime;
 	
 	public MessageBoard() {
 	}
@@ -24,13 +26,6 @@ public class MessageBoard implements java.io.Serializable {
 		this.status = status;
 	}
 
-	public MessageBoard(String userId, String title, String content, Short status, Date createTime) {
-		this.userId = userId;
-		this.title = title;
-		this.content = content;
-		this.status = status;
-		this.createTime = createTime;
-	}
 	
 	public String getUserName() {
 		return userName;
@@ -87,5 +82,22 @@ public class MessageBoard implements java.io.Serializable {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
+
+	public Integer getOmsgId() {
+		return omsgId;
+	}
+
+	public void setOmsgId(Integer omsgId) {
+		this.omsgId = omsgId;
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+	
 	
 }

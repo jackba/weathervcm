@@ -63,7 +63,7 @@ public class BBSAction extends AbstractBaseAction{
 		String messageId = request.getParameter("messageId");
 		String personal = request.getParameter("personal");
 		MessageBoard m = bbsService.getMessageById(Integer.parseInt(messageId));
-		if(personal.equals("true")){
+		if(!up.hasCodePrivilege("0037")){
 			if(!m.getUserId().equals(up.getUserId())){
 				request.setAttribute("msg", "删除失败!您没有删除该条留言的权限!");
 				if(personal.equals("true")){
@@ -143,8 +143,74 @@ public class BBSAction extends AbstractBaseAction{
 			if(up!=null){
 				messageBoard.setUserId(up.getUserId());
 			}
+			messageBoard.setUpdateTime(d);
 			bbsService.save(messageBoard);
+			messageBoard.setOmsgId(messageBoard.getMessageId());
+			bbsService.save(messageBoard);
+			response.setContentType("text/html;charset=utf-8");
 		
+			pw = response.getWriter();
+			pw.print("{success:true,msg:'发布成功!'}");
+			pw.flush();
+			pw.close();
+		}catch(Exception e){
+			logger.error(e.toString());
+			if(pw!=null){
+				pw.print("{success:false,msg:'"+e.toString()+"'}");
+				pw.flush();
+				pw.close();
+			}
+		}
+		return null;
+	}
+	public String update(){
+		Date d = Calendar.getInstance().getTime();
+		PrintWriter pw = null;
+		try{
+			UserPrivilege up = (UserPrivilege)session.get("userPrivilege");
+			MessageBoard mb = bbsService.getMessageById(messageBoard.getMessageId());
+			response.setContentType("text/html;charset=utf-8");
+			pw = response.getWriter();
+			if(!up.hasCodePrivilege("0037")){
+				if(!mb.getUserId().equals(up.getUserId())){
+					pw.print("{success:false,msg:'删除失败!您没有删除该条留言的权限!'}");
+					pw.flush();
+					pw.close();
+					return null;
+				}
+			}
+			mb.setContent(messageBoard.getContent());
+			mb.setTitle(messageBoard.getTitle());
+			mb.setUpdateTime(d);
+			bbsService.save(mb);
+			
+		
+			
+			pw.print("{success:true,msg:'修改成功!'}");
+			pw.flush();
+			pw.close();
+		}catch(Exception e){
+			logger.error(e.toString());
+			if(pw!=null){
+				pw.print("{success:false,msg:'"+e.toString()+"'}");
+				pw.flush();
+				pw.close();
+			}
+		}
+		return null;
+	}
+	public String reply(){
+		Date d = Calendar.getInstance().getTime();
+		messageBoard.setCreateTime(d);
+		messageBoard.setStatus(DataDictStatus.messageNormalStatus);
+		PrintWriter pw = null;
+		try{
+			UserPrivilege up = (UserPrivilege)session.get("userPrivilege");
+			if(up!=null){
+				messageBoard.setUserId(up.getUserId());
+			}
+			messageBoard.setUpdateTime(d);
+			bbsService.save(messageBoard);
 			response.setContentType("text/html;charset=utf-8");
 		
 			pw = response.getWriter();

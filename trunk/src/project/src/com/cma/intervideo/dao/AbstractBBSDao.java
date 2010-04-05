@@ -17,7 +17,7 @@ import com.cma.intervideo.util.ParamVo;
 public class AbstractBBSDao extends AbstractDAO<MessageBoard, Integer> implements IBBSDao{
 	public List<MessageBoard> findAllMessages(){
 		List<MessageBoard> result = new ArrayList<MessageBoard>();
-		List l = this.getHibernateTemplate().find("select m,u.userName from MessageBoard m,User u where u.userId=m.userId and m.status="+DataDictStatus.messageNormalStatus);
+		List l = this.getHibernateTemplate().find("select m,u.userName from MessageBoard m,User u where u.userId=m.userId and m.status="+DataDictStatus.messageNormalStatus+"  order by m.omsgId desc, m.messageId asc");
 		if(l!=null && l.size()>0){
 			for(int i=0;i<l.size();i++){
 				Object[] o = (Object[])l.get(i);
@@ -32,13 +32,14 @@ public class AbstractBBSDao extends AbstractDAO<MessageBoard, Integer> implement
 	}
 	public List<MessageBoard> findMessagesByUserId(String userId){
 		List<MessageBoard> result = new ArrayList<MessageBoard>();
-		List l = this.getHibernateTemplate().find("select m,u.userName from MessageBoard m,User u where u.userId=m.userId and m.status="+DataDictStatus.messageNormalStatus+" and m.userId=?",userId);
+		List l = this.getHibernateTemplate().find("select m,u.userName from MessageBoard m,User u where u.userId=m.userId and m.status="+DataDictStatus.messageNormalStatus+" and (m.omsgId=m.messageId and m.userId=?) order by m.messageId desc",userId);
 		if(l!=null && l.size()>0){
 			for(int i=0;i<l.size();i++){
 				Object[] o = (Object[])l.get(i);
 				MessageBoard m = (MessageBoard)o[0];
 				m.setUserName((String)o[1]);
 				result.add(m);
+				result.addAll(findReplies(m.getMessageId()));
 			}
 			return result;
 		}else{
@@ -49,7 +50,7 @@ public class AbstractBBSDao extends AbstractDAO<MessageBoard, Integer> implement
 		List<MessageBoard> result = new ArrayList<MessageBoard>();
 		try{
 			if(ph.isGetCount()){
-				Query q = this.getSession().createQuery("select count(*) from MessageBoard m where m.status="+DataDictStatus.messageNormalStatus+getQueryStr(params));
+				Query q = this.getSession().createQuery("select count(*) from MessageBoard m where m.status="+DataDictStatus.messageNormalStatus+getQueryStr(params)+" and m.messageId=m.omsgId");
 				setQueryStr(q, params);
 				List list = q.list();
 				if(!list.isEmpty())
@@ -57,7 +58,7 @@ public class AbstractBBSDao extends AbstractDAO<MessageBoard, Integer> implement
 					ph.setResultSize(((Long)list.get(0)).intValue());
 				}
 			}
-			Query hql = this.getSession().createQuery("select m,u.userName from MessageBoard m,User u where m.userId=u.userId and m.status="+DataDictStatus.messageNormalStatus+getQueryStr(params)+" order by m.createTime desc");
+			Query hql = this.getSession().createQuery("select m,u.userName from MessageBoard m,User u where m.userId=u.userId and m.status="+DataDictStatus.messageNormalStatus+getQueryStr(params)+" and m.messageId=m.omsgId order by m.messageId desc");
 		    setQueryStr(hql,params);
 		    if(ph!=null){
 				hql.setMaxResults(ph.getPageSize());
@@ -70,6 +71,7 @@ public class AbstractBBSDao extends AbstractDAO<MessageBoard, Integer> implement
 		    		MessageBoard m = (MessageBoard)o[0];
 		    		m.setUserName((String)o[1]);
 		    		result.add(m);
+		    		result.addAll(findReplies(m.getMessageId()));
 		    	}
 		    	return result;
 		    }else{
@@ -122,5 +124,18 @@ public class AbstractBBSDao extends AbstractDAO<MessageBoard, Integer> implement
 				hql.setParameter("endTime", df.parse(vo.getParamValue().toString()));
 			}
 		}
+	}
+	private List<MessageBoard> findReplies(int messageId){
+		List<MessageBoard> result = new ArrayList<MessageBoard>();
+		List l = this.getHibernateTemplate().find("select m,u.userName from MessageBoard m,User u where u.userId=m.userId and m.status="+DataDictStatus.messageNormalStatus+"  and m.omsgId=? and m.omsgId!=m.messageId order by m.messageId asc",messageId);
+		if(l!=null && l.size()>0){
+			for(int i=0;i<l.size();i++){
+				Object[] o = (Object[])l.get(i);
+				MessageBoard m = (MessageBoard)o[0];
+				m.setUserName((String)o[1]);
+				result.add(m);
+			}
+		}
+		return result;
 	}
 }
