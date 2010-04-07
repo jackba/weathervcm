@@ -20,6 +20,7 @@ import com.cma.intervideo.util.AbstractBaseAction;
 import com.cma.intervideo.util.PageHolder;
 import com.cma.intervideo.util.ParamVo;
 import com.cma.intervideo.util.UserPrivilege;
+import com.radvision.icm.service.vcm.ICMService;
 
 public class BulletinAction extends AbstractBaseAction{
 	private static Log logger = LogFactory.getLog(BulletinAction.class);
@@ -175,5 +176,24 @@ public class BulletinAction extends AbstractBaseAction{
 		String bulletinId = request.getParameter("bulletinId");
 		bulletinBoard = bulletinService.getBulletinBoardById(Integer.parseInt(bulletinId));
 		return "detail";
+	}
+	public String getNews(){
+		try{
+			String index = request.getParameter("index");
+			response.setCharacterEncoding("utf-8");
+
+			PrintWriter out = response.getWriter();
+			BulletinBoard b = bulletinService.getNews(Integer.parseInt(index));
+			if(b==null){
+				out.print("没有最新公告");
+			}else{
+				out.print("<a target=\"_blank\" href=\"bulletin_detail.do?bulletinId="+b.getBulletinId()+"\">"+b.getTitle()+"</a>");
+			}
+			out.flush();
+			out.close();
+		}catch(Exception e){
+			logger.error(e.toString());
+		}
+		return null;
 	}
 }
