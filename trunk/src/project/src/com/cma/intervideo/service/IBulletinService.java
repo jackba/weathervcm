@@ -10,4 +10,10 @@ public interface IBulletinService {
 	public void save(BulletinBoard bulletinBoard);
 	public List<BulletinBoard> findBulletin(List<ParamVo> params, PageHolder ph);
 	public BulletinBoard getBulletinBoardById(int bulletinId);
+	/**
+	 * 返回第几条最新公告
+	 * @param i
+	 * @return
+	 */
+	public BulletinBoard getNews(int i);
 }

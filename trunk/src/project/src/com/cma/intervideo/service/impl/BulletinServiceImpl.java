@@ -32,4 +32,12 @@ public class BulletinServiceImpl implements IBulletinService{
 		}
 		return bulletins.size();
 	}
+	/**
+	 * 返回第几条最新公告
+	 * @param i
+	 * @return
+	 */
+	public BulletinBoard getNews(int i){
+		return bulletinDao.getNews(i);
+	}
 }

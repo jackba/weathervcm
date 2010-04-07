@@ -6,6 +6,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.Query;
+
 import com.cma.intervideo.constant.DataDictStatus;
 import com.cma.intervideo.dao.util.AbstractDAO;
 import com.cma.intervideo.pojo.BulletinBoard;
@@ -15,6 +17,31 @@ import com.cma.intervideo.util.ParamVo;
 public class AbstractBulletinDao extends AbstractDAO<BulletinBoard, Integer> implements IBulletinDao{
 	public List<BulletinBoard> findBulletinByUserId(String userId){
 		return this.getHibernateTemplate().find("from BulletinBoard b where b.userId=?",userId);
+	}
+	/**
+	 * 返回第几条最新公告
+	 * @param i
+	 * @return
+	 */
+	public BulletinBoard getNews(int i){
+		String hql = "from BulletinBoard b";
+		Date d = Calendar.getInstance().getTime();
+		String currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(d);
+		hql += " where b.effectiveTime<='"+currentTime+"' and b.expiredTime>'"+currentTime+"'";
+		int count = this.getCount(hql);
+		if(count == 0){
+			return null;
+		}
+		hql += " order by b.updateTime desc";
+		Query query = this.getSession().createQuery(hql);
+		query.setMaxResults(1);
+		query.setFirstResult(i%count);
+		List<BulletinBoard> l = query.list();
+		if(l!=null && l.size()>0){
+			return l.get(0);
+		}else{
+			return null;
+		}
 	}
 	public List<BulletinBoard> findBulletin(List<ParamVo> params, PageHolder ph){
 		String hql = null;
