@@ -362,5 +362,7 @@ a:hover{}
 </div>
 -->
 </div>
+<iframe id="bulletin" style="display:none" frameborder="0" width="100%" height="100%" src="<%=request.getContextPath()%>/bulletin_list.do"></iframe>
+<div id="newsDiv">......</div>
 </body>
 </html>

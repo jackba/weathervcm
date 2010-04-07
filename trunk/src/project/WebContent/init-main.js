@@ -10,7 +10,35 @@ var weekPanel;
 var dayGrid;
 var win;
 var win2;
+var bulletinWin;
 var contentPanel;
+var newsNum = 0;
+function getNextNews(){
+	var newsDiv = Ext.get('newsDiv');
+	newsDiv.slideOut('t',{
+		easing: 'easeOut',
+		duration: .5,
+		remove: false,
+		useDisplay: true
+	});
+	Ext.Ajax.request({
+		url: 'bulletin_getNews.do?index='+newsNum,
+		success: function(result,request){
+			newsDiv.update(result.responseText);
+			newsDiv.slideIn('b',{
+				easing: 'easeOut',
+				duration: .5
+			});
+			newsNum++;
+			if(newsNum==9){
+				newsNum = 0;
+			}
+		},
+		failure: function(result,request){
+			newsDiv.update('error occured!');
+		}
+	});
+}
 function getConnectStatus(){
 	Ext.Ajax.request({
 		url: 'conf_getConnectStatus.do',
@@ -101,6 +129,13 @@ Ext.onReady(function(){
 					}	
 		},{
 			xtype:'tbfill'
+		},{
+			xtype:'tbseparator'
+		},{
+			text:"公告",
+			handler:function(){
+				showBulletinWin();
+			}
 		},{
 			xtype:'tbseparator'
 		},{
@@ -210,7 +245,29 @@ Ext.onReady(function(){
 				border:false,
 				hidden:isHidden('helpMenus')
 			}]
-		},contentPanel]
+		},contentPanel,{
+			region: 'south',
+			bbar:{
+				id: 'bBar',
+				height:25,
+				items:[{
+					id:'latestNews',
+					xtype:'tbtext',
+					text:'最新公告: '
+				},{
+					xtype:'box',
+					el:'newsDiv',
+					listeners:{
+						afterrender:function(thisComp){
+							Ext.fly(Ext.getCmp('latestNews').getEl()).addClass('custom-status-text-panel');
+							getNextNews();
+							setInterval("getNextNews()",5*1000);
+						}
+					}
+				}],
+				layout:'hbox'
+			}
+		}]
 	});
 	
 //	serviceds = new Ext.data.Store({
@@ -251,12 +308,30 @@ Ext.onReady(function(){
 	});
 	day.setValue(new Date());
 	loadStore();
-    var iTop = (window.screen.availHeight-30-400)/2;
-    var iLeft = (window.screen.availWidth-10-800)/2;
-    window.open('bulletin_list.do','最新公告','height=400,width=800,status=no,menubar=no,location=no,resizable=yes,scrollbars=yes,toolbar=no,top='+iTop+',left='+iLeft);
-    
+    //var iTop = (window.screen.availHeight-30-400)/2;
+    //var iLeft = (window.screen.availWidth-10-800)/2;
+    //window.open('bulletin_list.do','最新公告','height=400,width=800,status=no,menubar=no,location=no,resizable=yes,scrollbars=yes,toolbar=no,top='+iTop+',left='+iLeft);
+    showBulletinWin();
 	setInterval("refresh()", 30*1000)
 });
+function showBulletinWin(){
+	if(!bulletinWin){
+		bulletinWin = new Ext.Window({
+			title: '最新公告',
+			closable:true,
+			collapsible:true,
+			closeAction:'hide',
+			width:800,
+			height:400,
+			contentEl:'bulletin'
+		});
+		Ext.getDom('bulletin').style.display = 'block';
+		bulletinWin.show();
+	}else{
+		Ext.getDom('bulletin').src = "bulletin_list.do";
+		bulletinWin.show();
+	}
+}
 function isHidden(divId){
 	var childMenus = Ext.DomQuery.select("ul/li",Ext.getDom(divId));
 	if(childMenus==null || childMenus==undefined || childMenus.length==0)
