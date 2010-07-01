@@ -9,6 +9,7 @@
 var monitorUrl = "<s:property value='#request.monitorUrl'/>";
 </script>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/ext-all.css"/>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/xtheme-shallowgray.css">
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/content.css"/>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/edgrid.css"/>
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/ext-base.js"></script>

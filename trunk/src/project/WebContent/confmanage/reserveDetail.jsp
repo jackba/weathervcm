@@ -5,6 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title><s:if test="#request.recurrence=='true'">例会预约详情</s:if><s:else>会议预约详情</s:else></title>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/xtheme-shallowgray.css">
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/content.css">
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/ext-base.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/ext-all.js"></script>

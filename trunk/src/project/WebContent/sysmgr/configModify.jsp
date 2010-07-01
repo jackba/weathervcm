@@ -6,6 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>系统配置</title>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/xtheme-shallowgray.css">
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/ext-base.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/ext-all.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/ext-lang-zh_CN.js"></script>

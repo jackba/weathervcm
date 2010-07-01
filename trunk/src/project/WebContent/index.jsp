@@ -7,6 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>自主会商平台</title>
 <link rel="stylesheet" type="text/css" href="resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/xtheme-shallowgray.css">
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/content.css"/>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/edgrid.css"/>
 <script language="javascript">

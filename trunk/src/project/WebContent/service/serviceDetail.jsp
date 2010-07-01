@@ -6,6 +6,7 @@
 <title>会议模板详情</title>
 <link rel="stylesheet" type="text/css"
 	href="<%=request.getContextPath() %>/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/xtheme-shallowgray.css">
 <link rel="stylesheet" type="text/css"
 	href="<%=request.getContextPath() %>/resources/css/content.css">
 <script type="text/javascript"
