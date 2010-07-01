@@ -7,6 +7,7 @@
 <title>修改角色</title>
 	<link href="<%=request.getContextPath() %>/resources/css/edgrid.css" rel="stylesheet" type="text/css" />
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/ext-all.css">
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/xtheme-shallowgray.css">
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/content.css">
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/js/ItemSelector/Multiselect.css">
 	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/ext-base.js"></script>

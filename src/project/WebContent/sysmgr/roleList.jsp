@@ -6,6 +6,7 @@
 	<title>角色查询</title>
 	<link href="<%=request.getContextPath() %>/resources/css/edgrid.css" rel="stylesheet" type="text/css" />
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/ext-all.css">
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/xtheme-shallowgray.css">
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/content.css">
 	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/ext-base.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/ext-all.js"></script>

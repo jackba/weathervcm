@@ -6,6 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>主会场会议时长统计表</title>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/ext-all.css"/>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/xtheme-shallowgray.css">
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/content.css"/>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/edgrid.css"/>
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/ext-base.js"></script>
