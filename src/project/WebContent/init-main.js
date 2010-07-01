@@ -171,7 +171,7 @@ Ext.onReady(function(){
 			id:'north',
 			html:Ext.getDom("north").innerHTML,
 			split:true,
-			height:106,
+			height:154,
 			//autoHeight:true,
 			margin:'0 0 0 0',
 			bbar:northToolbar

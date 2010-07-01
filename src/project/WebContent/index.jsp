@@ -58,7 +58,9 @@ a:hover{}
 </head>
 <body>
 <div id="north">
-<table border="0" width="100%" cellpadding="0" cellspacing="0"><tr><td background="images/head1_01.jpg" height="76" width="777">&nbsp;</td><td background="images/head1_02.jpg">&nbsp;</td><td background="images/head1_04.jpg" width="233">&nbsp;</td></tr></table>
+<table border="0" width="100%" height="124" cellpadding="0" cellspacing="0" background="images/top_bg.gif">
+<tr><td height="11"></td></tr>
+<tr><td height="113"><img src="images/top_main.jpg" width="995" height="113"></td></tr></table>
 </div>
 <div id="menus" style="display:none">
 	<div id="resourceMenus">
