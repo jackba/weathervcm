@@ -98,6 +98,10 @@ Ext.onReady(function(){
 		deferredRender:false,
 		minTabWidth:115,
 		activeTab:0,
+		headerStyle:{
+			background:"url(images/main_top_bg.gif)",
+			"border-color":"#626670"
+		},
 		items:[{
 			contentEl:"tabs",
 			title:'主页',
@@ -109,15 +113,42 @@ Ext.onReady(function(){
 //	Ext.getDom("agendaArea").style.display = "block";
 	var northToolbar = new Ext.Toolbar({
 		id:'tb',
-		height:30,
+		hideBorders:true,
+		margins:{
+			top:0,
+			right:0,
+			bottom:0,
+			left:0
+		},
+		style:{
+			background: "url(images/top_bg.gif) 0 34px",
+			border:"0px"
+		},
+		height:34,
 		items:[{
-			text:"欢迎"+loginId+"进入全国天气预报电视会商系统"
+			xtype:'tbtext',
+			text:"欢迎"+loginId+"进入全国天气预报电视会商系统&nbsp;&nbsp;&nbsp;&nbsp;",
+			style:{
+				color:'#DCDDDF',
+				"font-size":"12px"
+			}
 		},{
-			xtype:'tbseparator'
+			xtype:'tbseparator',
+			style:{
+				width:"2px",
+				height:"18px",
+				background:"url(images/top_g.gif) no-repeat"
+			}
+		},{
+			xtype:'tbtext',
+			text:"&nbsp;&nbsp;&nbsp;&nbsp;"
 		},{
 			id: 'connectStatus',
 					xtype: 'tbtext',
 					text: '...',
+					style:{
+						color:'#DCDDDF'
+					},
 					listeners: {
 						'afterrender': {
 							fn: function(){
@@ -130,30 +161,80 @@ Ext.onReady(function(){
 		},{
 			xtype:'tbfill'
 		},{
-			xtype:'tbseparator'
-		},{
-			text:"公告",
-			handler:function(){
-				showBulletinWin();
+			xtype:'tbseparator',
+			style:{
+				width:"2px",
+				height:"18px",
+				background:"url(images/top_g.gif) no-repeat"
 			}
 		},{
-			xtype:'tbseparator'
+			cls:"bulletin",
+			width: 104,
+			height: 25,
+			handler:function(){
+				showBulletinWin();
+			},
+			listeners:{
+				mouseover:function(thisButton,e){
+					thisButton.removeClass("x-btn-over");
+					thisButton.removeClass("bulletin");
+					thisButton.addClass("bulletinOver");
+				},
+				mouseout:function(thisButton,e){
+					thisButton.removeClass("bulletinOver");
+					thisButton.addClass("bulletin");
+				}
+			}
+		},{
+			xtype:'tbseparator',
+			style:{
+				width:"2px",
+				height:"18px",
+				background:"url(images/top_g.gif) no-repeat"
+			}
 		},{
 			text:"刷新",
 			handler:function(){
 				refreshActiveTab();
 			}
 		},{
-			xtype:'tbseparator'
-		},{
-			text:"帮助",
-			handler:function(){
-				Ext.Msg.alert('帮助','help!');
+			xtype:'tbseparator',
+			style:{
+				width:"2px",
+				height:"18px",
+				background:"url(images/top_g.gif) no-repeat"
 			}
 		},{
-			xtype:'tbseparator'
+			//text:"使用帮助",
+			cls:"help",
+			width:104,
+			height:25,
+			handler:function(){
+				Ext.Msg.alert('使用帮助','help!');
+			},
+			listeners:{
+				mouseover:function(thisButton,e){
+					thisButton.removeClass("x-btn-over");
+					thisButton.removeClass("help");
+					thisButton.addClass("helpOver");
+				},
+				mouseout:function(thisButton,e){
+					thisButton.removeClass("helpOver");
+					thisButton.addClass("help");
+				}
+			}
 		},{
-			text:"安全退出",
+			xtype:'tbseparator',
+			style:{
+				width:"2px",
+				height:"18px",
+				background:"url(images/top_g.gif) no-repeat"
+			}
+		},{
+			//text:"安全退出",
+			cls:"logout",
+			width:104,
+			height:25,
 			handler:function(){
 				Ext.MessageBox.confirm('提示','您确定要退出登录么？',function(button){
 						if(button=="yes"){
@@ -161,26 +242,70 @@ Ext.onReady(function(){
 						}
 					}
 				)
+			},
+			listeners:{
+				mouseover:function(thisButton,e){
+					thisButton.removeClass("x-btn-over");
+					thisButton.removeClass("logout");
+					thisButton.addClass("logoutOver");
+				},
+				mouseout:function(thisButton,e){
+					thisButton.removeClass("logoutOver");
+					thisButton.addClass("logout");
+				}
 			}
 		}]
 	});
 	viewport = new Ext.Viewport({
 		layout:'border',
+		style:{
+			"background-color":"#626670"
+		},
 		items:[{
 			region:'north',
 			id:'north',
 			html:Ext.getDom("north").innerHTML,
 			split:true,
-			height:154,
+			height:158,
+			bodyStyle:{
+				height:"124px",
+				width:"100%"
+			},
+			bodyBorder:false,
+			border:false,
 			//autoHeight:true,
-			margin:'0 0 0 0',
-			bbar:northToolbar
+			margins:{
+				top:0,
+				right:0,
+				bottom:0,
+				left:0
+			},
+			bbar:northToolbar,
+			style:{
+				border:"0px",
+				margin:"0px",
+				padding:"0px"
+			}
 		},{
 			region:'west',
 			id:'west',
-			title:'菜单栏',
+			headerStyle:{
+				"background-image":"url(images/menu-header-bg.jpg)",
+				//height:"27px",
+				//"line-height":"15px",
+				//padding:"5px 3px 4px 5px",
+				//margin:"0px 0px 0px 0px",
+				"font-size":"12px",
+				color:"#000000",
+				"border-color":"#6A755E"
+			},
+			style:{
+				padding:"6px",
+				"background-color":"#DADBDE"
+			},
+			title:'菜  单  栏',
 			split:true,
-			width:200,
+			width:212,
 			minSize:175,
 			maxSize:400,
 			collapsible:true,
@@ -192,54 +317,117 @@ Ext.onReady(function(){
 			},
 			items:[{
 				title:'系统资源浏览',
+				headerStyle:{
+					background:"url(images/submenu-header-bg2.jpg)",
+					//background:"url(images/menu-icon.jpg) no-repeat 5px 4px",
+					"border-color":"#999999",
+					padding:'5px 3px 4px 5px',
+					"font-size":"12px"
+				},
 				html:Ext.getDom('resourceMenus').innerHTML,
 				autoScroll:true,
 				border:false,
 				hidden:isHidden('resourceMenus')
 			},{
 				title:'个人会议预约',
+				headerStyle:{
+					background:"url(images/submenu-header-bg2.jpg)",
+					//background:"url(images/menu-icon.jpg) no-repeat 5px 4px",
+					"border-color":"#999999",
+					padding:'5px 3px 4px 5px',
+					"font-size":"12px"
+				},
 				html:Ext.getDom('scheduleConfMenus').innerHTML,
 				autoScroll:true,
 				border:false,
 				hidden:isHidden('scheduleConfMenus')
 			},{
 				title:'预约审核及变更',
+				headerStyle:{
+					background:"url(images/submenu-header-bg2.jpg)",
+					//background:"url(images/menu-icon.jpg) no-repeat 5px 4px",
+					"border-color":"#999999",
+					padding:'5px 3px 4px 5px',
+					"font-size":"12px"
+				},
 				html:Ext.getDom('moidfyConfMenus').innerHTML,
 				autoScroll:true,
 				border:false,
 				hidden:isHidden('moidfyConfMenus')
 			},{
 				title:'个人会议管理',
+				headerStyle:{
+					background:"url(images/submenu-header-bg2.jpg)",
+					//background:"url(images/menu-icon.jpg) no-repeat 5px 4px",
+					"border-color":"#999999",
+					padding:'5px 3px 4px 5px',
+					"font-size":"12px"
+				},
 				html:Ext.getDom('confMgmtMenus').innerHTML,
 				autoScroll:true,
 				border:false,
 				hidden:isHidden('confMgmtMenus')
 			},{
 				title:'用户个人信息管理',
+				headerStyle:{
+					background:"url(images/submenu-header-bg2.jpg)",
+					//background:"url(images/menu-icon.jpg) no-repeat 5px 4px",
+					"border-color":"#999999",
+					padding:'5px 3px 4px 5px',
+					"font-size":"12px"
+				},
 				html:Ext.getDom('personalMenus').innerHTML,
 				autoScroll:true,
 				border:false,
 				hidden:isHidden('personalMenus')
 			},{
 				title:'系统参数管理',
+				headerStyle:{
+					background:"url(images/submenu-header-bg2.jpg)",
+					//background:"url(images/menu-icon.jpg) no-repeat 5px 4px",
+					"border-color":"#999999",
+					padding:'5px 3px 4px 5px',
+					"font-size":"12px"
+				},
 				html:Ext.getDom('systemConfigMenus').innerHTML,
 				autoScroll:true,
 				border:false,
 				hidden:isHidden('systemConfigMenus')
 			},{
 				title:'公告栏',
+				headerStyle:{
+					background:"url(images/submenu-header-bg2.jpg)",
+					//background:"url(images/menu-icon.jpg) no-repeat 5px 4px",
+					"border-color":"#999999",
+					padding:'5px 3px 4px 5px',
+					"font-size":"12px"
+				},
 				html:Ext.getDom('bulletinMenus').innerHTML,
 				autoScroll:true,
 				border:false,
 				hidden:isHidden('bulletinMenus')
 			},{
 				title:'留言板',
+				headerStyle:{
+					background:"url(images/submenu-header-bg2.jpg)",
+					//background:"url(images/menu-icon.jpg) no-repeat 5px 4px",
+					"border-color":"#999999",
+					padding:'5px 3px 4px 5px',
+					"font-size":"12px"
+				},
 				html:Ext.getDom('bbsMenus').innerHTML,
 				autoScroll:true,
 				border:false,
 				hidden:isHidden('bbsMenus')
 			},{
 				title:'帮助',
+				headerStyle:{
+					background:"url(images/submenu-header-bg2.jpg)",
+					//background:"url(images/menu-icon.jpg) no-repeat 5px 4px",
+					"border-color":"#999999",
+					padding:'5px 3px 4px 5px',
+					"font-size":"12px"
+				},
 				html:Ext.getDom('helpMenus').innerHTML,
 				autoScroll:true,
 				border:false,

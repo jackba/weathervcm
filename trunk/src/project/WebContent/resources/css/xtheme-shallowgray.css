@@ -91,7 +91,8 @@
 
 ul.x-tab-strip-top{
     background-color:#fcfcfc;
-	background-image: url(../images/shallowgraytheme/tabs/tab-strip-bg.gif);
+	/*background-image: url(../images/shallowgraytheme/tabs/tab-strip-bg.gif);*/
+	background-image: url(../../images/main_top_bg.gif);
 	border-bottom-color:#d4d4d4;
 }
 
@@ -104,7 +105,7 @@ ul.x-tab-strip-bottom{
 .x-tab-panel-header-plain .x-tab-strip-spacer,
 .x-tab-panel-footer-plain .x-tab-strip-spacer {
     border-color:#d4d4d4;
-    background-color: #ffffff;
+    background-color: #FFFFFF;
 }
 
 .x-tab-strip span.x-tab-strip-text {
