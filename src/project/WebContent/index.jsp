@@ -25,11 +25,33 @@ var loginId = "<s:property value='#session.userPrivilege.loginId'/>";
 <script type="text/javascript" src="init-main.js"></script>
 
 <style type="text/css">
-body{font:12px Tahoma;margin:0px; padding:0px;text-align:center;background:#FF;}
+body{font-size:14px;font-family:"Times New Roman", Times, "宋体", serif;margin:0px; padding:0px;text-align:center;background:#626670;}
 a:link,a:visited{font-size:12px;text-decoration:none;}
 a:hover{}
-#north{margin:0;padding:0;}
+#north{margin:0;padding:0;border:0px;}
 #center{margin:0; padding:0}
+.bulletin {
+    background-image: url(images/top_button_2_1.gif) !important;
+}
+.bulletinOver {
+	background-image: url(images/top_button_2_2.gif) !important;
+}
+.menu-icon{
+	background-image: url(images/menu-icon.jpg) no-repeat 5px 4px !important;
+	z-index:999;
+}
+.help{
+	background-image: url(images/top_button_3_1.gif) !important;
+}
+.helpOver{
+	background-image: url(images/top_button_3_2.gif) !important;
+}
+.logout{
+	background-image: url(images/top_button_4_1.gif) !important;
+}
+.logoutOver{
+	background-image: url(images/top_button_4_2.gif) !important;
+}
 /*#left{ position:absolute; height:100%;top:0px; left:0px; margin:0px;padding:0px; width:70%; text-align:left; border:0;}
 #right{ position:absolute; height:100%;top:0px; right:0px; margin:0px;padding:0px; width:30%; background: #FFFFCC; border:1px solid; border-color:#6593cf; text-align:left;}
 .bulletinBoardTitle{ color:#FF0000;}*/
@@ -58,7 +80,7 @@ a:hover{}
 </head>
 <body>
 <div id="north">
-<table border="0" width="100%" height="124" cellpadding="0" cellspacing="0" background="images/top_bg.gif">
+<table border="0" style="margin:0px" width="100%" height="124" cellpadding="0" cellspacing="0" background="images/top_bg.gif">
 <tr><td height="11"></td></tr>
 <tr><td height="113"><img src="images/top_main.jpg" width="995" height="113"></td></tr></table>
 </div>
