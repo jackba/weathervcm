@@ -79,7 +79,7 @@
     background-color: #ccc;
 }
 .x-tab-panel-header, .x-tab-panel-footer {
-	background-color: #ffffff;
+	background-color: #FFFFFF;
 	border-color:#d4d4d4;
     overflow:hidden;
     zoom:1;
@@ -91,8 +91,7 @@
 
 ul.x-tab-strip-top{
     background-color:#fcfcfc;
-	/*background-image: url(../images/shallowgraytheme/tabs/tab-strip-bg.gif);*/
-	background-image: url(../../images/main_top_bg.gif);
+	background-image: url(../images/shallowgraytheme/tabs/tab-strip-bg.gif);
 	border-bottom-color:#d4d4d4;
 }
 

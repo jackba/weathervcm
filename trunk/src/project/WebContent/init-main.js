@@ -43,7 +43,14 @@ function getConnectStatus(){
 	Ext.Ajax.request({
 		url: 'conf_getConnectStatus.do',
 		success: function(result,request){
-			Ext.getCmp('connectStatus').setText(result.responseText);
+			//Ext.getCmp('connectStatus').setText(result.responseText);
+			if(result.responseText=='未连接iView'){
+				Ext.getCmp('connectStatus').removeClass('connect');
+				Ext.getCmp('connectStatus').addClass('notconnect');
+			}else{
+				Ext.getCmp('connectStatus').removeClass('notconnect');
+				Ext.getCmp('connectStatus').addClass('connect');
+			}
 		},
 		failure: function(result,request){
 			Ext.getCmp('connectStatus').setText("连接iVIEW错误");
@@ -59,13 +66,25 @@ Ext.onReady(function(){
 		id:"tabs",
 		renderTo:"center",
 	    //width:Ext.get("searchArea").getWidth(),
-	    activeTab: 0,
+	    activeTab: 2,
 	    frame:true,
 	    defaults:{autoHeight: true},
 	    items:[
-	        {contentEl:'searchArea', title: '可用资源'},
-	        {contentEl:'runningArea', title: '正在召开'},
-	        {contentEl:'agendaArea', title: '周会议'}
+	    	{
+	    		contentEl:'agendaArea', 
+	    		title: '周会议',
+	    		iconCls:'mainIcon3'
+	    	},
+	    	{
+	    		contentEl:'runningArea', 
+	    		title: '正在召开',
+	    		iconCls:'mainIcon2'
+	    	},
+	        {
+	        	contentEl:'searchArea', 
+	        	title: '可用资源',
+	        	iconCls:'mainIcon1'
+	        }
 	    ],
 	    listeners:{
 			tabchange:function(thisComp, newTab){
@@ -98,10 +117,6 @@ Ext.onReady(function(){
 		deferredRender:false,
 		minTabWidth:115,
 		activeTab:0,
-		headerStyle:{
-			background:"url(images/main_top_bg.gif)",
-			"border-color":"#626670"
-		},
 		items:[{
 			contentEl:"tabs",
 			title:'主页',
@@ -145,14 +160,17 @@ Ext.onReady(function(){
 		},{
 			id: 'connectStatus',
 					xtype: 'tbtext',
-					text: '...',
+					//text: '...',
+					cls:'connect',
+					width:104,
+					height:25,
 					style:{
 						color:'#DCDDDF'
 					},
 					listeners: {
 						'afterrender': {
 							fn: function(){
-								Ext.fly(Ext.getCmp('connectStatus').getEl()).parent().addClass('custom-status-text-panel');
+								//Ext.fly(Ext.getCmp('connectStatus').getEl()).parent().addClass('custom-status-text-panel');
 								getConnectStatus();
 								setInterval("getConnectStatus()",30*1000);
 							}
@@ -167,6 +185,9 @@ Ext.onReady(function(){
 				height:"18px",
 				background:"url(images/top_g.gif) no-repeat"
 			}
+		},{
+			xtype:'tbtext',
+			text:"&nbsp;&nbsp;&nbsp;&nbsp;"
 		},{
 			cls:"bulletin",
 			width: 104,
@@ -186,6 +207,9 @@ Ext.onReady(function(){
 				}
 			}
 		},{
+			xtype:'tbtext',
+			text:"&nbsp;&nbsp;&nbsp;&nbsp;"
+		},{
 			xtype:'tbseparator',
 			style:{
 				width:"2px",
@@ -193,10 +217,30 @@ Ext.onReady(function(){
 				background:"url(images/top_g.gif) no-repeat"
 			}
 		},{
-			text:"刷新",
+			xtype:'tbtext',
+			text:"&nbsp;&nbsp;&nbsp;&nbsp;"
+		},{
+			//text:"刷新",
+			cls:"refresh",
+			width:104,
+			height:25,
 			handler:function(){
 				refreshActiveTab();
+			},
+			listeners:{
+				mouseover:function(thisButton,e){
+					thisButton.removeClass("x-btn-over");
+					thisButton.removeClass("refresh");
+					thisButton.addClass("refreshOver");
+				},
+				mouseout:function(thisButton,e){
+					thisButton.removeClass("refreshOver");
+					thisButton.addClass("refresh");
+				}
 			}
+		},{
+			xtype:'tbtext',
+			text:"&nbsp;&nbsp;&nbsp;&nbsp;"
 		},{
 			xtype:'tbseparator',
 			style:{
@@ -204,6 +248,9 @@ Ext.onReady(function(){
 				height:"18px",
 				background:"url(images/top_g.gif) no-repeat"
 			}
+		},{
+			xtype:'tbtext',
+			text:"&nbsp;&nbsp;&nbsp;&nbsp;"
 		},{
 			//text:"使用帮助",
 			cls:"help",
@@ -224,12 +271,18 @@ Ext.onReady(function(){
 				}
 			}
 		},{
+			xtype:'tbtext',
+			text:"&nbsp;&nbsp;&nbsp;&nbsp;"
+		},{
 			xtype:'tbseparator',
 			style:{
 				width:"2px",
 				height:"18px",
 				background:"url(images/top_g.gif) no-repeat"
 			}
+		},{
+			xtype:'tbtext',
+			text:"&nbsp;&nbsp;&nbsp;&nbsp;"
 		},{
 			//text:"安全退出",
 			cls:"logout",
