@@ -2,7 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ page language="java" import="com.cma.intervideo.util.UserPrivilege" %>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>自主会商平台</title>
@@ -101,6 +102,40 @@ a:hover{}
     zoom:1;
 }
 
+#tabPanel .x-tab-strip-top .x-tab-right, #tabPanel .x-tab-strip-top .x-tab-left,#tabPanel .x-tab-strip-top .x-tab-strip-inner{
+	background-image: url(images/tabs-sprite.gif);
+}
+#tabPanel .x-tab-strip span.x-tab-strip-text {
+	font:normal 12px tahoma,arial,helvetica;
+	color:#C0C1C5;
+}
+
+#tabPanel .x-tab-strip-over span.x-tab-strip-text {
+	color:#C0C1C5;
+	font-weight:bold;
+}
+
+#tabPanel .x-tab-strip-active span.x-tab-strip-text {
+	color:#C5FD88;
+    font-weight:bold;
+}
+
+#tabs .x-tab-strip-top .x-tab-right, #tabs .x-tab-strip-top .x-tab-left,#tabs .x-tab-strip-top .x-tab-strip-inner{
+	background-image: url(resources/images/shallowgraytheme/tabs/tabs-sprite.gif);
+}
+#tabs .x-tab-strip span.x-tab-strip-text {
+	font:normal 11px tahoma,arial,helvetica;
+	color:#8f8f8f;
+}
+
+#tabs .x-tab-strip-over span.x-tab-strip-text {
+	color:#6f6f67;
+}
+
+#tabs .x-tab-strip-active span.x-tab-strip-text {
+	color:#6f6f67;
+    font-weight:bold;
+}
 #tabs .x-tab-strip-wrap UL{
 	width:100%;
 	padding-right:10px;
@@ -136,6 +171,37 @@ a:hover{}
 .mainIcon3{
 	background-image:url(images/main_icon_3.gif);
 }
+.accordion_child_top{
+	background-image:url(images/left_child_top_bg.gif);
+	height: 24px;
+}
+
+.accordion_child_end{
+	background-image:url(images/left_child_end_bg.gif);
+	height: 24px;
+}
+.accordion_child{
+	padding-left: 18px;
+	background-image: url(images/left_child__top_bg.gif);
+}
+.accordion_child ul{}
+.accordion_child ul li{
+	text-align:left;
+	font-size: 12px;
+	display: block;
+	line-height: 24px;
+	display:block;
+	background-image: url(images/left_child_bg.gif);
+	padding-left: 30px;
+}
+.accordion_child ul li span{
+text-decoration: none;
+color: #3c505e;
+cursor: pointer;
+}
+.accordion_child ul li span:hover{
+color: #990000;
+}
 </style>
 </head>
 <body>
@@ -146,7 +212,9 @@ a:hover{}
 </div>
 <div id="menus" style="display:none">
 	<div id="resourceMenus">
-		<ul class="menuList">
+		<div class="accordion_child_top" ></div>
+    	<div class="accordion_child">  
+		<ul>
 		<%
 			UserPrivilege up = (UserPrivilege)session.getAttribute("userPrivilege");
 			if(up.hasCodePrivilege("0031")){
@@ -211,10 +279,13 @@ a:hover{}
 			</li>
 		<%} %>
 		</ul>
+		</div> <div class="accordion_child_end" ></div>
 	</div>
 	
 	<div id="scheduleConfMenus">
-		<ul class="menuList">
+		<div class="accordion_child_top" ></div>
+    	<div class="accordion_child">  
+		<ul>
 			<%
 				if(up.hasCodePrivilege("0016")){
 			%>
@@ -226,10 +297,13 @@ a:hover{}
 			</li>
 			<%} %>
 		</ul>
+		</div> <div class="accordion_child_end" ></div>  
 	</div>
 	
 	<div id="moidfyConfMenus">
-		<ul class="menuList">
+		<div class="accordion_child_top" ></div>
+    	<div class="accordion_child">  
+		<ul>
 		<%
 			if(up.hasCodePrivilege("0013")){
 		%>
@@ -241,10 +315,13 @@ a:hover{}
 			</li>
 		<%} %>
 		</ul>
+		</div> <div class="accordion_child_end" ></div>
 	</div>
 	
 	<div id="confMgmtMenus">
-		<ul class="menuList">
+		<div class="accordion_child_top" ></div>
+    	<div class="accordion_child">  
+		<ul>
 			<%
 				if(up.hasCodePrivilege("0017")){
 			%>
@@ -277,10 +354,13 @@ a:hover{}
 			</li>
 			<%} %>
 		</ul>
+		</div> <div class="accordion_child_end" ></div>
 	</div>
 	
 	<div id="personalMenus">
-		<ul class="menuList">
+		<div class="accordion_child_top" ></div>
+    	<div class="accordion_child">  
+		<ul>
 		<%
 			if(!up.getLoginId().equals("guest")){
 		%>
@@ -295,10 +375,13 @@ a:hover{}
 			</li>
 		<%} %>
 		</ul>
+		</div> <div class="accordion_child_end" ></div>
 	</div>
 	
 	<div id="systemConfigMenus">
-		<ul class="menuList">
+		<div class="accordion_child_top" ></div>
+    	<div class="accordion_child">  
+		<ul>
 			<%
 			if(up.hasCodePrivilege("0003")){
 			%>
@@ -325,10 +408,13 @@ a:hover{}
 			</li>
 			<%} %>
 		</ul>
+		</div> <div class="accordion_child_end" ></div>
 	</div>
 	
 	<div id="bulletinMenus">
-		<ul class="menuList">
+		<div class="accordion_child_top" ></div>
+    	<div class="accordion_child">  
+		<ul>
 		<!--  
 			<li>
 				<span id="bulletinList" href="<%=request.getContextPath()%>/bulletin_list.do" onClick="onClickMenuItem(this)">最新公告</span>
@@ -348,10 +434,13 @@ a:hover{}
 			</li>
 			<%} %>
 		</ul>
+		</div> <div class="accordion_child_end" ></div>
 	</div>
 	
 	<div id="bbsMenus">
-		<ul class="menuList">
+		<div class="accordion_child_top" ></div>
+    	<div class="accordion_child">  
+		<ul>
 			<li>
 				<span id="bbsManage" href="<%=request.getContextPath()%>/bbs_listAll.do" onClick="onClickMenuItem(this)">查看全部留言</span>
 			</li>
@@ -362,6 +451,7 @@ a:hover{}
 				<span id="messageAdd" href="<%=request.getContextPath()%>/bbs_add.do" onClick="onClickMenuItem(this)">留言</span>
 			</li>
 		</ul>
+		</div> <div class="accordion_child_end" ></div>
 	</div>
 	
 	<div id="helpMenus">

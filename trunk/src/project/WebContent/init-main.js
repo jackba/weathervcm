@@ -948,6 +948,8 @@ function loadStore(){
 						xtype:'tbfill'
 						},{
 			text: '查询',
+			cls:'x-btn-text-icon',
+			icon:'images/query.gif',
 			handler: function(){
 				win = new Ext.Window({
 					title: '查询',
@@ -969,6 +971,8 @@ function loadStore(){
 			xtype: 'tbseparator'
 		},{
 			text: '上一天',
+			cls:'x-btn-text-icon',
+			icon:'images/last.png',
 			handler: function(){
 				if(day.getValue()!=null && day.getValue()!=undefined && day.getValue()!="")
 					day.setValue(day.getValue().add(Date.DAY,-1));
@@ -978,6 +982,8 @@ function loadStore(){
 			xtype: 'tbseparator'
 		},{
 			text: '下一天',
+			cls:'x-btn-text-icon',
+			icon:'images/next.png',
 			handler: function(){
 				if(day.getValue()!=null && day.getValue()!=undefined && day.getValue()!="")
 					day.setValue(day.getValue().add(Date.DAY,1));
@@ -987,6 +993,8 @@ function loadStore(){
 			xtype: 'tbseparator'
 		},{
             			text: '重新载入',
+            			cls:'x-btn-text-icon',
+						icon:'images/reload.png',
             			handler: function(){
 							loadStore();
                 			//mychart.refreshMedia();
