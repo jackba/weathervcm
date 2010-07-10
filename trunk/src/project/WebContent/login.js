@@ -29,20 +29,31 @@ Ext.onReady(function() {
 	var loginForm = new Ext.FormPanel({
 		renderTo : 'loginFormDiv',
 		labelWidth : 60,
-		frame : true,
+		//frame : true,
 		id : 'login',
-		bodyStyle : 'padding:5px 5px 0;',
-		width : 800,
+		style: 'margin:0px; padding:0px; border:0px;',
+		//bodyStyle : 'padding:5px 5px 0;',
+		width : 512,
+		height: 80,
+		unstyled: true,
 		monitorValid : true,
 //		keys : {
 //			key : 13,
 //			scope : this,
 //			fn : doSubmit
 //		},
-		layout : 'column',
+		layout : 'table',
+		layoutConfig:{
+			columns:3
+		},
 		items : [{
-					columnWidth:.25,
-					layout: 'form',
+					xtype:"container",
+					layout: 'hbox',
+					width:184,
+					height:30,
+					defaultMargins:{
+						left:0
+					},
 					items: [{
 						xtype : 'textfield',
 						id : 'username',
@@ -52,20 +63,10 @@ Ext.onReady(function() {
 						blankText : '账号不能为空'
 					}]
 				}, {
-					columnWidth:.25,
-					layout: 'form',
-					items: [{
-						xtype : 'textfield',
-						id : 'password',
-						name : 'password',
-						fieldLabel : '密码',
-						allowBlank : false,
-						blankText : '密码不能为空',
-						inputType : 'password'
-					}]
-				}, {
-					columnWidth:.2,
-					layout: 'form',
+					xtype:'container',
+					layout: 'hbox',
+					width:90,
+					height:30,
 					items: [{
 						id : 'validateCode',
 						name : 'validateCode',
@@ -78,40 +79,54 @@ Ext.onReady(function() {
 						blankText : '验证码不能为空！'
 					}]
 				}, {
-					columnWidth:.3,
-					layout: 'column',
+					xtype:'container',
+					layout: 'hbox',
+					width:330,
+					height:30,
 					items: [{
-						columnWidth:.3,
-						items: [{
-							html : '&nbsp;&nbsp;<img id="photo" src="user_code.do" onclick="changeImg(this)"/>'
-						}]
+						width:60,
+						height:20,
+						html : '<img id="photo" src="user_code.do" onclick="changeImg(this)"/>'
+					}]
+				},{
+					xtype:"container",
+					layout: 'hbox',
+					width:184,
+					height:67,
+					items: [{
+						xtype : 'textfield',
+						id : 'password',
+						name : 'password',
+						fieldLabel : '密码',
+						allowBlank : false,
+						blankText : '密码不能为空',
+						inputType : 'password'
+					}]
+				}, {
+					xtype:'container',
+					layout:'hbox',
+					colspan:2,
+					width:420,
+					height:67,
+					items: [{
+						xtype : 'button',
+						cls:"login",
+						type : 'submit',
+						width: 110,
+						height: 29,
+						formBind : true,
+						handler : doSubmit
 					},{
-						columnWidth:.2,
-						items: [{
-							xtype : 'button',
-							text : '登录',
-							type : 'submit',
-							formBind : true,
-							handler : doSubmit
-						}]
+						xtype: 'box',
+						width: 10,
+						height:29
 					},{
-						columnWidth:.3,
-						items: [{
-							xtype : 'button',
-							text : '匿名登录',
-							type : 'button',
-							handler : doAnonymousSubmit
-						}]
-					},{
-						columnWidth:.2,
-						items: [{
-							xtype : 'button',
-							text : '取消',
-							type : 'reset',
-							handler : function() {
-								loginForm.form.reset();
-							}
-						}]
+						xtype : 'button',
+						cls:"anonymouslogin",
+						type : 'button',
+						width:110,
+						height:29,
+						handler : doAnonymousSubmit
 					}]
 				}]
 

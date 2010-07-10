@@ -208,7 +208,7 @@ color: #990000;
 <div id="north">
 <table border="0" style="margin:0px" width="100%" height="124" cellpadding="0" cellspacing="0" background="images/top_bg.gif">
 <tr><td height="11"></td></tr>
-<tr><td height="113"><img src="images/top_main.jpg" width="995" height="113"></td></tr></table>
+<tr><td height="113" align="left"><img src="images/top_main.jpg" width="995" height="113"></td></tr></table>
 </div>
 <div id="menus" style="display:none">
 	<div id="resourceMenus">
