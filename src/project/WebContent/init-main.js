@@ -488,6 +488,7 @@ Ext.onReady(function(){
 			}]
 		},contentPanel,{
 			region: 'south',
+			height:25,
 			bbar:{
 				id: 'bBar',
 				height:25,
@@ -582,8 +583,12 @@ function isHidden(divId){
 }
 function refresh(){
 	loadStore();
-	loadStore1(ptb1.cursor);
-	weekPanel.getActiveTab().getBottomToolbar().doLoad(weekPanel.getActiveTab().getBottomToolbar().cursor);
+	if(ptb1!=undefined){
+		loadStore1(ptb1.cursor);
+	}
+	if(weekPanel!=undefined){
+		weekPanel.getActiveTab().getBottomToolbar().doLoad(weekPanel.getActiveTab().getBottomToolbar().cursor);
+	}
 }
 function createDayGrid(){
 	dayGrid = getDayConf(Ext.getDom('day2').value);
