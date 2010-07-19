@@ -1,0 +1,127 @@
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	font-family: "宋体";
+	font-size: 14px;
+}
+.table_a{
+	color: #dcdddf;
+	font-family: "宋体";
+	font-size: 12px;
+	text-align: center;
+}
+
+img{ border:0px;}
+.baizi{
+	font-family: "宋体";
+	font-size: 12px;
+	color: #FFFFFF;
+	line-height: 18px;
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 0px;
+}
+.heizi{
+	font-family: "宋体";
+	font-size: 12px;
+	color: #4a5060;
+	line-height: 18px;
+	padding-top: 5px;
+}
+.heicu{
+	font-family: "宋体";
+	font-size: 12px;
+	color: #4a5060;
+	font-weight: bold;
+	padding-top: 5px;
+}
+.heida{
+	font-family: "宋体";
+	font-size: 16px;
+	color: #4a5060;
+	line-height: 18px;
+	padding-top: 5px;
+	padding-left: 10px;
+	font-weight: bold;
+}
+.lanzi{
+	font-family: "宋体";
+	font-size: 12px;
+	color: #18419e;
+	padding-left: 5px;
+}
+
+
+#aaab{ height:37px;
+       list-style: none;
+	   border-left:2px;
+	   border-right:2px;}
+	   
+#aaab li{	
+	float:left;
+	font-size: 12px;
+	
+}
+#aaab li a{
+	color: #c0c1c5;
+	background-image: url(../images/main_dh_bg_2.gif);
+	text-align: center;
+	text-decoration:none;
+	display:block;
+	width: 110px;
+	height: 20px;
+	margin-left:2px;
+	padding-top:17px;	
+}
+#aaab li a:hover{
+	font-weight: bold;
+	background-image: url(../images/main_dh_bg_1.gif);
+}
+#aaab li a#current{
+color:#c5fd88;
+font-size:14px;
+	font-weight: bold;
+	background-image: url(../images/main_dh_bg_1.gif);
+	
+}
+
+#aab{ height:28px;
+       list-style: none;
+	  }
+	   
+#aab .aaaab{
+	background-image:url(../images/main_dh_bg_shu.gif);
+	height: 28px;
+	width: 1px;
+	margin-left:1px;
+	margin-right:1px;
+}
+
+
+	   
+#aab li{	
+	float:left;
+	font-size: 12px;
+	
+}
+#aab li a{
+	color: #000000;
+	background-image: url(../images/main_dh_bg.gif);
+	text-align: center;
+	text-decoration:none;
+	display:block;
+	width: 130px;
+	height: 20px;
+	padding-top:8px;
+	background-repeat: repeat-x;
+}
+#aab li a:hover{
+	background-image: url(../images/main_dh_bg_h.gif);
+}
+#aab li a#current{
+color:#000000;
+font-size:12px;
+	background-image: url(../images/main_dh_bg_h.gif);
+	
+}
