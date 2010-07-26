@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>公告详情</title>
-<link href="css/css.css" rel="stylesheet" type="text/css" />
+<link href="<%=request.getContextPath()%>/resources/css/css.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/jquery-1.3.2.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/nicejforms.js"></script>
 <style type="text/css" media="screen">@import url(<%=request.getContextPath()%>/resources/css/niceforms-default.css);</style>
