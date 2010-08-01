@@ -125,21 +125,36 @@ jQuery.NiceJForms = {
 		el = elm ? jQuery(elm) : jQuery(this);
 		
 		var r = 0; var c = 0; var t = 0; var rl = 0; var cl = 0; var tl = 0; var b = 0;
-		
-		jQuery.NiceJForms.inputs = $('input');
-		
-		jQuery.NiceJForms.labels = $('label');
-		
-		jQuery.NiceJForms.textareas = $('textarea');
-		
-		jQuery.NiceJForms.selects = $('select');
-		
-		jQuery.NiceJForms.radios = $('input[type=radio]');
-		
-		jQuery.NiceJForms.checkboxes = $('input[type=checkbox]');
-		jQuery.NiceJForms.texts = $('input[type=text]').add($('input[type=password]'));		
-		jQuery.NiceJForms.buttons = $('input[type=submit]').add($('input[type=button]'));
-	
+		if(jQuery.NiceJForms.options.formclass!=undefined){
+			var formclass = jQuery.NiceJForms.options.formclass;
+			jQuery.NiceJForms.inputs = $('input'+"."+formclass);
+			
+			jQuery.NiceJForms.labels = $('label'+"."+formclass);
+			
+			jQuery.NiceJForms.textareas = $('textarea'+"."+formclass);
+			
+			jQuery.NiceJForms.selects = $('select'+"."+formclass);
+			
+			jQuery.NiceJForms.radios = $('input[type=radio]'+"."+formclass);
+			
+			jQuery.NiceJForms.checkboxes = $('input[type=checkbox]'+"."+formclass);
+			jQuery.NiceJForms.texts = $('input[type=text]'+"."+formclass).add($('input[type=password]'+"."+formclass));		
+			jQuery.NiceJForms.buttons = $('input[type=submit]'+"."+formclass).add($('input[type=button]'+"."+formclass));
+		}else{
+			jQuery.NiceJForms.inputs = $('input');
+			
+			jQuery.NiceJForms.labels = $('label');
+			
+			jQuery.NiceJForms.textareas = $('textarea');
+			
+			jQuery.NiceJForms.selects = $('select');
+			
+			jQuery.NiceJForms.radios = $('input[type=radio]');
+			
+			jQuery.NiceJForms.checkboxes = $('input[type=checkbox]');
+			jQuery.NiceJForms.texts = $('input[type=text]').add($('input[type=password]'));		
+			jQuery.NiceJForms.buttons = $('input[type=submit]').add($('input[type=button]'));
+		}
 		jQuery.NiceJForms.labels.each(function(i){
 			labelFor = $(jQuery.NiceJForms.labels[i]).attr("for");
 			jQuery.NiceJForms.radios.each(function(q){

@@ -36,6 +36,7 @@
 			   	alert("您输入的页码超过记录的总页数!");
 			   	return false;
      	}
+		toPage(document.getElementById("topage").value);
      }	   
 </script>
 
@@ -69,13 +70,13 @@
 			</a> 
     </td>
     <td>到第
-      <INPUT name="topage" id="topage" class="lin001" size="4" onkeydown="if(event.keyCode==13) return fun3890308916()"> 页
+      <INPUT name="topage" id="topage" type="text" class="lin001 decorate" size="4" onkeydown="if(event.keyCode==13) return fun3890308916()">
       页      </td>
-    <td><input name="submit2" type="submit" value="GO"  onclick="return fun3890308916()"/></td>
+    <td><input name="submit2" type="submit" class="decorate" value="GO"  onclick="return fun3890308916()"/></td>
     <td>第<%=currentPage%>页 &nbsp;&nbsp;共<%=totalPage%>页</td>
-    <td><input name="submit22" type="submit" value="首页"  onclick="toPage(1)" /></td>
-    <td><input name="submit23" type="submit" value="上一页" onclick="toPage(<%=(currentPage - 1) < 1 ? 1 : (currentPage - 1)%>)" /></td>
-    <td><input name="submit24" type="submit" value="下一页" onclick="toPage(<%=(currentPage + 1) > totalPage ? totalPage: (currentPage + 1)%>)"/></td>
-    <td><input name="submit25" type="submit" value="尾页" onclick="toPage(<%=totalPage%>)"/></td>
+    <td><input name="submit22" type="submit" class="decorate" value="首页"  onclick="toPage(1)" /></td>
+    <td><input name="submit23" type="submit" class="decorate" value="上一页" onclick="toPage(<%=(currentPage - 1) < 1 ? 1 : (currentPage - 1)%>)" /></td>
+    <td><input name="submit24" type="submit" class="decorate" value="下一页" onclick="toPage(<%=(currentPage + 1) > totalPage ? totalPage: (currentPage + 1)%>)"/></td>
+    <td><input name="submit25" type="submit" class="decorate" value="尾页" onclick="toPage(<%=totalPage%>)"/></td>
     </tr>
 </table>
