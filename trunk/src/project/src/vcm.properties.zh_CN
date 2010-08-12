@@ -23,6 +23,6 @@ vcm.sms.validate=false
 vcm.sms.message=vcm.sms.message={0}，感谢您使用国家气象信息中心天气预报电视会商系统预约平台！预约验证码： {1}！
 # mobile phone of admin notified
 vcm.sms.receive_notify_admin=13281008899,13499331188
-vcm.sms.reserve_notify_admin={0}，{1}通过天气预报电视会商系统预约平台预约了{2}的会议，会议名称：{3}，持续时间：{4}分钟，参会单位：{5}个（预约表单内的参会单位的个数），请确认！
+vcm.sms.reserve_notify_admin={0}，{1}通过天气预报电视会商系统预约平台预约了{2}的会议，会议名称：{3}，持续时间：{4}分钟，参会单位：{5}个，请确认！
 vcm.sms.modify_notify_admin={0}，{1}通过天气预报电视会商系统预约平台对预约申请单进行了修改，原有的“{2}”变更为：召开时间：{3}，会议名称：{4}，持续时间：{5}分钟，参会单位：{6}个，请确认！
 vcm.sms.modify_notify_user={0}，您提交的{1}的“{2}”已被系统管理员进行了重新修订，请重新登陆后确认，或与国家气象信息中心进行联系，联系电话：12233455555

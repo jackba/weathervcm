@@ -403,7 +403,7 @@ public class UserAction extends AbstractBaseAction{
 			userService.updateUser(user, roleList, unitList);
 			logService.addLog(up.getUserId(), ILogService.type_modify_user, "修改用户"+user.getLoginId());
 			outJson("{success:true, msg:'操作员修改成功!'}");
-		}catch(UserExistsException ue) {
+		}catch(Exception e) {
 			outJson("{success:false, msg:'操作员修改失败!'}");
 		}
 		return null;	

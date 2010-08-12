@@ -247,7 +247,7 @@ public class UserServiceImpl implements IUserService {
 			userDao.saveOrUpdateUser(u);
 		} catch (Exception e) {
 			logger.error(e.toString());
-			throw new UserExistsException("用户 " + user.getLoginId() + " 不存在!");
+			throw new RuntimeException("用户 " + user.getLoginId() + " 不存在!");
 		}
 	}
 
