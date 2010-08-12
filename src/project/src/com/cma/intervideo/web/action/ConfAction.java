@@ -1165,6 +1165,7 @@ public class ConfAction extends AbstractBaseAction {
 		return null;
 	}
 	public String generateReserveCode(){
+		logger.info("enter generateReserveCode()");
 		PrintWriter out = null;
 		try{
 			response.setCharacterEncoding("utf-8");
@@ -1191,7 +1192,7 @@ public class ConfAction extends AbstractBaseAction {
 			Calendar c = Calendar.getInstance();
 			c.add(Calendar.MINUTE, delay);
 			session.put("reserveCodeExpiredTime", c.getTime());
-			System.out.println("reserveCode = "+reserveCode);
+			logger.info("reserveCode = "+reserveCode);
 			boolean b = smsUtil.sendMessage(sendMessage);
 			if(b){
 				out.print("{success:true,msg:'预约码已经发送到您的手机,请在"+delay+"分钟内输入您的预约码'}");

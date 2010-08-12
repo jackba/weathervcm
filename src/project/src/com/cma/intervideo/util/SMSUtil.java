@@ -84,7 +84,7 @@ public class SMSUtil {
 		}
 	}
 	public boolean sendMessage(SendMessage sendMessage){
-		
+		logger.info("enter sendMessage()");
 		OutboundMessage msg;
 		msg = new OutboundMessage(sendMessage.getMsisdn(), sendMessage.getMessage());
 		msg.setEncoding(MessageEncodings.ENCUCS2);
