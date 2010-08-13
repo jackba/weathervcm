@@ -262,6 +262,8 @@ public class ConfAction extends AbstractBaseAction {
 			ph.setResultSize(Integer.parseInt(totalProperty));
 		}
 		List<ParamVo> params = new ArrayList<ParamVo>();
+		UserPrivilege up = (UserPrivilege)session.get("userPrivilege");
+		
 		String subject = request.getParameter("subject");
 		if (subject != null && !subject.equals("")) {
 			ParamVo vo = new ParamVo();
@@ -278,12 +280,26 @@ public class ConfAction extends AbstractBaseAction {
 		}
 		String listType = request.getParameter("listType");
 		if(listType!=null && !listType.equals("")){
+			if("all".equals(listType)){
+				if(up.hasCodePrivilege("0021")){
+					ParamVo vo = new ParamVo();
+					vo.setParamName("userId");
+					vo.setParamValue(up.getUserId());
+					params.add(vo);
+				}
+			}
 			if("running".equals(listType)){
 				ParamVo vo = new ParamVo();
 				vo.setParamName("status");
 				//vo.setParamValue(Conference.status_ongoing);
 				vo.setParamValue(String.valueOf(Conference.status_ongoing));
 				params.add(vo);
+				if(up.hasCodePrivilege("0017")){
+					vo = new ParamVo();
+					vo.setParamName("userId");
+					vo.setParamValue(up.getUserId());
+					params.add(vo);
+				}
 			}else if("currentDay".equals(listType)){
 				
 				Calendar c = Calendar.getInstance();
@@ -305,6 +321,12 @@ public class ConfAction extends AbstractBaseAction {
 					vo.setParamName("endTime");
 					vo.setParamValue(endTime);
 					params.add(vo);
+					if(up.hasCodePrivilege("0018")){
+						vo = new ParamVo();
+						vo.setParamName("userId");
+						vo.setParamValue(up.getUserId());
+						params.add(vo);
+					}
 				}catch(Exception e){
 					logger.error(e.toString());
 				}
@@ -325,6 +347,7 @@ public class ConfAction extends AbstractBaseAction {
 					vo.setParamName("endTime");
 					vo.setParamValue(endTime);
 					params.add(vo);
+					
 				}catch(Exception e){
 					logger.error(e.toString());
 				}
@@ -349,6 +372,12 @@ public class ConfAction extends AbstractBaseAction {
 					vo.setParamName("endTime");
 					vo.setParamValue(endTime);
 					params.add(vo);
+					if(up.hasCodePrivilege("0019")){
+						vo = new ParamVo();
+						vo.setParamName("userId");
+						vo.setParamValue(up.getUserId());
+						params.add(vo);
+					}
 				}catch(Exception e){
 					logger.error(e.toString());
 				}
@@ -370,6 +399,12 @@ public class ConfAction extends AbstractBaseAction {
 					vo.setParamName("endTime");
 					vo.setParamValue(endTime);
 					params.add(vo);
+					if(up.hasCodePrivilege("0020")){
+						vo = new ParamVo();
+						vo.setParamName("userId");
+						vo.setParamValue(up.getUserId());
+						params.add(vo);
+					}
 				}catch(Exception e){
 					logger.error(e.toString());
 				}
