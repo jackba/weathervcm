@@ -83,7 +83,7 @@ public class SMSUtil {
 			logger.error(e.toString());
 		}
 	}
-	public boolean sendMessage(SendMessage sendMessage){
+	public synchronized boolean sendMessage(SendMessage sendMessage){
 		logger.info("enter sendMessage()");
 		OutboundMessage msg;
 		msg = new OutboundMessage(sendMessage.getMsisdn(), sendMessage.getMessage());
@@ -93,6 +93,13 @@ public class SMSUtil {
 			logger.info("begin to send message");
 			srv.sendMessage(msg);
 			logger.info(msg);
+			// 读取短信.
+			List msgList = new ArrayList();
+			srv.readMessages(msgList, MessageClasses.ALL);
+			for (int i = 0; i < msgList.size(); i++){
+				logger.info(msgList.get(i));
+				srv.deleteMessage((InboundMessage)msgList.get(i));
+			}
 			sendMessage.setStatus(sendMessage.status_success);
 			sendMessage.setSendTime(new Date());
 			sendMessage.setComPort(comPort);

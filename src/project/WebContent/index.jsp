@@ -322,37 +322,21 @@ color: #990000;
 		<div class="accordion_child_top" ></div>
     	<div class="accordion_child">  
 		<ul>
-			<%
-				if(up.hasCodePrivilege("0017")){
-			%>
 			<li>
 				<span id="currentConf" href="<%=request.getContextPath()%>/conf_listRunning.do" onClick="onClickMenuItem(this)">正在召开的会议</span>
 			</li>
-			<%}
-			if(up.hasCodePrivilege("0018")){
-			%>
 			<li>
 				<span id="currentDayConf" href="<%=request.getContextPath()%>/conf_listCurrentDay.do" onClick="onClickMenuItem(this)">当日会议安排</span>
 			</li>
-			<%}
-			if(up.hasCodePrivilege("0019")){
-			%>
 			<li>
 				<span id="currentWeekConf" href="<%=request.getContextPath()%>/conf_listCurrentWeek.do" onClick="onClickMenuItem(this)">本周会议安排</span>
 			</li>
-			<%}
-			if(up.hasCodePrivilege("0020")){
-			%>
 			<li>
 				<span id="currentMonthConf" href="<%=request.getContextPath()%>/conf_listCurrentMonth.do" onClick="onClickMenuItem(this)">本月会议安排</span>
 			</li>
-			<%}
-			if(up.hasCodePrivilege("0021")){
-			%>
 			<li>
 				<span id="allConf" href="<%=request.getContextPath()%>/conf_listAll.do" onClick="onClickMenuItem(this)">所有会议安排</span>
 			</li>
-			<%} %>
 		</ul>
 		</div> <div class="accordion_child_end" ></div>
 	</div>
