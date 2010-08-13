@@ -55,7 +55,7 @@ public class SMSUtil {
 			gateway.setInbound(true);
 			gateway.setOutbound(true);
 			gateway.setSimPin("0000");
-			gateway.setInboundNotification(inboundNotification);
+			//gateway.setInboundNotification(inboundNotification);
 			srv.addGateway(gateway);
 			srv.startService();
 			logger.info("GSM Modem信息:");
