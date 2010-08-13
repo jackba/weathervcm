@@ -24,11 +24,11 @@ insert into privilege (name,url,description,code) values("修改预约会议","json:Se
 insert into privilege (name,url,description,code) values("删除预约会议","dwr:ConfServiceImpl.deleteReserves","删除预约会议","0015");
 insert into privilege (name,url,description,code) values("预约会议","json:ServiceAction.search;action:ConfAction.reserveConf;json:ConfAction.save;action:ConfAction.listReserve;json:ConfAction.searchReserves;action:ConfAction.reserveDetail;action:ConfAction.modifyReserve;json:ConfAction.update;dwr:ConfServiceImpl.deleteReserves","预约会议","0016");
 
-insert into privilege (name,url,description,code) values("查看正在召开的会议","action:ConfAction.listRunning;json:ConfAction.searchRunnings;action:ConfAction.reserveDetail","查看正在召开的会议","0017");
-insert into privilege (name,url,description,code) values("查看当日会议安排","action:ConfAction.listCurrentDay;json:ConfAction.searchCurrentDays;action:ConfAction.reserveDetail","查看当日会议安排","0018");
-insert into privilege (name,url,description,code) values("查看本周会议安排","action:ConfAction.listCurrentWeek;json:ConfAction.searchCurrentWeeks;action:ConfAction.reserveDetail","查看本周会议安排","0019");
-insert into privilege (name,url,description,code) values("查看本月会议安排","action:ConfAction.listCurrentMonth;json:ConfAction.searchCurrentMonths;action:ConfAction.reserveDetail","查看本月会议安排","0020");
-insert into privilege (name,url,description,code) values("查看所有会议安排","action:ConfAction.listAll;json:ConfAction.searchAlls;action:ConfAction.reserveDetail","查看所有会议安排","0021");
+insert into privilege (name,url,description,code) values("查看正在召开的会议","","查看正在召开的会议","0017");
+insert into privilege (name,url,description,code) values("查看当日会议安排","","查看当日会议安排","0018");
+insert into privilege (name,url,description,code) values("查看本周会议安排","","查看本周会议安排","0019");
+insert into privilege (name,url,description,code) values("查看本月会议安排","","查看本月会议安排","0020");
+insert into privilege (name,url,description,code) values("查看所有会议安排","","查看所有会议安排","0021");
 
 
 insert into privilege (name,url,description,code) values("增加虚拟房间","action:ConfTemplateAction.add;json:ConfTemplateAction.save","增加虚拟房间","0022");
