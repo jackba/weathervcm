@@ -1194,6 +1194,7 @@ public class ConfAction extends AbstractBaseAction {
 			session.put("reserveCodeExpiredTime", c.getTime());
 			logger.info("reserveCode = "+reserveCode);
 			boolean b = smsUtil.sendMessage(sendMessage);
+			logger.info("b = "+b);
 			if(b){
 				out.print("{success:true,msg:'预约码已经发送到您的手机,请在"+delay+"分钟内输入您的预约码'}");
 			}else{

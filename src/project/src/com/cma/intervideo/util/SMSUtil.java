@@ -41,7 +41,7 @@ public class SMSUtil {
 
 	}
 	public SMSUtil(){
-		
+		logger.info("create new SMSUtil");
 	}
 	
 	public void init(){
@@ -90,6 +90,7 @@ public class SMSUtil {
 		msg.setEncoding(MessageEncodings.ENCUCS2);
 		msg.setStatusReport(true);
 		try{
+			logger.info("begin to send message");
 			srv.sendMessage(msg);
 			logger.info(msg);
 			sendMessage.setStatus(sendMessage.status_success);
@@ -97,6 +98,8 @@ public class SMSUtil {
 			sendMessage.setComPort(comPort);
 			confDao.saveSmsLog(sendMessage);
 		}catch(Exception e){
+			logger.info("send message failure");
+			logger.info(e.toString());
 			logger.error(e.toString());
 			sendMessage.setStatus(sendMessage.status_failure);
 			sendMessage.setErrorDesc(e.toString().substring(0,200));
