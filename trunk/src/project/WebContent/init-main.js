@@ -685,7 +685,8 @@ function initData() {
 		params : {
 			start : 0,
 			limit : limit,
-			'listType' : 'running'
+			'listType' : 'running',
+			'personal' : 'false'
 		}
 	});
 	initGrid();
@@ -905,7 +906,8 @@ function loadStore1(start){
 			start : start,
 			limit : ptb1.getPageSize(),
 			'totalProperty' : ds1.getTotalCount(),
-			'listType' : 'running'
+			'listType' : 'running',
+			'personal' : 'false'
 		}
 	});
 }
@@ -1061,6 +1063,7 @@ function getDayConf(day){
 			start : 0,
 			limit : limit,
 			'listType' : 'currentDay',
+			'personal' : 'false',
 			day : day
 		}
 	});
@@ -1191,6 +1194,7 @@ function getDayConf(day){
 				limit : ptb2.getPageSize(),
 				'totalProperty' : ds2.getTotalCount(),
 				'listType' : 'currentDay',
+				'personal' : 'false',
 				'day' : day
 			}
 		});
