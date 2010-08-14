@@ -88,7 +88,7 @@ public class SMSUtil {
 		OutboundMessage msg;
 		msg = new OutboundMessage(sendMessage.getMsisdn(), sendMessage.getMessage());
 		msg.setEncoding(MessageEncodings.ENCUCS2);
-		msg.setStatusReport(true);
+		msg.setStatusReport(false);
 		try{
 			logger.info("begin to send message");
 			srv.sendMessage(msg);

@@ -169,6 +169,7 @@ public class ConfAction extends AbstractBaseAction {
 	}
 	public String searchCurrentDays(){
 		PageHolder ph = new PageHolder();
+		
 		List<Conference> confList = getConfList(ph);
 		try {
 			JSONObject json = new JSONObject();
@@ -255,6 +256,11 @@ public class ConfAction extends AbstractBaseAction {
 	private List<Conference> getConfList(PageHolder ph){
 		String start = request.getParameter("start");
 		String limit = request.getParameter("limit");
+		boolean flag = true;
+		String personal = request.getParameter("personal");
+		if(personal!=null && personal.equals("false")){
+			flag = false;
+		}
 		String totalProperty = request.getParameter("totalProperty");
 		ph.setFirstIndex(Integer.parseInt(start));
 		ph.setPageSize(Integer.parseInt(limit));
@@ -281,7 +287,7 @@ public class ConfAction extends AbstractBaseAction {
 		String listType = request.getParameter("listType");
 		if(listType!=null && !listType.equals("")){
 			if("all".equals(listType)){
-				if(!up.hasCodePrivilege("0021")){
+				if(!up.hasCodePrivilege("0021")&&flag){
 					ParamVo vo = new ParamVo();
 					vo.setParamName("userId");
 					vo.setParamValue(up.getUserId());
@@ -294,7 +300,7 @@ public class ConfAction extends AbstractBaseAction {
 				//vo.setParamValue(Conference.status_ongoing);
 				vo.setParamValue(String.valueOf(Conference.status_ongoing));
 				params.add(vo);
-				if(!up.hasCodePrivilege("0017")){
+				if(!up.hasCodePrivilege("0017")&&flag){
 					vo = new ParamVo();
 					vo.setParamName("userId");
 					vo.setParamValue(up.getUserId());
@@ -321,7 +327,7 @@ public class ConfAction extends AbstractBaseAction {
 					vo.setParamName("endTime");
 					vo.setParamValue(endTime);
 					params.add(vo);
-					if(!up.hasCodePrivilege("0018")){
+					if(!up.hasCodePrivilege("0018")&&flag){
 						vo = new ParamVo();
 						vo.setParamName("userId");
 						vo.setParamValue(up.getUserId());
@@ -372,7 +378,7 @@ public class ConfAction extends AbstractBaseAction {
 					vo.setParamName("endTime");
 					vo.setParamValue(endTime);
 					params.add(vo);
-					if(!up.hasCodePrivilege("0019")){
+					if(!up.hasCodePrivilege("0019")&&flag){
 						vo = new ParamVo();
 						vo.setParamName("userId");
 						vo.setParamValue(up.getUserId());
@@ -399,7 +405,7 @@ public class ConfAction extends AbstractBaseAction {
 					vo.setParamName("endTime");
 					vo.setParamValue(endTime);
 					params.add(vo);
-					if(!up.hasCodePrivilege("0020")){
+					if(!up.hasCodePrivilege("0020")&&flag){
 						vo = new ParamVo();
 						vo.setParamName("userId");
 						vo.setParamValue(up.getUserId());
