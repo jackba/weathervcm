@@ -520,7 +520,7 @@ if ( checkForm()){
 				}
 		    },
 		    failure:function(result,request){
-				Ext.Msg.alert('失败',result.responseText);
+				Ext.Msg.alert('错误',result.responseText);
 		    }
 		});
 	}
