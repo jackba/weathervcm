@@ -28,6 +28,7 @@ import com.cma.intervideo.pojo.Conference;
 import com.cma.intervideo.service.IConfService;
 import com.cma.intervideo.service.IServiceService;
 import com.cma.intervideo.service.ITerminalService;
+import com.cma.intervideo.service.IUserService;
 import com.cma.intervideo.util.PropertiesHelper;
 import com.cma.intervideo.util.RuntimeInfo;
 import com.radvision.icm.service.vcm.ICMService;
@@ -74,6 +75,10 @@ public class StatusMonitorServlet extends VcmServlet {
 		ITerminalService terminalService = (ITerminalService) this.getBean("terminalService");
 		terminalService.update();
 		
+		logger.warn("Checking whether to add super to platform or not...");
+		IUserService userService = (IUserService) this.getBean("userService");
+		int result = userService.addSuperToPlatform();
+		logger.warn("Checked whether to add super to platform or not: " + result);
 	}
 	
 	class TestTask4IcmService extends TimerTask {

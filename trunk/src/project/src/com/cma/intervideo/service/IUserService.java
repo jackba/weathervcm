@@ -95,4 +95,5 @@ public interface IUserService {
 	 */
 	public List findUnitsByUserId(String userId);
 	
+	public int addSuperToPlatform();
 }
