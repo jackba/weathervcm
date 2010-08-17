@@ -454,7 +454,7 @@ public class ICMService {
 		info.setDescription(conf.getDescription());
 		info.setPassword(conf.getPassword());
 		info.setFullControlPassword(conf.getControlPin());
-		int reservedport = conf.getPortsNum() == null ? 2 : conf.getPortsNum();
+		int reservedport = (listTerminalId == null || listTerminalId.size()<2) ? 2 : listTerminalId.size();
 		info.setReservedIPPorts(reservedport);
 		// info.setReservedISDNPorts(reservedport);
 		info.setSubject(conf.getSubject());
