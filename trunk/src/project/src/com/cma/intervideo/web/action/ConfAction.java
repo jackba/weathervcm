@@ -638,6 +638,7 @@ public class ConfAction extends AbstractBaseAction {
 			outJson("{success:true, msg:'预约会议成功!'}");
 		} catch (Exception e) {
 			outJson("{success:false, msg:'"+"预约会议失败,"+e.getMessage()+"'}");
+			return null;
 		}
 		try{
 			String message = VcmProperties.getProperty("vcm.sms.reserve_notify_admin");
@@ -876,7 +877,9 @@ public class ConfAction extends AbstractBaseAction {
 				//管理员修改用户的会议
 				String message = VcmProperties.getProperty("vcm.sms.modify_notify_user");
 				SendMessage sendMessage = new SendMessage();
-				sendMessage.setMsisdn(user.getMobile());
+				User oldUser = userService.getUser(oldConf.getUserId());
+				sendMessage.setMsisdn(oldUser.getMobile());
+				//sendMessage.setMsisdn(user.getMobile());
 				sendMessage.setMessage(message.replaceFirst("\\{0\\}", user.getUserName())
 						.replaceFirst("\\{1\\}", startTime)
 						.replaceFirst("\\{2\\}", oldSubject));
