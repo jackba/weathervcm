@@ -136,7 +136,7 @@ public class AbstractUserDao extends AbstractDAO<User, String> implements IUserD
 	}
 	
 	public List<User> queryUsersAndStatus(String username, String name, Short status, PageHolder ph){
-		StringBuffer sb = new StringBuffer("from User user where user.status!=3");
+		StringBuffer sb = new StringBuffer("from User user where user.status!="+DataDictStatus.invalidateStatus);
 		if((username!=null)&&(!username.equals("")))
 			sb.append(" and login_id like '%"+username+"%'");
 		if((name!=null)&&(!name.equals("")))
