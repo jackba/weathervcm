@@ -49,7 +49,7 @@ insert into privilege (name,url,description,code) values("用户统计","action:Stat
 insert into privilege (name,url,description,code) values("公告发布","action:BulletinAction.add;json:BulletinAction.save","公告发布","0033");
 insert into privilege (name,url,description,code) values("公告修改","action:BulletinAction.modify;json:BulletinAction.update","公告修改","0034");
 insert into privilege (name,url,description,code) values("公告删除","dwr:BulletinServiceImpl.deleteBulletins","公告删除","0035");
-insert into privilege (name,url,description,code) values("公告管理","action:BulletinAction.manage;json:BulletinAction.search;action:BulletinAction.detail","公告管理","0036");
+insert into privilege (name,url,description,code) values("公告管理","action:BulletinAction.manage;json:BulletinAction.search","公告管理","0036");
 
 insert into privilege (name,url,description,code) values("管理留言","","管理留言","0037");
 
