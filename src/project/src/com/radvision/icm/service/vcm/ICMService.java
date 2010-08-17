@@ -39,6 +39,7 @@ import com.radvision.icm.service.ScheduleServicePortType;
 import com.radvision.icm.service.TerminalInfo;
 import com.radvision.icm.service.TerminalResource;
 import com.radvision.icm.service.UserInfo;
+import com.radvision.icm.service.UserNotExistedException_Exception;
 import com.radvision.icm.service.UserResult;
 import com.radvision.icm.service.UserService;
 import com.radvision.icm.service.UserServicePortType;
@@ -180,6 +181,18 @@ public class ICMService {
 		return ur;
 	}
 
+	public static UserInfo getUserByLoginId(String loginId) {
+		try {
+			return getUserServicePortType().getUserByLoginId(loginId);
+		} catch (UserNotExistedException_Exception e) {
+			e.printStackTrace();
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	public static UserResult deleteUser(String userId) {
 		UserResult ur = null;
 		try {
@@ -725,7 +738,7 @@ public class ICMService {
 		 * 2: Meeting Organizer
 		 * 3: Regular User
 		 */
-		info.setRoleId(3); // TODO: handle role
+		info.setRoleId("super".equals(user.getLoginId()) ? 1 : 3); // TODO: handle role
 		info.setUserLoginId(user.getLoginId());
 		// user name (VCM) < -- > last name(platform)me());
 		info.setUserLastName(user.getUserName()); 

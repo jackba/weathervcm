@@ -24,6 +24,7 @@ import com.cma.intervideo.service.IUserService;
 import com.cma.intervideo.util.MD5;
 import com.cma.intervideo.util.PageHolder;
 import com.cma.intervideo.util.UserPrivilege;
+import com.radvision.icm.service.UserInfo;
 import com.radvision.icm.service.UserResult;
 import com.radvision.icm.service.vcm.ICMService;
 
@@ -102,6 +103,17 @@ public class UserServiceImpl implements IUserService {
 
 	public List queryUsersAndStatus(String username, String name, Short status, PageHolder ph) {
 		return userDao.queryUsersAndStatus(username, name, status, ph);
+	}
+	
+	public int addSuperToPlatform() {
+		UserInfo ui = ICMService.getUserByLoginId("super");
+		if (ui != null && ui.getUserId() != null)
+			return 0;
+		User usr = userDao.findUserByLoginId("super");
+		UserResult ur = ICMService.setUser(usr);
+		if (ur == null || !ur.isSuccess())
+			return -1;
+		return 1;
 	}
 
 	public void addUser(User user, String[] roles, String[] units) throws UserExistsException
@@ -199,6 +211,10 @@ public class UserServiceImpl implements IUserService {
 			logger.info("Starting to update user...");
 			User u = userDao.getUser(user.getUserId());
 			logger.info("User before updating: " + u);
+			
+			if ("super".equals(user.getLoginId()))
+				addSuperToPlatform();
+			
 			u.setAddress(user.getAddress());
 			u.setCompany(user.getCompany());
 			u.setDescription(user.getDescription());
