@@ -457,16 +457,16 @@ color: #990000;
 						<td>
 							<div id="service_template"></div>
 						</td>-->
-						<th>时间间隔（分钟）：</th>
-						<td>
+						<th width="25%" align="right">时间间隔（分钟）：</th>
+						<td width="25%">
 						<select name="interval" id="interval">
 						<option value="60">60</option>
 						<option value="30" selected="true">30</option>
 						<option value="15">15</option>
 						</select>
 						</td>
-						<th>日期：</th>
-						<td>
+						<th width="25%" align="right">日期：</th>
+						<td width="25%">
 						<!--<input type="text" class="Wdate" id="day" name="day" onFocus="WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd'})"/>-->
 						<div id="dayDiv"></div>
 						</td>
