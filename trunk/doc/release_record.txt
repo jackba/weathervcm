@@ -1,7 +1,0 @@
-2009.11.28	
-						the first release
-						
-2009.12.29
-						the 2th release
-						the revision: 297
-						vcm.jar version: 1.0.1
