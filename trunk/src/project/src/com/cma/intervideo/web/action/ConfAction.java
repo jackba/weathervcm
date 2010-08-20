@@ -880,7 +880,7 @@ public class ConfAction extends AbstractBaseAction {
 				User oldUser = userService.getUser(oldConf.getUserId());
 				sendMessage.setMsisdn(oldUser.getMobile());
 				//sendMessage.setMsisdn(user.getMobile());
-				sendMessage.setMessage(message.replaceFirst("\\{0\\}", user.getUserName())
+				sendMessage.setMessage(message.replaceFirst("\\{0\\}", oldUser.getUserName())
 						.replaceFirst("\\{1\\}", startTime)
 						.replaceFirst("\\{2\\}", oldSubject));
 				smsUtil.sendMessage(sendMessage);
