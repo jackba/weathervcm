@@ -214,7 +214,7 @@ public class ConfServiceImpl implements IConfService {
 			logger.warn("ConfServiceImpl::modifyConf Excepton - " + e.toString());
 			logger.info("if fail to save user in VCM, need to delete the user from iCM platform that was saved just now!!");
 			Conference oldConf = getConfById(conf.getConferenceId().toString());
-			List<Unit> oldUnits = findUnitsByConfId(conf.getConferenceId().toString(), true);
+			List<Unit> oldUnits = findUnitsByConfId(conf.getConferenceId().toString(), true, null);
 			List<String> oldListTerminalId = null;
 			if (oldUnits != null && oldUnits.size() > 0) {
 				for (int i = 0; i < oldUnits.size(); i++) {
@@ -233,8 +233,8 @@ public class ConfServiceImpl implements IConfService {
 		return confDao.findAllUnits();
 	}
 	
-	public List<Unit> findUnitsByConfId(String confId, boolean selected) {
-		return confDao.findUnitsByConfId(confId, selected);
+	public List<Unit> findUnitsByConfId(String confId, boolean selected, String userId) {
+		return confDao.findUnitsByConfId(confId, selected, userId);
 	}
 	
 	public List<Unit> findUnitsByRecurrenceId(String recurrenceId, boolean selected){
@@ -242,7 +242,7 @@ public class ConfServiceImpl implements IConfService {
 	}
 	
 	private void updateUnitInfo(Conference conf) {
-		List<Unit> listUnit = findUnitsByConfId(conf.getConferenceId().toString(), true);
+		List<Unit> listUnit = findUnitsByConfId(conf.getConferenceId().toString(), true, null);
 		if (listUnit == null || listUnit.size() == 0)
 			return;
 		String names = "";

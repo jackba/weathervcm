@@ -91,17 +91,22 @@ public abstract class AbstractConfDao extends AbstractDAO<Conference, Integer> i
 		logger.info("Added successfully Party: partyId = " + partyId + " for the conference: conferenceId = " + confId + ".");
 	}
 	
-	public List<Unit> findUnitsByConfId(String confId, boolean selected){
+	public List<Unit> findUnitsByConfId(String confId, boolean selected, String userId){
 		Session s = this.getSession();
 		Connection conn = s.connection();
 		List<Unit> result = new ArrayList<Unit>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try{
+			String sql;
 			if (selected)
-				pstmt = conn.prepareStatement("select * from unit where unit_id in (select unit_id from conf_unit where conference_id=?)");
+				sql = "select * from unit where unit_id in (select unit_id from conf_unit where conference_id=?)";
 			else
-				pstmt = conn.prepareStatement("select * from unit where unit_id not in (select unit_id from conf_unit where conference_id=?)");
+				sql = "select * from unit where unit_id not in (select unit_id from conf_unit where conference_id=?)";
+			if(userId!=null){
+				sql += " and unit_id in (select unit_id from user_unit where user_id='"+userId+"')";
+			}
+			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, confId);
 			rs = pstmt.executeQuery();
 			while(rs.next()){
