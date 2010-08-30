@@ -464,7 +464,7 @@ Ext.onReady(function(){
 				fieldLabel:"ItemSelector",
 				hideLabel:true,
 				dataFields:["unitId", "unitName"],
-				fromStore:allunitds,
+				fromStore:unitds,
 				toData:[],
 				msWidth:250,
 				msHeight:200,
