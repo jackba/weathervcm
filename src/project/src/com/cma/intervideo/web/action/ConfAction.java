@@ -1016,10 +1016,19 @@ public class ConfAction extends AbstractBaseAction {
 	}
 
 	public String getUnitsByConfId() {
+		UserPrivilege up = (UserPrivilege)session.get("userPrivilege");
+		String userId = up.getUserId();
+		String loginId = up.getLoginId();
+		
 		String id = request.getParameter("conferenceId");
 		boolean selected = "true".equalsIgnoreCase(request
 				.getParameter("selected"));
-		List<Unit> units = confService.findUnitsByConfId(id, selected);
+		List<Unit> units;
+		if(!loginId.equals("user")&&!selected){
+			units = confService.findUnitsByConfId(id, selected, userId);
+		}else{
+			units = confService.findUnitsByConfId(id, selected, null);
+		}
 		JSONObject json = new JSONObject();
 		JSONArray arr = JSONArray.fromObject(units);
 		json.put("root", arr);
@@ -1040,7 +1049,14 @@ public class ConfAction extends AbstractBaseAction {
 	public String getAllUnitsExclud() {
 		List<Unit> allUnits = confService.findAllUnits();
 		String id = request.getParameter("conferenceId");
-		List<Unit> confUnits = confService.findUnitsByConfId(id, false);
+		String userId = request.getParameter("userId");
+		List<Unit> confUnits;
+		if(userId!=null && !userId.equals("super")){
+			confUnits = confService.findUnitsByConfId(id, false, userId);
+		}else{
+			confUnits = confService.findUnitsByConfId(id, false, null);
+		}
+		
 		for (int i = 0; i < confUnits.size(); i++) {
 			Unit unit = confUnits.get(i);
 			for (int inneri = 0; inneri < allUnits.size(); inneri++) {

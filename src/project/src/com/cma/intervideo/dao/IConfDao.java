@@ -14,7 +14,7 @@ public interface IConfDao extends DAO<Conference, Integer>{
 	public List<Conference> findConfs(List<ParamVo> params, PageHolder ph);
 	public void merge(Conference conf);
 	public void addConfUnit(Integer confId, Integer unitId);
-	public List<Unit> findUnitsByConfId(String confId, boolean selected);
+	public List<Unit> findUnitsByConfId(String confId, boolean selected, String userId);
 	public List<Unit> findAllUnits();
 	public void deleteConfUnitsByConfId(Integer confId);
 	public void addConfParty(Integer confId, String partyId);
